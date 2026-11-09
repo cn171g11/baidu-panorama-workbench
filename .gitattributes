@@ -1,0 +1,12 @@
+* text=auto eol=lf
+*.json text eol=lf
+*.js text eol=lf
+*.mjs text eol=lf
+*.html text eol=lf
+*.css text eol=lf
+*.yml text eol=lf
+*.md text eol=lf
+*.png binary
+*.gz binary
+# Preserve pinned third-party bytes, including official CRLF stylesheets.
+city-viewer/vendor/leaflet/** -text -eol whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol

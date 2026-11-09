@@ -1,0 +1,58 @@
+name: Deploy Baidu panorama workbench
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: baidu-pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      pages: read
+    steps:
+      - name: Check out the independent Baidu repository
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Verify metadata, provider isolation, coordinates and publication safety
+        run: npm test
+      - name: Validate the complete Baidu metadata catalog
+        run: npm run validate
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+      - name: Build verified gzip-only metadata publication
+        run: npm run build
+      - name: Verify browser interactions using an unpublished empty-data fixture
+        run: node tools/browser_smoke.mjs --site-root dist/pages --ui-fixture --browser /usr/bin/google-chrome
+      - name: Upload only the verified public site
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist/pages
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy the Baidu-only website
+        id: deployment
+        uses: actions/deploy-pages@v4

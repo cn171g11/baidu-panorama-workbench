@@ -1,3 +1,19 @@
 # Local AI context; do not commit or push
 /agent.md
 /history.md
+
+# Generated builds, test artifacts, and dependencies
+/dist/
+/city-viewer/data/
+/node_modules/
+/coverage/
+*.log
+
+# Credentials and machine-local settings are never repository data
+.env
+.env.*
+apikey*.txt
+*.pem
+*.key
+.DS_Store
+Thumbs.db
