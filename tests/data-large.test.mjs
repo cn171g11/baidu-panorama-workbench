@@ -26,6 +26,7 @@ test("validates a city split into multiple shards without variadic bounds overfl
   await writeFile(path.join(root, "catalog.json"), JSON.stringify(catalog));
   const result = await validateCatalog(root);
   assert.equal(result.files.length, 2);
-  assert.equal(result.files[0].rows.length, ROWS_PER_SHARD);
-  assert.equal(result.files[1].rows.length, 1);
+  assert.equal(result.files[0].count, ROWS_PER_SHARD);
+  assert.equal(result.files[1].count, 1);
+  assert.equal('rows' in result.files[0], false);
 });

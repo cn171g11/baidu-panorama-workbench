@@ -46,7 +46,7 @@ test('incremental CLI imports preserve other Baidu cities and archive string IDs
     const cityABefore = await readFile(cityAPath);
     await importBaidu(await f.args('110100', [point('002')], 'B'), f.data);
     assert((await readFile(cityAPath)).equals(cityABefore), 'Importing B altered or removed A.');
-    const valid = await validateCatalog(f.data);
+    const valid = await validateCatalog(f.data, { includeRows: true });
     assert.equal(valid.catalog.total, 2); assert.equal(valid.catalog.collections.length, 2);
     assert(valid.files.every(file => file.rows.every(row => typeof row[0] === 'string' && row[8] === 'baidu')));
     const cityBBefore = await readFile(path.join(f.data, 'baidu/110100/points-001.json'));

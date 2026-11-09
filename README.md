@@ -6,7 +6,9 @@
 - **数据报告：** <https://cn171g11.github.io/baidu-panorama-workbench/city-viewer/report.html>
 - **源码参考：** <https://github.com/cn171g11/tencent-panorama-workbench>（只参考网页逻辑与组织方式）
 
-> 首次发布的真实街景点数为 **0**。等待用户提供百度元数据后再校验导入，不用示例数据或腾讯点位填充。仓库只保存 JSON 元数据，不下载或保存百度街景影像；查看影像时打开百度地图官方街景入口。
+> **全国百度列表导入（v1.1.0）**：用户提供 281 份城市文件、19,012,500 条位置记录，按明确的 `baidu_pano` 来源归档。合并 21,276 条完全相同的重复记录并保留 1 条邻接版本差异后，对应 **18,991,223 个唯一百度街景 ID / 280 个城市**。源坐标系由用户确认为 **GCJ-02**，统一转换为 BD-09；原始输入文件保持不变。仓库只保存元数据，不下载街景影像，影像在百度官方街景查看。
+
+输入中的 `links`、`heading`、`pitch`、`zoom`、`source`、`extra`、`country`、`imageDate` 均保留。黔南的 20,000 条记录带有明确拍摄日期；其他没有日期的记录显示未知，绝不从 ID 猜日期。城市名称/代码来自[独立公共行政区划数据](https://github.com/modood/Administrative-divisions-of-China/blob/master/dist/pca-code.json)，不是腾讯街景数据。
 
 ## 网页功能
 
@@ -49,7 +51,7 @@ dist/pages/                    # 自动生成的公开站点，不提交 Git
 
 ## 本地运行与导入
 
-需要 **Node.js 22+**（CI 使用 24）。核心工具无 npm 依赖，无需 `npm install`。
+需要 **Node.js 24+**（使用内置 `node:sqlite`）。工具无 npm 依赖，无需 `npm install`。全国校验分文件进行，唯一性索引和按内容 SHA 的验证缓存只放在忽略的 `dist/`，不会加载全部点位到内存或发布 SQLite 数据库。
 
 ```powershell
 npm test
@@ -77,6 +79,17 @@ git push origin main
 {"provider":"baidu","coordinateSystem":"BD-09","panoramas":[]}
 ```
 
+## 全国目录批量归档
+
+Map-making 风格的文件使用 `customCoordinates`、`panoId`、`lat`、`lng`、`source: "baidu_pano"`。目录导入先写入**全新空暂存目录**，不会覆盖输入文件或正式 `data/`：
+
+```powershell
+npm run import:directory -- --source "D:\path\baidu-city-files" --output-root dist/import-stage/data --cities config/cities.json --coordinate-system GCJ-02 --index dist/import-stage/index.sqlite
+node tools/validate_data.mjs dist/import-stage/data
+```
+
+核对计数、SHA、完全重复及差异版本后再将暂存数据切换到正式源目录；已有暂存目录/索引会被拒绝覆盖。源记录逐文件处理，SQLite 只保存临时索引与 payload；输出按城市/panoid 排序，避免全国 `Set/Map` 容量上限。`data/imports/source-summary.json` 保存来源文件名、字节数、SHA、原始与唯一计数；`source-memberships.json` 保留重复街景的来源关系，不公开原始机器路径。
+
 ## 发布与测试
 
 [Pages 工作流](.github/workflows/pages.yml) 在推送 `main` 后自动：
@@ -87,10 +100,10 @@ git push origin main
 4. 仅上传 `dist/pages/`，由 GitHub Pages 部署。公开 `build.json` 标明版本、Git 提交与点数，便于核验线上是否已更新。
 
 ```powershell
-# 首次空数据发布可直接验证实际构建；需要本机 Edge / Chrome
+# UI 回归只用不发布的临时空目录副本（需要 Edge / Chrome）
 npm run test:browser
-# 之后有真实数据时，UI 回归用不发布的临时空目录副本
-node tools/browser_smoke.mjs --site-root dist/pages --ui-fixture
+# 真实数据验收：按需载入真实城市、检查gzip与全部元数据字段
+npm run test:data-browser
 ```
 
 浏览器只按需加载本站 gzip 元数据，经大小 / SHA-256 校验后解析 JSON，不执行导入文件中的 JavaScript。发布目录限制在 GitHub Pages 的 1 GB 内；以后超出时保留原数据，再调整托管方案，不丢弃点位来迁就容量。

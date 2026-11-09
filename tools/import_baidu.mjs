@@ -3,6 +3,7 @@ import { mkdir, readFile, realpath, rename, rm, stat, writeFile } from "node:fs/
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { parseImport, mergeRows } from "../city-viewer/js/metadata.js";
+import { DatabaseSync } from "node:sqlite";
 import { validateCatalog } from "./validate_data.mjs";
 
 const MAX_SHARD_ROWS = 180000;
@@ -64,21 +65,33 @@ async function importBaidu(args, dataRoot) {
   const input = await readFile(path.resolve(options.input), "utf8");
   const incoming = parseImport(input, { format: options.format, confirmedBaidu: options.confirmedBaidu, coordinateSystem: options.coordinates });
   if (!incoming.length) throw new Error("Input contains no rows");
-  const existing = await validateCatalog(dataRoot);
+  const existing = await validateCatalog(dataRoot, { includeRows: false });
   const catalog = structuredClone(existing.catalog);
   const previous = catalog.collections.find(item => item.id === options.id);
   if (previous && (previous.adcode !== options.adcode || previous.name !== options.name || previous.province !== options.province)) throw new Error("Existing collection metadata conflicts; import cannot overwrite collection identity");
-  const currentRows = previous ? existing.files.filter(file => previous.files.includes(file.path)).flatMap(file => file.rows) : [];
-  const currentIds = new Set(currentRows.map(row => row[0]));
-  const otherCityIds = new Set(existing.files.filter(file => !previous || !previous.files.includes(file.path)).flatMap(file => file.rows.map(row => row[0])));
-  for (const row of incoming) if (otherCityIds.has(row[0])) throw new Error(`Duplicate panoid already belongs to another collection: ${row[0]}`);
-  for (const row of incoming) if (currentIds.has(row[0])) throw new Error(`Duplicate panoid already exists: ${row[0]}`);
+  const currentRows = [];
+  for (const file of existing.files) if (previous?.files.includes(file.path)) {
+    const rows = JSON.parse(await readFile(path.join(dataRoot, file.path), "utf8"));
+    for (const row of rows) currentRows.push(row);
+  }
+  const ownerDb = new DatabaseSync(existing.indexPath, { readOnly: true });
+  try {
+    const owner = ownerDb.prepare('SELECT city FROM owners WHERE panoid=?');
+    for (const row of incoming) {
+      const found = owner.get(row[0]);
+      if (found) throw new Error(`Duplicate panoid already exists in collection ${found.city}: ${row[0]}`);
+    }
+  } finally { ownerDb.close(); }
   const merged = mergeRows(currentRows, incoming);
   const { paths, shards } = makeShards(options.id, merged);
   const nextCollections = catalog.collections.filter(item => item.id !== options.id);
   nextCollections.push({ id: options.id, adcode: options.adcode, name: options.name, province: options.province, coordinateSystem: "BD-09", count: merged.length, bounds: boundsFor(merged), files: paths });
   nextCollections.sort((a, b) => a.id.localeCompare(b.id));
-  const nextCatalog = { schemaVersion: 1, provider: "baidu", coordinateSystem: "BD-09", updatedAt: new Date().toISOString(), total: catalog.total - (previous?.count ?? 0) + merged.length, collections: nextCollections };
+  const nextCatalog = { ...catalog, updatedAt: new Date().toISOString(), total: catalog.total - (previous?.count ?? 0) + merged.length, collections: nextCollections };
+  if (catalog.importSummary) {
+    const originalBytes = await readFile(path.resolve(options.input));
+    nextCatalog.importSummary = { ...catalog.importSummary, rawRecords: catalog.importSummary.rawRecords + incoming.length, uniquePanoids: nextCatalog.total, sourceFiles: catalog.importSummary.sourceFiles + 1, files: [...(catalog.importSummary.files || []), { name: path.basename(options.input), bytes: originalBytes.length, sha256: hash(originalBytes), rawRecords: incoming.length, uniquePanoids: incoming.length }] };
+  }
   const nextCatalogBytes = Buffer.from(`${JSON.stringify(nextCatalog, null, 2)}\n`, "utf8");
   const dataDir = path.resolve(dataRoot);
   const catalogFile = path.join(dataDir, "catalog.json");

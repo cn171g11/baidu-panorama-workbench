@@ -30,7 +30,7 @@ test("validates synthetic shard paths, counts, bounds and global uniqueness", as
   await writeFile(path.join(root, relative), JSON.stringify(rows));
   const catalog = { schemaVersion: 1, provider: "baidu", coordinateSystem: "BD-09", updatedAt: null, total: 1, collections: [{ id: "320100", adcode: "320100", name: "Test City", province: "Test Province", coordinateSystem: "BD-09", count: 1, bounds: [116.4, 39.9, 116.4, 39.9], files: [relative] }] };
   await writeFile(path.join(root, "catalog.json"), JSON.stringify(catalog));
-  const result = await validateCatalog(root);
+  const result = await validateCatalog(root, { includeRows: true });
   assert.equal(result.files[0].path, relative);
   assert.equal(result.files[0].rows[0][0], "synthetic-1");
   assert.equal(typeof result.files[0].sha256, "string");
@@ -55,7 +55,7 @@ test("rejects non-Baidu rows, bad source paths, wrong totals/bounds and duplicat
   await build([sample(), sample("synthetic-1")]);
   await assert.rejects(validateCatalog(root), /Duplicate/);
   await build([sample()], { collections: [{ id: "320100", adcode: "320100", name: "Test", province: "Province", coordinateSystem: "BD-09", count: 1, bounds: [116.4, 39.9, 116.4, 39.9], files: ["baidu/320100/../points-001.json"] }] });
-  await assert.rejects(validateCatalog(root), /Shard path/);
+  await assert.rejects(validateCatalog(root), /shard path/i);
 });
 
 test("CLI import handles aliases, confirms missing provider, and leaves existing data unchanged on failure", async t => {
@@ -85,7 +85,7 @@ test("imports multiple cities without touching other shards and prechecks cross-
   const cityBBefore = await readFile(cityBPath, "utf8");
   assert.equal(await readFile(cityAPath, "utf8"), cityABefore);
   await writeFile(input, JSON.stringify([{ panoid: "shared-id", longitude: 116.5, latitude: 39.9, road: "Conflict", captured: "", provider: "baidu" }]));
-  await assert.rejects(importBaidu(args("320200", "City B"), root), /another collection/);
+  await assert.rejects(importBaidu(args("320200", "City B"), root), /Duplicate panoid/);
   assert.equal(await readFile(cityAPath, "utf8"), cityABefore);
   assert.equal(await readFile(cityBPath, "utf8"), cityBBefore);
   assert.equal((await validateCatalog(root)).catalog.total, 2);

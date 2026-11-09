@@ -7,6 +7,10 @@
 /city-viewer/data/
 /node_modules/
 /coverage/
+*.sqlite
+*.sqlite-*
+*.db
+*.db-*
 *.log
 
 # Credentials and machine-local settings are never repository data

@@ -94,7 +94,7 @@ export async function buildSite({ root = PROJECT_ROOT, output = 'dist/pages', co
   root = safe.root;
   // Validate the entire corpus before replacing anything already published locally.
   const dataRoot = path.join(root, 'data');
-  const { catalog, files } = await validateCatalog(dataRoot);
+  const { catalog, files } = await validateCatalog(dataRoot, { includeRows: false });
   if (catalog.provider !== 'baidu') throw new Error('Only Baidu metadata can be published.');
   const packageData = JSON.parse(await readFile(path.join(root, 'package.json'), 'utf8'));
   const stage = path.join(safe.dist, '.pages-build-' + randomUUID());
@@ -124,6 +124,7 @@ export async function buildSite({ root = PROJECT_ROOT, output = 'dist/pages', co
         throw new Error('Metadata shards must be regular files inside data/baidu.');
       }
       const raw = await readFile(source);
+      if (raw.length !== file.bytes || hash(raw) !== file.sha256) throw new Error('Validated source changed before publication: ' + logical);
       const compressed = gzipSync(raw, { level: 9 });
       if (!gunzipSync(compressed).equals(raw)) throw new Error('Gzip round-trip verification failed: ' + logical);
       const url = logical + '.gz';
@@ -136,12 +137,27 @@ export async function buildSite({ root = PROJECT_ROOT, output = 'dist/pages', co
       assets[logical] = { url, bytes: raw.length, sha256: hash(raw), compressedBytes: compressed.length, compressedSha256: hash(compressed) };
       dataBytes += compressed.length;
     }
+    if (catalog.importSummary) {
+      await mkdir(path.join(publishedData, 'imports'), { recursive: true });
+      for (const name of ['source-summary.json', 'source-memberships.json']) {
+        const original = path.join(dataRoot, 'imports', name);
+        if (!(await exists(original))) continue;
+        if ((await realpath(original)) !== original || !(await lstat(original)).isFile()) throw new Error('Invalid public provenance path');
+        const bytes = await readFile(original);
+        const document = JSON.parse(bytes.toString('utf8'));
+        if (document.schemaVersion !== 1 || document.provider !== 'baidu' || 'cachePath' in document || 'sourceDirectory' in document) throw new Error('Unsafe public provenance metadata');
+        await writeFile(path.join(publishedData, 'imports', name), bytes);
+      }
+    }
     await writeFile(path.join(publishedData, 'catalog.json'), JSON.stringify(catalog, null, 2) + '\n');
     await writeFile(path.join(publishedData, 'asset-manifest.json'), JSON.stringify({ schemaVersion: 1, provider: 'baidu', codec: 'gzip', assets }, null, 2) + '\n');
     const build = {
       project: 'baidu-panorama-workbench', version: packageData.version, provider: 'baidu',
       schemaVersion: 1, total: catalog.total, collections: catalog.collections.length,
       compressedDataBytes: dataBytes, builtAt: new Date().toISOString(),
+      inputRecords: catalog.importSummary?.rawRecords ?? catalog.total,
+      exactDuplicates: catalog.importSummary?.exactDuplicates ?? 0,
+      differingDuplicates: catalog.importSummary?.differingDuplicates ?? 0,
       commit: commit && /^[a-f0-9]{40}$/i.test(commit) ? commit : null,
     };
     await writeFile(path.join(stage, 'build.json'), JSON.stringify(build, null, 2) + '\n');

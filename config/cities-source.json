@@ -1,0 +1,11 @@
+{
+  "sourceUrls": [
+    "https://github.com/modood/Administrative-divisions-of-China/blob/master/dist/pca-code.json",
+    "https://raw.githubusercontent.com/modood/Administrative-divisions-of-China/master/dist/pca-code.json"
+  ],
+  "specialCodes": {
+    "810000": "香港特别行政区",
+    "820000": "澳门特别行政区"
+  },
+  "cityCount": 280
+}

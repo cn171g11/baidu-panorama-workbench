@@ -126,6 +126,7 @@ async function main() {
     else if (message.method === 'Page.javascriptDialogOpening') void send('Page.handleJavaScriptDialog', { accept: true });
   });
   await send('Page.enable'); await send('Runtime.enable'); await send('Network.enable');
+  await send('Browser.setDownloadBehavior', { behavior: 'deny' });
   if (!args.includes('--allow-map-tiles')) {
     // The app's data/list/import must continue to work when third-party map tiles are unavailable.
     await send('Network.setBlockedURLs', { urls: ['*tile.openstreetmap.org*', '*is.autonavi.com*'] });
@@ -247,7 +248,7 @@ async function main() {
   const reportUrl = new URL('report.html', pageUrl).href;
   await send('Page.navigate', { url: reportUrl });
   await until(() => evaluate(`document.querySelector('#report-total')?.dataset.ready==='true'`));
-  assert(await evaluate(`document.querySelector('#report-total').textContent.startsWith('0 条')`), 'Report must count only published rows.');
+  assert(await evaluate(`window.__BAIDU_WORKBENCH__.total===0 && document.querySelector('#report-total').textContent.includes('0')`), 'Report must count only published rows.');
   const reportCatalog = await evaluate(`await (await import(new URL('js/data-store.js',location.href))).loadCatalog()`);
   assert.equal(reportCatalog.total, 0); assert.equal(reportCatalog.provider, 'baidu');
   report.checks.reportCountsPublishedDataOnly = true;

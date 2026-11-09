@@ -12,7 +12,7 @@ A shard is a JSON array of rows:
 ["panoid-as-string", 116.4, 39.9, "Road", "2025-01-02", 90, false, true, "baidu"]
 ```
 
-The optional tenth field is an object limited to `district`, `links`, and `history`. panoid is always a string, including long numeric-looking IDs. Capture dates are only imported from explicit source date/time fields; no date is inferred from panoid. All archived coordinates are BD-09.
+The optional tenth field preserves `district`, `links`, `history`, `source`, `pitch`, `zoom`, `extra`, `tags`, and source `observations`. Unknown safe source fields such as `country` and `imageDate` are retained under `extra`; explicit image dates are also mapped to `captured`. panoid is always a string, including long numeric-looking IDs. Capture dates are only imported from explicit source date/time fields; no date is inferred from panoid. All archived coordinates are BD-09.
 
 ## Import
 
@@ -28,6 +28,6 @@ Imports are fully parsed, converted, and validated before writes. Existing colle
 
 ## Validation and publishing
 
-`validateCatalog(absoluteDataRoot)` verifies the catalog, every referenced shard, row types, provider, coordinate bounds, global panoid uniqueness, counts, bounds, shard ordering/limits, and absence of unreferenced JSON files. It returns `{ catalog, files: [{ path, rows, bytes, sha256 }] }`; paths are relative to the supplied data root. The build can gzip each raw JSON shard unchanged and publish both compressed/uncompressed sizes and SHA-256 digests. Browser loading must verify both compressed and decompressed integrity before parsing, and must only fetch a selected Baidu shard.
+`validateCatalog(absoluteDataRoot, { includeRows: false })` verifies the catalog, every referenced shard, row types, provider, coordinate bounds, global panoid uniqueness, counts, bounds, shard ordering/limits, and absence of unreferenced files. It returns `{ catalog, files: [{ path, count, bounds, bytes, sha256 }], indexPath, cacheHit }`; paths are relative to the data root. A private SQLite index replaces a national in-memory Set. The reusable validation key includes the catalog SHA and every source file SHA, never only modification times. `{ includeRows: true }` is explicitly limited to small fixtures. The build gzips raw shards unchanged, verifies size/SHA and round-trip bytes, and publishes only the public artifact; SQLite and cache files never go to Pages.
 
 Browser-local work is separate from published source data. Local storage keys begin with `baidu-panorama-workbench:v1:`; saving local rows never uploads them.

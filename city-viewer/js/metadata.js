@@ -80,7 +80,7 @@ function validateRows(rows) {
     if (typeof hasThumb !== "boolean" || typeof hasPano !== "boolean") fail(`Row ${index + 1}: hasThumb and hasPano must be booleans`);
     if (extras !== undefined) {
       inspectProvenance(extras);
-      for (const key of Object.keys(extras)) if (!["district", "links", "history"].includes(key)) fail(`Unsupported extras field: ${key}`);
+      for (const key of Object.keys(extras)) if (!["district", "links", "history", "source", "pitch", "zoom", "extra", "tags", "observations", "variant"].includes(key)) { if (!/^[A-Za-z][A-Za-z0-9_.-]{0,63}$/.test(key)) fail(`Unsupported extras field: ${key}`); }
       if (extras.district !== undefined && typeof extras.district !== "string") fail("extras.district must be a string");
       if (extras.links !== undefined && !(Array.isArray(extras.links) || (extras.links && typeof extras.links === "object"))) fail("extras.links must be an array or object");
       if (extras.links !== undefined) {

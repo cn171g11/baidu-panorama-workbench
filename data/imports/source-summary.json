@@ -1,0 +1,2824 @@
+{
+  "schemaVersion": 1,
+  "provider": "baidu",
+  "sourceFiles": 281,
+  "rawRecords": 19012500,
+  "uniquePanoids": 18991223,
+  "exactDuplicates": 21276,
+  "differingDuplicates": 1,
+  "invalidRecords": 0,
+  "inputCoordinateSystem": "GCJ-02",
+  "archiveCoordinateSystem": "BD-09",
+  "files": [
+    {
+      "name": "阿坝藏族羌族自治州（15000 个位置）.json",
+      "city": "513200",
+      "bytes": 3886652,
+      "sha256": "742e6525855c4ed24c4874a59777392408c0c72d40109aa2685403643ae54772",
+      "rawRecords": 15000,
+      "uniquePanoids": 15000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "阿拉善盟（30000 个位置）.json",
+      "city": "152900",
+      "bytes": 7783108,
+      "sha256": "5a7efd61f80c7ba2db7a9e89b11489e47fd0e77fe05603a5df97d0973e49a517",
+      "rawRecords": 30000,
+      "uniquePanoids": 30000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "阿里地区（2500 个位置）.json",
+      "city": "542500",
+      "bytes": 591063,
+      "sha256": "5313fffd6e37f2b0bd646b0ac3c7d9d4d7b5aa501f0cfb7c40d0d1e3e8a69264",
+      "rawRecords": 2500,
+      "uniquePanoids": 2500,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "安庆市（100000 个位置）.json",
+      "city": "340800",
+      "bytes": 27100864,
+      "sha256": "5a86f83f8021b5ed6567920a262fbec461c9f684445ae2eb70c424f692b00e4d",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "安顺市（20000 个位置）.json",
+      "city": "520400",
+      "bytes": 5182741,
+      "sha256": "620ff0733fbc41d8402a6257a2b7da94bb0b0b6ce741a83aaf4fc649d1488899",
+      "rawRecords": 20000,
+      "uniquePanoids": 20000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "安阳市（100000 个位置）.json",
+      "city": "410500",
+      "bytes": 26321067,
+      "sha256": "e108e377157b716dd1cd5e74e02478f11b38c6c3e6b22e1f7a486ce44488e88d",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "澳门特别行政区（20000 个位置）.json",
+      "city": "820000",
+      "bytes": 5054236,
+      "sha256": "1f7a94ee82a7a0548168fa6ae05c43f507d5bc3e963d21ad6d763a214cc27a25",
+      "rawRecords": 20000,
+      "uniquePanoids": 20000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "巴彦淖尔市（30000 个位置）.json",
+      "city": "150800",
+      "bytes": 7454622,
+      "sha256": "a0644ea51d4a9552becedf370380d5921909b0b7c0145b7891adbb07173e922c",
+      "rawRecords": 30000,
+      "uniquePanoids": 30000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "巴中市（10000 个位置）.json",
+      "city": "511900",
+      "bytes": 2643574,
+      "sha256": "2e853792ca86d4a38496ebab0724dc4d72d3c2e64ada27abc6a2289bb3870ec4",
+      "rawRecords": 10000,
+      "uniquePanoids": 10000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "白银市（30000 个位置）.json",
+      "city": "620400",
+      "bytes": 7466794,
+      "sha256": "459f6dff535dfc4cabaeefcfd55b784abbad1e71fa2f622bf82a88318d9cbfe4",
+      "rawRecords": 30000,
+      "uniquePanoids": 30000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "百色市（40000 个位置）.json",
+      "city": "451000",
+      "bytes": 10441446,
+      "sha256": "6f474f6836f64a503ea2508c43a5c353fe0d17440ec7af24409bb36003d6dd2e",
+      "rawRecords": 40000,
+      "uniquePanoids": 40000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "蚌埠市（100000 个位置）.json",
+      "city": "340300",
+      "bytes": 26161786,
+      "sha256": "03b5f39568a23b8d067296ebdd7bba4395bf74ed81c89b5a3213e6a96fa54823",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "包头市（100000 个位置）.json",
+      "city": "150200",
+      "bytes": 26575738,
+      "sha256": "6a75570415ef69321e754869973753966159bfcfe512034e98ffe20a559213fa",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "宝鸡市（100000 个位置）.json",
+      "city": "610300",
+      "bytes": 27489623,
+      "sha256": "30ebf9cf982b371174fda80ee54b7c3efcc227719de7e71e5620880bbdd1d104",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "保定市（100000 个位置）.json",
+      "city": "130600",
+      "bytes": 25988815,
+      "sha256": "3a7ea0efced27e136bc8815f70104715ef0393249698f183d405f140b04351b6",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "保山市（40000 个位置）.json",
+      "city": "530500",
+      "bytes": 10256436,
+      "sha256": "e65582a29c02ea726487c2bdb6e3ec1d16080b894bc83618edc798e3c9dbff60",
+      "rawRecords": 40000,
+      "uniquePanoids": 40000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "北海市（100000 个位置）.json",
+      "city": "450500",
+      "bytes": 27632956,
+      "sha256": "1bdc27df5510580da4649200ffcad97ef949a1b90d16215090aea780464807ef",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "北京市（100000 个位置）.json",
+      "city": "110000",
+      "bytes": 26618902,
+      "sha256": "c78b2a5a920d46c3f29286390507a7b6644820c7a050289f37fe329a8ed15fe9",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "毕节市（10000 个位置）.json",
+      "city": "520500",
+      "bytes": 2495216,
+      "sha256": "e21e4dd6e4aa3dfa63868bb47826263599711c17d2bf69bc0e60dc62a1453101",
+      "rawRecords": 10000,
+      "uniquePanoids": 10000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "滨州市（50000 个位置）.json",
+      "city": "371600",
+      "bytes": 13124660,
+      "sha256": "b96fcc2dbaffddebf89f9b8989c42fc0bc01e9db733046ea4426711359589b4f",
+      "rawRecords": 50000,
+      "uniquePanoids": 50000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "亳州市（50000 个位置）.json",
+      "city": "341600",
+      "bytes": 13093846,
+      "sha256": "1152b45c5964af89d776ce64c9dc40f059793b0d2694827d7aee6fc3346432b5",
+      "rawRecords": 50000,
+      "uniquePanoids": 50000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "沧州市（100000 个位置）.json",
+      "city": "130900",
+      "bytes": 25934123,
+      "sha256": "19ea03bc208769bbfa9144855074be664b495b2050fba4e090de284b4b54cca9",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "昌都市（4000 个位置）.json",
+      "city": "540300",
+      "bytes": 942676,
+      "sha256": "ddbf4bfbe104eb7164ceae43d1ef77bdc12c8ce7d2057317a8be9a0fd2c2dcac",
+      "rawRecords": 4000,
+      "uniquePanoids": 4000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "常德市（50000 个位置）.json",
+      "city": "430700",
+      "bytes": 13570296,
+      "sha256": "e8edc9f42088af01105387d710f627bd3ea4beec3bbc6c236c4a65297d1af134",
+      "rawRecords": 50000,
+      "uniquePanoids": 50000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "常州市（100000 个位置）.json",
+      "city": "320400",
+      "bytes": 27535674,
+      "sha256": "3bebe57c099ead6fd10398d3bf6727caaaa685c3420ab318b322a9bbdb3b7234",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "潮州市（50000 个位置）.json",
+      "city": "445100",
+      "bytes": 13539825,
+      "sha256": "9e7be532bde3388bb946a1aa5c0caf1cfe4e76381ba397409e68e55b129165b4",
+      "rawRecords": 50000,
+      "uniquePanoids": 50000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "郴州市（50000 个位置）.json",
+      "city": "431000",
+      "bytes": 12709690,
+      "sha256": "383b0298d2d6cac7e6bd35a4bcd38db2ddadbcff15fd0ef444f8b44ffe872bf5",
+      "rawRecords": 50000,
+      "uniquePanoids": 50000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "成都市（100000 个位置）.json",
+      "city": "510100",
+      "bytes": 28055774,
+      "sha256": "ef2e0b08e3f27a15c87c728f3e40ddb2f29e074647a8c2758a005d79fc7b4675",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "承德市（20000 个位置）.json",
+      "city": "130800",
+      "bytes": 5093187,
+      "sha256": "0f89bc49e03ecf492d9b6fc5eaeb02da8f6e35278f6935ed895574043378cfe8",
+      "rawRecords": 20000,
+      "uniquePanoids": 20000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "承德市（25000 个位置）.json",
+      "city": "130800",
+      "bytes": 6392581,
+      "sha256": "a665274fd2e18a64e3896e17a81f57bf047f568476400546c864305c94da4812",
+      "rawRecords": 25000,
+      "uniquePanoids": 5000,
+      "exactDuplicates": 20000,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "池州市（25000 个位置）.json",
+      "city": "341700",
+      "bytes": 6277199,
+      "sha256": "c1bb1d652bcaaa8235512fd5e578b76c0afe4aa4230948821984fd38607e3bf9",
+      "rawRecords": 25000,
+      "uniquePanoids": 25000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "赤峰市（50000 个位置）.json",
+      "city": "150400",
+      "bytes": 13356765,
+      "sha256": "cf0f2d553d5e889056ca7e318bb27a2c5c5279d23a6f614d3b89f877e0c22aa6",
+      "rawRecords": 50000,
+      "uniquePanoids": 50000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "重庆市（100000 个位置）.json",
+      "city": "500000",
+      "bytes": 26014090,
+      "sha256": "00d5fc1fd1f916accd0bb2a03f1ab9cf4317c344374a63cea0ad0b9d82303c4c",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "崇左市（30000 个位置）.json",
+      "city": "451400",
+      "bytes": 7884952,
+      "sha256": "3b2c73921def7b5fb37a55dd9fff95fc2aaf898c3c91a58db7190a2f6217443f",
+      "rawRecords": 30000,
+      "uniquePanoids": 30000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "滁州市（100000 个位置）.json",
+      "city": "341100",
+      "bytes": 26116045,
+      "sha256": "cabc9bf9ab044da25f105bb2b2893f999a3a0b87640701ebcb4d4d84fa39a0e7",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "楚雄彝族自治州（25000 个位置）.json",
+      "city": "532300",
+      "bytes": 6464334,
+      "sha256": "0e68d5c5cc7d124dfe989d0c26597a319fd161921d787898b67785028b708b05",
+      "rawRecords": 25000,
+      "uniquePanoids": 25000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "达州市（25000 个位置）.json",
+      "city": "511700",
+      "bytes": 6611436,
+      "sha256": "24f6035e160599fbf499ed9170179f498b2e8f80ce67f418d9776defe53d4da9",
+      "rawRecords": 25000,
+      "uniquePanoids": 25000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "大理白族自治州（100000 个位置）.json",
+      "city": "532900",
+      "bytes": 26990556,
+      "sha256": "cac1cdde0de343fb5674f76598e33cd66b4583bf060e62604a4e337c5d7797e4",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "大同市（100000 个位置）.json",
+      "city": "140200",
+      "bytes": 26630878,
+      "sha256": "14dbfc7d9ecb3f1bf18d7dd29db141e8646c58651b7cb80198144e44a0693721",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "儋州市（20000 个位置）.json",
+      "city": "460400",
+      "bytes": 5534499,
+      "sha256": "f11412bb098b21b2e0900b583b58a1fde6af7ab2b88c3cd8d8f379df9114f673",
+      "rawRecords": 20000,
+      "uniquePanoids": 20000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "德宏傣族景颇族自治州（50000 个位置）.json",
+      "city": "533100",
+      "bytes": 13040564,
+      "sha256": "5e4d60791bbac962c918fca50685d0320ee27394bdfeb91dcfb2f52d4a4337b2",
+      "rawRecords": 50000,
+      "uniquePanoids": 50000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "德阳市（100000 个位置）.json",
+      "city": "510600",
+      "bytes": 28160001,
+      "sha256": "5393831ca38344e87bcccfb60c984de061bc7d8fbc2a627c182a98121d64df93",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "德州市（100000 个位置）.json",
+      "city": "371400",
+      "bytes": 26366345,
+      "sha256": "13ef95f2d1105667eaca1f411707ef7dac8081f8f25070c3280063186c5de1b2",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "迪庆藏族自治州（25000 个位置）.json",
+      "city": "533400",
+      "bytes": 6702258,
+      "sha256": "e6fa50efd2684e1569c6dd37b348d27c7ff3e8ec8755523a25b247d3143638a7",
+      "rawRecords": 25000,
+      "uniquePanoids": 25000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "定西市（10000 个位置）.json",
+      "city": "621100",
+      "bytes": 2599387,
+      "sha256": "2a62b0504e083090b6c99b2604e5bb6f15c80f813d7a615e0cc35a8cfd265735",
+      "rawRecords": 10000,
+      "uniquePanoids": 10000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "东莞市（100000 个位置）.json",
+      "city": "441900",
+      "bytes": 27134516,
+      "sha256": "26da11f8b56c286863521fb1ea9b5538ecc1a237a1205d8b4b77925c95676335",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "东营市（100000 个位置）.json",
+      "city": "370500",
+      "bytes": 26452880,
+      "sha256": "3c37ab771e30346f393d7788c5321f13626ad563f041458c55c462a13fb3a59a",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "鄂尔多斯市（100000 个位置）.json",
+      "city": "150600",
+      "bytes": 26261272,
+      "sha256": "4a24d902b4796dbd7d6b89adc44e6d419695e7d4cfa85f6c0373309e8f923c1b",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "鄂州市（30000 个位置）.json",
+      "city": "420700",
+      "bytes": 7917747,
+      "sha256": "8ac8b28165ca36fb31192eb0db4785b18248011042029b11e7a59cac5581deff",
+      "rawRecords": 30000,
+      "uniquePanoids": 30000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "恩施土家族苗族自治州（25000 个位置）.json",
+      "city": "422800",
+      "bytes": 6372337,
+      "sha256": "659d4531dd604fc39d98cc8fd018746d74dd22e82430e18d84f490a1e79f9048",
+      "rawRecords": 25000,
+      "uniquePanoids": 25000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "防城港市（50000 个位置）.json",
+      "city": "450600",
+      "bytes": 13168768,
+      "sha256": "912fdc6c3aabd4adbdaed8f6c54db7e455e9613d946854e8b588da5df90661c5",
+      "rawRecords": 50000,
+      "uniquePanoids": 50000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "佛山市（100000 个位置）.json",
+      "city": "440600",
+      "bytes": 26525392,
+      "sha256": "23b7025b9108df54a60bd333b0665b9df9a34f9bec4ec1829c138e2a0ef5fca7",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "福州市（100000 个位置）.json",
+      "city": "350100",
+      "bytes": 27786385,
+      "sha256": "4e348217845be92aa035a44e9ee504f0535784042d0e7cba1405b8d26eea30f6",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "抚州市（50000 个位置）.json",
+      "city": "361000",
+      "bytes": 12213209,
+      "sha256": "e8d8db08ed429393e23c1a65f1185db09bf096c8e63cb476ca231c8de70c7d79",
+      "rawRecords": 50000,
+      "uniquePanoids": 50000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "阜阳市（100000 个位置）.json",
+      "city": "341200",
+      "bytes": 27146051,
+      "sha256": "199ced62b58cdb8301cc528203f5c8f881abe219bbc43d231cba374a516a3d84",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "甘南藏族自治州（2000 个位置）.json",
+      "city": "623000",
+      "bytes": 493761,
+      "sha256": "9f75419737b58a87c7558af907aabdb601a729ae6c75b106edb6b6cf9478cfc2",
+      "rawRecords": 2000,
+      "uniquePanoids": 2000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "甘孜藏族自治州（20000 个位置）.json",
+      "city": "513300",
+      "bytes": 5167903,
+      "sha256": "a49acd854f1ac66c24a8bdd295a622da74509a3d0c30101851e1f05404c532f0",
+      "rawRecords": 20000,
+      "uniquePanoids": 20000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "赣州市（100000 个位置）.json",
+      "city": "360700",
+      "bytes": 26140184,
+      "sha256": "7c2a6c8761e60a708bcb2cd348cfa74d7425b27180b985422555b1978cc58753",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "固原市（30000 个位置）.json",
+      "city": "640400",
+      "bytes": 7826285,
+      "sha256": "450cce0d934fcf96a40d3eeb966c0dfb5da8073c8f5ec566b8452590126c3bd2",
+      "rawRecords": 30000,
+      "uniquePanoids": 30000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "广安市（25000 个位置）.json",
+      "city": "511600",
+      "bytes": 6566494,
+      "sha256": "bfc5fe982c2cc9fab40a372c03364f0949241361e9af2e0d5387f14009544fee",
+      "rawRecords": 25000,
+      "uniquePanoids": 25000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "广元市（20000 个位置）.json",
+      "city": "510800",
+      "bytes": 5459336,
+      "sha256": "6830abf4c114728c70c83e406c99204d986120820731af4b7e038644e2323d61",
+      "rawRecords": 20000,
+      "uniquePanoids": 20000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "广州市（100000 个位置）.json",
+      "city": "440100",
+      "bytes": 28019191,
+      "sha256": "6178039c73da832afb150ede5c2f1da0f84a67e0b1aa58a172228765ae85a195",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "贵港市（50000 个位置）.json",
+      "city": "450800",
+      "bytes": 13139377,
+      "sha256": "6be25e641a4854aa878d8fe5416d64423bb76a4c6f663d8d7deffb174a50f02e",
+      "rawRecords": 50000,
+      "uniquePanoids": 50000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "贵阳市（100000 个位置）.json",
+      "city": "520100",
+      "bytes": 26483778,
+      "sha256": "1dda5d6b42a5c3b3b377c7c9d735de0bc434f96acf8670b7c9e3748b5bdabd63",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "桂林市（100000 个位置）.json",
+      "city": "450300",
+      "bytes": 27303107,
+      "sha256": "7a3ba35311644aa1acc1743553b965713cdb4fc5fcf5ce7258095ab72136fa8c",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "海口市（100000 个位置）.json",
+      "city": "460100",
+      "bytes": 26170901,
+      "sha256": "5fde10e8464717f0bf5b3635e87b137a30645d7a75fb9653a0379848c114887d",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "海南藏族自治州（20000 个位置）.json",
+      "city": "632500",
+      "bytes": 5044764,
+      "sha256": "3a8c0c89f7f60da8a3c807b81d1a91c826691932527ed42a265364562fc1f367",
+      "rawRecords": 20000,
+      "uniquePanoids": 20000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "邯郸市（100000 个位置）.json",
+      "city": "130400",
+      "bytes": 25583654,
+      "sha256": "ae1dc7bc702aae02d3df3631673ff8b8b5970216026f05ebac11f9d5bc5d8c8e",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "汉中市（50000 个位置）.json",
+      "city": "610700",
+      "bytes": 12753187,
+      "sha256": "72d2621ffa4afc33bcbeb395b2fe2ce579983180c8f4d491f4ad3d3e2c1aa29b",
+      "rawRecords": 50000,
+      "uniquePanoids": 50000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "杭州市（100000 个位置）.json",
+      "city": "330100",
+      "bytes": 27908667,
+      "sha256": "b776569251b04922efbc47b65417e7c57cf7eacb14f85e5511391211180dd42c",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "合肥市（100000 个位置）.json",
+      "city": "340100",
+      "bytes": 27354639,
+      "sha256": "a990682c133b09779de9ec7e300fb07ca939081441051578bb1b85bd11e02713",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "河池市（40000 个位置）.json",
+      "city": "451200",
+      "bytes": 10374022,
+      "sha256": "9c3f57eb35bc017ba7e4f3cc2b030e45286c462e1f601443d3150830bcb88eca",
+      "rawRecords": 40000,
+      "uniquePanoids": 40000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "河源市（50000 个位置）.json",
+      "city": "441600",
+      "bytes": 13312997,
+      "sha256": "bb3bca5c7923457e0fff808953f267d0d00dc805188899d587f3e50c10aeba3b",
+      "rawRecords": 50000,
+      "uniquePanoids": 50000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "菏泽市（100000 个位置）.json",
+      "city": "371700",
+      "bytes": 24983067,
+      "sha256": "0ffeed47d709052aeffd690ee5213fa23c5761f3095fb43d53dcec1f99f5b9de",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "贺州市（30000 个位置）.json",
+      "city": "451100",
+      "bytes": 8217410,
+      "sha256": "9d1294252d0f063f3df8a32295fa1d7fd9a7c1e8aeeb86cc8b05a1e12ebe7326",
+      "rawRecords": 30000,
+      "uniquePanoids": 30000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "鹤壁市（40000 个位置）.json",
+      "city": "410600",
+      "bytes": 10513654,
+      "sha256": "3d981b4d80183eb4d968fd4e4322e3c7abb03b9c8beedc41dc36f6dbcc538341",
+      "rawRecords": 40000,
+      "uniquePanoids": 40000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "衡水市（100000 个位置）.json",
+      "city": "131100",
+      "bytes": 26533423,
+      "sha256": "bab097e0870e2fc687b164b70c22b5410500a4294a4cb4119f79530523019628",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "衡阳市（100000 个位置）.json",
+      "city": "430400",
+      "bytes": 26308279,
+      "sha256": "38b406c0c63cf85e0817b03a779931bf0791407fc0ef4610575c4c2f3b5d532d",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "红河哈尼族彝族自治州（100000 个位置）.json",
+      "city": "532500",
+      "bytes": 26962877,
+      "sha256": "463be2ce7b369a17138a98b43a64fd0a909b1b0c5e5bec8a719a5322f86990b6",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "呼和浩特市（100000 个位置）.json",
+      "city": "150100",
+      "bytes": 26651324,
+      "sha256": "ad192001862f1a1c72d5093f19576a36814ec3a0b64b1b614d51e0c6bb317b23",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "呼伦贝尔市（100000 个位置）.json",
+      "city": "150700",
+      "bytes": 26306101,
+      "sha256": "1ec7942c8780ca970898268995822b615b3f79075d46583ff592ec8d205b64c3",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "湖州市（100000 个位置）.json",
+      "city": "330500",
+      "bytes": 27499052,
+      "sha256": "9094ba3cc5f6f1e048d17da8ac200921d4b331269ca5e3eee57445ab58ec3517",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "怀化市（4000 个位置）.json",
+      "city": "431200",
+      "bytes": 996292,
+      "sha256": "c4ab9575f6c824cc2d34c0c24fa1665b498c8a51a8d400010ddb15f623363376",
+      "rawRecords": 4000,
+      "uniquePanoids": 4000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "淮安市（100000 个位置）.json",
+      "city": "320800",
+      "bytes": 26197988,
+      "sha256": "837bd6f2d61880d80c06da6886cd3917095adf20131e424b07a10037333f1bb5",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "淮北市（20000 个位置）.json",
+      "city": "340600",
+      "bytes": 5003296,
+      "sha256": "543841e41579e09ba6aad3a4af8c3fd9db7a601e6c2989ef7e8b3ac26df69586",
+      "rawRecords": 20000,
+      "uniquePanoids": 20000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "淮南市（50000 个位置）.json",
+      "city": "340400",
+      "bytes": 13050882,
+      "sha256": "8a8196ec122f6ba42ceb435a44dfa23a770562df148dd2da6d9ad8edc657d975",
+      "rawRecords": 50000,
+      "uniquePanoids": 50000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "黄冈市（100000 个位置）.json",
+      "city": "421100",
+      "bytes": 26223868,
+      "sha256": "ced2d017db6a79671d69db5a8c41cf8d1fd0c7d2c0fcf3a371956fdfb289eaf7",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "黄山市（50000 个位置）.json",
+      "city": "341000",
+      "bytes": 13438951,
+      "sha256": "3ba19e36ac915834653405b6622d23a22d4e8e60fc426cf90a21cfba7869177c",
+      "rawRecords": 50000,
+      "uniquePanoids": 50000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "黄石市（50000 个位置）.json",
+      "city": "420200",
+      "bytes": 12580793,
+      "sha256": "b0de0ad1d71298487c6ce0d9b2b4d3b60eeb0368c93e9e630504881028c836f9",
+      "rawRecords": 50000,
+      "uniquePanoids": 50000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "惠州市（100000 个位置）.json",
+      "city": "441300",
+      "bytes": 27249475,
+      "sha256": "a3041380c13e7542eb23ac9299c85ccd6094971d63fff43f09e488e0f9618ac3",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "吉安市（100000 个位置）.json",
+      "city": "360800",
+      "bytes": 26608730,
+      "sha256": "85b308386ce3cd446da7d7f225123612dec8e73ac5dc6552b5af4063e24a1355",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "济南市（100000 个位置）.json",
+      "city": "370100",
+      "bytes": 26347095,
+      "sha256": "3d791595cb56c32c1a9f032f6944b0d391cb48c57e826ac07228ea4ec17decab",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "济宁市（100000 个位置）.json",
+      "city": "370800",
+      "bytes": 26170521,
+      "sha256": "b291af554cc22e66bc20282597914290f93f2b7d0431cf1da68d86766f555ef1",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "济源市（2500 个位置）.json",
+      "city": "419001",
+      "bytes": 621622,
+      "sha256": "5fc2af7280cc515f29a2e1a092fa59946cd0f7602435d4ccc1e867b64bf4e7fd",
+      "rawRecords": 2500,
+      "uniquePanoids": 2500,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "嘉兴市（100000 个位置）.json",
+      "city": "330400",
+      "bytes": 27906938,
+      "sha256": "cc769bf710fae2c48641928da8dbc8849218817dce9cc4db9b92192e26977aec",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "嘉峪关市（30000 个位置）.json",
+      "city": "620200",
+      "bytes": 7707801,
+      "sha256": "aa0fb7939b777d1abe563fe151dfef0c0b95d20e650cb5c6ea9f8a7cc102b5ad",
+      "rawRecords": 30000,
+      "uniquePanoids": 30000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "江门市（100000 个位置）.json",
+      "city": "440700",
+      "bytes": 26990392,
+      "sha256": "402960bfdd0b3c4cc840496e0d4c0d80272464b4c42a3b22ce129e2ed9bcd180",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "焦作市（100000 个位置）.json",
+      "city": "410800",
+      "bytes": 26772013,
+      "sha256": "44abad0fe398d23660346d7f683ecf45593e467f18390e50831e76de9a7ca30a",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "揭阳市（100000 个位置）.json",
+      "city": "445200",
+      "bytes": 26763581,
+      "sha256": "c3e4b3301fec173c91849d32b75d8bcd7333c015791ce64db94f23804e586e4f",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "金昌市（9000 个位置）.json",
+      "city": "620300",
+      "bytes": 2305782,
+      "sha256": "2e58ba901f0035514753e9c59f369df130405d6c9f45864fc94375fbf4efb038",
+      "rawRecords": 9000,
+      "uniquePanoids": 9000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "金华市（100000 个位置）.json",
+      "city": "330700",
+      "bytes": 25957447,
+      "sha256": "8e2669f3b87ce0cfd18472696f9d912140ff0c50c3ea34d0662a0da8f640c2ba",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "晋城市（30000 个位置）.json",
+      "city": "140500",
+      "bytes": 7477759,
+      "sha256": "6632d063266928fa92e8b53d502e6b591c44f7ec011840611a19b775742996a9",
+      "rawRecords": 30000,
+      "uniquePanoids": 30000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "晋中市（100000 个位置）.json",
+      "city": "140700",
+      "bytes": 26915437,
+      "sha256": "c1686f9ebf7f2028bacde9b411390b7f95e291ccc2ec78371e9704361c5f72d4",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "荆门市（50000 个位置）.json",
+      "city": "420800",
+      "bytes": 13071356,
+      "sha256": "8b558670b0bf0698113d86fcb2bfe68746ba724c9edfe1bc8ed5be43cadc22f1",
+      "rawRecords": 50000,
+      "uniquePanoids": 50000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "荆州市（100000 个位置）.json",
+      "city": "421000",
+      "bytes": 26517643,
+      "sha256": "34c24bf04e8609a9733c447a3029018437db7421014676538ea9f59173e1703a",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "景德镇市（50000 个位置）.json",
+      "city": "360200",
+      "bytes": 13265697,
+      "sha256": "320d801779ed33a40d46c7a70865f3b023f4d22ae3af65cea662dd14145028db",
+      "rawRecords": 50000,
+      "uniquePanoids": 50000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "九江市（100000 个位置）.json",
+      "city": "360400",
+      "bytes": 25849045,
+      "sha256": "08dfb361da3a58e7f38ff4a6c61ef90b9b33dfe01df5e234187dc02de9e1a7d0",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "酒泉市（100000 个位置）.json",
+      "city": "620900",
+      "bytes": 25095790,
+      "sha256": "5f5044b3065a8d8838925ff461fc8c68444fb03db44b9b22a53350c625a1ec1e",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "开封市（100000 个位置）.json",
+      "city": "410200",
+      "bytes": 26017726,
+      "sha256": "4e5e7fc08bffcf81f0695b601053501a220e0897488380a7d5b39286b2d604e5",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "昆明市（100000 个位置）.json",
+      "city": "530100",
+      "bytes": 27056725,
+      "sha256": "0cc47c37b48b17459efbf3fda1e1e86b0cc2e753dea9e6fe8a76cfe4838b83f8",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "拉萨市（100000 个位置）.json",
+      "city": "540100",
+      "bytes": 25814939,
+      "sha256": "05a861a82dfecbffa8a9fc361f49095be1e4cf2d2b1dd4b6d695d2e26d4f26e4",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "来宾市（30000 个位置）.json",
+      "city": "451300",
+      "bytes": 7855322,
+      "sha256": "ada3535bf5a230631301d14863a3e9ce6a33791e214d1ffaa45b33cf20e0b415",
+      "rawRecords": 30000,
+      "uniquePanoids": 30000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "兰州市（100000 个位置）.json",
+      "city": "620100",
+      "bytes": 26119020,
+      "sha256": "d7dfabb307d7dc553aa2bd1572b4d9e636922e8cfe0776b6b24e1e12bbc48077",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "廊坊市（100000 个位置）.json",
+      "city": "131000",
+      "bytes": 26230409,
+      "sha256": "3f2148383320c81fa260af781ef37b8112884599dad98a55cf8834d9050c24e9",
+      "rawRecords": 100000,
+      "uniquePanoids": 99250,
+      "exactDuplicates": 750,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "乐山市（50000 个位置）.json",
+      "city": "511100",
+      "bytes": 13532318,
+      "sha256": "14e37a05e7664fce0898c210292e5bcc47f7634ca534a26f0b39b0bb107fe100",
+      "rawRecords": 50000,
+      "uniquePanoids": 50000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "丽江市（50000 个位置）.json",
+      "city": "530700",
+      "bytes": 13874179,
+      "sha256": "00ddd8c7e336777d6a66f89aa83e3b32e620020c112225332605edcaab708e07",
+      "rawRecords": 50000,
+      "uniquePanoids": 50000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "丽水市（50000 个位置）.json",
+      "city": "331100",
+      "bytes": 12887669,
+      "sha256": "1232d69cc2b9a5805a80b6a033f18f84e17e76ebf6d7eb9c71025f0b63de686b",
+      "rawRecords": 50000,
+      "uniquePanoids": 50000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "连云港市（100000 个位置）.json",
+      "city": "320700",
+      "bytes": 25938457,
+      "sha256": "ec9639c3e1d47f6b0c6438d86c8ed35bcb4371f392f4627c92cd866a0dd31dfd",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "凉山彝族自治州（30000 个位置）.json",
+      "city": "513400",
+      "bytes": 7783703,
+      "sha256": "e6028acd2fe40dc3ab3d8f90f6ed017644454a1a2a9c07e6a59c3946541ce10d",
+      "rawRecords": 30000,
+      "uniquePanoids": 30000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "聊城市（100000 个位置）.json",
+      "city": "371500",
+      "bytes": 26332200,
+      "sha256": "78e87c32146014dd8c7e085f84b4afe92d1a6ed9508f66ab92e9cfb6bfc579b3",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "林芝市（8000 个位置）.json",
+      "city": "540400",
+      "bytes": 2135376,
+      "sha256": "b58080bcada7e09b1ff67fe040e3d4f9570ee2692037425cbf2081d2afc18686",
+      "rawRecords": 8000,
+      "uniquePanoids": 8000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "临沧市（40000 个位置）.json",
+      "city": "530900",
+      "bytes": 10381572,
+      "sha256": "20710293e83eca55d37f2b13778d10d0cb69778979fad7ea402be729e3c0c9df",
+      "rawRecords": 40000,
+      "uniquePanoids": 40000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "临汾市（100000 个位置）.json",
+      "city": "141000",
+      "bytes": 26005245,
+      "sha256": "58ca393d539c556b4e417c90ec4c2bc96e36d17740ca1bebc1a0708acf6ab09e",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "临沂市（100000 个位置）.json",
+      "city": "371300",
+      "bytes": 26040601,
+      "sha256": "85d85238e64b8da1e36d086835fcf48fce8bc8fba34d99474c138370bf396d9e",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "柳州市（100000 个位置）.json",
+      "city": "450200",
+      "bytes": 27121874,
+      "sha256": "fd7a7d773495096d4fbb0759b0d7853dcf06382ad39a302455c1d3c0fd4b8f0a",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "六安市（100000 个位置）.json",
+      "city": "341500",
+      "bytes": 26917002,
+      "sha256": "5d226f058e0d53ca3fae51cd46004624ecb39012193cc480e22329bf01df6a9b",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "六盘水市（50000 个位置）.json",
+      "city": "520200",
+      "bytes": 13011316,
+      "sha256": "7adf4466116ebd1588eca1bb8d6c6dd62d00c487439cbd9fb74184ba2535f1e1",
+      "rawRecords": 50000,
+      "uniquePanoids": 50000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "龙岩市（50000 个位置）.json",
+      "city": "350800",
+      "bytes": 13034986,
+      "sha256": "fd5d5c74b2f79c10916a24cd287e472eadb9f2460adf7eed2c76b7a7bef34a81",
+      "rawRecords": 50000,
+      "uniquePanoids": 50000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "娄底市（50000 个位置）.json",
+      "city": "431300",
+      "bytes": 12998639,
+      "sha256": "165e172dfb38d9a287229cef38c29a39ecf3e79428a8d02ca174709fa50b9bcb",
+      "rawRecords": 50000,
+      "uniquePanoids": 50000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "泸州市（50000 个位置）.json",
+      "city": "510500",
+      "bytes": 13161637,
+      "sha256": "a35daf0cef312cff34196c5d39f8b2c641e393ba8ff0f0fd049864e4a6678029",
+      "rawRecords": 50000,
+      "uniquePanoids": 50000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "吕梁市（50000 个位置）.json",
+      "city": "141100",
+      "bytes": 12460227,
+      "sha256": "6ad41552a6d8905d0750fddb2fa77a0d792c12ebc8d69e0c3befd8f19de47269",
+      "rawRecords": 50000,
+      "uniquePanoids": 50000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "洛阳市（100000 个位置）.json",
+      "city": "410300",
+      "bytes": 26767952,
+      "sha256": "701abc5d125d07a3660ceb3ed22efb35bebb78c4a9ee4bc43e06bb58d986f5b7",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "漯河市（50000 个位置）.json",
+      "city": "411100",
+      "bytes": 13036034,
+      "sha256": "c25f53716b590677a6266d93f98337369343023ea917b1ce9816e2a1564151c5",
+      "rawRecords": 50000,
+      "uniquePanoids": 50000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "马鞍山市（100000 个位置）.json",
+      "city": "340500",
+      "bytes": 26156287,
+      "sha256": "13e83242b85d207176578edd2696f47e72000671da3721ba6cfa60d6cee00a0c",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "茂名市（100000 个位置）.json",
+      "city": "440900",
+      "bytes": 26907549,
+      "sha256": "ceffd59374ec4937f5e20f60315295c6b4b8311ab727cecdb28b05de38709a20",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "眉山市（50000 个位置）.json",
+      "city": "511400",
+      "bytes": 13150347,
+      "sha256": "b3ffc46c6c6ad0000238612e9861885dc93e2d86f40d17afce14f365543dd439",
+      "rawRecords": 50000,
+      "uniquePanoids": 50000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "梅州市（100000 个位置）.json",
+      "city": "441400",
+      "bytes": 27498622,
+      "sha256": "dabf7f0c3137b3dda139af3bf3436d413df24b6eab3eb499926e3ded31350c04",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "绵阳市（100000 个位置）.json",
+      "city": "510700",
+      "bytes": 27354715,
+      "sha256": "74e9c135f954659fc1508e3c1f078efa0cf047754b570f9c18c4c58bdd2a1660",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "那曲市（8000 个位置）.json",
+      "city": "540600",
+      "bytes": 2026830,
+      "sha256": "24cb4a70bc174bbe147896b57db1b437fdeeb4e789da32878001c0c34d8395cd",
+      "rawRecords": 8000,
+      "uniquePanoids": 8000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "南昌市（100000 个位置）.json",
+      "city": "360100",
+      "bytes": 26994784,
+      "sha256": "1ffc917dc5039b5dd7e21029f84eabda8ab305d1d0846a50a11b17fd7c111a72",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "南充市（50000 个位置）.json",
+      "city": "511300",
+      "bytes": 12508715,
+      "sha256": "17c0554c6afd24b1a3e593e320256952df0e0410f37218ee20ad05bc7c4a748f",
+      "rawRecords": 50000,
+      "uniquePanoids": 50000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "南京市（100000 个位置）.json",
+      "city": "320100",
+      "bytes": 27043312,
+      "sha256": "4d1528eca3c7d49648e767b2fad1a366beca59ef5b3bbad23fc65729d15369e6",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "南宁市（100000 个位置）.json",
+      "city": "450100",
+      "bytes": 27237430,
+      "sha256": "1b624dbf031ba3b427fef0613043a22b0e1aef8085ace3e9874e513d973c7a3b",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "南平市（50000 个位置）.json",
+      "city": "350700",
+      "bytes": 12846051,
+      "sha256": "548c8e5a2a369f3e850d07a26fcf1215db7f83a982652372e38c07887c10d4ce",
+      "rawRecords": 50000,
+      "uniquePanoids": 50000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "南通市（100000 个位置）.json",
+      "city": "320600",
+      "bytes": 26482901,
+      "sha256": "0df196413b5abff4e73046ad3b95cbf8e69ffbd1cf76e43b3a057bc6cd35f35d",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "南阳市（100000 个位置）.json",
+      "city": "411300",
+      "bytes": 25434807,
+      "sha256": "9d73d0a8366d9f28492165ebcb43acc499bf047e63b62c472ce8e67aafb1d631",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "内江市（30000 个位置）.json",
+      "city": "511000",
+      "bytes": 7833691,
+      "sha256": "a3faa1692b15e1e04ad8c508054ddac918821c268eba4537d2221ba6c3af9c16",
+      "rawRecords": 30000,
+      "uniquePanoids": 30000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "宁波市（100000 个位置）.json",
+      "city": "330200",
+      "bytes": 28481829,
+      "sha256": "6dfaa486279d6793ae7d407f25b71dd37ff514d9bf9c17d3fedd377dfa51a865",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "宁德市（50000 个位置）.json",
+      "city": "350900",
+      "bytes": 12914448,
+      "sha256": "1e82874503b605f6acdacfe9f18a81c5b2750b726e1814cd4e2fb016f0e1b264",
+      "rawRecords": 50000,
+      "uniquePanoids": 50000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "怒江傈僳族自治州（5000 个位置）.json",
+      "city": "533300",
+      "bytes": 1264495,
+      "sha256": "12257c168f2197fc546b7204bdb240b0540ee98ae44e8b283dc9686caa13ad66",
+      "rawRecords": 5000,
+      "uniquePanoids": 5000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "攀枝花市（40000 个位置）.json",
+      "city": "510400",
+      "bytes": 11285803,
+      "sha256": "d1e0c1e9d3949efd2c4788c5077d29cb77aaca9d608d11f40232a702b858458d",
+      "rawRecords": 40000,
+      "uniquePanoids": 40000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "平顶山市（100000 个位置）.json",
+      "city": "410400",
+      "bytes": 26684338,
+      "sha256": "0f9c9a8c717c09cc8273c5f7db1f6b5ca2afe6831d94ddfbe7a7c0dc7a6ed03f",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "平凉市（20000 个位置）.json",
+      "city": "620800",
+      "bytes": 5115483,
+      "sha256": "f581442fe19bf7024add7f61f6d0f09b28f6c8895f3cc89b3ea67c7a27b7a1bf",
+      "rawRecords": 20000,
+      "uniquePanoids": 20000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "萍乡市（40000 个位置）.json",
+      "city": "360300",
+      "bytes": 10446751,
+      "sha256": "817e52ca001bed33175b30086003d84a3ab8735027db52840c1b2cdbdd6be364",
+      "rawRecords": 40000,
+      "uniquePanoids": 40000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "莆田市（50000 个位置）.json",
+      "city": "350300",
+      "bytes": 13462531,
+      "sha256": "2c02a2ea502beb0e7c50f9984a775d9fc82504b705f9d7e22a583ad8023661ce",
+      "rawRecords": 50000,
+      "uniquePanoids": 50000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "濮阳市（40000 个位置）.json",
+      "city": "410900",
+      "bytes": 10156155,
+      "sha256": "b5fa2d59da5f70271c7b04aa04068dc9aff0ae781bb3e899d2b6fdf134775216",
+      "rawRecords": 40000,
+      "uniquePanoids": 40000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "普洱市（40000 个位置）.json",
+      "city": "530800",
+      "bytes": 10582469,
+      "sha256": "5ef43c2f7fa243fd9f6bda89db260bcc37b783ab3f19b2fd879a7d6262cd6d60",
+      "rawRecords": 40000,
+      "uniquePanoids": 40000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "潜江市（25000 个位置）.json",
+      "city": "429005",
+      "bytes": 6414240,
+      "sha256": "e3b3f944c9eb8f489e7f762245baabc884a46f3b8a71a6555f6deb0d1e2f491e",
+      "rawRecords": 25000,
+      "uniquePanoids": 25000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "黔东南苗族侗族自治州（25000 个位置）.json",
+      "city": "522600",
+      "bytes": 6464016,
+      "sha256": "d869c8cdb556a8f09ed7acaccb33b3013a8395396daa43ae0e36c5f6ed21e7b8",
+      "rawRecords": 25000,
+      "uniquePanoids": 25000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "黔南布依族苗族自治州 (20000 locations).json",
+      "city": "522700",
+      "bytes": 5003698,
+      "sha256": "ff296f3e8f3a85a6f16ed118e2fad337f8a3c60612f15d5947b3cc178f375eb4",
+      "rawRecords": 20000,
+      "uniquePanoids": 20000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "黔西南布依族苗族自治州（30000 个位置）.json",
+      "city": "522300",
+      "bytes": 7912498,
+      "sha256": "c92876c563a976f404ede526c2aef82f9d0b91e191b20750a0ce3952ed56597f",
+      "rawRecords": 30000,
+      "uniquePanoids": 30000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "钦州市（50000 个位置）.json",
+      "city": "450700",
+      "bytes": 13413539,
+      "sha256": "2200612cc8e7edad3adb0fa139f73de906457132c80bfeca5a816b1933c41cae",
+      "rawRecords": 50000,
+      "uniquePanoids": 50000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "秦皇岛市（100000 个位置）.json",
+      "city": "130300",
+      "bytes": 26544478,
+      "sha256": "2e8fd8bab092ebcbb08d32ea774f62102f628d3ac57fa27527ebaa541cf30b95",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "青岛市（100000 个位置）.json",
+      "city": "370200",
+      "bytes": 27363011,
+      "sha256": "806571aeb991b61f6af9864d84cc08b08ad01fe3a46a95ede8cb5660f123481d",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "清远市（100000 个位置）.json",
+      "city": "441800",
+      "bytes": 27744235,
+      "sha256": "c9c6e4a9fddebdc06bb39a5acbe074495da362a7c5d390ee0a047a5cbd635690",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "曲靖市（100000 个位置）.json",
+      "city": "530300",
+      "bytes": 26067643,
+      "sha256": "4ee39e99d386641a827d58b557d79c2d5a2fb141e4736404d9a5f667a16a7c18",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "衢州市（100000 个位置）.json",
+      "city": "330800",
+      "bytes": 27490442,
+      "sha256": "968034cb7ac54a9585417fccc0afef242ee9eb608d450871533615f284bfb0ff",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "泉州市（100000 个位置）.json",
+      "city": "350500",
+      "bytes": 26161724,
+      "sha256": "057fbdf14d54664853a6d8dda388927e96511271221fda661fd496f8083f8bed",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "日喀则市（20000 个位置）.json",
+      "city": "540200",
+      "bytes": 5157723,
+      "sha256": "96d1f5a6c5b5622e91a44aa8bd4a8c9bf76aeb1880fc7c4e8d40591b135334e2",
+      "rawRecords": 20000,
+      "uniquePanoids": 20000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "日照市（100000 个位置）.json",
+      "city": "371100",
+      "bytes": 25609574,
+      "sha256": "f8df69ad3a830f7bdd06011f46bd8b5d7d9d03f28dfbdbba8cb67e70e46315af",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "三门峡市（30000 个位置）.json",
+      "city": "411200",
+      "bytes": 7986863,
+      "sha256": "8393b974aed9aa3d3a16507d82c3fb7d38c3865bf8ca4013d396b94b14675009",
+      "rawRecords": 30000,
+      "uniquePanoids": 30000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "三明市（50000 个位置）.json",
+      "city": "350400",
+      "bytes": 13035656,
+      "sha256": "1b82f590a41e903092363ef39b816e73b9411cba5ca4ad436e800377f3575ee5",
+      "rawRecords": 50000,
+      "uniquePanoids": 50000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "三亚市（50000 个位置）.json",
+      "city": "460200",
+      "bytes": 13818524,
+      "sha256": "3bd454dd65087f992d3c1ab3999f90b64aa7a4d26489764eeaf1ddb095eeba28",
+      "rawRecords": 50000,
+      "uniquePanoids": 50000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "厦门市（100000 个位置）.json",
+      "city": "350200",
+      "bytes": 28262081,
+      "sha256": "3042183be376d87c2adbf63a3a11813a293caf79e12ac8806cf4f98e2eebabcc",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "山南市（10000 个位置）.json",
+      "city": "540500",
+      "bytes": 2567347,
+      "sha256": "3fb851488ef7ce743c4c226adb1aebb6e1ab3f033fa84730aca5c3ce6c26711f",
+      "rawRecords": 10000,
+      "uniquePanoids": 10000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "汕头市（100000 个位置）.json",
+      "city": "440500",
+      "bytes": 27485386,
+      "sha256": "63668da328874cfb15730878c81822d1b039a8ec514dd725b145e7b7c0fa781d",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "汕尾市（50000 个位置）.json",
+      "city": "441500",
+      "bytes": 13238264,
+      "sha256": "0b861d1f99ff7b61e8c8378473285f4b0ca5efca6e2488a0d59703e4b511d40a",
+      "rawRecords": 50000,
+      "uniquePanoids": 50000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "商丘市（100000 个位置）.json",
+      "city": "411400",
+      "bytes": 26733671,
+      "sha256": "a6044fab401d5e76cf526df9ddce73f31d16f8d82085a982dc1663a6b15db8a0",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "上海市（100000 个位置）.json",
+      "city": "310000",
+      "bytes": 26776326,
+      "sha256": "10e2118a2c20549af9fa5b0b89d3debb0ef088ca36b463c99fc93ea009857e4c",
+      "rawRecords": 100000,
+      "uniquePanoids": 99926,
+      "exactDuplicates": 74,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "上饶市（100000 个位置）.json",
+      "city": "361100",
+      "bytes": 25651391,
+      "sha256": "3e7677731a8a99b3341f94323db7a669ba25bbbd43341164e3748232d1f4d0f5",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "韶关市（50000 个位置）.json",
+      "city": "440200",
+      "bytes": 13923247,
+      "sha256": "dcce47890fd9eefbfd3a1a45afccf4c3ce7da8003932e1ec558e4c6a2823afe3",
+      "rawRecords": 50000,
+      "uniquePanoids": 50000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "邵阳市（100000 个位置）.json",
+      "city": "430500",
+      "bytes": 26821191,
+      "sha256": "37c492ff4c6ffb8e791d0257c63080461755e2968a23ab157bcbc5a7439135df",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "绍兴市（100000 个位置）.json",
+      "city": "330600",
+      "bytes": 28506978,
+      "sha256": "b9c623e5705eb841a464e51839757b9a8c8e91ea61e78d7bced67a5163fe7262",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "深圳市（100000 个位置） .json",
+      "city": "440300",
+      "bytes": 26867888,
+      "sha256": "94c5a2d1a664f51e42c0f1bba9c163fea0f09d1e07c28e4def196806a2d079bd",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "神农架林区（2500 个位置） .json",
+      "city": "429021",
+      "bytes": 624529,
+      "sha256": "5e297344d3a6641cd136d84a19eff1d740a8e8e5d11467be6c0a072494cfb375",
+      "rawRecords": 2500,
+      "uniquePanoids": 2500,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "十堰市（50000 个位置）.json",
+      "city": "420300",
+      "bytes": 12550890,
+      "sha256": "557336163aa3d3e9e11013b28b47214bb97ffcaf31395ca2c676db20ae2724f0",
+      "rawRecords": 50000,
+      "uniquePanoids": 50000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "石家庄市（100000 个位置）.json",
+      "city": "130100",
+      "bytes": 26800254,
+      "sha256": "eda9712a1815214b515687ad9dd15ac3e1f51620eae122bb3ce17bb9bb79a12a",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "石嘴山市（40000 个位置）.json",
+      "city": "640200",
+      "bytes": 10384852,
+      "sha256": "62ad941e0f8bba0e2285a8ad961bb23bd469d7e56328f5309154221a87f53bed",
+      "rawRecords": 40000,
+      "uniquePanoids": 40000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "朔州市（50000 个位置）.json",
+      "city": "140600",
+      "bytes": 12716525,
+      "sha256": "ea2bee6ca56686a010b1c93343317fff0dd15e773a0199d26fe57fc23c17f817",
+      "rawRecords": 50000,
+      "uniquePanoids": 50000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "苏州市（100000 个位置）.json",
+      "city": "320500",
+      "bytes": 26610356,
+      "sha256": "1213f390a48f3b2e6fc3f2ae0b30c9380fb9fc2d47b84e21dad8576093ad9b33",
+      "rawRecords": 100000,
+      "uniquePanoids": 99728,
+      "exactDuplicates": 272,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "宿迁市（100000 个位置）.json",
+      "city": "321300",
+      "bytes": 26626057,
+      "sha256": "3c3c34fadce43f885cbcfac42552b4afd2e93ad04de9772742a5cbfe44328ab5",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "宿州市（50000 个位置）.json",
+      "city": "341300",
+      "bytes": 13020812,
+      "sha256": "6ee7033a0616271c45f0bc5bbf8c98956cc57acb5979b915daacce34d27c8f3c",
+      "rawRecords": 50000,
+      "uniquePanoids": 50000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "随州市（40000 个位置）.json",
+      "city": "421300",
+      "bytes": 10270835,
+      "sha256": "345cb29fa1b57c8e4a5c64d7172acab3e274e93b22f2b92fb4d5dc3e054ec81a",
+      "rawRecords": 40000,
+      "uniquePanoids": 40000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "遂宁市（30000 个位置）.json",
+      "city": "510900",
+      "bytes": 7851161,
+      "sha256": "9a5916a9804308b2dbafb50ee99bbb406f033b493492876a334355e7c6e2e80a",
+      "rawRecords": 30000,
+      "uniquePanoids": 30000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "台州市（100000 个位置）.json",
+      "city": "331000",
+      "bytes": 26177116,
+      "sha256": "43bc42c78e7b1fe2050809c61e4f9b44e2c1450c8dc5f8b5617230eaa41266bc",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "太原市（100000 个位置）.json",
+      "city": "140100",
+      "bytes": 26992587,
+      "sha256": "4e04f48a32c0ff533456dd60b8e566bcd6762b3baef9934859fafef108332be5",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "泰安市（100000 个位置）.json",
+      "city": "370900",
+      "bytes": 25728348,
+      "sha256": "0ca7142df6d9bcf79e09e347b10c225e606e8bf624bdbf7852ca3e9d384f6331",
+      "rawRecords": 100000,
+      "uniquePanoids": 99990,
+      "exactDuplicates": 10,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "泰州市（100000 个位置）.json",
+      "city": "321200",
+      "bytes": 26421465,
+      "sha256": "fd733fa84006e0d68e8a62602c7a66b091ce4cdcac01a8b3a652cfd0e4ff54af",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "唐山市（100000 个位置）.json",
+      "city": "130200",
+      "bytes": 26167674,
+      "sha256": "8eb94f3af3979231c189cc0e5ec55db35e200c7bf1da9543ff6c7b13d43d9627",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "天津市（100000 个位置）.json",
+      "city": "120000",
+      "bytes": 28414256,
+      "sha256": "7449961a2942e15336cf967c7a6ee8b0b015fd4b1b352a0786e3846914bc8a95",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "天门市（25000 个位置）.json",
+      "city": "429006",
+      "bytes": 6398817,
+      "sha256": "e2053d653b7136b03bebbed13910b1414a445378ed1d80baadc92e06fe92f6aa",
+      "rawRecords": 25000,
+      "uniquePanoids": 25000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "天水市（50000 个位置）.json",
+      "city": "620500",
+      "bytes": 13084760,
+      "sha256": "d4766cf10ea9d3fe5cd4cebdc18b4e44beeb2542b6ce2911a45edc77b5b1e98c",
+      "rawRecords": 50000,
+      "uniquePanoids": 50000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "通辽市（50000 个位置）.json",
+      "city": "150500",
+      "bytes": 13239286,
+      "sha256": "d15bd4c31ead33c88ff370a0900ef7cc448ba76ca426cfdc9bc14d27bd3118b7",
+      "rawRecords": 50000,
+      "uniquePanoids": 50000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "铜川市（25000 个位置）.json",
+      "city": "610200",
+      "bytes": 6382805,
+      "sha256": "7eff5b94b22f7b38706708ec4fe4f74614383e257199f0d53e9fef8c6daae329",
+      "rawRecords": 25000,
+      "uniquePanoids": 25000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "铜陵市（30000 个位置）.json",
+      "city": "340700",
+      "bytes": 7503490,
+      "sha256": "fb4e682b84e26919263b891fa81077f237a484370eaa27362dbe43fcfed821b4",
+      "rawRecords": 30000,
+      "uniquePanoids": 30000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "铜仁市（25000 个位置）.json",
+      "city": "520600",
+      "bytes": 6366107,
+      "sha256": "aac91784575901687a70f54cc84b959c4364dee1335dcf5ea442aaeff323d439",
+      "rawRecords": 25000,
+      "uniquePanoids": 25000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "威海市（100000 个位置）.json",
+      "city": "371000",
+      "bytes": 26067852,
+      "sha256": "6a9fa513eb3b3b077a965beef6dff6fd2b375a9e7666f6f0516d5a7304b7425d",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "潍坊市（100000 个位置）.json",
+      "city": "370700",
+      "bytes": 25706605,
+      "sha256": "56ce9d23c6b2b7ad877d2ee6fc98bfb928246adbd2a17250c396f96f1be37138",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "渭南市（100000 个位置）.json",
+      "city": "610500",
+      "bytes": 26778736,
+      "sha256": "21adefd82a5005faf552a5012168d62f2f63ea6d69d569504a1fd2a3a1e30864",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "温州市（100000 个位置）.json",
+      "city": "330300",
+      "bytes": 28271168,
+      "sha256": "dfeeeac48bb47e27205b1b5eca25e642409aad622bfb7e2b9c1319e9fa8891b3",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "文山壮族苗族自治州（50000 个位置）.json",
+      "city": "532600",
+      "bytes": 13032388,
+      "sha256": "9ace37073ee4dec2ee7db7d9e7a7058ded70c51ea325a35b5c8c39c57d1c129c",
+      "rawRecords": 50000,
+      "uniquePanoids": 50000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "乌海市（30000 个位置）.json",
+      "city": "150300",
+      "bytes": 7817837,
+      "sha256": "6f0ed063d2e6e82f55efd00a727208715da804ff64191c7733306645a442dc71",
+      "rawRecords": 30000,
+      "uniquePanoids": 30000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "乌兰察布市（50000 个位置）.json",
+      "city": "150900",
+      "bytes": 13064365,
+      "sha256": "802546ab50bf6ce5743a73c33ee61cc156daf3e9d3961c8c36b6e89d6466661a",
+      "rawRecords": 50000,
+      "uniquePanoids": 50000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "无锡市（100000 个位置）.json",
+      "city": "320200",
+      "bytes": 27360912,
+      "sha256": "13aea326ec60c920d8bafcfef5121952de210fe28b502c169817382dcdb52230",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "吴忠市（50000 个位置）.json",
+      "city": "640300",
+      "bytes": 12689901,
+      "sha256": "d50cc7dc2aba1369939d2c6925a132227eab575a1f184481bebc2640d27e7aaf",
+      "rawRecords": 50000,
+      "uniquePanoids": 50000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "芜湖市（100000 个位置）.json",
+      "city": "340200",
+      "bytes": 27623698,
+      "sha256": "537fe4b136c59bdfdc3ab8e262d16bbc3fbcf367ff7fe43c94fa8725277898d1",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "梧州市（50000 个位置）.json",
+      "city": "450400",
+      "bytes": 13356251,
+      "sha256": "369716362af78d4737d36bdab6411cbc53b438bb29959c6416abff47b5193e4d",
+      "rawRecords": 50000,
+      "uniquePanoids": 50000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "武汉市（100000 个位置）.json",
+      "city": "420100",
+      "bytes": 26851137,
+      "sha256": "894017bd5542c0ec2a8fc4e21b2242c23098c05867a9c0740800b8728e726954",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "武威市（20000 个位置）.json",
+      "city": "620600",
+      "bytes": 5145243,
+      "sha256": "c3fbc9414fe97c220c20540a9b1afe7a5d7f0564ba0f5beae2d6bb47eaf6064c",
+      "rawRecords": 20000,
+      "uniquePanoids": 20000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "西安市（100000 个位置）.json",
+      "city": "610100",
+      "bytes": 26964332,
+      "sha256": "1016bdc4fa4defbbbacacc32a501cb5ffcbf7d6eeafed8b591b933ec7f40471b",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "西宁市（100000 个位置）.json",
+      "city": "630100",
+      "bytes": 26174963,
+      "sha256": "b64c4f99a32e067a27c0a99e611581f2c2f59d19f3e88b1aeca44d6499516180",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "西双版纳傣族自治州（50000 个位置）.json",
+      "city": "532800",
+      "bytes": 13417113,
+      "sha256": "1fec2bd0b0d443479b2e0479e52b4ef5f823c7b7ebdc86b319b074f793f1a1b6",
+      "rawRecords": 50000,
+      "uniquePanoids": 50000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "锡林郭勒盟（50000 个位置）.json",
+      "city": "152500",
+      "bytes": 12487077,
+      "sha256": "0bb61c875c3bd64b093d2173d05f18d8677c60140a9106464b9f4d1227322078",
+      "rawRecords": 50000,
+      "uniquePanoids": 50000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "仙桃市（30000 个位置）.json",
+      "city": "429004",
+      "bytes": 7865470,
+      "sha256": "ddfb5a936559de387b347035ea10fa7829a16280e7880565036732b94df80bd9",
+      "rawRecords": 30000,
+      "uniquePanoids": 30000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "咸宁市（40000 个位置）.json",
+      "city": "421200",
+      "bytes": 10487038,
+      "sha256": "7bd00617a4b29b5bc748c69ca24a162b15ee2b9dfcda753040921790f63f8efb",
+      "rawRecords": 40000,
+      "uniquePanoids": 40000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "咸阳市（100000 个位置）.json",
+      "city": "610400",
+      "bytes": 26206409,
+      "sha256": "2150fecb8875289e372149022fb6fdf5c3bbd97cb57a15784e2f693412513adc",
+      "rawRecords": 100000,
+      "uniquePanoids": 99829,
+      "exactDuplicates": 170,
+      "differingDuplicates": 1
+    },
+    {
+      "name": "香港特别行政区（100000 个位置） .json",
+      "city": "810000",
+      "bytes": 28348836,
+      "sha256": "836d1b59621eaf8b0ff6d022fa63190f7518fdd853a68dfdb1d532e5332c849a",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "湘潭市（100000 个位置）.json",
+      "city": "430300",
+      "bytes": 26840837,
+      "sha256": "4d58e18e8fc8952c52eafbaa3e29528c1911ac6ba0b37190ccc56a9a46fd709d",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "湘西土家族苗族自治州（30000 个位置）.json",
+      "city": "433100",
+      "bytes": 7795159,
+      "sha256": "f4df35ff35f9580be938d864a15aec91733d20a4604d4b0d7997c10ccd1abf67",
+      "rawRecords": 30000,
+      "uniquePanoids": 30000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "襄阳市（100000 个位置）.json",
+      "city": "420600",
+      "bytes": 26260286,
+      "sha256": "039973fe59b936c5c30b659ccf43879048e6ab37ab9794e42e420ca10a2f99bb",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "孝感市（50000 个位置）.json",
+      "city": "420900",
+      "bytes": 13511929,
+      "sha256": "3930bfc73f8233b64e945f8a0f6b9eecb335d1d84566e31e2889817b66015a56",
+      "rawRecords": 50000,
+      "uniquePanoids": 50000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "忻州市（50000 个位置）.json",
+      "city": "140900",
+      "bytes": 12618275,
+      "sha256": "7b6433893ba2df237c24eb7b4250226d77b71633d30cb926ffacf8f23f1d3d51",
+      "rawRecords": 50000,
+      "uniquePanoids": 50000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "新乡市（100000 个位置）.json",
+      "city": "410700",
+      "bytes": 26199787,
+      "sha256": "b9480c7cd35abb3befe491161320dbb630421031cdd0336dc6b4c4457448c4b2",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "新余市（30000 个位置）.json",
+      "city": "360500",
+      "bytes": 8101228,
+      "sha256": "1446533cbe23e15f83df7244b034385164669784a8560d662bc9cb7653fcfb07",
+      "rawRecords": 30000,
+      "uniquePanoids": 30000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "信阳市（100000 个位置）.json",
+      "city": "411500",
+      "bytes": 26654021,
+      "sha256": "aecd50e7672ded92bc281fdfd21b2ed0b3c0c513d51e96275bb1c17404b4d7ae",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "邢台市（100000 个位置）.json",
+      "city": "130500",
+      "bytes": 25078174,
+      "sha256": "f6e45927ff392c692e523d09a95a12ea0718310fa62794163ad348f89e8d1824",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "兴安盟（40000 个位置）.json",
+      "city": "152200",
+      "bytes": 10577722,
+      "sha256": "d9823cf901e4d5f10c85fe5d8c01324b274138c566b2a730daffae1f74389d09",
+      "rawRecords": 40000,
+      "uniquePanoids": 40000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "徐州市（100000 个位置）.json",
+      "city": "320300",
+      "bytes": 25332251,
+      "sha256": "9babd8b46f48ad3921f02c28c1addb18fdaa8cdecab932a31b6dfe921a60a1f4",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "许昌市（50000 个位置）.json",
+      "city": "411000",
+      "bytes": 12789335,
+      "sha256": "07fad25673968247b4975bebec28341f76df01adae5ceed7174fc02bf8eb9510",
+      "rawRecords": 50000,
+      "uniquePanoids": 50000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "宣城市（100000 个位置）.json",
+      "city": "341800",
+      "bytes": 26263824,
+      "sha256": "8695de046168b3ec29ee8952540c4423a77a7068422c87cc1c292a2ff0478afb",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "雅安市（30000 个位置）.json",
+      "city": "511800",
+      "bytes": 7754441,
+      "sha256": "4a28938e86921a0134306dee5432f9db954d2938f9d7f38c34d6cfdfdf4a1aab",
+      "rawRecords": 30000,
+      "uniquePanoids": 30000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "烟台市（100000 个位置）.json",
+      "city": "370600",
+      "bytes": 26869442,
+      "sha256": "5dd13e44a5d67ba3bf9ab9466841258fd26238329e4b43f80a93dad147bac0ee",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "盐城市（100000 个位置）.json",
+      "city": "320900",
+      "bytes": 25759338,
+      "sha256": "fc3a53d031947f9013509092b8216c0260d076e191cf8d9efb4b2f78a1dc78c0",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "扬州市（100000 个位置）.json",
+      "city": "321000",
+      "bytes": 27433197,
+      "sha256": "9b5b51f1df2e2a50e2bf7b562861e9d1f47ce2b1260d144cd1780a02dfc53080",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "阳江市（100000个位置）.json",
+      "city": "441700",
+      "bytes": 27291758,
+      "sha256": "f51454e84f96ae2d33f1d011286ce0c7a616f706b7867e91cd9e00fd251efd91",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "阳泉市（10000 个位置）.json",
+      "city": "140300",
+      "bytes": 2492506,
+      "sha256": "a3f97b8af49afc64be320d104769a2a220c89073dd0c8fd0986cd9d2c5194762",
+      "rawRecords": 10000,
+      "uniquePanoids": 10000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "宜宾市（50000 个位置）.json",
+      "city": "511500",
+      "bytes": 12725531,
+      "sha256": "66ebc2fb78bf3b2a6e84b7b7e39e9d8a5378bf44c8c0908d5b1ac08c6824545e",
+      "rawRecords": 50000,
+      "uniquePanoids": 50000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "宜昌市（100000 个位置）.json",
+      "city": "420500",
+      "bytes": 26884061,
+      "sha256": "cb80054a1a370569230525142701d0341453c8f9091dd39bcbed0692188a322c",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "宜春市（50000 个位置）.json",
+      "city": "360900",
+      "bytes": 13150785,
+      "sha256": "2bdf2be12ec55b1e175d7c3e4ab8f275118c31f61a01511024a9c3a2f50b4e3f",
+      "rawRecords": 50000,
+      "uniquePanoids": 50000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "益阳市（50000 个位置）.json",
+      "city": "430900",
+      "bytes": 13567582,
+      "sha256": "2f4bba3781c1ece80c623f8f40230084d9d6c2036b4a229aad5544830fb9c3fc",
+      "rawRecords": 50000,
+      "uniquePanoids": 50000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "银川市（100000 个位置）.json",
+      "city": "640100",
+      "bytes": 25455791,
+      "sha256": "9ba7bf427ee77c3263dbc504223be02550d78e857959949fefe0f9964c52efc3",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "鹰潭市（30000 个位置）.json",
+      "city": "360600",
+      "bytes": 7654227,
+      "sha256": "d92f92277b6950d8faa92404d5080e343befde1711318394b85ab646ff82f208",
+      "rawRecords": 30000,
+      "uniquePanoids": 30000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "永州市（50000 个位置）.json",
+      "city": "431100",
+      "bytes": 12910907,
+      "sha256": "cb4c96bff15880f69c3d705e0c48588c2ea71953c80a118efa8f7290ea8bae30",
+      "rawRecords": 50000,
+      "uniquePanoids": 50000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "玉林市（50000 个位置）.json",
+      "city": "450900",
+      "bytes": 14310441,
+      "sha256": "c684fa648736d0b8e4c31e914b65972ef970e55fe3c6207eca1fb23b7329d7e0",
+      "rawRecords": 50000,
+      "uniquePanoids": 50000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "玉溪市（50000 个位置）.json",
+      "city": "530400",
+      "bytes": 12771990,
+      "sha256": "2a06614eeec19f1dc076ee9e3d143ae57e439afdaa89ad067a385a2471fac51b",
+      "rawRecords": 50000,
+      "uniquePanoids": 50000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "岳阳市（100000 个位置）.json",
+      "city": "430600",
+      "bytes": 26809084,
+      "sha256": "765f2a8a6bb0ddc98f7543ab7321b19cc1a75f216bffd84af524599f816472a8",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "云浮市（50000 个位置）.json",
+      "city": "445300",
+      "bytes": 13315916,
+      "sha256": "602dd5d78d84147709714461c9876292e3e4112053269fbae88385b1f23325f8",
+      "rawRecords": 50000,
+      "uniquePanoids": 50000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "运城市（50000 个位置）.json",
+      "city": "140800",
+      "bytes": 12534253,
+      "sha256": "8f134ecf96892f76a975081a78d6ed3ec50d0e7de41741b9fb0822da18d5f761",
+      "rawRecords": 50000,
+      "uniquePanoids": 50000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "枣庄市（100000 个位置）.json",
+      "city": "370400",
+      "bytes": 25554677,
+      "sha256": "d551cc97c9cd9969dcb1e1d3fcd0a328473673058ec66eadc329258ee7c2e11f",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "湛江市（100000 个位置）.json",
+      "city": "440800",
+      "bytes": 26800055,
+      "sha256": "4003d7ab86d72bf0ec4c52edeb1da03b50de3d5c728b625b2e0fa35cd4f5d35e",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "张家界市（40000 个位置）.json",
+      "city": "430800",
+      "bytes": 10708488,
+      "sha256": "16220136795306b25ee3ddb3a9b889025e8a9eabce0f01ce94c21dbd71a8e682",
+      "rawRecords": 40000,
+      "uniquePanoids": 40000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "张家口市（100000 个位置）.json",
+      "city": "130700",
+      "bytes": 26673576,
+      "sha256": "232fc0c3b3aadb1d4fa210ba588ef2755fe8a4d7703fd71ca9ea662be3b86825",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "张掖市（25000 个位置）.json",
+      "city": "620700",
+      "bytes": 6360652,
+      "sha256": "bcdca9ea1d3fb150697ebfdc58bd786ede4eb5205d365627303a187ce4f04d34",
+      "rawRecords": 25000,
+      "uniquePanoids": 25000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "漳州市（100000 个位置）.json",
+      "city": "350600",
+      "bytes": 27227562,
+      "sha256": "c0391293792b12dda211b74e1eba10daccc8a3d2ce164b404132b92ba6179d7b",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "长沙市（100000 个位置）.json",
+      "city": "430100",
+      "bytes": 27752405,
+      "sha256": "a98a02e8d576bbbb39ffcfc545cd0730bf5ed08c22de9b365edbcccbe5cccef4",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "长治市（100000 个位置）.json",
+      "city": "140400",
+      "bytes": 25517059,
+      "sha256": "6e48e8c8d7c439444f53428ad123e1a7838bdca4e4e371b1d334f65ae37d5696",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "昭通市（15000 个位置）.json",
+      "city": "530600",
+      "bytes": 3748272,
+      "sha256": "803750b9eaff6ef4f6d8d3b8a154f3f2f9a3bc71469e632f7713bad8e9a38c44",
+      "rawRecords": 15000,
+      "uniquePanoids": 15000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "肇庆市（100000 个位置）.json",
+      "city": "441200",
+      "bytes": 27839835,
+      "sha256": "7527179b7719ac9ef6b6a89926e3a76df2db12a7545b3dcc8099ce83a9fbad51",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "镇江市（100000 个位置）.json",
+      "city": "321100",
+      "bytes": 26167853,
+      "sha256": "e9246173ce4c3c2acb8206a2e5d4181d5478da68af38bce3de8210377e9c4dc4",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "郑州市（100000 个位置）.json",
+      "city": "410100",
+      "bytes": 26808030,
+      "sha256": "86d2327410931a25934402e15268f12db3bd4297001c55381f3fba363702376e",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "中山市（100000 个位置）.json",
+      "city": "442000",
+      "bytes": 26807093,
+      "sha256": "2828d1ae14ae4f12e0817b2a1ad7f23b49c4ff9d532127c14a07fbdfc7975208",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "中卫市（40000 个位置）.json",
+      "city": "640500",
+      "bytes": 10397721,
+      "sha256": "65976d26f37f858e4eea515b401d9c8bb11519ccf93d581f7ab25367ff7683cf",
+      "rawRecords": 40000,
+      "uniquePanoids": 40000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "舟山市（50000 个位置）.json",
+      "city": "330900",
+      "bytes": 13350458,
+      "sha256": "a6a9684c350f0029ddbe983e3546215b7ebe035ac9b061737d7a274e57a23a1f",
+      "rawRecords": 50000,
+      "uniquePanoids": 50000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "周口市（100000 个位置）.json",
+      "city": "411600",
+      "bytes": 27072823,
+      "sha256": "1ae1f4262c96f28279073c33476334094b6e8fa782bcb36b824ce51a34fb65b4",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "株洲市（100000 个位置）.json",
+      "city": "430200",
+      "bytes": 27744445,
+      "sha256": "39bcfb0130e4b7ca9dfd090d80cb045668a34ad78560457eb1eca7fd8f1ae996",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "珠海市（100000 个位置）.json",
+      "city": "440400",
+      "bytes": 26632155,
+      "sha256": "f179e0f5a6175280709e69208f46ece89aa8f0c700b651ab59a3ef6b7da5cd29",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "驻马店市（100000 个位置）.json",
+      "city": "411700",
+      "bytes": 26212465,
+      "sha256": "9030aa5bd65c9290a3ac5be07d3bc5b28b7354f71327559f9b4f1dc46894a00e",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "资阳市（30000 个位置）.json",
+      "city": "512000",
+      "bytes": 7826559,
+      "sha256": "028dac1460ccd36bd7a5a014c692adcbfe1934c1199e3209f6878834881f84d7",
+      "rawRecords": 30000,
+      "uniquePanoids": 30000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "淄博市（100000 个位置）.json",
+      "city": "370300",
+      "bytes": 26162392,
+      "sha256": "85e282f21e79181ecd313e36ab399cf3dbd205d568c1475aeaa08a408019963e",
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "自贡市（30000 个位置）.json",
+      "city": "510300",
+      "bytes": 7493872,
+      "sha256": "36d061adb3f17bd13d879ef7e2f37eb5d6c3f1893240853a7d1ee1d8d3e7534a",
+      "rawRecords": 30000,
+      "uniquePanoids": 30000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    },
+    {
+      "name": "遵义市（50000 个位置）.json",
+      "city": "520300",
+      "bytes": 12982133,
+      "sha256": "6364ea39fc8c937c6471fc6522fd01c4c717fc09f7a6be1538f7f80343b2b9e0",
+      "rawRecords": 50000,
+      "uniquePanoids": 50000,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0
+    }
+  ]
+}

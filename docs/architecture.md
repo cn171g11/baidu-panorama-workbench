@@ -2,14 +2,14 @@
 
 ## 范围
 
-本项目参照 `cn171g11/tencent-panorama-workbench` 的城市分片、地图查看和元数据发布思路实现，但不复制其任何街景数据、浏览器缓存、部署域名或凭据。仅收录百度街景元数据，不下载或保存街景影像；查看影像时打开百度地图官方链接。首次发布没有真实点位，等待用户提供元数据。
+本项目参照 `cn171g11/tencent-panorama-workbench` 的城市分片、地图查看和元数据发布思路实现，但不复制其任何街景数据、浏览器缓存、部署域名或凭据。仅收录百度街景元数据，不下载或保存街景影像；查看影像时打开百度地图官方链接。全国目录由用户提供，原始 19012500 条记录、18991223 唯一 ID、280 个城市，源 GCJ-02 已由用户确认，统一归档 BD-09。
 
 ## 数据契约（schemaVersion 1）
 
 - 原始元数据仅放在 `data/baidu/`，目录索引为 `data/catalog.json`。
 - catalog: `{schemaVersion:1, provider:"baidu", coordinateSystem:"BD-09", updatedAt:null|ISO8601, total:0, collections:[]}`。
 - collection: `{id, adcode, name, province, coordinateSystem:"BD-09", count, bounds:[minLng,minLat,maxLng,maxLat]|null, files:["baidu/<id>/points-001.json", ...]}`。`id` 和 `adcode` 为六位行政区代码；未知行政区用独立六位自定义码并在文档标明，禁止挪用腾讯集合键。
-- 分片为 JSON 行数组，不执行数据中的 JavaScript。每条为 `[panoid, longitude, latitude, road, captured, heading, hasThumb, hasPano, "baidu"]`，可在第十位放入经过校验的 `{district, links, history}` 补充信息，禁止改变前九位含义。
+- 分片为 JSON 行数组，不执行数据中的 JavaScript。每条为 `[panoid, longitude, latitude, road, captured, heading, hasThumb, hasPano, "baidu"]`，可在第十位放入经过校验的 `{district, links, history, source, pitch, zoom, extra, tags, observations}` 补充信息，未知合法字段保留在 extra；禁止改变前九位含义。
 - 所有归档坐标均为 BD-09；导入时明确声明源坐标系 BD-09 / GCJ-02 / WGS84，统一转换。原始百度 ID 保持字符串，不做数值转换、不猜测采集日期。
 - 唯一性按百度 panoid 全库校验。显式腾讯/QQ/其他 provider、腾讯街景跳转 URL 或专有字段不得通过校验，不能用来源确认选项覆盖显式非百度标记。
 - 原始文件、计数、边界、重复 ID 必须通过构建前校验。默认每片最多 180000 条。
@@ -30,7 +30,9 @@
 - `city-viewer/js/metadata.js`: `parseImport(text, {format, confirmedBaidu, coordinateSystem}) -> rows`（支持 JSON / JSONL / CSV /参考九字段行，完整批次验证后才返回）；`validateRows(rows) -> rows`；`filterRows(rows, {query, road, date}) -> rows`；`baiduPanoramaUrl(panoid) -> official URL`；`mergeRows(existing,incoming) -> 去重后的 rows`。
 - `city-viewer/js/data-store.js`: `loadCatalog() -> catalog`、`loadCollection(collection) -> rows`；`LOCAL_STORAGE_PREFIX="baidu-panorama-workbench:v1:"`、`saveLocalRows(collectionId,rows)`、`loadLocalRows(collectionId) -> rows|null`、`clearLocalRows(collectionId)`。catalog、asset manifest、rows 均须验证；没有 manifest 不能执行远端脚本或改读腾讯路径。
 - `tools/import_baidu.mjs`: CLI 显式指定行政区/城市/省份、源坐标系与（缺来源时）百度确认。默认合并现有数据并在全库去重，成功后原子更新百度分片与目录。任何失败不得留下半批数据；禁止把用户输入当 JS 执行。
-- `tools/validate_data.mjs`: 导出 `validateCatalog(root)`（root 为 `data/` 的绝对路径），返回 `{catalog, files:[{path, rows}]}` 或抛错，CLI 可直接运行。
+- `tools/validate_data.mjs`: `validateCatalog(root,{includeRows:false})` 返回 `{catalog,files:[{path,count,bounds,bytes,sha256}],indexPath,cacheHit}`。按文件读取，使用私有 SQLite owner index 避免全国 Set/Map 限制；缓存键含 catalog SHA 和所有 file SHA，绝不只用 mtime。小 fixture 显式 includeRows；索引、缓存与 payload 绝不发布。
+- `tools/import_directory.mjs`: 读取 customCoordinates，显式源坐标，文件 SHA 与审计清单核对，按源文件 SQLite transaction、按城市排序输出；只允许全新暂存目录，验证通过后再切换正式源。完全相同重复计数并保留来源成员；同 ID 差异保留旧/新 observations、合并 links，不丢有效信息。
+- `catalog.importSummary` 与每个 `collection.summary` 记录原始/唯一/重复计数；`data/imports/source-summary.json`、`source-memberships.json` 只含公开文件名、SHA、来源关系，不含机器绝对路径或缓存路径。
 
 ## 文件与协作
 

@@ -7,6 +7,7 @@ const ID_PATTERN = /^\d{6}$/;
 
 function assertCatalog(catalog) {
   if (!catalog || catalog.schemaVersion !== 1 || catalog.provider !== "baidu" || catalog.coordinateSystem !== "BD-09") throw new Error("Invalid Baidu catalog header");
+  validateSummary(catalog.importSummary, 'catalog.importSummary');
   if (!(catalog.updatedAt === null || (typeof catalog.updatedAt === "string" && !Number.isNaN(Date.parse(catalog.updatedAt))))) throw new Error("Invalid catalog updatedAt");
   if (!Array.isArray(catalog.collections) || !Number.isInteger(catalog.total) || catalog.total < 0) throw new Error("Invalid Baidu catalog totals");
   const collectionIds = new Set();
@@ -27,6 +28,17 @@ function assertCatalog(catalog) {
   }
   if (total !== catalog.total) throw new Error("Catalog total does not match collection counts");
   return catalog;
+}
+
+function validateSummary(summary, label) {
+  if (summary === undefined) return;
+  if (!summary || typeof summary !== 'object') throw new Error(`Invalid ${label}`);
+  for (const key of ['rawRecords', 'uniquePanoids', 'exactDuplicates', 'differingDuplicates', 'invalidRecords']) {
+    if (summary[key] !== undefined && (!Number.isSafeInteger(summary[key]) || summary[key] < 0)) throw new Error(`Invalid ${label}.${key}`);
+  }
+  if (summary.sourceFiles !== undefined && (!Number.isSafeInteger(summary.sourceFiles) || summary.sourceFiles < 0)) throw new Error(`Invalid ${label}.sourceFiles`);
+  if (summary.files !== undefined && !Array.isArray(summary.files)) throw new Error(`Invalid ${label}.files`);
+  if (summary.sourceCities !== undefined && !Number.isSafeInteger(summary.sourceCities)) throw new Error(`Invalid ${label}.sourceCities`);
 }
 
 async function loadCatalog() {

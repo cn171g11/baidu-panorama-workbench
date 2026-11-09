@@ -29,6 +29,16 @@ test('viewer exposes stable accessible controls and local privacy language', asy
 test('app uses metadata and isolated local storage APIs with bounded pagination', async () => {
   const app = await read('city-viewer/js/app.js');
   assert.match(app, /parseImport/);
+  assert.match(app, /importSummary/);
+  const viewer = await read('city-viewer/index.html');
+  assert.match(viewer, /id="catalog-summary"/);
+  assert.match(app, /summary\.rawRecords/);
+  assert.match(app, /日期未知/);
+  assert.match(app, /extras\.pitch/);
+  assert.match(app, /extras\.zoom/);
+  assert.match(app, /extras\.links/);
+  assert.match(app, /extras\.extra\?\.imageDate/);
+  assert.match(app, /extras\.observations\?\.imageDate/);
   assert.match(app, /saveLocalRows\('local'/);
   assert.match(app, /loadLocalRows\('local'/);
   assert.match(app, /clearLocalRows\('local'/);
@@ -69,6 +79,10 @@ test('report counts only the published catalog and uses child-path assets', asyn
   assert.match(html, /\.\/js\/report\.js/);
   assert.match(html, /id="report-total" data-ready="false"/);
   assert.match(js, /loadCatalog\(\)/);
+  assert.match(js, /report-search/);
+  assert.match(js, /rawRecords/);
+  assert.match(js, /uniquePanoids/);
+  assert.match(js, /exactDuplicates/);
   assert.doesNotMatch(js, /loadLocalRows|localStorage/i);
   assert.match(html, /尚无已发布点位/);
   assert.match(html, /id="report-total" data-ready="false"/);
