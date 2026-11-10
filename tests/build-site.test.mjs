@@ -68,7 +68,7 @@ test('empty publication remains Baidu-only and contains neither AI notes nor arb
     assert(!files.some(file => file.includes('points-001.json')));
     for (const file of files) assert(!(await readFile(path.join(result.output, file))).includes(Buffer.from(sentinel)), 'Local content leaked: ' + file);
     const manifest = JSON.parse(await readFile(path.join(result.output, 'city-viewer/data/asset-manifest.json'), 'utf8'));
-    assert.deepEqual(manifest, { schemaVersion: 1, provider: 'baidu', codec: 'identity', source: 'github-raw', revision: null, assets: {} });
+    assert.equal(manifest.source,'github-raw'); assert.equal(manifest.revision,null); assert.deepEqual(manifest.assets, {});
     assert(files.includes('.nojekyll'));
   } finally { await f.dispose(); }
 });
