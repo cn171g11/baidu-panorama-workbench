@@ -16,13 +16,7 @@
 
 ## 发布契约
 
-`tools/build_site.mjs` 只复制白名单网页静态资源到 `dist/pages/`。将通过验证的 catalog 发布到 `city-viewer/data/catalog.json`；原始分片仅以 `.json.gz` 发布。`city-viewer/data/asset-manifest.json` 结构：
-
-```json
-{"schemaVersion":1,"provider":"baidu","codec":"gzip","assets":{"baidu/320100/points-001.json":{"url":"baidu/320100/points-001.json.gz","bytes":123,"sha256":"<原始 SHA256>","compressedBytes":100,"compressedSha256":"<gzip SHA256>"}}}
-```
-
-每个 gzip 发布前解压并逐字节验证。浏览器检查大小和 SHA-256 后解析 JSON，再校验百度行；失败须报错，不静默丢失数据。浏览器只从本站按需加载选定城市的数据。首页与报告只先读小型目录。所有网址和资源相对路径兼容 GitHub Pages 仓库子路径。
+GitHub Pages 只部署网页、Leaflet、目录和 SHA 清单，保持小于 1 MB。由于完整点位压缩包约 792 MB，若复制进Pages，托管端10分钟逐文件同步会超时。原始百度分片继续存放在同一公开仓库的 `data/baidu/`，目录索引的 manifest 将每个文件固定到不可变 Git 提交 SHA 的 GitHub Raw URL。浏览器按城市按需下载原始JSON，经字节数与SHA-256校验后解析；只允许 `raw.githubusercontent.com/cn171g11/baidu-panorama-workbench/<40位SHA>/data/baidu/...`，并通过 `no-referrer` 避免泄露来源。源码仓库没有重复gzip副本，Pages artifact不含任何街景分片。城市首页/报告只读取小型目录。所有 app 路径兼容 GitHub Pages 仓库子路径。
 
 ## 模块接口
 

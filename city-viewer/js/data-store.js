@@ -58,21 +58,31 @@ async function loadCollection(collection) {
   const manifestResponse = await fetch(MANIFEST_URL);
   if (!manifestResponse.ok) throw new Error(`Unable to load asset manifest (${manifestResponse.status})`);
   const manifest = await manifestResponse.json();
-  if (manifest.schemaVersion !== 1 || manifest.provider !== "baidu" || manifest.codec !== "gzip" || !manifest.assets || typeof manifest.assets !== "object") throw new Error("Invalid Baidu asset manifest");
+  if (manifest.schemaVersion !== 1 || manifest.provider !== "baidu" || !["gzip", "identity"].includes(manifest.codec) || !manifest.assets || typeof manifest.assets !== "object") throw new Error("Invalid Baidu asset manifest");
+  if (manifest.codec === 'identity' && (manifest.source !== 'github-raw' || !/^[a-f0-9]{40}$/i.test(manifest.revision || ''))) throw new Error('Invalid pinned Baidu raw source');
   const shardPaths = collection.files;
   const allRows = [];
   const ids = new Set();
   for (const path of shardPaths) {
     const asset = manifest.assets[path];
-    if (!asset || asset.url !== `${path}.gz` || !Number.isSafeInteger(asset.bytes) || asset.bytes < 0 || !Number.isSafeInteger(asset.compressedBytes) || asset.compressedBytes < 0 || !/^[0-9a-f]{64}$/i.test(asset.sha256) || !/^[0-9a-f]{64}$/i.test(asset.compressedSha256)) throw new Error(`Invalid manifest entry: ${path}`);
-    const response = await fetch(new URL(asset.url, MANIFEST_URL));
+    if (!asset || !Number.isSafeInteger(asset.bytes) || asset.bytes < 0 || !/^[0-9a-f]{64}$/i.test(asset.sha256)) throw new Error(`Invalid manifest entry: ${path}`);
+    const isGzip = manifest.codec === 'gzip';
+    if (isGzip && (asset.url !== `${path}.gz` || !Number.isSafeInteger(asset.compressedBytes) || asset.compressedBytes < 0 || !/^[0-9a-f]{64}$/i.test(asset.compressedSha256))) throw new Error(`Invalid gzip manifest entry: ${path}`);
+    if (!isGzip) {
+      const expected = `https://raw.githubusercontent.com/cn171g11/baidu-panorama-workbench/${manifest.revision}/data/${path}`;
+      if (manifest.source !== 'github-raw' || !/^[a-f0-9]{40}$/.test(manifest.revision || '') || asset.storage !== 'github-raw' || asset.url !== expected) throw new Error(`Untrusted raw asset URL: ${path}`);
+    }
+    const response = await fetch(new URL(asset.url, MANIFEST_URL), { referrerPolicy: 'no-referrer' });
     if (!response.ok) throw new Error(`Unable to load shard ${path} (${response.status})`);
-    const compressed = new Uint8Array(await response.arrayBuffer());
-    if (compressed.byteLength !== asset.compressedBytes) throw new Error(`Compressed size mismatch: ${path}`);
-    if (await sha256(compressed) !== asset.compressedSha256.toLowerCase()) throw new Error(`Compressed SHA-256 mismatch: ${path}`);
-    const plain = await decompressGzip(compressed);
+    const bytes = new Uint8Array(await response.arrayBuffer());
+    if (isGzip) {
+      if (bytes.byteLength !== asset.compressedBytes) throw new Error(`Compressed size mismatch: ${path}`);
+      if (await sha256(bytes) !== asset.compressedSha256.toLowerCase()) throw new Error(`Compressed SHA-256 mismatch: ${path}`);
+    } else if (bytes.byteLength !== asset.bytes) throw new Error(`Source size mismatch: ${path}`);
+    const plain = isGzip ? await decompressGzip(bytes) : bytes;
     if (plain.byteLength !== asset.bytes) throw new Error(`Uncompressed size mismatch: ${path}`);
-    if (await sha256(plain) !== asset.sha256.toLowerCase()) throw new Error(`Uncompressed SHA-256 mismatch: ${path}`);
+    if (isGzip && await sha256(plain) !== asset.sha256.toLowerCase()) throw new Error(`Uncompressed SHA-256 mismatch: ${path}`);
+    if (!isGzip && await sha256(plain) !== asset.sha256.toLowerCase()) throw new Error(`Source SHA-256 mismatch: ${path}`);
     const rows = validateRows(JSON.parse(new TextDecoder().decode(plain)));
     if (rows.length === 0 || rows.length > 180000) throw new Error(`Invalid shard row count: ${path}`);
     for (const row of rows) {

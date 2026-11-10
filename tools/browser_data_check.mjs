@@ -110,7 +110,7 @@ async function main() {
     report.checks.explicitSourceDates = { city: dated.name, rows: dated.count, sampleDate: datedRows[0][4], sampleCountry: datedRows[0][9].extra.country };
   }
   const allowed = new Set([target.id, ...(dated ? [dated.id] : [])]);
-  const shardRequests = requests.filter(request => /points-\d+\.json\.gz/.test(request));
+  const shardRequests = requests.filter(request => /points-\d+\.json(?:\.gz)?(?:\?|$)/.test(request));
   assert(shardRequests.length > 0);
   assert(shardRequests.every(request => allowed.has(request.match(/\/baidu\/(\d{6})\//)?.[1])), 'Unselected city shard downloaded');
   assert(!requests.some(request => /qq\.com|gtimg\.com|tencent-panorama-workbench/i.test(request)), 'Tencent request detected');
