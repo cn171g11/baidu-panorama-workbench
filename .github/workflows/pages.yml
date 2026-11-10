@@ -58,3 +58,6 @@ jobs:
       - name: Deploy the Baidu-only website
         id: deployment
         uses: actions/deploy-pages@v4
+        with:
+          timeout: 2400000
+          reporting_interval: 10000
