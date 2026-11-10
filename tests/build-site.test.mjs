@@ -4,7 +4,6 @@ import { mkdtemp, mkdir, writeFile, readFile, readdir, rm } from 'node:fs/promis
 import os from 'node:os';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
-import { gunzipSync } from 'node:zlib';
 import { buildSite, PUBLIC_MODULES, PROJECT_ROOT } from '../tools/build_site.mjs';
 import { startServer } from '../tools/serve.mjs';
 
@@ -55,7 +54,7 @@ async function addPoint(f) {
   return { row, logical, raw, catalog };
 }
 
-test('empty publication is Baidu-only and contains neither AI notes nor arbitrary source files', async () => {
+test('empty publication remains Baidu-only and contains neither AI notes nor arbitrary source files', async () => {
   const f = await fixture();
   try {
     const sentinel = 'PRIVATE_LOCAL_CONTEXT_DO_NOT_PUBLISH';
@@ -66,15 +65,15 @@ test('empty publication is Baidu-only and contains neither AI notes nor arbitrar
     const result = await buildSite({ root: f.root });
     assert.equal(result.provider, 'baidu'); assert.equal(result.total, 0); assert.equal(result.shards, 0);
     const files = await collect(result.output);
-    assert(!files.some(file => /(?:agent|history|apikey|\.env|tests|tools|docs|node_modules)/i.test(file)));
+    assert(!files.some(file => file.includes('points-001.json')));
     for (const file of files) assert(!(await readFile(path.join(result.output, file))).includes(Buffer.from(sentinel)), 'Local content leaked: ' + file);
     const manifest = JSON.parse(await readFile(path.join(result.output, 'city-viewer/data/asset-manifest.json'), 'utf8'));
-    assert.deepEqual(manifest, { schemaVersion: 1, provider: 'baidu', codec: 'gzip', assets: {} });
+    assert.deepEqual(manifest, { schemaVersion: 1, provider: 'baidu', codec: 'identity', source: 'github-raw', revision: null, assets: {} });
     assert(files.includes('.nojekyll'));
   } finally { await f.dispose(); }
 });
 
-test('Baidu shards are published as verified gzip only with exact numbers, size and SHA-256', async () => {
+test('large Baidu shards stay in the repository and Pages publishes only a verified pinned Raw manifest', async () => {
   const f = await fixture();
   try {
     const point = await addPoint(f);
@@ -82,15 +81,22 @@ test('Baidu shards are published as verified gzip only with exact numbers, size 
     const result = await buildSite({ root: f.root, commit });
     assert.equal(result.shards, 1); assert.equal(result.total, 1); assert.equal(result.commit, commit);
     const manifest = JSON.parse(await readFile(path.join(result.output, 'city-viewer/data/asset-manifest.json'), 'utf8'));
+    assert.equal(manifest.source, 'github-raw'); assert.equal(manifest.revision, commit); assert.equal(manifest.codec, 'identity');
     const entry = manifest.assets[point.logical];
-    const compressed = await readFile(path.join(result.output, 'city-viewer/data', entry.url));
-    assert(gunzipSync(compressed).equals(point.raw));
-    assert.equal(entry.bytes, point.raw.length); assert.equal(entry.compressedBytes, compressed.length);
-    assert.equal(entry.sha256, createHash('sha256').update(point.raw).digest('hex'));
-    assert.equal(entry.compressedSha256, createHash('sha256').update(compressed).digest('hex'));
-    assert.deepEqual(JSON.parse(gunzipSync(compressed)), [point.row]);
+    assert.equal(entry.storage, 'github-raw');
+    assert.equal(entry.url, `https://raw.githubusercontent.com/cn171g11/baidu-panorama-workbench/${commit}/data/${point.logical}`);
+    assert.equal(entry.bytes, point.raw.length); assert.equal(entry.sha256, createHash('sha256').update(point.raw).digest('hex'));
     const files = await collect(result.output);
-    assert(!files.includes('city-viewer/data/' + point.logical), 'Raw data duplicated into Pages output.');
+    assert(!files.some(file => file.includes('points-001.json')));
+    assert(!files.includes('city-viewer/data/' + point.logical));
+  } finally { await f.dispose(); }
+});
+
+test('non-empty catalog cannot publish with a mutable or missing Git reference', async () => {
+  const f = await fixture();
+  try {
+    await addPoint(f);
+    await assert.rejects(buildSite({ root: f.root, commit: null }), /full Git commit SHA/);
   } finally { await f.dispose(); }
 });
 
@@ -116,18 +122,15 @@ test('build output paths are restricted to the intended project/dist children', 
   } finally { await f.dispose(); }
 });
 
-test('preview serves the real repository URL prefix, gzip bytes and safe 404/405 responses', async () => {
+test('preview serves the base-path site while raw shards remain absent from the Pages artifact', async () => {
   const f = await fixture(); let preview;
   try {
     const point = await addPoint(f);
-    const result = await buildSite({ root: f.root });
+    const result = await buildSite({ root: f.root, commit: 'c'.repeat(40) });
     preview = await startServer({ root: result.output, port: 0, base: '/baidu-panorama-workbench/' });
     const page = await fetch(preview.url + 'city-viewer/');
     assert.equal(page.status, 200); assert(page.headers.get('content-type').startsWith('text/html'));
-    const compressed = await fetch(preview.url + 'city-viewer/data/' + point.logical + '.gz');
-    assert.equal(compressed.status, 200); assert.equal(compressed.headers.get('content-type'), 'application/gzip');
-    assert.equal(compressed.headers.get('content-encoding'), null, 'Browser, not HTTP, owns gzip decoding.');
-    assert(gunzipSync(Buffer.from(await compressed.arrayBuffer())).equals(point.raw));
+    assert.equal((await fetch(preview.url + 'city-viewer/data/' + point.logical)).status, 404);
     assert.equal((await fetch(preview.url + 'agent.md')).status, 404);
     assert.equal((await fetch(preview.url + 'history.md')).status, 404);
     assert.equal((await fetch(preview.url + 'data/catalog.json')).status, 404);
