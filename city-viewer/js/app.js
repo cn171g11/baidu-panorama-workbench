@@ -115,7 +115,9 @@ function updateView() {
     description = '点击左侧“载入所选城市”读取百度分片。首页不会自动下载全部点位。';
   } else if (!rows.length && state.totalPublished > 0) {
     title = '从目录选择一个城市';
-    description = `网站已收录 ${state.totalPublished.toLocaleString()} 条百度元数据，请选择省份、城市后按需载入。`;
+    description = state.catalog.publication?.mode === 'pages-gzip'
+      ? `Pages当前已发布 ${state.catalog.publication.hostedCities} 个城市、${state.totalPublished.toLocaleString()} 条。完整源目录 ${state.catalog.publication.sourceCities} 城市保留在仓库，其他城市将逐批补充。请选择省份、城市后载入本站分片。`
+      : `网站已收录 ${state.totalPublished.toLocaleString()} 条百度元数据，请选择省份、城市后按需载入。`;
   } else if (rows.length) {
     title = '没有符合条件的记录';
     description = '调整搜索词、省市或日期筛选，或清除条件查看其他记录。';

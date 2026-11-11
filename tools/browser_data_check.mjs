@@ -72,7 +72,12 @@ async function main() {
   assert.equal(catalog.provider, 'baidu'); assert(catalog.total > 0);
   assert.equal(await evaluate('window.__BAIDU_WORKBENCH__.getState().visibleCount'), 0, 'Homepage loaded national points automatically');
   assert(!requests.some(request => /points-\d+\.json\.gz/.test(request)), 'Homepage downloaded panorama shards');
-  report.checks.catalog = { total: catalog.total, cities: catalog.collections.length, input: catalog.importSummary?.rawRecords, exactDuplicates: catalog.importSummary?.exactDuplicates, differingDuplicates: catalog.importSummary?.differingDuplicates, noInitialShardDownloads: true };
+  const manifest = await evaluate(`await(await fetch(new URL('data/asset-manifest.json',location.href))).json()`);
+  if(args.includes('--require-pages')){
+    assert.equal(manifest.source,'github-pages');assert.equal(manifest.codec,'gzip');
+    assert.equal(catalog.publication?.hostedCities,catalog.collections.length);assert.equal(catalog.publication?.hostedPanoids,catalog.total);
+  }
+  report.checks.catalog = { total: catalog.total, cities: catalog.collections.length, input: catalog.importSummary?.rawRecords, exactDuplicates: catalog.importSummary?.exactDuplicates, differingDuplicates: catalog.importSummary?.differingDuplicates, noInitialShardDownloads: true, source:manifest.source, publication:catalog.publication||null };
   const code = arg('--city', null);
   const target = code ? catalog.collections.find(city => city.id === code) : catalog.collections.find(city => city.id === '542500' && city.count > 0) || catalog.collections.find(city => city.count > 0 && city.count <= 5000) || catalog.collections[0];
   assert(target, 'No real collection found');
@@ -113,6 +118,11 @@ async function main() {
   const shardRequests = requests.filter(request => /points-\d+\.json(?:\.gz)?(?:\?|$)/.test(request));
   assert(shardRequests.length > 0);
   assert(shardRequests.every(request => allowed.has(request.match(/\/baidu\/(\d{6})\//)?.[1])), 'Unselected city shard downloaded');
+  if(args.includes('--require-pages')){
+    assert(shardRequests.every(request=>new URL(request).origin===new URL(url).origin),'A city shard did not come from Pages');
+    assert(!requests.some(request=>request.startsWith('https://raw.githubusercontent.com/')),'Unexpected GitHub Raw fallback request');
+    report.checks.sameOriginPagesShards=true;
+  }
   assert(!requests.some(request => /qq\.com|gtimg\.com|tencent-panorama-workbench/i.test(request)), 'Tencent request detected');
   await send('Page.navigate', { url: new URL('report.html', url).href });
   await until(() => evaluate(`document.querySelector('#report-total')?.dataset.ready==='true'`));

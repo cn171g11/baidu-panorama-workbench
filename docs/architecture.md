@@ -16,7 +16,7 @@
 
 ## 发布契约
 
-GitHub Pages 只部署网页、Leaflet、目录和 SHA 清单，保持小于 1 MB。由于完整点位压缩包约 792 MB，若复制进Pages，托管端10分钟逐文件同步会超时。原始百度分片继续存放在同一公开仓库的 `data/baidu/`，目录索引的 manifest 将每个文件固定到不可变 Git 提交 SHA 的 GitHub Raw URL。浏览器按城市按需下载原始JSON，经字节数与SHA-256校验后解析；只允许 `raw.githubusercontent.com/cn171g11/baidu-panorama-workbench/<40位SHA>/data/baidu/...`，并通过 `no-referrer` 避免泄露来源。源码仓库没有重复gzip副本，Pages artifact不含任何街景分片。城市首页/报告只读取小型目录。所有 app 路径兼容 GitHub Pages 仓库子路径。
+Pages现在按 `config/pages-publication.json` 选择实际托管的城市，由 `tools/publish_pages.mjs` 生成本站 `.json.gz` 分片与 `source:github-pages` 清单。每次构建都是完整发布快照，因此追加批次时必须保留前面已成功的城市；不能省略旧城来假装增量累积。全量数据约792MB曾两次同步超时，故先5个城市，再验证后扩大。gzip压缩前后的SHA、字节数和回读解压均严格核对。线上catalog只计当前发布城市，`publication.sourceCities/sourcePanoids`保留完整全国规模，根 `data/` 不删除不修改。详细操作见 `docs/pages-batches.md`。`tools/build_site.mjs`仍保留轻量GitHub Raw固定SHA备用方案，但正式Pages workflow不依赖该外部数据源。
 
 ## 模块接口
 

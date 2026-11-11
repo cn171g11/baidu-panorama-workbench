@@ -1,0 +1,8 @@
+{
+  "schemaVersion": 1,
+  "provider": "baidu",
+  "mode": "pages-gzip",
+  "cities": ["110000", "310000", "320100", "542500", "522700"],
+  "maxPublishedBytes": 900000000,
+  "note": "Publish a verified first batch on GitHub Pages itself. Add city IDs to this list after each successful deployment; never remove national source records."
+}
