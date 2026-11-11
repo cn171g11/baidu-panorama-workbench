@@ -96,8 +96,8 @@ async function main() {
     return rows;
   }
   const rows = await loadCity(target), sample = rows[0];
-  assert.equal(typeof sample[0], 'string'); assert.equal(sample[9].source, 'baidu_pano');
-  assert(Array.isArray(sample[9].links)); assert.equal(typeof sample[9].pitch, 'number'); assert.equal(typeof sample[9].zoom, 'number');
+  assert.equal(typeof sample[0], 'string'); assert(['baidu','baidu_pano'].includes(sample[9].source));
+  assert(Array.isArray(sample[9].links)); assert(sample[9].sourceType==='hidden'||sample[9].sourceType==='time-machine'||(typeof sample[9].pitch==='number'&&typeof sample[9].zoom==='number'));
   await fill('#search-input', sample[0]);
   await until(() => evaluate('window.__BAIDU_WORKBENCH__.getState().visibleCount===1'));
   await click('#record-rows > :first-child');
@@ -106,7 +106,8 @@ async function main() {
     report.checks.mapPopupDetails=true;
   }
   const href = await evaluate(`document.querySelector('#detail-panel .detail-actions a[href^="https://map.baidu.com/"]').href`);
-  assert.equal(new URL(href).searchParams.get('panoId'), sample[0]);
+     const parsedHref=new URL(href),hashParams=new URLSearchParams(parsedHref.hash.replace(/^#/,'').replace(/^.*?#/,''));
+   assert.equal(parsedHref.searchParams.get('panoId')||hashParams.get('panoid'), sample[0]);
   await evaluate(`(()=>{const old=URL.createObjectURL;URL.createObjectURL=function(blob){window.__DATA_EXPORT__=blob.text();return old.call(this,blob)};})()`);
   await click('#export-data');
   const exported = await evaluate('await window.__DATA_EXPORT__');

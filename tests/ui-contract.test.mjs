@@ -49,7 +49,7 @@ test('app uses metadata and isolated local storage APIs with bounded pagination'
   assert.match(app, /rows: state\.visibleRows\.length/);
   assert.match(app, /incoming\.length > 10000/);
   assert.match(app, /catch \(error\) \{ setMessage\(error\.message/);
-  assert.match(app, /baiduPanoramaUrl\(row\[0\]\)/);
+  assert.match(app, /baiduPanoramaUrl\(row\[0\]/);
   assert.match(app, /priorRows/);
   assert.match(app, /collectionRequest/);
   assert.match(app, /load-city/);

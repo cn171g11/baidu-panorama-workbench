@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "provider": "baidu",
   "coordinateSystem": "BD-09",
-  "updatedAt": "2026-11-09T23:12:12.262Z",
-  "total": 18991223,
+  "updatedAt": "2026-11-11T15:50:26.545Z",
+  "total": 18998732,
   "collections": [
     {
       "id": "110000",
@@ -3009,25 +3009,26 @@
       "name": "滨州市",
       "province": "山东省",
       "coordinateSystem": "BD-09",
-      "count": 50000,
+      "count": 57509,
       "bounds": [
-        117.50661925416524,
-        37.323499505927565,
+        117.44072504445413,
+        37.18230733173052,
         118.22552474206232,
-        37.693652659909155
+        37.726305150076115
       ],
       "files": [
         "baidu/371600/points-001.json"
       ],
       "sources": [
-        "滨州市（50000 个位置）.json"
+        "滨州市（50000 个位置）.json",
+        "百度滨州.json"
       ],
       "summary": {
-        "sourceFiles": 1,
-        "rawRecords": 50000,
-        "uniquePanoids": 50000,
+        "sourceFiles": 2,
+        "rawRecords": 57586,
+        "uniquePanoids": 57509,
         "exactDuplicates": 0,
-        "differingDuplicates": 0
+        "differingDuplicates": 77
       }
     },
     {
@@ -7568,11 +7569,11 @@
     }
   ],
   "importSummary": {
-    "sourceFiles": 281,
-    "rawRecords": 19012500,
-    "uniquePanoids": 18991223,
+    "sourceFiles": 282,
+    "rawRecords": 19020086,
+    "uniquePanoids": 18998732,
     "exactDuplicates": 21276,
-    "differingDuplicates": 1,
+    "differingDuplicates": 78,
     "invalidRecords": 0,
     "inputCoordinateSystem": "GCJ-02",
     "archiveCoordinateSystem": "BD-09",
@@ -10386,6 +10387,16 @@
         "uniquePanoids": 50000,
         "exactDuplicates": 0,
         "differingDuplicates": 0
+      },
+      {
+        "name": "百度滨州.json",
+        "city": "371600",
+        "bytes": 3956248,
+        "sha256": "7dbfdcd80d11f22d2a446f4965e96d0531aba4fa23ae1148bdf3795cd15e79cc",
+        "rawRecords": 7586,
+        "uniquePanoids": 7509,
+        "exactDuplicates": 0,
+        "differingDuplicates": 77
       }
     ]
   }

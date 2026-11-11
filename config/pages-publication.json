@@ -32,7 +32,8 @@
     "340600",
     "460400",
     "510800",
-    "513300"
+    "513300",
+    "371600"
   ],
   "maxPublishedBytes": 900000000,
   "note": "Cumulative Baidu-only Pages publication: retain already deployed cities and append a verified batch."

@@ -15,7 +15,7 @@ test('Pages publishes a light index while pinning metadata reads to GitHub Raw',
   const build = await readFile(path.join(result.output, 'build.json'), 'utf8');
   const manifest = JSON.parse(await readFile(path.join(result.output, 'city-viewer/data/asset-manifest.json'), 'utf8'));
   const info = JSON.parse(build);
-  assert.equal(info.provider, 'baidu'); assert.equal(info.total, 18991223); assert.equal(info.collections, 280);
+  assert.equal(info.provider, 'baidu'); assert.equal(info.total, 18998732); assert.equal(info.collections, 280);
   assert.equal(info.commit, expectedCommit);
   assert.equal(info.publishedDataSource, 'github-raw');
   let artifactBytes=0;

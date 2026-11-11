@@ -53,7 +53,7 @@ function normalizeRow(row) {
   for (const [key, value] of [["panoid", panoid], ["longitude", row.longitude], ["latitude", row.latitude], ["road", road], ["captured", captured], ["heading", row.heading ?? null], ["hasThumb", row.hasThumb ?? false], ["hasPano", row.hasPano ?? true], ["provider", row.provider]]) {
     if (value === undefined) fail(`Missing field: ${key}`);
   }
-  const extras = row.extras ?? ((row.links !== undefined || row.historical !== undefined) ? { ...(row.links === undefined ? {} : { links: row.links }), ...(row.historical === undefined ? {} : { history: row.historical }) } : undefined);
+  const extras = row.extras ?? ((row.links !== undefined || row.historical !== undefined || row.timeLine !== undefined || row.verification !== undefined || row.sourceType !== undefined || row.isHidden !== undefined || row.gapId !== undefined || row.x !== undefined || row.y !== undefined) ? { ...(row.links === undefined ? {} : { links: row.links }), ...(row.historical === undefined ? {} : { history: row.historical }), ...(row.timeLine === undefined ? {} : { timeLine: row.timeLine }), ...(row.verification === undefined ? {} : { verification: row.verification }), ...(row.sourceType === undefined ? {} : { sourceType: row.sourceType }), ...(row.isHidden === undefined ? {} : { isHidden: row.isHidden }), ...(row.gapId === undefined ? {} : { gapId: row.gapId }), ...(row.x === undefined ? {} : { x: row.x }), ...(row.y === undefined ? {} : { y: row.y }) } : undefined);
   if (extras !== undefined) assertPlainBaiduRecord(extras);
   const normalized = [panoid, row.longitude, row.latitude, road, captured, row.heading ?? null, row.hasThumb ?? false, row.hasPano ?? true, row.provider];
   if (extras !== undefined) normalized.push(extras);
@@ -80,7 +80,7 @@ function validateRows(rows) {
     if (typeof hasThumb !== "boolean" || typeof hasPano !== "boolean") fail(`Row ${index + 1}: hasThumb and hasPano must be booleans`);
     if (extras !== undefined) {
       inspectProvenance(extras);
-      for (const key of Object.keys(extras)) if (!["district", "links", "history", "source", "pitch", "zoom", "extra", "tags", "observations", "variant"].includes(key)) { if (!/^[A-Za-z][A-Za-z0-9_.-]{0,63}$/.test(key)) fail(`Unsupported extras field: ${key}`); }
+      for (const key of Object.keys(extras)) if (!["district", "links", "history", "source", "pitch", "zoom", "extra", "tags", "observations", "variant", "timeLine", "verification", "sourceType", "isHidden", "gapId", "x", "y"].includes(key)) { if (!/^[A-Za-z][A-Za-z0-9_.-]{0,63}$/.test(key)) fail(`Unsupported extras field: ${key}`); }
       if (extras.district !== undefined && typeof extras.district !== "string") fail("extras.district must be a string");
       if (extras.links !== undefined && !(Array.isArray(extras.links) || (extras.links && typeof extras.links === "object"))) fail("extras.links must be an array or object");
       if (extras.links !== undefined) {
@@ -225,8 +225,17 @@ function filterRows(rows, { query = "", road = "", date = "" } = {}) {
     return (!q || searchable.includes(q)) && (!road || row[3] === road) && (!date || row[4].startsWith(date));
   });
 }
-function baiduPanoramaUrl(panoid) {
+function baiduPanoramaUrl(panoid, metadata = {}) {
   if (typeof panoid !== "string" || !panoid.trim()) fail("panoid must be a non-empty string");
+  const extras = metadata && typeof metadata === "object" ? metadata : {};
+  const x = Number(extras.x ?? extras.baiduMercatorX);
+  const y = Number(extras.y ?? extras.baiduMercatorY);
+  if (Number.isFinite(x) && Number.isFinite(y)) {
+    const zoom = Number.isFinite(Number(extras.zoom)) ? Number(extras.zoom) : 21;
+    const heading = Number.isFinite(Number(extras.heading)) ? Number(extras.heading) : 0;
+    const pitch = Number.isFinite(Number(extras.pitch)) ? Number(extras.pitch) : 0;
+    return `https://map.baidu.com/@${x},${y},${zoom}z,${heading}t,${pitch}h#panoid=${encodeURIComponent(panoid)}&panotype=street&heading=${heading}&pitch=${pitch}&l=${zoom}&tn=B_NORMAL_MAP&sc=0&newmap=1`;
+  }
   return `https://map.baidu.com/?qt=pano&panoId=${encodeURIComponent(panoid)}`;
 }
 function mergeRows(existing, incoming) {

@@ -208,7 +208,7 @@ function showDetail(row, focusMap = true) {
   elements.detail.hidden=false;
   const city = row.__city || state.collectionById.get(row.__collectionId)?.name || '本地导入';
   const extras = row[9] || {};
-  const url = baiduPanoramaUrl(row[0]);
+  const url = baiduPanoramaUrl(row[0], extras);
   const imageDate = row[4] || extras.imageDate || extras.extra?.imageDate || extras.observations?.imageDate || '日期未知';
   const tags = Array.isArray(extras.tags) ? extras.tags : [];
   const links = Array.isArray(extras.links) ? extras.links : [];
@@ -216,7 +216,7 @@ function showDetail(row, focusMap = true) {
   const history = row[9]?.history;
   const historyItems = Array.isArray(history) ? history : (history ? Object.entries(history).map(([date, value]) => ({ date, value })) : []);
   const timeline = historyItems.length ? `<section class="timeline" aria-label="街景历史时间线"><h3>历史记录</h3><ol>${historyItems.map((item) => { const entry = typeof item === 'object' && item !== null ? item : { value: item }; return `<li><time>${safe(entry.date || entry.captured || '未注明日期')}</time><span>${safe(entry.description || entry.note || entry.value || '')}</span></li>`; }).join('')}</ol></section>` : '';
-  const linkList = links.length ? `<div class="detail-links"><span>百度链接 ID</span><div>${links.map((id) => `<a href="${safe(baiduPanoramaUrl(id))}" target="_blank" rel="noopener noreferrer">${safe(id)}</a>`).join('')}</div></div>` : '';
+  const linkList = links.length ? `<div class="detail-links"><span>百度链接 ID</span><div>${links.map((id) => `<a href="${safe(baiduPanoramaUrl(id, extras))}" target="_blank" rel="noopener noreferrer">${safe(id)}</a>`).join('')}</div></div>` : '';
   const tagList = tags.length ? `<div class="detail-tags">${tags.map((tag) => `<span>${safe(tag)}</span>`).join('')}</div>` : '';
   elements.detail.innerHTML = `<div class="detail-content"><p class="eyebrow">百度街景详情</p><h2>${safe(row[3] || row[0] || '未命名百度 panoid')}</h2><div class="detail-city">${safe(row.__province || '')} ${safe(city)}</div><div class="detail-fields">${[['panoid',row[0]],['来源',source],['采集日期',imageDate],['坐标（BD-09）',`${row[1]}, ${row[2]}`],['方向',row[5] ?? '未知'],['俯仰角',extras.pitch ?? '未知'],['缩放级别',extras.zoom ?? '未知'],['街景可用',row[7] ? '是' : '未知']].map(([k,v])=>`<div class="detail-line"><span>${safe(k)}</span><span>${safe(v)}</span></div>`).join('')}</div>${tagList}${linkList}${timeline}<div class="detail-actions"><a class="button button-primary" href="${safe(url)}" target="_blank" rel="noopener noreferrer">在百度地图打开街景 ↗</a><button class="button button-quiet" id="copy-panoid" type="button">复制 panoid</button><button class="button button-quiet" id="copy-url" type="button">复制百度街景链接</button><button class="button button-quiet" id="copy-coordinate" type="button">复制 BD-09 坐标</button>${collectionForRow(row)==='local'?'<button class="button button-quiet" id="remove-local-row" type="button">删除本地记录</button>':''}</div></div>`;
   $('copy-panoid').addEventListener('click', async () => copyText(String(row[0]), '已复制 panoid'));
