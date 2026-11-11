@@ -8,7 +8,15 @@
 
 ## 增加城市
 
-1. 只在现有 `cities` 数组追加六位城市 ID，不移除已成功发布的 ID。
+1. 只在现有 `cities` 数组追加六位城市 ID，不移除已成功发布的 ID。也可以使用工具先查看计划，再追加较小城市：
+
+```powershell
+node tools/expand_pages.mjs 20 --dry-run
+node tools/expand_pages.mjs 20
+```
+
+`--dry-run` 不写配置；正式命令保留已有城市并按点数从小到大增加最多20城。它不会自动部署或改动根数据。每一批实际部署成功后才能继续执行下一批。
+
 2. 本地运行：
 
 ```powershell
@@ -19,7 +27,13 @@ node tools/browser_data_check.mjs --site-root dist/pages --require-pages --resul
 
 3. 检查构建输出 `total`、`collections`、`compressedDataBytes` 和实际大小；默认上限900MB。
 4. 只提交发布配置/构建代码/必要页面改动。不要提交 `dist`、APK、签名材料、本地AI记录或原始下载包。
-5. 推送后等待 workflow `build`、`deploy` 均成功，再核对线上 `build.json`、`publication.json` 和真实城市 `.json.gz`，浏览器须没有GitHub Raw请求。
+5. 推送后等待 workflow `build`、`deploy` 均成功，再核对线上 `build.json`、`publication.json` 和真实城市 `.json.gz`，浏览器须没有GitHub Raw请求。可完整核验当前已发布所有城市：
+
+```powershell
+node tools/verify_pages.mjs --commit <完整Git提交SHA> --output dist/verified-batch.json
+```
+
+该工具逐城下载本站gzip，验证压缩与原始SHA、百度来源及真实条数，不只检查HTTP 200。
 6. 成功后再扩下一批。失败时保留完整源数据；恢复上次成功发布的城市清单并重新部署。Pages每次部署是整体快照，不能靠省略旧文件累积文件，必须把已成功城市继续包含在清单中。
 
 ## 尝试全量
