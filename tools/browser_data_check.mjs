@@ -68,6 +68,12 @@ async function main() {
   await send('Emulation.setDeviceMetricsOverride', { width: 1440, height: 900, deviceScaleFactor: 1, mobile: false });
   await send('Page.navigate', { url });
   await until(() => evaluate('Boolean(window.__BAIDU_WORKBENCH__?.getState().ready)'));
+  if(await evaluate(`document.body.classList.contains('map-viewer')`)){
+    const initialLayout=await evaluate(`(()=>{const map=document.querySelector('#map').getBoundingClientRect(),bar=document.querySelector('#viewer-toolbar').getBoundingClientRect();return {width:innerWidth,height:innerHeight,map:map.toJSON(),toolbar:bar.toJSON(),listHidden:document.querySelector('#records-panel').hidden};})()`);
+    assert(initialLayout.listHidden,'List must start closed for a map-first experience');
+    assert(initialLayout.map.width>=initialLayout.width-2&&initialLayout.map.height>=initialLayout.height-initialLayout.toolbar.height-3,'Map does not fill the available viewport');
+    report.checks.fullscreenMap=initialLayout;
+  }
   const catalog = await evaluate(`await(await fetch(new URL('data/catalog.json',location.href))).json()`);
   assert.equal(catalog.provider, 'baidu'); assert(catalog.total > 0);
   assert.equal(await evaluate('window.__BAIDU_WORKBENCH__.getState().visibleCount'), 0, 'Homepage loaded national points automatically');
@@ -95,6 +101,10 @@ async function main() {
   await fill('#search-input', sample[0]);
   await until(() => evaluate('window.__BAIDU_WORKBENCH__.getState().visibleCount===1'));
   await click('#record-rows > :first-child');
+  if(await evaluate(`document.body.classList.contains('map-viewer')`)){
+    await until(()=>evaluate(`!!document.querySelector('.leaflet-popup #detail-panel') && window.__BAIDU_WORKBENCH__.getState().popupOpen`));
+    report.checks.mapPopupDetails=true;
+  }
   const href = await evaluate(`document.querySelector('#detail-panel .detail-actions a[href^="https://map.baidu.com/"]').href`);
   assert.equal(new URL(href).searchParams.get('panoId'), sample[0]);
   await evaluate(`(()=>{const old=URL.createObjectURL;URL.createObjectURL=function(blob){window.__DATA_EXPORT__=blob.text();return old.call(this,blob)};})()`);
@@ -107,6 +117,12 @@ async function main() {
     await send('Emulation.setDeviceMetricsOverride', { width, height: 900, deviceScaleFactor: 1, mobile: width === 390 }); await delay(250);
     const layout = await evaluate('({width:innerWidth,scrollWidth:document.documentElement.scrollWidth})');
     assert(layout.scrollWidth <= layout.width + 1, 'Real data layout overflow at ' + width);
+    if(await evaluate(`document.body.classList.contains('map-viewer')`)){
+      const mapBox=await evaluate(`(()=>{const m=document.querySelector('#map').getBoundingClientRect(),t=document.querySelector('#viewer-toolbar').getBoundingClientRect();return {width:innerWidth,height:innerHeight,map:m.toJSON(),toolbar:t.toJSON()};})()`);
+      assert(mapBox.map.top>=mapBox.toolbar.bottom-2&&mapBox.map.bottom<=mapBox.height+2,'Map overlaps toolbar or viewport');
+    }
+    const screenshot=await send('Page.captureScreenshot',{format:'png'});
+    await writeFile(path.join(results,'viewer-'+width+'.png'),Buffer.from(screenshot.data,'base64'));
   }
   const dated = catalog.collections.find(city => city.id === '522700' && city.count > 0);
   if (dated && dated.id !== target.id) {

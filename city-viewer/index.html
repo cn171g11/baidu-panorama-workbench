@@ -3,52 +3,74 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#11151c">
-  <meta name="description" content="百度街景元数据查看与本地整理工作台">
-  <title>百度街景工作台</title>
+  <meta name="theme-color" content="#14181d">
+  <meta name="description" content="百度街景全屏地图查看器：选城市、搜索点位、点击地图查看详情">
+  <title>百度街景工作台 · 全屏地图</title>
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="./vendor/leaflet/leaflet.css">
   <link rel="stylesheet" href="./css/app.css">
+  <link rel="stylesheet" href="./css/viewer.css">
 </head>
-<body>
-  <header class="topbar">
-    <a class="brand" href="./" aria-label="百度街景工作台首页"><span class="brand-mark" aria-hidden="true">B</span><span>百度街景工作台</span></a>
-    <div class="source-state" id="source-state" role="status"><span class="state-dot"></span><span>百度元数据源：读取中</span></div>
-    <nav class="top-actions" aria-label="主导航"><a class="nav-link" href="./report.html">数据报告</a><button class="button button-primary" id="open-import" type="button">导入数据</button></nav>
+<body class="map-viewer">
+  <header class="viewer-toolbar topbar" id="viewer-toolbar" aria-label="地图筛选和工具">
+    <a class="brand" href="./" aria-label="百度街景工作台首页">百度街景 <span class="provider-pill">仅百度</span></a>
+    <label class="toolbar-field province-field"><span class="sr-only">省份</span><select id="province-filter" title="省级行政区"><option value="">全部省份</option></select></label>
+    <label class="toolbar-field city-field"><span class="sr-only">城市</span><select id="city-filter" title="城市" disabled><option value="">先选省份</option></select></label>
+    <button class="button button-primary" id="load-city" type="button" disabled title="载入或重新载入所选城市">载入</button>
+    <label class="toolbar-field search-field"><span class="sr-only">搜索街道或 panoid</span><input id="search-input" type="search" placeholder="搜索 panoid / 路名 / 日期 / 坐标" autocomplete="off"></label>
+    <button class="button" id="toggle-filters" type="button" aria-expanded="false" aria-controls="extra-filters">更多筛选</button>
+    <label class="toolbar-field basemap-field"><span class="sr-only">底图</span><select id="basemap-select" title="底图"><option value="osm">OSM · 标准</option><option value="osm-dark" selected>OSM · 暗色</option><option value="none">无底图 · 离线点位</option></select></label>
+    <div class="segmented" role="group" aria-label="地图显示模式"><button type="button" class="segment active" data-map-mode="points" aria-pressed="true">散点</button><button type="button" class="segment" data-map-mode="density" aria-pressed="false">密度</button></div>
+    <nav class="top-actions" aria-label="主导航">
+      <button class="button" id="fit-city" type="button" title="回到当前城市或筛选结果范围" disabled>全览</button>
+      <button class="button" id="toggle-list" type="button" aria-expanded="false" aria-controls="records-panel" title="展开点位列表">列表</button>
+      <a class="button nav-link" href="./report.html">数据报告</a>
+      <button class="button" id="open-import" type="button">导入</button>
+    </nav>
+    <div id="extra-filters" class="extra-filters" hidden>
+      <label class="toolbar-field"><span>道路</span><input id="road-filter" type="search" placeholder="道路名称"></label>
+      <label class="toolbar-field"><span>采集日期</span><input id="date-filter" type="date"></label>
+      <button class="button" id="clear-filters" type="button">清除筛选</button>
+      <button class="button" id="export-data" type="button" disabled>导出当前结果</button>
+      <button class="button" id="reload-data" type="button" title="重新读取目录和本地保存数据">重读目录</button>
+      <span id="coordinate-label" class="toolbar-note">元数据 BD-09 · 地图 WGS84</span>
+    </div>
+    <div class="source-state viewer-status" id="source-state" role="status"><span class="state-dot"></span><span>读取百度目录…</span></div>
   </header>
-  <main class="workspace">
-    <section class="catalog-summary" id="catalog-summary" aria-label="百度数据集合概览"><div><span class="summary-label">统计集合</span><strong id="summary-cities">读取中</strong></div><div><span class="summary-label">原始记录</span><strong id="summary-raw">—</strong></div><div><span class="summary-label">唯一 panoid</span><strong id="summary-unique">—</strong></div><div><span class="summary-label">完全重复</span><strong id="summary-duplicates">—</strong></div><p>仅为目录统计，不是已加载的街景点位。选择城市后按需载入。</p></section>
-    <aside class="filters" aria-label="筛选条件">
-      <div class="section-heading"><div><p class="eyebrow">探索数据</p><h1>街景目录</h1></div><span class="count" id="result-count" aria-live="polite">0</span></div>
-      <label class="field"><span>省份</span><select id="province-filter"><option value="">全部省份</option></select></label>
-      <label class="field"><span>城市</span><select id="city-filter" disabled><option value="">选择省份后载入</option></select></label><button class="button button-quiet load-city-button" id="load-city" type="button" disabled>载入所选城市</button>
-      <label class="field"><span>搜索街道或 panoid</span><input id="search-input" type="search" placeholder="道路名称 / panoid" autocomplete="off"></label>
-      <div class="field-grid">
-        <label class="field"><span>道路</span><input id="road-filter" type="search" placeholder="道路名称"></label>
-        <label class="field"><span>采集日期</span><input id="date-filter" type="date"></label>
-      </div>
-      <div class="field"><span>地图呈现</span><div class="segmented" role="group" aria-label="地图呈现模式"><button type="button" class="segment active" data-map-mode="points" aria-pressed="true">散点</button><button type="button" class="segment" data-map-mode="density" aria-pressed="false">密度</button></div></div>
-      <div class="map-key"><span class="key-dot"></span><span>百度街景点位</span><span class="key-label" id="map-result-count">0 条</span></div>
-      <div class="filter-foot"><span class="provider-tag"><span aria-hidden="true">●</span> BAIDU</span><span id="coordinate-label">BD-09</span></div>
-    </aside>
-    <section class="main-panel" aria-label="地图与街景记录">
-      <div class="map-frame"><div id="map" role="region" aria-label="街景点位地图"></div><div id="map-empty" class="map-empty"><span class="map-pin" aria-hidden="true">⌖</span><strong>地图等待点位数据</strong><span>导入百度元数据后即可查看空间分布</span></div><div class="map-attribution">© OpenStreetMap contributors</div></div>
-      <section class="records" aria-label="街景记录列表">
-        <div class="records-head"><div><p class="eyebrow">目录结果</p><h2>街景记录</h2></div><div class="record-tools"><button class="icon-button" id="reload-data" type="button" title="重新读取本地与目录数据" aria-label="重新读取数据">↻</button><button class="icon-button" id="toggle-list" type="button" aria-expanded="true" aria-controls="record-list" title="折叠记录列表" aria-label="折叠记录列表">⌄</button><button class="button button-quiet" id="export-data" type="button" disabled>导出 JSON</button></div></div>
-        <div id="empty-state" class="empty-state"><div class="empty-symbol" aria-hidden="true">⌖</div><h3 id="empty-title">尚无已发布的百度街景元数据</h3><p id="empty-description">当前目录没有省市和点位记录。添加经过确认的百度元数据后，地图与报告会显示真实记录。</p><button class="button button-outline" id="empty-import" type="button">导入本地数据</button><small>导入和保存仅作用于此浏览器，不会自动上传至网站。</small></div>
-        <div id="record-list" class="record-list" hidden><div class="table-scroll"><table><thead><tr><th>道路 / panoid</th><th>城市</th><th>采集日期</th><th>坐标</th></tr></thead><tbody id="record-rows"></tbody></table></div><div class="list-footer"><span id="page-summary">0 条记录</span><div class="pagination"><button class="icon-button" id="page-prev" type="button" aria-label="上一页" disabled>‹</button><span id="page-number">1 / 1</span><button class="icon-button" id="page-next" type="button" aria-label="下一页" disabled>›</button></div></div></div>
-      </section>
+
+  <main class="viewer-map" aria-label="百度街景全屏地图">
+    <div id="map" role="region" aria-label="街景点位地图"></div>
+    <div id="map-empty" class="map-empty" hidden></div>
+    <section id="empty-state" class="empty-state viewer-gate" hidden aria-live="polite">
+      <h1 id="empty-title">选择省份与城市</h1>
+      <p id="empty-description">选择顶部城市后按需载入百度街景，不自动下载全国点位。</p>
+      <button class="button button-primary" id="empty-load" type="button" hidden>载入所选城市</button>
+      <button class="button" id="empty-import" type="button">导入本地数据</button>
+      <small>本地导入和保存只作用于当前浏览器，不会自动上传网站。</small>
     </section>
-    <aside class="detail-panel" id="detail-panel" aria-label="记录详情"><div class="detail-empty"><span class="detail-cross" aria-hidden="true">＋</span><p>选择一条记录</p><small>查看百度街景链接与元数据</small></div></aside>
+    <div class="viewer-hint" id="map-hint">选择城市后，点击地图上的点查看百度街景详情</div>
+    <div class="viewer-hud" id="map-hud" aria-live="off"><span id="hud-zoom">Z —</span><span id="hud-coordinate">—</span><span id="map-result-count">0 条</span></div>
   </main>
+
+  <section class="records viewer-records" id="records-panel" hidden aria-label="可收起的街景点位列表">
+    <div class="records-head"><h2>点位列表 <span class="count" id="result-count" aria-live="polite">0</span></h2><button class="button" id="close-list" type="button" aria-label="关闭点位列表">关闭 ×</button></div>
+    <div id="record-list" class="record-list" hidden>
+      <div class="table-scroll"><table><thead><tr><th>道路 / panoid</th><th>城市</th><th>采集日期</th><th>坐标</th></tr></thead><tbody id="record-rows"></tbody></table></div>
+      <div class="list-footer"><span id="page-summary">0 条记录</span><div class="pagination"><button class="icon-button" id="page-prev" type="button" aria-label="上一页" disabled>‹</button><span id="page-number">1 / 1</span><button class="icon-button" id="page-next" type="button" aria-label="下一页" disabled>›</button></div></div>
+    </div>
+    <p class="list-empty" id="list-empty">没有匹配点位。请选择城市或调整筛选。</p>
+  </section>
+  <div id="detail-host" hidden><aside id="detail-panel" class="pv-meta" aria-label="百度街景弹出详情" hidden></aside></div>
+
+  <section class="catalog-summary" id="catalog-summary" hidden aria-label="目录统计"><strong id="summary-cities"></strong><strong id="summary-raw"></strong><strong id="summary-unique"></strong><strong id="summary-duplicates"></strong></section>
   <dialog id="import-dialog" class="import-dialog" aria-labelledby="import-title">
-    <form method="dialog" class="dialog-head"><div><p class="eyebrow">本地数据管理</p><h2 id="import-title">导入百度元数据</h2></div><button class="icon-button" value="cancel" aria-label="关闭导入窗口">×</button></form>
+    <form method="dialog" class="dialog-head"><h2 id="import-title">导入百度元数据</h2><button class="icon-button" value="cancel" aria-label="关闭导入窗口">×</button></form>
     <div class="dialog-content"><p class="local-notice">文件仅在本地浏览器解析和保存，不会自动上传至网站。</p>
       <div class="field-grid import-options"><label class="field"><span>数据格式</span><select id="import-format"><option value="json">JSON</option><option value="jsonl">JSONL</option><option value="csv">CSV</option></select></label><label class="field"><span>源坐标系</span><select id="coordinate-system"><option value="BD-09">BD-09</option><option value="GCJ-02">GCJ-02</option><option value="WGS84">WGS84</option></select></label></div>
-      <p class="format-help">JSON 可使用导出 envelope：<code>{provider, coordinateSystem, rows}</code>。每行字段依次为 panoid、经度、纬度、道路、采集日期、方向、缩略图标记、街景标记、baidu。也支持对应九字段数组、对象数组，及含 panoid/longitude/latitude/road/captured 列的 CSV。</p>
+      <p class="format-help">支持明确百度来源的 JSON / JSONL / CSV。九字段依次为 panoid、经度、纬度、道路、日期、方向、缩略图标记、街景标记、baidu；可保留第十字段 extras。</p>
       <label class="field file-field"><span>选择本地文件（可选）</span><input id="import-file" type="file" accept=".json,.jsonl,.csv,application/json,text/csv,text/plain"></label>
       <label class="field"><span>或粘贴数据</span><textarea id="import-text" rows="8" spellcheck="false" placeholder='{"provider":"baidu","coordinateSystem":"BD-09","rows":[]}'></textarea></label>
-      <label class="confirm-check"><input id="confirm-baidu" type="checkbox"><span>我确认这些记录来自百度，且不是腾讯、QQ 或其他来源</span></label>
+      <label class="confirm-check"><input id="confirm-baidu" type="checkbox"><span>我确认这些记录来自百度，不含其他来源</span></label>
       <p id="import-message" class="form-message" role="status" aria-live="polite"></p>
       <div class="dialog-actions"><button class="button button-quiet" id="clear-local" type="button">删除本地导入</button><span class="action-spacer"></span><button class="button button-quiet" id="cancel-import" type="button">取消</button><button class="button button-primary" id="confirm-import" type="button">验证并导入</button></div>
     </div>

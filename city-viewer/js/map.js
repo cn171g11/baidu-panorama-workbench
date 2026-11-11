@@ -58,11 +58,11 @@ export function createMap(container) {
   const L = globalThis.L;
   try {
     const map = L.map(container, { zoomControl: true, scrollWheelZoom: true, preferCanvas: true, minZoom: 3 }).setView([35.8, 104.2], 4);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    const tileLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     }).addTo(map);
-    const state = { map, points: [], grid: new Map(), mode: 'points', renderedCount: 0, activeRow: null, canvasLayer: null, bound: false };
+    const state = { map, tileLayer, container, popup: null, points: [], grid: new Map(), mode: 'points', renderedCount: 0, activeRow: null, canvasLayer: null, bound: false };
     const PointCanvas = L.Layer.extend({
       onAdd(instance) {
         this._map = instance;
@@ -180,6 +180,35 @@ export function highlightRow(state, row, focus = false) {
     state.map.setView([point.lat, point.lng], Math.max(state.map.getZoom(), 14));
   }
   state.canvasLayer.schedule();
+}
+
+export function fitRows(state, rows) {
+  if (!state || !rows.length) return;
+  let west=Infinity,south=Infinity,east=-Infinity,north=-Infinity;
+  for(const row of rows){const point=pointFor(row,state.map);west=Math.min(west,point.lng);south=Math.min(south,point.lat);east=Math.max(east,point.lng);north=Math.max(north,point.lat);}
+  state.map.fitBounds([[south,west],[north,east]],{padding:[30,45],maxZoom:15});
+}
+
+export function setBasemap(state, mode) {
+  if(!state||!['osm','osm-dark','none'].includes(mode))return;
+  state.container.classList.toggle('map-dark',mode==='osm-dark');
+  state.container.classList.toggle('map-blank',mode==='none');
+  if(mode==='none')state.tileLayer.remove();else if(!state.map.hasLayer(state.tileLayer))state.tileLayer.addTo(state.map);
+}
+
+export function openRowPopup(state,row,element) {
+  if(!state||!row)return;
+  if(state.popup){state.popup.off('remove');state.popup.remove();}
+  const point=pointFor(row,state.map);
+  const popup=globalThis.L.popup({maxWidth:360,minWidth:250,autoPanPadding:[20,25],closeButton:true}).setLatLng([point.lat,point.lng]).setContent(element);
+  state.popup=popup;
+  popup.on('remove',()=>{if(state.popup===popup){state.popup=null;document.dispatchEvent(new CustomEvent('baidu:popupclosed'));}});
+  popup.openOn(state.map);
+}
+
+export function closeRowPopup(state) {
+  if(!state?.popup)return;
+  state.popup.off('remove');state.popup.remove();state.popup=null;
 }
 
 export function bindMapInteractions(state) {

@@ -138,6 +138,11 @@ async function main() {
   assert.equal(rowCount(initial), 0, 'Initial website must not contain sample or Tencent metadata.');
   assert(initial.mapAvailable, 'Local Leaflet map did not initialize.');
   report.checks.emptyBaiduWebsite = initial;
+  if(await evaluate(`document.body.classList.contains('map-viewer')`)){
+    const layout=await evaluate(`(()=>{const m=document.querySelector('#map').getBoundingClientRect(),t=document.querySelector('#viewer-toolbar').getBoundingClientRect();return {width:innerWidth,height:innerHeight,map:m.toJSON(),toolbar:t.toJSON(),listHidden:document.querySelector('#records-panel').hidden};})()`);
+    assert(layout.listHidden&&layout.map.width>=layout.width-2&&layout.map.height>=layout.height-layout.toolbar.height-3,'Map-first fullscreen layout not active');
+    report.checks.fullscreenMapLayout=layout;
+  }
   const emptyScreenshot = await send('Page.captureScreenshot', { format: 'png' });
   await writeFile(path.join(resultRoot, 'empty-desktop.png'), Buffer.from(emptyScreenshot.data, 'base64'));
   const rawCatalog = await evaluate(`(await (await fetch(new URL('data/catalog.json',location.href))).json())`);
@@ -169,6 +174,17 @@ async function main() {
   await fill('#search-input', samples[0].panoid);
   await until(() => evaluate('window.__BAIDU_WORKBENCH__.getState().visibleCount===1'));
   await click('#record-rows > :first-child');
+  if(await evaluate(`document.body.classList.contains('map-viewer')`)){
+    await until(()=>evaluate(`Boolean(document.querySelector('.leaflet-popup #detail-panel'))`));
+    await click('.leaflet-popup-close-button');
+    await until(()=>evaluate(`!window.__BAIDU_WORKBENCH__.getState().popupOpen`));
+    const center=await evaluate(`(()=>{const r=document.querySelector('#map').getBoundingClientRect();return {x:r.left+r.width/2,y:r.top+r.height/2};})()`);
+    await send('Input.dispatchMouseEvent',{type:'mousePressed',x:center.x,y:center.y,button:'left',clickCount:1});
+    await send('Input.dispatchMouseEvent',{type:'mouseReleased',x:center.x,y:center.y,button:'left',clickCount:1});
+    await until(()=>evaluate(`window.__BAIDU_WORKBENCH__.getState().popupOpen`));
+    report.checks.pointPopupDetails=true;
+    report.checks.actualMapClick=true;
+  }
   const href = await until(() => evaluate(`document.querySelector('#detail-panel a[href^="https://map.baidu.com/"]')?.href`));
   assert.equal(new URL(href).searchParams.get('panoId'), samples[0].panoid);
   report.checks.searchAndOfficialPanorama = { matches: 1, url: href };

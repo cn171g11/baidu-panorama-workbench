@@ -1,0 +1,90 @@
+/* Map-first layout inspired by the reference city viewer; Baidu data remains independent. */
+body.map-viewer { height: 100vh; height: 100dvh; overflow: hidden; min-width: 320px; --toolbar-height: 92px; --viewer-panel:#1d232b; --viewer-line:#2c3540; --viewer-accent:#4da3ff; }
+.map-viewer .viewer-toolbar { position: fixed; inset: 0 0 auto; height: auto; display: flex; align-items: center; flex-wrap: wrap; gap: 7px; padding: 8px 12px; z-index: 1100; background: #1d232b; border-bottom: 1px solid #2c3540; }
+.map-viewer .brand { margin-right: 5px; font-size: 15px; gap: 6px; }
+.provider-pill { padding: 2px 6px; border: 1px solid #395174; border-radius: 4px; color: #86bbf5; font-size: 10px; }
+.toolbar-field { display: flex; align-items: center; gap: 6px; min-width: 0; margin: 0; }
+.toolbar-field > span:not(.sr-only) { color: #8b98a5; font-size: 12px; }
+.map-viewer select, .map-viewer input[type=search], .map-viewer input[type=date] { height: 33px; min-width: 0; max-width: 100%; padding: 5px 8px; border: 1px solid #35414e; border-radius: 6px; background: #10141a; color: #dce3ea; font-size: 12px; }
+.province-field { flex: 0 1 165px; }
+.city-field { flex: 0 1 165px; }
+.province-field select, .city-field select { width: 100%; }
+.search-field { flex: 1 1 260px; min-width: 170px; max-width: 560px; }
+.search-field input { width: 100%; }
+.basemap-field { flex: 0 1 130px; }
+.map-viewer .button { min-height: 33px; height: auto; padding: 6px 9px; border: 1px solid #35414e; border-radius: 6px; background: #10141a; color: #dce3ea; font-size: 12px; text-decoration: none; }
+.map-viewer .button:hover { border-color: #4da3ff; background: #173455; }
+.map-viewer .button-primary { border-color: #4da3ff; background: #173455; color: #fff; }
+.map-viewer .top-actions { display: flex; gap: 6px; align-items: center; margin: 0; flex-wrap: wrap; }
+.map-viewer .segmented { border-radius: 6px; padding: 2px; }
+.map-viewer .segment { min-height: 28px; padding: 3px 8px; }
+.map-viewer .segment.active { background: #173455; color: #fff; }
+.extra-filters { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; width: 100%; padding-top: 5px; border-top: 1px solid #2c3540; }
+.toolbar-note { color: #8b98a5; font-size: 11px; }
+.map-viewer .viewer-status { width: 100%; min-height: 17px; color: #8b98a5; font-size: 11px; }
+.map-viewer .viewer-status .state-dot { flex-shrink: 0; }
+.viewer-map { position: fixed; inset: var(--toolbar-height) 0 0; }
+.viewer-map #map { position: absolute; inset: 0; background: #0d1117; }
+.viewer-map #map.map-dark .leaflet-tile-pane { filter: invert(1) hue-rotate(180deg) brightness(.85) contrast(.9) saturate(.75); }
+.viewer-map #map.map-blank { background: #121b25; }
+.viewer-hint { position: absolute; z-index: 500; top: 11px; left: 58px; max-width: min(650px, calc(100% - 85px)); padding: 6px 10px; background: #0f141ce6; border: 1px solid #2c3540; border-radius: 6px; color: #8b98a5; font-size: 12px; pointer-events: none; }
+.viewer-hud { position: absolute; z-index: 500; bottom: 24px; right: 10px; display: grid; gap: 1px; padding: 6px 10px; border: 1px solid #2c3540; border-radius: 7px; background: #0f141ce6; color: #9ba8b5; font: 11px/1.5 Consolas,monospace; text-align: right; pointer-events: none; }
+.map-viewer .viewer-gate { position: absolute; z-index: 550; top: 43%; left: 50%; width: min(420px, calc(100% - 30px)); max-width: none; transform: translate(-50%, -50%); padding: 22px 24px; background: #0f141cf2; border: 1px solid #35414e; border-radius: 10px; box-shadow: 0 14px 40px #0007; }
+.viewer-gate h1 { font-size: 17px; margin: 0 0 10px; }
+.map-viewer .viewer-gate p { font-size: 12px; line-height: 1.7; }
+.map-viewer .viewer-gate small { color: #778797; font-size: 10px; }
+.map-viewer .viewer-records { position: fixed; z-index: 850; left: 12px; bottom: 28px; width: min(750px, calc(100vw - 24px)); max-height: min(40vh, 370px); min-height: 0; background: #151a21f5; border: 1px solid #3c4b5d; box-shadow: 0 8px 30px #0007; }
+.viewer-records .records-head { padding: 8px 12px; }
+.viewer-records .records-head h2 { margin: 0; font-size: 13px; }
+.viewer-records .table-scroll { max-height: min(27vh, 245px); overflow: auto; }
+.viewer-records th, .viewer-records td { padding: 7px 10px; }
+.list-empty { padding: 12px; color: #8b98a5; font-size: 12px; }
+.map-viewer .leaflet-popup-content-wrapper { background: #1d232b; color: #dce3ea; border: 1px solid #35414e; border-radius: 8px; }
+.map-viewer .leaflet-popup-tip { background: #1d232b; }
+.map-viewer .leaflet-popup-content { margin: 10px 13px; width: min(325px, calc(100vw - 70px)) !important; }
+.map-viewer .leaflet-popup-close-button { color: #b8c8da; min-width: 28px; min-height: 28px; }
+.pv-meta { min-width: 0; max-height: min(66vh, 620px); overflow-y: auto; overflow-x: hidden; font-size: 12px; }
+.pv-meta .detail-content h2 { margin: 3px 0 8px; font-size: 13px; overflow-wrap: anywhere; }
+.pv-meta .detail-fields { margin: 7px 0; }
+.pv-meta .detail-line { padding: 3px 0; font-size: 11px; }
+.pv-meta .detail-actions { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
+.pv-meta .detail-actions a, .pv-meta .detail-actions button { font-size: 11px; min-height: 30px; white-space: normal; }
+.pv-meta .detail-links { margin: 8px 0; max-height: 95px; overflow: auto; }
+.pv-meta .detail-links a { overflow-wrap: anywhere; }
+.map-viewer .live-notice { bottom: 8px; font-size: 12px; }
+.map-viewer .leaflet-control-zoom a { min-width: 32px; min-height: 32px; }
+@media (max-width: 900px) {
+  .map-viewer .brand { font-size: 13px; }
+  .search-field { flex-basis: 230px; }
+  .viewer-hint { font-size: 11px; }
+}
+@media (max-width: 680px) {
+  .map-viewer .viewer-toolbar { padding: 6px 8px; gap: 6px; }
+  .map-viewer .brand { flex: 0 0 auto; font-size: 11px; }
+  .provider-pill { display: none; }
+  .province-field, .city-field { flex: 1 1 0; max-width: none; }
+  .search-field { flex: 1 1 100%; max-width: none; min-width: 0; order: 5; }
+  .search-field input { font-size: 16px !important; }
+  .basemap-field, .map-viewer .segmented, #toggle-filters { order: 6; }
+  .map-viewer .top-actions { order: 7; gap: 5px; }
+  .map-viewer .button { padding: 5px 7px; font-size: 11px; }
+  .extra-filters { order: 8; }
+  .viewer-status { order: 9; font-size: 10px !important; }
+  .extra-filters .toolbar-field { flex: 1 1 135px; }
+  .extra-filters input { width: 100%; }
+  .viewer-hint { top: 8px; left: 50px; right: 8px; max-width: none; padding: 5px 7px; }
+  .viewer-hud { bottom: 23px; right: 7px; padding: 4px 7px; font-size: 10px; }
+  .map-viewer .viewer-gate { padding: 17px; top: 48%; }
+  .map-viewer .viewer-records { left: 8px; bottom: 25px; width: calc(100% - 16px); max-height: 38vh; }
+  .viewer-records .table-scroll { max-height: 24vh; }
+  .pv-meta { max-height: 46vh; }
+  .map-viewer .leaflet-popup-content { width: min(300px, calc(100vw - 75px)) !important; }
+  .map-viewer .leaflet-control-zoom a { min-width: 34px; min-height: 34px; }
+}
+@media (max-width: 390px) {
+  .map-viewer .brand { font-size: 10px; margin-right: 0; }
+  .map-viewer .viewer-toolbar { gap: 5px; }
+  .map-viewer .toolbar-field select { font-size: 11px; padding: 4px; }
+  .map-viewer .top-actions { gap: 4px; }
+  .map-viewer .button { font-size: 10px; padding: 5px 6px; }
+}
