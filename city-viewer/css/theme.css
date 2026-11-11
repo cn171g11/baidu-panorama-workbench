@@ -114,6 +114,11 @@ tbody tr:hover, tbody tr[aria-selected="true"] { background: #222a33; }
 .detail-cross { display: grid; place-items: center; width: 38px; height: 38px; border: 1px solid #49343a; border-radius: 50%; color: #a34b53; font-size: 21px; }
 .detail-empty p { margin: 10px 0 3px; font-size: 12px; }
 .detail-empty small { color: #778391; font-size: 10px; }
+.detail-content { min-width: 0; max-width: 100%; overflow-wrap: anywhere; }
+.detail-links { margin: 12px 0; min-width: 0; }
+.detail-links > div { display: grid; gap: 6px; min-width: 0; }
+.detail-links a { display: block; min-width: 0; max-width: 100%; overflow-wrap: anywhere; font-size: 10px; }
+.detail-line > span { min-width: 0; overflow-wrap: anywhere; }
 .detail-content h2 { margin: 4px 0 12px; overflow-wrap: anywhere; font-size: 15px; }
 .detail-city { color: #8d9aa8; font-size: 11px; }
 .detail-fields { margin: 16px 0; }
