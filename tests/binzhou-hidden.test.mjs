@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
-import { baiduPanoramaUrl, parseImport, validateRows } from '../city-viewer/js/metadata.js';
+import { baiduPanoramaUrl, validateRows } from '../city-viewer/js/metadata.js';
 
 test('Baidu hidden panorama hash URL uses supplied BD09MC and pose metadata',()=>{
  const url=baiduPanoramaUrl('09017800001408011004002175F',{x:13134201.35,y:4466415.4,heading:257.5,pitch:0,zoom:21});
@@ -10,9 +10,8 @@ test('Baidu hidden panorama hash URL uses supplied BD09MC and pose metadata',()=
 });
 
 test('Binzhou hidden audit records preserve sourceType, timeLine, verification and BD09MC',async()=>{
- const data=JSON.parse(await readFile('dist/binzhou-import.json','utf8'));
- const rows=parseImport(JSON.stringify(data),{format:'json',confirmedBaidu:true,coordinateSystem:'BD-09'});
- assert.equal(rows.length,7586);assert.equal(rows.filter(row=>row[9]?.isHidden).length,7418);assert.equal(rows.filter(row=>row[9]?.sourceType==='time-machine').length,168);
+ const rows=JSON.parse(await readFile('data/baidu/371600/points-001.json','utf8'));
+ assert.equal(rows.length,57509);assert.equal(rows.filter(row=>row[9]?.isHidden).length,7418);assert.equal(rows.filter(row=>row[9]?.sourceType==='time-machine').length,91);assert(rows.some(row=>Array.isArray(row[9]?.observations)&&row[9].observations.some(item=>item?.sourceFile==='百度滨州.json'&&item.variant?.sourceType==='time-machine')));
  assert(rows[0][9].verification);assert(Array.isArray(rows[0][9].timeLine));assert(Number.isFinite(rows[0][9].x));assert.equal(rows[0][9].source,'baidu');
 });
 
