@@ -65,11 +65,11 @@ test('map uses local Leaflet host dependency and public OSM, never requires tile
   assert.match(map, /openstreetmap\.org/);
   assert.match(map, /BD-09/);
   assert.doesNotMatch(map, /tencent|qq\.com/i);
-  assert.match(map, /if \(!globalThis\.L/);
+  assert.match(map, /if\s*\(!globalThis\.L/);
   assert.match(map, /CANVAS_THRESHOLD/);
   assert.match(map, /GRID_SIZE/);
   assert.match(map, /bindMapInteractions/);
-  assert.match(map, /toWgs84/);
+  assert.match(map, /convertCoordinate/);
 });
 
 test('report counts only the published catalog and uses child-path assets', async () => {

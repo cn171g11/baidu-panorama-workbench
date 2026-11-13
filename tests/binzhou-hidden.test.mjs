@@ -5,7 +5,8 @@ import { baiduPanoramaUrl, validateRows } from '../city-viewer/js/metadata.js';
 
 test('Baidu hidden panorama hash URL uses supplied BD09MC and pose metadata',()=>{
  const url=baiduPanoramaUrl('09017800001408011004002175F',{x:13134201.35,y:4466415.4,heading:257.5,pitch:0,zoom:21});
- assert.match(url,/^https:\/\/map\.baidu\.com\/@13134201\.35,4466415\.4,21z,257\.5t,0h#panoid=09017800001408011004002175F/);
+ assert.equal(new URL(url).pathname,'/@13134201.35,4466415.4,19z');
+ const hash=new URLSearchParams(new URL(url).hash.slice(1));assert.equal(hash.get('panoid'),'09017800001408011004002175F');assert.equal(hash.get('heading'),'257.5');assert.equal(hash.get('pid'),hash.get('panoid'));assert.equal(hash.get('shareurl'),'1');
  assert.match(url,/panotype=street/);assert.match(url,/newmap=1/);
 });
 

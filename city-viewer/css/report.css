@@ -1,0 +1,43 @@
+.report-page { max-width: 1180px; margin: 0 auto; padding: 22px 20px 50px; }
+.report-note { color:#8b949e; border-left:3px solid #ffd400; padding:8px 12px; background:#161b22; font-size:12px; }
+.report-fold-controls { display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:10px 0;color:#8b949e;font-size:12px; }
+.report-fold-controls button { border:1px solid #30363d;background:#161b22;color:#c9d1d9;padding:6px 10px;border-radius:6px;cursor:pointer; }
+.summary-card:nth-child(3) strong {color:#ff6262;}.summary-card:nth-child(4) strong {color:#b47af0;}
+.province-body { overflow-x:auto; }.province-card summary {min-width:0;}.province-total {margin-left:auto;text-align:right;}.province-name {flex-shrink:0;}
+.province-body small {color:#8b949e;}.province-body a {color:#58a6ff;}
+.report-sort[data-direction=desc]::after {content:' ▾';}.report-sort[data-direction=asc]::after {content:' ▴';}
+@media(max-width:700px){.report-status{white-space:normal;}.province-card summary{padding:12px 8px;}.province-total{white-space:normal;font-size:10px;}.report-controls .report-search{min-width:0;width:100%;}.summary-card strong{font-size:18px;}}
+
+.report-head { display:flex; justify-content:space-between; gap:24px; align-items:flex-end; margin-bottom:22px; }
+.report-subtitle { color:#9da8b5; font-size:12px; }
+.report-status { color:#cbd4dd; font-size:13px; white-space:nowrap; }
+.summary-cards { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:12px; margin-bottom:18px; }
+.summary-card { padding:16px; border:1px solid #303945; border-radius:7px; background:#171d24; }
+.summary-card span { display:block; color:#8995a3; font-size:11px; }
+.summary-card strong { display:block; margin-top:7px; color:#f0f3f6; font-size:22px; font-variant-numeric:tabular-nums; }
+.report-controls { display:flex; align-items:end; gap:14px; flex-wrap:wrap; padding:14px 0; }
+.report-search { display:grid; gap:5px; min-width:240px; color:#9da8b5; font-size:11px; }
+.report-search input { padding:9px 10px; border:1px solid #333d49; border-radius:5px; background:#10151b; color:#e5eaf0; }
+.hidden-toggle { display:flex; align-items:center; gap:7px; padding:10px 12px; color:#cbd3dc; font-size:12px; }
+.sort-controls { display:flex; gap:6px; margin-left:auto; }
+.report-sort { padding:8px 11px; border:1px solid #333d49; border-radius:5px; background:#171d24; color:#aeb8c4; cursor:pointer; }
+.report-sort.active, .report-sort:hover { border-color:#65baa6; color:#f1f5f7; }
+.province-groups { display:grid; gap:12px; }
+.province-card { border:1px solid #303945; border-radius:7px; background:#151a21; overflow:hidden; }
+.province-card summary { display:flex; justify-content:space-between; gap:12px; padding:15px 17px; cursor:pointer; list-style:none; }
+.province-card summary::-webkit-details-marker { display:none; }
+.province-card summary::before { content:'▸'; color:#7f8b98; margin-right:8px; }
+.province-card[open] summary::before { content:'▾'; }
+.province-name { color:#edf1f5; font-weight:650; }
+.province-total { color:#8e9aa7; font-size:11px; }
+.province-body { padding:0 17px 16px; }
+.ratio-bar { display:flex; height:8px; overflow:hidden; border-radius:5px; background:#2a323c; }
+.ratio-bar i { display:block; min-width:0; }
+.ratio-bar .regular { background:#4fbea0; }.ratio-bar .hidden { background:#df6871; }.ratio-bar .time-machine { background:#b68ce6; }.ratio-bar .unknown { background:#d1a85c; }
+.category-legend { display:flex; gap:16px; flex-wrap:wrap; padding:9px 0 12px; color:#9da8b5; font-size:10px; }
+.legend-regular { color:#72d1b5; }.legend-hidden { color:#ef7c83; }.legend-time { color:#c39be9; }.legend-unknown { color:#e1bb6f; }
+.province-body table { width:100%; border-collapse:collapse; font-size:11px; }
+.province-body th, .province-body td { padding:9px 8px; border-bottom:1px solid #29313b; text-align:left; white-space:nowrap; }
+.province-body th { color:#84909d; font-weight:500; }.province-body td { color:#ccd4dc; }.province-body a { color:#d8e1e8; text-decoration:none; }.province-body a:hover { color:#ff858d; text-decoration:underline; }
+.report-empty { padding:28px; color:#aeb8c4; text-align:center; }
+@media (max-width:700px) { .report-page { padding:20px 14px 44px; }.report-head { display:block; }.report-status { margin-top:12px; white-space:normal; overflow-wrap:anywhere; }.summary-cards { grid-template-columns:repeat(2,minmax(0,1fr)); }.summary-card:first-child { grid-column:1/-1; }.sort-controls { margin-left:0; flex-wrap:wrap; }.province-body { overflow-x:auto; }.province-card summary{padding:12px 8px;}.province-total{white-space:normal;font-size:10px;}.report-controls .report-search{min-width:0;width:100%;} }

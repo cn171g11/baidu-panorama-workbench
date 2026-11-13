@@ -18,6 +18,12 @@
 
 Pages现在按 `config/pages-publication.json` 选择实际托管的城市，由 `tools/publish_pages.mjs` 生成本站 `.json.gz` 分片与 `source:github-pages` 清单。每次构建都是完整发布快照，因此追加批次时必须保留前面已成功的城市；不能省略旧城来假装增量累积。全量数据约792MB曾两次同步超时，故先5个城市，再验证后扩大。gzip压缩前后的SHA、字节数和回读解压均严格核对。线上catalog只计当前发布城市，`publication.sourceCities/sourcePanoids`保留完整全国规模，根 `data/` 不删除不修改。详细操作见 `docs/pages-batches.md`。`tools/build_site.mjs`仍保留轻量GitHub Raw固定SHA备用方案，但正式Pages workflow不依赖该外部数据源。
 
+## 地图、报告与官网入口
+
+默认高德暗色，地图为单Canvas散点/密度显示。高德瓦片使用GCJ-02投影，OSM使用WGS84；切换底图同步转换中心与弹窗，不改变归档BD-09。密度显示真实视野方格，Z15起绘制每个真实点。`classification.js`在构建/地图/报告共享源标注分类；构建生成已发布城市 `displayCounts`，省市折叠报告仅载入小目录，不读取街景正文。报告筛选后的省级合计重新计算，链接可直达城市及隐藏类型。
+
+所有官网跳转统一用百度全景hash分享入口（`panoid`/`pid`/`shareurl=1`），不再用被官网忽略的`?qt=pano&panoId=`。有BD09MC x/y时可给地图中心；邻接ID不借用主点坐标。桌面Edge已真实验证普通、隐藏与时间线panoid的全景容器、Canvas和指定ID影像HTTP200；不意味着所有记录或所有手机可用。更多说明见 `docs/map-and-links.md`。
+
 ## 模块接口
 
 - `city-viewer/js/coordinates.js`: `convertCoordinate(lng, lat, from, to) -> [lng,lat]`、`toWgs84(lng,lat,from="BD-09")`；严格验证有限值与已知坐标系。

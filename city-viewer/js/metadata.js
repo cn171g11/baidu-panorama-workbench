@@ -227,16 +227,16 @@ function filterRows(rows, { query = "", road = "", date = "" } = {}) {
 }
 function baiduPanoramaUrl(panoid, metadata = {}) {
   if (typeof panoid !== "string" || !panoid.trim()) fail("panoid must be a non-empty string");
-  const extras = metadata && typeof metadata === "object" ? metadata : {};
-  const x = Number(extras.x ?? extras.baiduMercatorX);
-  const y = Number(extras.y ?? extras.baiduMercatorY);
-  if (Number.isFinite(x) && Number.isFinite(y)) {
-    const zoom = Number.isFinite(Number(extras.zoom)) ? Number(extras.zoom) : 21;
-    const heading = Number.isFinite(Number(extras.heading)) ? Number(extras.heading) : 0;
-    const pitch = Number.isFinite(Number(extras.pitch)) ? Number(extras.pitch) : 0;
-    return `https://map.baidu.com/@${x},${y},${zoom}z,${heading}t,${pitch}h#panoid=${encodeURIComponent(panoid)}&panotype=street&heading=${heading}&pitch=${pitch}&l=${zoom}&tn=B_NORMAL_MAP&sc=0&newmap=1`;
-  }
-  return `https://map.baidu.com/?qt=pano&panoId=${encodeURIComponent(panoid)}`;
+  const finite = value => typeof value === 'number' && Number.isFinite(value);
+  const extras = metadata && typeof metadata === 'object' ? metadata : {};
+  const x = extras.x ?? extras.baiduMercatorX, y = extras.y ?? extras.baiduMercatorY;
+  const heading = finite(extras.heading) ? ((extras.heading % 360) + 360) % 360 : 0;
+  const pitch = finite(extras.pitch) ? Math.max(-90, Math.min(90, extras.pitch)) : 0;
+  // Archive zoom is panorama zoom (often 0), NOT the base-map tile zoom.
+  // Without BD09MC, the official viewer resolves location from the panoid itself.
+  const center = finite(x) && finite(y) && Math.abs(x)<=21000000 && Math.abs(y)<=13000000 ? `@${x},${y},19z` : '';
+  const hash = new URLSearchParams({panoid,panotype:'street',heading:String(heading),pitch:String(pitch),l:'19',tn:'B_NORMAL_MAP',sc:'0',newmap:'1',shareurl:'1',pid:panoid});
+  return `https://map.baidu.com/${center}#${hash.toString().replaceAll('+','%20')}`;
 }
 function mergeRows(existing, incoming) {
   const left = validateRows(existing);

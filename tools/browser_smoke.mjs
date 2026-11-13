@@ -177,8 +177,9 @@ async function main() {
   if(await evaluate(`document.body.classList.contains('map-viewer')`)){
     await until(()=>evaluate(`Boolean(document.querySelector('.leaflet-popup #detail-panel'))`));
     await click('.leaflet-popup-close-button');
-    await until(()=>evaluate(`!window.__BAIDU_WORKBENCH__.getState().popupOpen`));
-    const center=await evaluate(`(()=>{const r=document.querySelector('#map').getBoundingClientRect();return {x:r.left+r.width/2,y:r.top+r.height/2};})()`);
+    await until(()=>evaluate(`!window.__BAIDU_WORKBENCH__.getState().popupOpen && !document.querySelector('.leaflet-popup')`));
+    const center=await evaluate(`(()=>{const c=document.querySelector('.baidu-point-canvas'),ctx=c.getContext('2d'),pixels=ctx.getImageData(0,0,c.width,c.height).data,rect=c.getBoundingClientRect();for(let y=0;y<c.height;y++)for(let x=0;x<c.width;x++){const i=(y*c.width+x)*4;if(pixels[i]===255&&pixels[i+1]===212&&pixels[i+2]===0&&pixels[i+3]>200)return {x:rect.left+(x+.5)*rect.width/c.width,y:rect.top+(y+.5)*rect.height/c.height};}throw Error('Rendered test point pixel not found');})()`);
+    report.checks.mapClickProbe=await evaluate(`(()=>{const e=document.elementFromPoint(${center.x},${center.y});return {point:${JSON.stringify(center)},tag:e?.tagName,id:e?.id,class:e?.className,canvasRect:document.querySelector('.baidu-point-canvas').getBoundingClientRect().toJSON(),mapRect:document.querySelector('#map').getBoundingClientRect().toJSON(),popup:window.__BAIDU_WORKBENCH__.getState().popupOpen};})()`);
     await send('Input.dispatchMouseEvent',{type:'mousePressed',x:center.x,y:center.y,button:'left',clickCount:1});
     await send('Input.dispatchMouseEvent',{type:'mouseReleased',x:center.x,y:center.y,button:'left',clickCount:1});
     await until(()=>evaluate(`window.__BAIDU_WORKBENCH__.getState().popupOpen`));
@@ -186,7 +187,7 @@ async function main() {
     report.checks.actualMapClick=true;
   }
   const href = await until(() => evaluate(`document.querySelector('#detail-panel a[href^="https://map.baidu.com/"]')?.href`));
-  assert.equal(new URL(href).searchParams.get('panoId'), samples[0].panoid);
+  assert.equal(new URLSearchParams(new URL(href).hash.slice(1)).get('panoid'), samples[0].panoid);
   report.checks.searchAndOfficialPanorama = { matches: 1, url: href };
   await fill('#search-input', '');
   await until(() => evaluate('window.__BAIDU_WORKBENCH__.getState().visibleCount===2'));

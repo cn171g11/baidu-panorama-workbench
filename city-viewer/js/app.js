@@ -1,3 +1,4 @@
+import { categoryFor, countCategories } from './classification.js';
 import { parseImport, validateRows, filterRows, baiduPanoramaUrl, mergeRows } from './metadata.js';
 import { loadCatalog, loadCollection, saveLocalRows, loadLocalRows, clearLocalRows } from './data-store.js';
 import { createMap, renderMap, bindMapInteractions, highlightRow, fitRows, setBasemap, openRowPopup, closeRowPopup } from './map.js';
@@ -26,7 +27,10 @@ function resizeToolbar() {
 }
 function updateHud() {
   if(!state.map)return;
-  $('hud-zoom').textContent='Z '+state.map.map.getZoom();
+  $('hud-zoom').textContent='Z '+state.map.map.getZoom()+' · '+(state.map.actualMode==='density-grid'?'密度网格':'散点');
+  const coordinateSystem=state.map.basemap.startsWith('amap')?'GCJ-02':'WGS84';
+  $('coordinate-label').textContent='元数据 BD-09 · 底图 '+coordinateSystem;
+  elements.mapCount.textContent=`视野 ${state.map.renderedCount.toLocaleString()} / 匹配 ${state.visibleRows.length.toLocaleString()}`;
   const center=state.map.map.getCenter();
   $('hud-coordinate').textContent=center.lat.toFixed(5)+', '+center.lng.toFixed(5);
 }
@@ -35,7 +39,8 @@ function updateStatus() {
   const name=state.loadedCollection?state.collectionById.get(state.loadedCollection)?.name:null;
   elements.source.querySelector('span:last-child').textContent=state.loading?'正在载入百度城市数据…':`Pages ${state.catalog.collections.length} 城 · ${state.totalPublished.toLocaleString()} 条${name?' · '+name+' '+state.visibleRows.length.toLocaleString()+' 点':''} · 仅百度`;
   $('fit-city').disabled=state.visibleRows.length===0;
-  $('map-hint').textContent=state.visibleRows.length?`${state.visibleRows.length.toLocaleString()} 个匹配点 · 点击点位查看详情 · 列表按需展开`:'请选择顶部省份与城市；不会自动下载全国点位';
+  const counts=countCategories(state.visibleRows);
+  $('map-hint').textContent=state.visibleRows.length?`${state.visibleRows.length.toLocaleString()} 个匹配点 · 常规 ${counts.regular.toLocaleString()} / 隐藏 ${counts.hidden.toLocaleString()} / 时光机 ${counts.timeMachine.toLocaleString()} · 点击地图查看最近点`:'请选择顶部省份与城市；不会自动下载全国点位';
 }
 let noticeTimer;
 function announce(message) {
@@ -56,6 +61,7 @@ function refreshSnapshot() {
       visibleCount: state.visibleRows.length, page: state.page + 1, pageSize: PAGE_SIZE,
       selectedPanoid: state.selected?.[0] || null, mapAvailable: Boolean(state.map), mapMode: state.mode,
       mapRenderedCount: state.map?.renderedCount || 0, mapGridCells: state.map?.grid.size || 0,
+      basemap:state.map?.basemap, actualMapMode:state.map?.actualMode, drawnSymbols:state.map?.drawnSymbols||0, kind:$('kind-filter').value,
       collections: state.catalog?.collections.length || 0, layout:'fullscreen-map', popupOpen:!!state.map?.popup, listOpen:state.listOpen, loading:state.loading,
     }),
   });
@@ -123,6 +129,8 @@ function filtered(rows) {
   rows = filterRows(rows, { query: elements.search.value.trim(), road: elements.road.value.trim(), date: elements.date.value });
   if (elements.province.value) rows = rows.filter((r) => r.__province === elements.province.value || (r.__collectionId && state.collectionById.get(r.__collectionId)?.province === elements.province.value));
   if (elements.city.value) rows = rows.filter((r) => r.__collectionId === elements.city.value);
+  const kind=$('kind-filter').value;
+  if(kind!=='all') rows=rows.filter(row=>categoryFor(row)===kind);
   const seen = new Set();
   return rows.filter((row) => { if (seen.has(row[0])) return false; seen.add(row[0]); return true; });
 }
@@ -179,7 +187,8 @@ function updateView() {
   elements.pageNumber.textContent = `${state.page + 1} / ${totalPages}`;
   elements.prev.disabled = state.page === 0;
   elements.next.disabled = state.page >= totalPages - 1;
-  renderMap(state.map, state.visibleRows, state.mode);
+  const showContext=!elements.search.value.trim()&&(elements.road.value.trim()||elements.date.value||$('kind-filter').value!=='all');
+  renderMap(state.map, state.visibleRows, state.mode, showContext?rows:[]);
   if (!state.visibleRows.includes(state.selected)) showDetail(null);
   updateStatus(); updateHud();
   refreshSnapshot();
@@ -208,7 +217,7 @@ function showDetail(row, focusMap = true) {
   elements.detail.hidden=false;
   const city = row.__city || state.collectionById.get(row.__collectionId)?.name || '本地导入';
   const extras = row[9] || {};
-  const url = baiduPanoramaUrl(row[0], extras);
+  const url = baiduPanoramaUrl(row[0], {...extras,heading:row[5]});
   const imageDate = row[4] || extras.imageDate || extras.extra?.imageDate || extras.observations?.imageDate || '日期未知';
   const tags = Array.isArray(extras.tags) ? extras.tags : [];
   const links = Array.isArray(extras.links) ? extras.links : [];
@@ -216,9 +225,11 @@ function showDetail(row, focusMap = true) {
   const history = row[9]?.history;
   const historyItems = Array.isArray(history) ? history : (history ? Object.entries(history).map(([date, value]) => ({ date, value })) : []);
   const timeline = historyItems.length ? `<section class="timeline" aria-label="街景历史时间线"><h3>历史记录</h3><ol>${historyItems.map((item) => { const entry = typeof item === 'object' && item !== null ? item : { value: item }; return `<li><time>${safe(entry.date || entry.captured || '未注明日期')}</time><span>${safe(entry.description || entry.note || entry.value || '')}</span></li>`; }).join('')}</ol></section>` : '';
-  const linkList = links.length ? `<div class="detail-links"><span>百度链接 ID</span><div>${links.map((id) => `<a href="${safe(baiduPanoramaUrl(id, extras))}" target="_blank" rel="noopener noreferrer">${safe(id)}</a>`).join('')}</div></div>` : '';
+  const linkList = links.length ? `<div class="detail-links"><span>百度链接 ID</span><div>${links.map((id) => `<a href="${safe(baiduPanoramaUrl(id))}" target="_blank" rel="noopener noreferrer">${safe(id)}</a>`).join('')}</div></div>` : '';
+  const timelineIds=[...new Set((Array.isArray(extras.timeLine)?extras.timeLine:[]).filter(id=>typeof id==='string'&&id.trim()))];
+  const timelineLinks=timelineIds.length?`<div class="detail-links"><span>源文件时间线 ID（非拓扑分类证明）</span><div>${timelineIds.map(id=>`<a href="${safe(baiduPanoramaUrl(id))}" target="_blank" rel="noopener noreferrer">${safe(id)}</a>`).join('')}</div></div>`:'';
   const tagList = tags.length ? `<div class="detail-tags">${tags.map((tag) => `<span>${safe(tag)}</span>`).join('')}</div>` : '';
-  elements.detail.innerHTML = `<div class="detail-content"><p class="eyebrow">百度街景详情</p><h2>${safe(row[3] || row[0] || '未命名百度 panoid')}</h2><div class="detail-city">${safe(row.__province || '')} ${safe(city)}</div><div class="detail-fields">${[['panoid',row[0]],['来源',source],['采集日期',imageDate],['坐标（BD-09）',`${row[1]}, ${row[2]}`],['方向',row[5] ?? '未知'],['俯仰角',extras.pitch ?? '未知'],['缩放级别',extras.zoom ?? '未知'],['街景可用',row[7] ? '是' : '未知']].map(([k,v])=>`<div class="detail-line"><span>${safe(k)}</span><span>${safe(v)}</span></div>`).join('')}</div>${tagList}${linkList}${timeline}<div class="detail-actions"><a class="button button-primary" href="${safe(url)}" target="_blank" rel="noopener noreferrer">在百度地图打开街景 ↗</a><button class="button button-quiet" id="copy-panoid" type="button">复制 panoid</button><button class="button button-quiet" id="copy-url" type="button">复制百度街景链接</button><button class="button button-quiet" id="copy-coordinate" type="button">复制 BD-09 坐标</button>${collectionForRow(row)==='local'?'<button class="button button-quiet" id="remove-local-row" type="button">删除本地记录</button>':''}</div></div>`;
+  elements.detail.innerHTML = `<div class="detail-content"><p class="eyebrow">百度街景详情</p><h2>${safe(row[3] || row[0] || '未命名百度 panoid')}</h2><div class="detail-city">${safe(row.__province || '')} ${safe(city)}</div><div class="detail-fields">${[['panoid',row[0]],['来源',source],['采集日期',imageDate],['坐标（BD-09）',`${row[1]}, ${row[2]}`],['方向',row[5] ?? '未知'],['俯仰角',extras.pitch ?? '未知'],['缩放级别',extras.zoom ?? '未知'],['来源类型（源标注）',({regular:'常规',hidden:'隐藏','time-machine':'时光机',unknown:'未知'})[categoryFor(row)]],['来源影像检查',extras.verification?.imageLoaded===true?'源文件标为成功（非本站复核）':extras.verification?.imageLoaded===false?'源文件标为未成功':'未提供'],['街景元数据标记',row[7] ? '有记录（不保证官网当前可用）' : '未标记']].map(([k,v])=>`<div class="detail-line"><span>${safe(k)}</span><span>${safe(v)}</span></div>`).join('')}</div>${tagList}${linkList}${timelineLinks}${timeline}<p class="official-note">在新标签打开百度官网全景。手机若被百度转到普通地图，可切换浏览器“桌面版网站”。链接不等于影像可用保证。</p><div class="detail-actions"><a class="button button-primary" href="${safe(url)}" target="_blank" rel="noopener noreferrer">在百度地图打开街景 ↗</a><button class="button button-quiet" id="copy-panoid" type="button">复制 panoid</button><button class="button button-quiet" id="copy-url" type="button">复制百度街景链接</button><button class="button button-quiet" id="copy-coordinate" type="button">复制 BD-09 坐标</button>${collectionForRow(row)==='local'?'<button class="button button-quiet" id="remove-local-row" type="button">删除本地记录</button>':''}</div></div>`;
   $('copy-panoid').addEventListener('click', async () => copyText(String(row[0]), '已复制 panoid'));
   $('copy-url').addEventListener('click', async () => copyText(url, '已复制百度街景链接'));
   $('copy-coordinate').addEventListener('click', async () => copyText(`${row[1]}, ${row[2]}`, '已复制 BD-09 坐标'));
@@ -306,14 +317,15 @@ $('reload-data').addEventListener('click', async () => { state.ready = false; tr
 $('toggle-list').addEventListener('click',()=>{setListOpen(!state.listOpen);refreshSnapshot();});
 $('close-list').addEventListener('click',()=>{setListOpen(false);refreshSnapshot();});
 $('toggle-filters').addEventListener('click',()=>{const open=$('extra-filters').hidden;$('extra-filters').hidden=!open;$('toggle-filters').setAttribute('aria-expanded',String(open));resizeToolbar();});
-$('clear-filters').addEventListener('click',()=>{elements.search.value='';elements.road.value='';elements.date.value='';state.page=0;updateView();});
+$('kind-filter').addEventListener('change',()=>{state.page=0;updateView();});
+$('clear-filters').addEventListener('click',()=>{elements.search.value='';elements.road.value='';elements.date.value='';$('kind-filter').value='all';state.page=0;updateView();});
 $('fit-city').addEventListener('click',()=>fitRows(state.map,state.visibleRows));
 $('basemap-select').addEventListener('change',()=>setBasemap(state.map,$('basemap-select').value));
 $('empty-load').addEventListener('click',()=>$('load-city').click());
 $('page-prev').addEventListener('click', () => { state.page--; updateView(); });
 $('page-next').addEventListener('click', () => { state.page++; updateView(); });
-elements.province.addEventListener('change', () => { ++collectionRequest;state.loading=false; syncCities(); state.publishedRows = []; state.loadedCollection = null; state.page = 0; updateView(); });
-elements.city.addEventListener('change', () => { ++collectionRequest;state.loading=false; $('load-city').disabled = !elements.city.value; state.page = 0; updateView();const collection=state.catalog.collections.find(city=>city.id===elements.city.value);if(collection)void loadPublishedCollections([collection]); });
+elements.province.addEventListener('change', () => { ++collectionRequest;activeLoad=null;state.loading=false; syncCities(); state.publishedRows = []; state.loadedCollection = null; state.page = 0; updateView(); });
+elements.city.addEventListener('change', () => { ++collectionRequest;activeLoad=null;state.loading=false; $('load-city').disabled = !elements.city.value; state.page = 0; updateView();const collection=state.catalog.collections.find(city=>city.id===elements.city.value);if(collection)void loadPublishedCollections([collection]); });
 $('load-city').addEventListener('click', async () => { const collection = state.catalog.collections.find((c) => c.id === elements.city.value); if (collection) await loadPublishedCollections([collection]); });
 let filterTimer;
 [elements.search, elements.road, elements.date].forEach((el) => el.addEventListener('input', () => {
@@ -329,8 +341,14 @@ state.map = createMap($('map'));
 bindMapInteractions(state.map);
 setBasemap(state.map,$('basemap-select').value);
 state.map?.map.on('moveend zoomend',updateHud);
+$('map').addEventListener('baidu:maprendered',updateHud);
 state.map?.map.on('mousemove',event=>{$('hud-coordinate').textContent=event.latlng.lat.toFixed(5)+', '+event.latlng.lng.toFixed(5);});
 if(typeof ResizeObserver==='function')new ResizeObserver(resizeToolbar).observe($('viewer-toolbar'));
 window.addEventListener('resize',resizeToolbar);
 resizeToolbar();updateHud();
-loadData().catch((error) => { elements.source.querySelector('span:last-child').textContent = '百度元数据源：加载失败'; setMessage(error.message, 'error'); elements.empty.hidden = false; });
+loadData().then(async()=>{
+  const params=new URLSearchParams(location.search),id=params.get('city'),kind=params.get('kind')||'all';
+  if(['all','regular','hidden','time-machine','unknown'].includes(kind))$('kind-filter').value=kind;
+  const collection=state.collectionById.get(id);
+  if(collection){elements.province.value=collection.province;syncCities();elements.city.value=collection.id;$('load-city').disabled=false;await loadPublishedCollections([collection]);}
+}).catch((error) => { elements.source.querySelector('span:last-child').textContent = '百度元数据源：加载失败'; setMessage(error.message, 'error'); elements.empty.hidden = false; });

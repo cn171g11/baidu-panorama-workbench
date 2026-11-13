@@ -5,6 +5,7 @@ import { fileURLToPath } from 'node:url';
 import { createHash } from 'node:crypto';
 import { gzipSync, gunzipSync } from 'node:zlib';
 import { buildSite, PROJECT_ROOT } from './build_site.mjs';
+import { countCategories } from '../city-viewer/js/classification.js';
 
 const digest = value => createHash('sha256').update(value).digest('hex');
 function sum(items, key) { return items.reduce((total, item) => total + (Number(item[key]) || 0), 0); }
@@ -21,7 +22,7 @@ export async function publishPages({root=PROJECT_ROOT,output='dist/pages',commit
   const known=new Set(fullCatalog.collections.map(city=>city.id));
   if(!all)for(const id of config.cities)if(!known.has(id))throw Error('Unknown Pages city: '+id);
   const selectedIds=new Set(all?[...known]:config.cities);
-  const selected=fullCatalog.collections.filter(city=>selectedIds.has(city.id));
+  const selected=fullCatalog.collections.filter(city=>selectedIds.has(city.id)).map(city=>({...city,displayCounts:{regular:0,hidden:0,timeMachine:0,unknown:0,total:0}}));
   // First create only the already-whitelisted app and its verified national asset descriptors.
   // An isolated output is used by CLI/CI; the caller uploads only after all checks below succeed.
   const desired=path.resolve(root,output),dist=path.join(root,'dist');
@@ -39,6 +40,9 @@ export async function publishPages({root=PROJECT_ROOT,output='dist/pages',commit
     if(!verified||!/^baidu\/\d{6}\/points-\d{3,}\.json$/.test(logical))throw Error('Unverified or unsafe Pages shard');
     const raw=await readFile(path.join(root,'data',logical));
     if(raw.length!==verified.bytes||digest(raw)!==verified.sha256)throw Error('Source changed after corpus verification: '+logical);
+    const categoryCounts=countCategories(JSON.parse(raw.toString('utf8')));
+    if(!city.displayCounts)city.displayCounts={regular:0,hidden:0,timeMachine:0,unknown:0,total:0};
+    for(const key of Object.keys(city.displayCounts))city.displayCounts[key]+=categoryCounts[key];
     const gzip=gzipSync(raw,{level:9});
     if(!gunzipSync(gzip).equals(raw))throw Error('Lossless gzip verification failed');
     const url=logical+'.gz',destination=path.join(publicData,url);
@@ -48,6 +52,7 @@ export async function publishPages({root=PROJECT_ROOT,output='dist/pages',commit
     assets[logical]={url,storage:'pages',bytes:raw.length,sha256:verified.sha256,compressedBytes:gzip.length,compressedSha256:digest(gzip)};
     compressedBytes+=gzip.length;
   }
+  for(const city of selected)if(city.displayCounts.total!==city.count||city.displayCounts.regular+city.displayCounts.hidden+city.displayCounts.timeMachine+city.displayCounts.unknown!==city.count)throw Error('Publication categories do not reconcile for '+city.id);
   const files=(fullCatalog.importSummary?.files||[]).filter(file=>selectedIds.has(file.city));
   const total=sum(selected,'count');
   const summary=fullCatalog.importSummary?{

@@ -19,8 +19,9 @@
     <button class="button button-primary" id="load-city" type="button" disabled title="载入或重新载入所选城市">载入</button>
     <label class="toolbar-field search-field"><span class="sr-only">搜索街道或 panoid</span><input id="search-input" type="search" placeholder="搜索 panoid / 路名 / 日期 / 坐标" autocomplete="off"></label>
     <button class="button" id="toggle-filters" type="button" aria-expanded="false" aria-controls="extra-filters">更多筛选</button>
-    <label class="toolbar-field basemap-field"><span class="sr-only">底图</span><select id="basemap-select" title="底图"><option value="osm">OSM · 标准</option><option value="osm-dark" selected>OSM · 暗色</option><option value="none">无底图 · 离线点位</option></select></label>
+    <label class="toolbar-field basemap-field"><span class="sr-only">底图</span><select id="basemap-select" title="底图"><option value="amap-dark" selected>高德 · 暗色</option><option value="amap">高德 · 标准</option><option value="amap-satellite">高德 · 卫星</option><option value="osm">OSM · 标准</option><option value="osm-dark">OSM · 暗色</option><option value="none">无底图 · 离线点位</option></select></label>
     <div class="segmented" role="group" aria-label="地图显示模式"><button type="button" class="segment active" data-map-mode="points" aria-pressed="true">散点</button><button type="button" class="segment" data-map-mode="density" aria-pressed="false">密度</button></div>
+    <label class="toolbar-field kind-field"><span class="sr-only">点位类型</span><select id="kind-filter" title="源数据标注类型"><option value="all">全部类型</option><option value="regular">常规</option><option value="hidden">隐藏 · 源标注</option><option value="time-machine">时光机 · 源标注</option><option value="unknown">未知</option></select></label>
     <nav class="top-actions" aria-label="主导航">
       <button class="button" id="fit-city" type="button" title="回到当前城市或筛选结果范围" disabled>全览</button>
       <button class="button" id="toggle-list" type="button" aria-expanded="false" aria-controls="records-panel" title="展开点位列表">列表</button>
@@ -49,6 +50,7 @@
       <small>本地导入和保存只作用于当前浏览器，不会自动上传网站。</small>
     </section>
     <div class="viewer-hint" id="map-hint">选择城市后，点击地图上的点查看百度街景详情</div>
+    <div class="viewer-legend" aria-label="点位图例"><span class="legend-regular">● 常规</span><span class="legend-hidden">● 隐藏</span><span class="legend-time">● 时光机</span><span class="legend-unknown">● 未标可用</span><small>类型按源标注 · 放大至 Z15 显示散点</small></div>
     <div class="viewer-hud" id="map-hud" aria-live="off"><span id="hud-zoom">Z —</span><span id="hud-coordinate">—</span><span id="map-result-count">0 条</span></div>
   </main>
 
