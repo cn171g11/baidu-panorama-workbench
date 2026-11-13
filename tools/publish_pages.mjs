@@ -2,12 +2,10 @@
 import { readFile, mkdir, writeFile, rename, lstat, realpath, access } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { createHash } from 'node:crypto';
-import { gzipSync, gunzipSync } from 'node:zlib';
 import { buildSite, PROJECT_ROOT } from './build_site.mjs';
-import { countCategories } from '../city-viewer/js/classification.js';
+import { publishTimeShard } from './publish_time_shard.mjs';
+import { newCaptureSummary, PANOID_TIME_ENCODING } from '../city-viewer/js/panoid-time.js';
 
-const digest = value => createHash('sha256').update(value).digest('hex');
 function sum(items, key) { return items.reduce((total, item) => total + (Number(item[key]) || 0), 0); }
 
 export async function publishPages({root=PROJECT_ROOT,output='dist/pages',commit=process.env.GITHUB_SHA||null,selection}={}) {
@@ -22,7 +20,7 @@ export async function publishPages({root=PROJECT_ROOT,output='dist/pages',commit
   const known=new Set(fullCatalog.collections.map(city=>city.id));
   if(!all)for(const id of config.cities)if(!known.has(id))throw Error('Unknown Pages city: '+id);
   const selectedIds=new Set(all?[...known]:config.cities);
-  const selected=fullCatalog.collections.filter(city=>selectedIds.has(city.id)).map(city=>({...city,displayCounts:{regular:0,hidden:0,timeMachine:0,unknown:0,total:0}}));
+  const selected=fullCatalog.collections.filter(city=>selectedIds.has(city.id)).map(city=>({...city,displayCounts:{regular:0,hidden:0,timeMachine:0,unknown:0,total:0},captureSummary:newCaptureSummary()}));
   // First create only the already-whitelisted app and its verified national asset descriptors.
   // An isolated output is used by CLI/CI; the caller uploads only after all checks below succeed.
   const desired=path.resolve(root,output),dist=path.join(root,'dist');
@@ -38,21 +36,24 @@ export async function publishPages({root=PROJECT_ROOT,output='dist/pages',commit
   for(const city of selected)for(const logical of city.files) {
     const verified=originalManifest.assets[logical];
     if(!verified||!/^baidu\/\d{6}\/points-\d{3,}\.json$/.test(logical))throw Error('Unverified or unsafe Pages shard');
-    const raw=await readFile(path.join(root,'data',logical));
-    if(raw.length!==verified.bytes||digest(raw)!==verified.sha256)throw Error('Source changed after corpus verification: '+logical);
-    const categoryCounts=countCategories(JSON.parse(raw.toString('utf8')));
-    if(!city.displayCounts)city.displayCounts={regular:0,hidden:0,timeMachine:0,unknown:0,total:0};
-    for(const key of Object.keys(city.displayCounts))city.displayCounts[key]+=categoryCounts[key];
-    const gzip=gzipSync(raw,{level:9});
-    if(!gunzipSync(gzip).equals(raw))throw Error('Lossless gzip verification failed');
     const url=logical+'.gz',destination=path.join(publicData,url);
-    await mkdir(path.dirname(destination),{recursive:true});await writeFile(destination,gzip);
-    const disk=await readFile(destination);
-    if(!disk.equals(gzip)||!gunzipSync(disk).equals(raw))throw Error('Published gzip read-back mismatch');
-    assets[logical]={url,storage:'pages',bytes:raw.length,sha256:verified.sha256,compressedBytes:gzip.length,compressedSha256:digest(gzip)};
-    compressedBytes+=gzip.length;
+    const published=await publishTimeShard({source:path.join(root,'data',logical),destination,verified});
+    for(const key of Object.keys(city.displayCounts))city.displayCounts[key]+=published.displayCounts[key];
+    for(const key of ['source','panoid','unknown','total'])city.captureSummary[key]+=published.captureSummary[key];
+    const {earliest,latest}=published.captureSummary;
+    if(earliest&&(!city.captureSummary.earliest||earliest<city.captureSummary.earliest))city.captureSummary.earliest=earliest;
+    if(latest&&(!city.captureSummary.latest||latest>city.captureSummary.latest))city.captureSummary.latest=latest;
+    assets[logical]={url,storage:'pages',bytes:published.bytes,sha256:published.sha256,compressedBytes:published.compressedBytes,compressedSha256:published.compressedSha256,sourceBytes:verified.bytes,sourceSha256:verified.sha256,derivation:PANOID_TIME_ENCODING};
+    compressedBytes+=published.compressedBytes;
   }
-  for(const city of selected)if(city.displayCounts.total!==city.count||city.displayCounts.regular+city.displayCounts.hidden+city.displayCounts.timeMachine+city.displayCounts.unknown!==city.count)throw Error('Publication categories do not reconcile for '+city.id);
+  const captureSummary=newCaptureSummary();
+  for(const city of selected){
+    if(city.displayCounts.total!==city.count||city.displayCounts.regular+city.displayCounts.hidden+city.displayCounts.timeMachine+city.displayCounts.unknown!==city.count)throw Error('Publication categories do not reconcile for '+city.id);
+    if(city.captureSummary.total!==city.count||city.captureSummary.source+city.captureSummary.panoid+city.captureSummary.unknown!==city.count)throw Error('Publication dates do not reconcile for '+city.id);
+    for(const key of ['source','panoid','unknown','total'])captureSummary[key]+=city.captureSummary[key];
+    if(city.captureSummary.earliest&&(!captureSummary.earliest||city.captureSummary.earliest<captureSummary.earliest))captureSummary.earliest=city.captureSummary.earliest;
+    if(city.captureSummary.latest&&(!captureSummary.latest||city.captureSummary.latest>captureSummary.latest))captureSummary.latest=city.captureSummary.latest;
+  }
   const files=(fullCatalog.importSummary?.files||[]).filter(file=>selectedIds.has(file.city));
   const total=sum(selected,'count');
   const summary=fullCatalog.importSummary?{
@@ -60,7 +61,7 @@ export async function publishPages({root=PROJECT_ROOT,output='dist/pages',commit
     exactDuplicates:sum(files,'exactDuplicates'),differingDuplicates:sum(files,'differingDuplicates'),invalidRecords:0,files,
   }:undefined;
   const publication={mode:'pages-gzip',hostedCities:selected.length,hostedPanoids:total,sourceCities:fullCatalog.collections.length,sourcePanoids:fullCatalog.total,remainingCities:fullCatalog.collections.length-selected.length,cityIds:selected.map(city=>city.id)};
-  const catalog={...fullCatalog,total,collections:selected,publication};
+  const catalog={...fullCatalog,total,collections:selected,publication,captureSummary};
   if(summary)catalog.importSummary=summary;
   else delete catalog.importSummary;
   await writeFile(path.join(publicData,'catalog.json'),JSON.stringify(catalog,null,2)+'\n');
@@ -69,7 +70,7 @@ export async function publishPages({root=PROJECT_ROOT,output='dist/pages',commit
   const hostedRaw=sum(Object.values(assets),'bytes');
   const build={...initial,total,collections:selected.length,rawDataBytes:hostedRaw,compressedDataBytes:compressedBytes,publishedDataSource:'github-pages',
     inputRecords:summary?.rawRecords??total,exactDuplicates:summary?.exactDuplicates??0,differingDuplicates:summary?.differingDuplicates??0,
-    publication,shards:Object.keys(assets).length};
+    publication,captureSummary,derivation:PANOID_TIME_ENCODING,sourceDataBytes:sum(Object.values(assets),'sourceBytes'),shards:Object.keys(assets).length};
   delete build.output;delete build.publishedBytes;
   await writeFile(path.join(target,'build.json'),JSON.stringify(build,null,2)+'\n');
   const {readdir,stat}=await import('node:fs/promises');

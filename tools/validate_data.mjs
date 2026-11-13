@@ -4,6 +4,7 @@ import path from 'node:path';
 import { DatabaseSync } from 'node:sqlite';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { validateRows } from '../city-viewer/js/metadata.js';
+import { streamRows, fileFingerprint } from './stream_rows.mjs';
 
 const MAX_SHARD_ROWS = 180000;
 const PROJECT_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -71,8 +72,8 @@ export async function validateCatalog(root, { includeRows = false, indexPath = n
       const info = await lstat(absolute);
       assert(info.isFile() && !info.isSymbolicLink(), 'Shard must be a regular file: ' + logical);
       assert(info.size < 100000000, 'Shard exceeds GitHub single-file limit: ' + logical);
-      const raw = await readFile(absolute);
-      files.push({ path: logical, city: city.id, bytes: raw.length, sha256: digest(raw) });
+      const fingerprint = await fileFingerprint(absolute);
+      files.push({ path: logical, city: city.id, ...fingerprint });
     }
     declaredTotal += city.count;
   }
@@ -110,31 +111,33 @@ export async function validateCatalog(root, { includeRows = false, indexPath = n
   const db = new DatabaseSync(tempIndex);
   let successful = false;
   try {
-    db.exec('PRAGMA journal_mode=OFF; PRAGMA synchronous=OFF; PRAGMA cache_size=-65536; CREATE TABLE owners(panoid TEXT PRIMARY KEY,city TEXT NOT NULL) WITHOUT ROWID; CREATE TABLE metadata(key TEXT PRIMARY KEY,value TEXT NOT NULL) WITHOUT ROWID;');
+    db.exec('PRAGMA journal_mode=OFF; PRAGMA synchronous=OFF; PRAGMA cache_size=-16384; PRAGMA mmap_size=0; CREATE TABLE owners(panoid TEXT PRIMARY KEY,city TEXT NOT NULL) WITHOUT ROWID; CREATE TABLE metadata(key TEXT PRIMARY KEY,value TEXT NOT NULL) WITHOUT ROWID;');
     const insert = db.prepare('INSERT INTO owners VALUES (?,?)');
     let total = 0;
     for (const city of catalog.collections) {
       let cityCount = 0, minLng = Infinity, minLat = Infinity, maxLng = -Infinity, maxLat = -Infinity;
       for (const logical of city.files) {
         const file = files.find(item => item.path === logical);
-        const raw = await readFile(path.join(dataRoot, logical));
-        assert(raw.length === file.bytes && digest(raw) === file.sha256, 'Source changed during validation: ' + logical);
-        const rows = validateRows(JSON.parse(new TextDecoder('utf-8', { fatal: true }).decode(raw)));
-        assert(rows.length > 0 && rows.length <= MAX_SHARD_ROWS, 'Invalid shard row count: ' + logical);
+        const hash = createHash('sha256'); let byteCount = 0, rowCount = 0;
+        const retainedRows = includeRows ? [] : null;
         let shardMinLng = Infinity, shardMinLat = Infinity, shardMaxLng = -Infinity, shardMaxLat = -Infinity;
         db.exec('BEGIN');
         try {
-          for (const row of rows) {
+          for await (const {row: input} of streamRows(path.join(dataRoot, logical), {onChunk(chunk){byteCount+=chunk.length;hash.update(chunk);}})) {
+            const row = validateRows([input])[0];
+            if (++rowCount > MAX_SHARD_ROWS) throw Error('Invalid shard row count: '+logical);
             try { insert.run(row[0], city.id); }
             catch (error) { if (/UNIQUE/.test(error.message)) throw new Error('Duplicate panoid in catalog: ' + row[0]); throw error; }
+            if(retainedRows)retainedRows.push(row);
             shardMinLng = Math.min(shardMinLng, row[1]); shardMinLat = Math.min(shardMinLat, row[2]);
             shardMaxLng = Math.max(shardMaxLng, row[1]); shardMaxLat = Math.max(shardMaxLat, row[2]);
           }
+          assert(rowCount>0 && byteCount===file.bytes && hash.digest('hex')===file.sha256, 'Source changed during validation: '+logical);
           db.exec('COMMIT');
         } catch (error) { db.exec('ROLLBACK'); throw error; }
-        file.count = rows.length; file.bounds = [shardMinLng, shardMinLat, shardMaxLng, shardMaxLat];
-        if (includeRows) file.rows = rows;
-        cityCount += rows.length;
+        file.count = rowCount; file.bounds = [shardMinLng, shardMinLat, shardMaxLng, shardMaxLat];
+        if (includeRows) file.rows = retainedRows;
+        cityCount += rowCount;
         minLng = Math.min(minLng, shardMinLng); minLat = Math.min(minLat, shardMinLat);
         maxLng = Math.max(maxLng, shardMaxLng); maxLat = Math.max(maxLat, shardMaxLat);
       }

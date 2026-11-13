@@ -1,4 +1,15 @@
 import { loadCatalog } from './data-store.js';
+import { newCaptureSummary } from './panoid-time.js';
+function sumCapture(collections){
+  const result=newCaptureSummary();
+  for(const item of collections){const summary=item.captureSummary;if(!summary)continue;
+    if(summary.total!==item.count||summary.source+summary.panoid+summary.unknown!==summary.total)throw Error('时间摘要与城市点位不符');
+    for(const key of ['source','panoid','unknown','total'])result[key]+=summary[key];
+    if(summary.earliest&&(!result.earliest||summary.earliest<result.earliest))result.earliest=summary.earliest;
+    if(summary.latest&&(!result.latest||summary.latest>result.latest))result.latest=summary.latest;
+  }
+  return result;
+}
 
 const text=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const number=value=>Number(value||0).toLocaleString('zh-CN');
@@ -35,11 +46,11 @@ if(typeof document!=='undefined')try{
       details.addEventListener('toggle',()=>{if(details.open)open.add(group.name);else open.delete(group.name);});
       const heading=document.createElement('summary');heading.innerHTML=`<span class="province-name">${text(group.name)}</span><span class="province-total">${group.cities.length} 城 · 常规 ${number(group.counts.regular)} · <b class="legend-hidden">隐藏 ${number(group.counts.hidden)}</b> · 时光机 ${number(group.counts.timeMachine)} · 合计 ${number(group.counts.total)}</span>`;
       const body=document.createElement('div');body.className='province-body';body.innerHTML=bar(group.counts);
-      const table=document.createElement('table');table.innerHTML='<thead><tr><th>地级行政区</th><th>常规</th><th>隐藏</th><th>时光机</th><th>未知</th><th>合计</th><th>隐藏占比</th><th>原始 / 完全重复 / 差异</th></tr></thead>';
+      const table=document.createElement('table');table.innerHTML='<thead><tr><th>地级行政区</th><th>常规</th><th>隐藏</th><th>时光机</th><th>未知</th><th>合计</th><th>隐藏占比</th><th>原始 / 完全重复 / 差异</th><th>时间：源日期 / 编码 / 未知</th><th>日期范围</th></tr></thead>';
       const tbody=document.createElement('tbody');
       for(const city of [...group.cities].sort((a,b)=>compare({name:a.item.name,counts:a.counts},{name:b.item.name,counts:b.counts}))){
         const {item,counts}=city,summary=item.summary||{},base=`./?city=${encodeURIComponent(item.id)}`,tr=document.createElement('tr');tr.dataset.city=item.id;
-        tr.innerHTML=`<td><a href="${base}">${text(item.name)}</a> <small>${text(item.adcode)}</small></td><td>${number(counts.regular)}</td><td class="legend-hidden">${counts.hidden?`<a href="${base}&kind=hidden">${number(counts.hidden)}</a>`:'0'}</td><td>${counts.timeMachine?`<a href="${base}&kind=time-machine">${number(counts.timeMachine)}</a>`:'0'}</td><td>${number(counts.unknown)}</td><td>${number(counts.total)}</td><td>${(100*counts.hidden/(counts.total||1)).toFixed(2)}%</td><td>${number(summary.rawRecords??counts.total)} / ${number(summary.exactDuplicates)} / ${number(summary.differingDuplicates)}</td>`;tbody.append(tr);
+        tr.innerHTML=`<td><a href="${base}">${text(item.name)}</a> <small>${text(item.adcode)}</small></td><td>${number(counts.regular)}</td><td class="legend-hidden">${counts.hidden?`<a href="${base}&kind=hidden">${number(counts.hidden)}</a>`:'0'}</td><td>${counts.timeMachine?`<a href="${base}&kind=time-machine">${number(counts.timeMachine)}</a>`:'0'}</td><td>${number(counts.unknown)}</td><td>${number(counts.total)}</td><td>${(100*counts.hidden/(counts.total||1)).toFixed(2)}%</td><td>${number(summary.rawRecords??counts.total)} / ${number(summary.exactDuplicates)} / ${number(summary.differingDuplicates)}</td><td>${number(item.captureSummary?.source)} / ${number(item.captureSummary?.panoid)} / ${number(item.captureSummary?.unknown)}</td><td>${text(item.captureSummary?.earliest||'—')} – ${text(item.captureSummary?.latest||'—')}</td>`;tbody.append(tr);
       }
       table.append(tbody);body.append(table);details.append(heading,body);return details;
     }));
@@ -52,10 +63,12 @@ if(typeof document!=='undefined')try{
   document.getElementById('report-expand').addEventListener('click',()=>{for(const group of groups.provinces)open.add(group.name);render();});
   document.getElementById('report-collapse').addEventListener('click',()=>{open.clear();search.value='';hiddenOnly.checked=false;render();});
   for(const key of ['total','regular','hidden','timeMachine','unknown'])document.getElementById(`summary-${key==='timeMachine'?'time-machine':key}`).textContent=number(groups.total[key]);
+  const dates=sumCapture(catalog.collections);
+  document.getElementById('report-time-summary').textContent=`时间覆盖：源文件明确 ${number(dates.source)} · panoid 编码解析 ${number(dates.panoid)} · 未知 ${number(dates.unknown)} · ${dates.earliest||'—'} 至 ${dates.latest||'—'}。编码包含时分秒/毫秒字段但不包含时区；不是逐条官网认证。`;
   document.getElementById('overall-bar').innerHTML=bar(groups.total);
   document.getElementById('report-coverage').textContent=catalog.publication?`本报告仅含Pages已发布 ${catalog.collections.length} 城；完整源目录 ${catalog.publication.sourceCities} 城，另 ${catalog.publication.remainingCities} 城尚未发布。`:`本报告仅统计目录内 ${catalog.collections.length} 城。`;
   const summary=catalog.importSummary||{},total=document.getElementById('report-total');total.textContent=`${number(summary.rawRecords??catalog.total)} 原始 · ${number(catalog.total)} 唯一 · ${number(summary.exactDuplicates)} 完全重复 · ${number(summary.differingDuplicates)} 差异版本`;total.dataset.ready = 'true';
   document.querySelector('#report-source span:last-child').textContent=`已发布 ${catalog.collections.length} 城 · ${groups.provinces.length} 省级行政区`;
-  render();window.__BAIDU_WORKBENCH__=Object.freeze({provider:'baidu',ready:true,total:catalog.total,collections:catalog.collections.length,counts:groups.total,source:'published-catalog-summary'});
+  render();window.__BAIDU_WORKBENCH__=Object.freeze({provider:'baidu',ready:true,total:catalog.total,collections:catalog.collections.length,counts:groups.total,captureSummary:dates,source:'published-catalog-summary'});
 }catch(error){document.getElementById('report-total').textContent='目录暂不可用';document.getElementById('report-error').textContent=error.message;window.__BAIDU_WORKBENCH__=Object.freeze({provider:'baidu',ready:false,error:error.message});}
-export {aggregate,countFor,filterGroups};
+export {aggregate,countFor,filterGroups,sumCapture};

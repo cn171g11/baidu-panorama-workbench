@@ -1,3 +1,4 @@
+import { captureInfo, enrichCapturedRow, panoidCaptured } from './panoid-time.js';
 import { categoryFor, countCategories } from './classification.js';
 import { parseImport, validateRows, filterRows, baiduPanoramaUrl, mergeRows } from './metadata.js';
 import { loadCatalog, loadCollection, saveLocalRows, loadLocalRows, clearLocalRows } from './data-store.js';
@@ -93,7 +94,7 @@ async function loadPublishedCollectionsNow(collections) {
   try {
     for (const collection of collections) {
       let rows=cityCache.get(collection.id);
-      if(!rows){rows=await loadCollection(collection);cityCache.set(collection.id,rows);while(cityCache.size>2)cityCache.delete(cityCache.keys().next().value);}
+      if(!rows){rows=await loadCollection(collection);cityCache.set(collection.id,rows);while(cityCache.size>1)cityCache.delete(cityCache.keys().next().value);}
       if (requestId !== collectionRequest) return;
       for (const row of rows) nextRows.push(Object.assign(row, { __collectionId: collection.id, __city: collection.name, __province: collection.province }));
     }
@@ -198,7 +199,7 @@ function makeTableRow(row) {
   tr.setAttribute('aria-selected', String(row === state.selected));
   const extras = row[9] || {};
   const title = row[3] || row[0] || '未命名百度 panoid';
-  const date = row[4] || extras.imageDate || extras.extra?.imageDate || extras.observations?.imageDate || '日期未知';
+  const info=captureInfo(row),date=info.value?`${info.value}${info.source==='panoid'?' · 编码解析':''}`:'日期未知';
   tr.innerHTML = `<td><button class="record-link" type="button"><span class="row-primary">${safe(title)}</span><br><span class="row-secondary">${safe(row[0])}</span></button></td><td>${safe(row.__city || '')}</td><td>${safe(date)}</td><td>${safe(Number(row[1]).toFixed(5))}, ${safe(Number(row[2]).toFixed(5))}</td>`;
   tr.querySelector('button').addEventListener('click', () => showDetail(row));
   tr.addEventListener('click', (event) => { if (event.target === tr) showDetail(row); });
@@ -218,7 +219,7 @@ function showDetail(row, focusMap = true) {
   const city = row.__city || state.collectionById.get(row.__collectionId)?.name || '本地导入';
   const extras = row[9] || {};
   const url = baiduPanoramaUrl(row[0], {...extras,heading:row[5]});
-  const imageDate = row[4] || extras.imageDate || extras.extra?.imageDate || extras.observations?.imageDate || '日期未知';
+  const time=captureInfo(row),imageDate=time.value||'日期未知';
   const tags = Array.isArray(extras.tags) ? extras.tags : [];
   const links = Array.isArray(extras.links) ? extras.links : [];
   const source = extras.source || 'baidu';
@@ -227,9 +228,9 @@ function showDetail(row, focusMap = true) {
   const timeline = historyItems.length ? `<section class="timeline" aria-label="街景历史时间线"><h3>历史记录</h3><ol>${historyItems.map((item) => { const entry = typeof item === 'object' && item !== null ? item : { value: item }; return `<li><time>${safe(entry.date || entry.captured || '未注明日期')}</time><span>${safe(entry.description || entry.note || entry.value || '')}</span></li>`; }).join('')}</ol></section>` : '';
   const linkList = links.length ? `<div class="detail-links"><span>百度链接 ID</span><div>${links.map((id) => `<a href="${safe(baiduPanoramaUrl(id))}" target="_blank" rel="noopener noreferrer">${safe(id)}</a>`).join('')}</div></div>` : '';
   const timelineIds=[...new Set((Array.isArray(extras.timeLine)?extras.timeLine:[]).filter(id=>typeof id==='string'&&id.trim()))];
-  const timelineLinks=timelineIds.length?`<div class="detail-links"><span>源文件时间线 ID（非拓扑分类证明）</span><div>${timelineIds.map(id=>`<a href="${safe(baiduPanoramaUrl(id))}" target="_blank" rel="noopener noreferrer">${safe(id)}</a>`).join('')}</div></div>`:'';
+  const timelineLinks=timelineIds.length?`<div class="detail-links"><span>源文件时间线 ID（非拓扑分类证明）</span><div>${timelineIds.map(id=>`<a href="${safe(baiduPanoramaUrl(id))}" target="_blank" rel="noopener noreferrer">${safe(id)}${panoidCaptured(id)?` · ${safe(panoidCaptured(id).slice(0,10))}（编码）`:''}</a>`).join('')}</div></div>`:'';
   const tagList = tags.length ? `<div class="detail-tags">${tags.map((tag) => `<span>${safe(tag)}</span>`).join('')}</div>` : '';
-  elements.detail.innerHTML = `<div class="detail-content"><p class="eyebrow">百度街景详情</p><h2>${safe(row[3] || row[0] || '未命名百度 panoid')}</h2><div class="detail-city">${safe(row.__province || '')} ${safe(city)}</div><div class="detail-fields">${[['panoid',row[0]],['来源',source],['采集日期',imageDate],['坐标（BD-09）',`${row[1]}, ${row[2]}`],['方向',row[5] ?? '未知'],['俯仰角',extras.pitch ?? '未知'],['缩放级别',extras.zoom ?? '未知'],['来源类型（源标注）',({regular:'常规',hidden:'隐藏','time-machine':'时光机',unknown:'未知'})[categoryFor(row)]],['来源影像检查',extras.verification?.imageLoaded===true?'源文件标为成功（非本站复核）':extras.verification?.imageLoaded===false?'源文件标为未成功':'未提供'],['街景元数据标记',row[7] ? '有记录（不保证官网当前可用）' : '未标记']].map(([k,v])=>`<div class="detail-line"><span>${safe(k)}</span><span>${safe(v)}</span></div>`).join('')}</div>${tagList}${linkList}${timelineLinks}${timeline}<p class="official-note">在新标签打开百度官网全景。手机若被百度转到普通地图，可切换浏览器“桌面版网站”。链接不等于影像可用保证。</p><div class="detail-actions"><a class="button button-primary" href="${safe(url)}" target="_blank" rel="noopener noreferrer">在百度地图打开街景 ↗</a><button class="button button-quiet" id="copy-panoid" type="button">复制 panoid</button><button class="button button-quiet" id="copy-url" type="button">复制百度街景链接</button><button class="button button-quiet" id="copy-coordinate" type="button">复制 BD-09 坐标</button>${collectionForRow(row)==='local'?'<button class="button button-quiet" id="remove-local-row" type="button">删除本地记录</button>':''}</div></div>`;
+  elements.detail.innerHTML = `<div class="detail-content"><p class="eyebrow">百度街景详情</p><h2>${safe(row[3] || row[0] || '未命名百度 panoid')}</h2><div class="detail-city">${safe(row.__province || '')} ${safe(city)}</div><div class="detail-fields">${[['panoid',row[0]],['来源',source],['采集日期',imageDate],['日期来源',time.source==='source'?'源文件明确日期':time.source==='panoid'?'panoid 编码解析（未逐条官网认证）':'未知'],['时间说明',time.source==='panoid'?'编码含毫秒字段；不包含时区':time.timeZone||'源文件未标时区'],['坐标（BD-09）',`${row[1]}, ${row[2]}`],['方向',row[5] ?? '未知'],['俯仰角',extras.pitch ?? '未知'],['缩放级别',extras.zoom ?? '未知'],['来源类型（源标注）',({regular:'常规',hidden:'隐藏','time-machine':'时光机',unknown:'未知'})[categoryFor(row)]],['来源影像检查',extras.verification?.imageLoaded===true?'源文件标为成功（非本站复核）':extras.verification?.imageLoaded===false?'源文件标为未成功':'未提供'],['街景元数据标记',row[7] ? '有记录（不保证官网当前可用）' : '未标记']].map(([k,v])=>`<div class="detail-line"><span>${safe(k)}</span><span>${safe(v)}</span></div>`).join('')}</div>${tagList}${linkList}${timelineLinks}${timeline}<p class="official-note">在新标签打开百度官网全景。手机若被百度转到普通地图，可切换浏览器“桌面版网站”。链接不等于影像可用保证。</p><div class="detail-actions"><a class="button button-primary" href="${safe(url)}" target="_blank" rel="noopener noreferrer">在百度地图打开街景 ↗</a><button class="button button-quiet" id="copy-panoid" type="button">复制 panoid</button><button class="button button-quiet" id="copy-url" type="button">复制百度街景链接</button><button class="button button-quiet" id="copy-coordinate" type="button">复制 BD-09 坐标</button>${collectionForRow(row)==='local'?'<button class="button button-quiet" id="remove-local-row" type="button">删除本地记录</button>':''}</div></div>`;
   $('copy-panoid').addEventListener('click', async () => copyText(String(row[0]), '已复制 panoid'));
   $('copy-url').addEventListener('click', async () => copyText(url, '已复制百度街景链接'));
   $('copy-coordinate').addEventListener('click', async () => copyText(`${row[1]}, ${row[2]}`, '已复制 BD-09 坐标'));
@@ -302,8 +303,15 @@ async function importRows() {
   } catch (error) { setMessage(error.message || '数据验证失败，已有记录未更改。', 'error'); }
 }
 function exportRows() {
-  const envelope = { provider: 'baidu', coordinateSystem: 'BD-09', schemaVersion: 1, rows: state.visibleRows.map((r) => Array.from(r).slice(0, 10)) };
-  const blob = new Blob([JSON.stringify(envelope, null, 2)], { type: 'application/json' });
+  const chunks=['{"provider":"baidu","coordinateSystem":"BD-09","schemaVersion":1,"rows":['];
+  let batch='',count=0;
+  for(const row of state.visibleRows){
+    batch+=(count++?',':'')+JSON.stringify(enrichCapturedRow(row).slice(0,10));
+    if(batch.length>=64*1024){chunks.push(batch);batch='';}
+  }
+  if(batch)chunks.push(batch);
+  chunks.push(']}\n');
+  const blob = new Blob(chunks, { type: 'application/json' });
   const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = 'baidu-panorama-local.json'; link.click(); setTimeout(() => URL.revokeObjectURL(link.href), 0);
 }
 

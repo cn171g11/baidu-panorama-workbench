@@ -37,8 +37,8 @@ test('app uses metadata and isolated local storage APIs with bounded pagination'
   assert.match(app, /extras\.pitch/);
   assert.match(app, /extras\.zoom/);
   assert.match(app, /extras\.links/);
-  assert.match(app, /extras\.extra\?\.imageDate/);
-  assert.match(app, /extras\.observations\?\.imageDate/);
+  assert.match(app, /captureInfo\(row\)/);
+  assert.match(app, /enrichCapturedRow\(row\)/);
   assert.match(app, /saveLocalRows\('local'/);
   assert.match(app, /loadLocalRows\('local'/);
   assert.match(app, /clearLocalRows\('local'/);

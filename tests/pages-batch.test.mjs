@@ -33,7 +33,9 @@ test('batch publication hosts only chosen city gzip while preserving national so
   assert.equal(manifest.source,'github-pages');assert.equal(manifest.codec,'gzip');
   const asset=manifest.assets['baidu/110000/points-001.json'];assert.equal(asset.url,'baidu/110000/points-001.json.gz');
   const gzip=await readFile(path.join(result.output,'city-viewer/data',asset.url));const source=await readFile(path.join(f.root,'data/baidu/110000/points-001.json'));
-  assert(gunzipSync(gzip).equals(source));assert.equal(asset.sha256,createHash('sha256').update(source).digest('hex'));
+  const plain=gunzipSync(gzip);
+  assert.deepEqual(JSON.parse(plain),JSON.parse(source));assert.equal(asset.sha256,createHash('sha256').update(plain).digest('hex'));
+  assert.equal(asset.sourceSha256,createHash('sha256').update(source).digest('hex'));
   assert.equal(asset.compressedSha256,createHash('sha256').update(gzip).digest('hex'));
   assert((await readFile(path.join(f.root,'data/catalog.json'))).equals(before));
   await assert.rejects(readFile(path.join(result.output,'city-viewer/data/baidu/310000/points-001.json.gz')),/ENOENT/);

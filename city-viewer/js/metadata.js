@@ -1,4 +1,5 @@
 import { convertCoordinate } from "./coordinates.js";
+import { capturedValue } from "./panoid-time.js";
 
 const PANORAMA_FIELDS = ["panoid", "longitude", "latitude", "road", "captured", "heading", "hasThumb", "hasPano", "provider"];
 const FORBIDDEN_KEYS = /^(tencent|qq|qqpano|qqpanoid|tx|腾讯|腾讯街景|svid|rdid|sno|level0|providerSource)$/i;
@@ -219,10 +220,14 @@ function parseImport(text, { format, confirmedBaidu = false, coordinateSystem } 
 }
 
 function filterRows(rows, { query = "", road = "", date = "" } = {}) {
-  const q = String(query).toLocaleLowerCase();
+  const q = String(query).trim().toLocaleLowerCase();
+  if (!q && !road && !date) return rows;
   return rows.filter(row => {
-    const searchable = `${row[0]} ${row[3]} ${row[4]} ${row[1]} ${row[2]}`.toLocaleLowerCase();
-    return (!q || searchable.includes(q)) && (!road || row[3] === road) && (!date || row[4].startsWith(date));
+    if (road && row[3] !== road) return false;
+    const captured = q || date ? capturedValue(row) : '';
+    if (date && !captured.startsWith(date)) return false;
+    if (!q) return true;
+    return `${row[0]} ${row[3]} ${captured} ${row[1]} ${row[2]}`.toLocaleLowerCase().includes(q);
   });
 }
 function baiduPanoramaUrl(panoid, metadata = {}) {

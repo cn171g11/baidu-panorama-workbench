@@ -232,14 +232,15 @@ async function main() {
     document.body.appendChild(container);
     const mapState = module.createMap(container);
     try {
-      const rows=Array.from({length:180001},(_,i)=>[String(i).padStart(27,'0'),118.70+(i%1000)*0.0002,32+Math.floor(i/1000)*0.0002,'合成渲染测试','',null,false,false,'baidu']);
+      const testCount=${args.includes('--low-memory') ? 6000 : 180001};
+      const rows=Array.from({length:testCount},(_,i)=>[String(i).padStart(27,'0'),118.70+(i%1000)*0.0002,32+Math.floor(i/1000)*0.0002,'合成渲染测试','',null,false,false,'baidu']);
       const started=performance.now();
       module.renderMap(mapState,rows,'points');
       await new Promise(resolve=>setTimeout(resolve,150));
       const scatterMs=Math.round(performance.now()-started);
       const scatterCount=mapState.renderedCount;
       const layerCount=Object.keys(mapState.map._layers).length;
-      if(scatterCount!==180001||layerCount>10)throw Error('Large scatter missed rows or created per-point Leaflet layers');
+      if(scatterCount!==testCount||layerCount>10)throw Error('Large scatter missed rows or created per-point Leaflet layers');
       mapState.map.setZoom(mapState.map.getZoom()+1,{animate:false});
       await new Promise(resolve=>setTimeout(resolve,100));
       if(mapState.renderedCount<=0||getComputedStyle(mapState.canvasLayer._canvas).display==='none')throw Error('Canvas points disappeared after zoom');

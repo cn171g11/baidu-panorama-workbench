@@ -33,7 +33,7 @@ jobs:
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
       - name: Build selected Baidu city shards for same-origin Pages publication
-        run: node tools/publish_pages.mjs
+        run: npm run build:pages
       - name: Verify browser interactions using an unpublished empty-data fixture
         run: node tools/browser_smoke.mjs --site-root dist/pages --ui-fixture --browser /usr/bin/google-chrome
       - name: Verify real Baidu city shards and metadata in Chromium

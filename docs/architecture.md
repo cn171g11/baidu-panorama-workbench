@@ -10,7 +10,7 @@
 - catalog: `{schemaVersion:1, provider:"baidu", coordinateSystem:"BD-09", updatedAt:null|ISO8601, total:0, collections:[]}`。
 - collection: `{id, adcode, name, province, coordinateSystem:"BD-09", count, bounds:[minLng,minLat,maxLng,maxLat]|null, files:["baidu/<id>/points-001.json", ...]}`。`id` 和 `adcode` 为六位行政区代码；未知行政区用独立六位自定义码并在文档标明，禁止挪用腾讯集合键。
 - 分片为 JSON 行数组，不执行数据中的 JavaScript。每条为 `[panoid, longitude, latitude, road, captured, heading, hasThumb, hasPano, "baidu"]`，可在第十位放入经过校验的 `{district, links, history, source, pitch, zoom, extra, tags, observations}` 补充信息，未知合法字段保留在 extra；禁止改变前九位含义。
-- 所有归档坐标均为 BD-09；导入时明确声明源坐标系 BD-09 / GCJ-02 / WGS84，统一转换。原始百度 ID 保持字符串，不做数值转换、不猜测采集日期。
+- 所有归档坐标均为 BD-09；导入时明确声明源坐标系 BD-09 / GCJ-02 / WGS84，统一转换。原始百度 ID 保持字符串。源文件明确日期优先；用户确认支持从panoid提取时间后，仅对适用27位格式生成带来源标记的派生时间，不覆盖归档原值、不虚构时区（见 `docs/panoid-time.md`）。
 - 唯一性按百度 panoid 全库校验。显式腾讯/QQ/其他 provider、腾讯街景跳转 URL 或专有字段不得通过校验，不能用来源确认选项覆盖显式非百度标记。
 - 原始文件、计数、边界、重复 ID 必须通过构建前校验。默认每片最多 180000 条。
 

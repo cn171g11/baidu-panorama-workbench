@@ -96,6 +96,12 @@ async function main() {
     return rows;
   }
   const rows = await loadCity(target), sample = rows[0];
+   if(sample[4]){
+     const day=sample[4].slice(0,10),expected=rows.reduce((n,row)=>n+Number(row[4].startsWith(day)),0);
+     await fill('#date-filter',day);await until(()=>evaluate(`window.__BAIDU_WORKBENCH__.getState().visibleCount===${expected}`));
+     await fill('#date-filter','');await until(()=>evaluate(`window.__BAIDU_WORKBENCH__.getState().visibleCount===${target.count}`));
+     report.checks.dateFilter={day,matched:expected,source:sample[9]?.captureTime?.source||'source'};
+   }
   assert.equal(typeof sample[0], 'string'); assert(['baidu','baidu_pano'].includes(sample[9].source));
   assert(Array.isArray(sample[9].links)); assert(sample[9].sourceType==='hidden'||sample[9].sourceType==='time-machine'||(typeof sample[9].pitch==='number'&&typeof sample[9].zoom==='number'));
   await fill('#search-input', sample[0]);
@@ -105,6 +111,7 @@ async function main() {
     await until(()=>evaluate(`!!document.querySelector('.leaflet-popup #detail-panel') && window.__BAIDU_WORKBENCH__.getState().popupOpen`));
     report.checks.mapPopupDetails=true;
   }
+  if(sample[9]?.captureTime?.source==='panoid')assert(await evaluate(`document.querySelector('#detail-panel').textContent.includes('panoid 编码解析') && document.querySelector('#detail-panel').textContent.includes(${JSON.stringify(sample[4])})`),'Derived date provenance missing from detail');
   const href = await evaluate(`document.querySelector('#detail-panel .detail-actions a[href^="https://map.baidu.com/"]').href`);
      const parsedHref=new URL(href),hashParams=new URLSearchParams(parsedHref.hash.replace(/^#/,'').replace(/^.*?#/,''));
    assert.equal(parsedHref.searchParams.get('panoId')||hashParams.get('panoid'), sample[0]);
@@ -128,7 +135,7 @@ async function main() {
   const dated = catalog.collections.find(city => city.id === '522700' && city.count > 0);
   if (dated && dated.id !== target.id) {
     const datedRows = await loadCity(dated);
-    assert(datedRows.every(row => row[4] && row[9].extra?.country === 'CN'), 'Explicit source date/country was not preserved');
+    assert(datedRows.every(row => row[4] && row[9].extra?.country === 'CN' && row[4]===row[9].extra.imageDate && !row[9].captureTime), 'Explicit source date/country was not preserved');
     report.checks.explicitSourceDates = { city: dated.name, rows: dated.count, sampleDate: datedRows[0][4], sampleCountry: datedRows[0][9].extra.country };
   }
   const allowed = new Set([target.id, ...(dated ? [dated.id] : [])]);
@@ -144,6 +151,10 @@ async function main() {
   await send('Page.navigate', { url: new URL('report.html', url).href });
   await until(() => evaluate(`document.querySelector('#report-total')?.dataset.ready==='true'`));
   assert(await evaluate(`document.querySelector('#report-total').textContent.replaceAll(',','').includes(${JSON.stringify(String(catalog.total))})`), 'Published report total mismatch');
+  if(catalog.captureSummary){
+    assert.deepEqual(await evaluate('window.__BAIDU_WORKBENCH__.captureSummary'),catalog.captureSummary,'Published time report mismatch');
+    report.checks.captureSummary=catalog.captureSummary;
+  }
   assert.deepEqual(errors, []);
   report.checks.noTencentRequests = true; report.checks.noRuntimeExceptions = true; report.checks.onlySelectedCityShards = true;
   report.passed = true;
