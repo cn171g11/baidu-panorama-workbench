@@ -1,0 +1,102 @@
+{
+  "schemaVersion": 1,
+  "source": "OpenStreetMap",
+  "license": "ODbL-1.0",
+  "attribution": "© OpenStreetMap contributors",
+  "cityId": "653000",
+  "cityName": "克孜勒苏柯尔克孜自治州",
+  "coordinateSystem": "WGS84",
+  "timestamp": "2026-11-14T10:39:19Z",
+  "parentTimestamp": "2026-11-14T09:49:36Z",
+  "endpoint": "https://overpass-api.de/api/interpreter",
+  "rawSha256": "bc1ec4a9ec11406083b23578272103c9a095f1931d74e1ac6fab9766c9859b1c",
+  "parentRawSha256": "c12635112029f59ffe90cc3bde31003dc11730054ee16046a29935ca5e71bb7e",
+  "sha256": "c889ac68ca1a548586ef3f54f4c28f394ad36179b225d7d84a98f6fdbd6fe7fa",
+  "bytes": 379737,
+  "parentBytes": 350477,
+  "parentSha256": "a92ce6e011567104995aa55cc41b95d099a657921ec4c374cc4e2d4473f2f6bf",
+  "countyRelations": [
+    {
+      "id": "653024",
+      "name": "乌恰县",
+      "osmRelationId": "2710638",
+      "adcode": "653024"
+    },
+    {
+      "id": "653001",
+      "name": "阿图什市",
+      "osmRelationId": "2710651",
+      "adcode": "653001"
+    },
+    {
+      "id": "653023",
+      "name": "阿合奇县",
+      "osmRelationId": "2710677",
+      "adcode": "653023"
+    },
+    {
+      "id": "653022",
+      "name": "阿克陶县",
+      "osmRelationId": "2710678",
+      "adcode": "653022"
+    }
+  ],
+  "parentRelationId": "2710679",
+  "parentAdminLevel": 5,
+  "parentDivisionCode": "653000",
+  "parentUsable": true,
+  "parentSelectionBasis": "name-lowest-admin-level",
+  "parentFenceRequired": true,
+  "rejected": [],
+  "idConflicts": [],
+  "excluded": [],
+  "associationBasis": "osm-admin-centre-point-in-parent",
+  "associations": [
+    {
+      "id": "653024",
+      "osmRelationId": "2710638",
+      "name": "乌恰县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "3840160043"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "653001",
+      "osmRelationId": "2710651",
+      "name": "阿图什市",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "244076063"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "653023",
+      "osmRelationId": "2710677",
+      "name": "阿合奇县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "4641990517"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "653022",
+      "osmRelationId": "2710678",
+      "name": "阿克陶县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "4551068260"
+      ],
+      "unresolvedAdminCentres": 0
+    }
+  ],
+  "associationCaveat": "OSM node admin_centre association is boundary-inclusive, not full county-polygon intersection or an official registry. Missing centres are unverified candidates; publication requires the independent native WGS84 parent fence.",
+  "matchBasis": "OSM native parent and county geometry; BD-09 normalized from source-declared WGS84. Full originalRecord retained; unmatched preserved."
+}

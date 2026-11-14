@@ -1,0 +1,252 @@
+{
+  "schemaVersion": 1,
+  "source": "OpenStreetMap",
+  "license": "ODbL-1.0",
+  "attribution": "© OpenStreetMap contributors",
+  "cityId": "653100",
+  "cityName": "喀什地区",
+  "coordinateSystem": "WGS84",
+  "timestamp": "2026-11-14T10:42:21Z",
+  "parentTimestamp": "2026-11-14T10:08:51Z",
+  "endpoint": "https://overpass-api.de/api/interpreter",
+  "rawSha256": "e6b113a6a7f5a829c12982a96df2c6aa1f9727722ac8f199257503a6ab1bc137",
+  "parentRawSha256": "4086cb48e7021178909d89141b4b1a784b1c2dfae5f7d62d6803e143f4b45224",
+  "sha256": "08051f200fca0ddb4051ff8af0003add77679c360843452c6bfd89f8550d6cc0",
+  "bytes": 793155,
+  "parentBytes": 437211,
+  "parentSha256": "76aaf4c4c604f7999ca13063e82bb1944d81165330b751f50cd70ea2eb12f3f4",
+  "countyRelations": [
+    {
+      "id": "653126",
+      "name": "叶城县",
+      "osmRelationId": "2748424",
+      "adcode": "653126"
+    },
+    {
+      "id": "653101",
+      "name": "喀什市",
+      "osmRelationId": "2748425",
+      "adcode": "653101"
+    },
+    {
+      "id": "653127",
+      "name": "麦盖提县",
+      "osmRelationId": "2748426",
+      "adcode": "653127"
+    },
+    {
+      "id": "653130",
+      "name": "巴楚县",
+      "osmRelationId": "2748427",
+      "adcode": "653130"
+    },
+    {
+      "id": "653129",
+      "name": "伽师县",
+      "osmRelationId": "2748428",
+      "adcode": "653129"
+    },
+    {
+      "id": "osm-r2748429",
+      "name": "泽普县",
+      "osmRelationId": "2748429",
+      "adcode": null
+    },
+    {
+      "id": "653121",
+      "name": "疏附县",
+      "osmRelationId": "2748430",
+      "adcode": "653121"
+    },
+    {
+      "id": "653122",
+      "name": "疏勒县",
+      "osmRelationId": "2748431",
+      "adcode": "653122"
+    },
+    {
+      "id": "653131",
+      "name": "塔什库尔干塔吉克自治县",
+      "osmRelationId": "2748432",
+      "adcode": "653131"
+    },
+    {
+      "id": "653125",
+      "name": "莎车县",
+      "osmRelationId": "2748433",
+      "adcode": "653125"
+    },
+    {
+      "id": "653123",
+      "name": "英吉沙县",
+      "osmRelationId": "2748434",
+      "adcode": "653123"
+    },
+    {
+      "id": "osm-r2748435",
+      "name": "岳普湖县",
+      "osmRelationId": "2748435",
+      "adcode": null
+    },
+    {
+      "id": "osm-r20378208",
+      "name": "岑岭县",
+      "osmRelationId": "20378208",
+      "adcode": null
+    }
+  ],
+  "parentRelationId": "2748436",
+  "parentAdminLevel": 5,
+  "parentDivisionCode": "653100",
+  "parentUsable": true,
+  "parentSelectionBasis": "name-lowest-admin-level",
+  "parentFenceRequired": true,
+  "rejected": [],
+  "idConflicts": [],
+  "excluded": [],
+  "associationBasis": "osm-admin-centre-point-in-parent",
+  "associations": [
+    {
+      "id": "653126",
+      "osmRelationId": "2748424",
+      "name": "叶城县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "244082254"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "653101",
+      "osmRelationId": "2748425",
+      "name": "喀什市",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    },
+    {
+      "id": "653127",
+      "osmRelationId": "2748426",
+      "name": "麦盖提县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "4435843325"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "653130",
+      "osmRelationId": "2748427",
+      "name": "巴楚县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "897722464"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "653129",
+      "osmRelationId": "2748428",
+      "name": "伽师县",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    },
+    {
+      "id": "osm-r2748429",
+      "osmRelationId": "2748429",
+      "name": "泽普县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "244082857"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "653121",
+      "osmRelationId": "2748430",
+      "name": "疏附县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "4637898737"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "653122",
+      "osmRelationId": "2748431",
+      "name": "疏勒县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "1184118386"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "653131",
+      "osmRelationId": "2748432",
+      "name": "塔什库尔干塔吉克自治县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "571790073"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "653125",
+      "osmRelationId": "2748433",
+      "name": "莎车县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "272573610"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "653123",
+      "osmRelationId": "2748434",
+      "name": "英吉沙县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "244082255"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "osm-r2748435",
+      "osmRelationId": "2748435",
+      "name": "岳普湖县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "4637898739"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "osm-r20378208",
+      "osmRelationId": "20378208",
+      "name": "岑岭县",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    }
+  ],
+  "associationCaveat": "OSM node admin_centre association is boundary-inclusive, not full county-polygon intersection or an official registry. Missing centres are unverified candidates; publication requires the independent native WGS84 parent fence.",
+  "matchBasis": "OSM native parent and county geometry; BD-09 normalized from source-declared WGS84. Full originalRecord retained; unmatched preserved."
+}

@@ -1,0 +1,169 @@
+{
+  "schemaVersion": 1,
+  "source": "OpenStreetMap",
+  "license": "ODbL-1.0",
+  "attribution": "© OpenStreetMap contributors",
+  "cityId": "650100",
+  "cityName": "乌鲁木齐市",
+  "coordinateSystem": "WGS84",
+  "timestamp": "2026-11-14T10:45:21Z",
+  "parentTimestamp": "2026-07-24T11:04:51Z",
+  "endpoint": "https://overpass-api.de/api/interpreter",
+  "rawSha256": "3381ba5049274d49d6e771613f7f6e8672e5595cdd3b20d258c97e5763e70061",
+  "parentRawSha256": "0e2379e59b0a7bcad99822d54cf2df7ce0cb3a989bfd0a29d337a42785d85402",
+  "sha256": "0cf07bc0fcc6c83bf16d3c68f9642c727f095073fff7ac8808f39bc498436855",
+  "bytes": 202571,
+  "parentBytes": 108537,
+  "parentSha256": "e886dd3e561ad55c80bb69758f713b48207c0e8a04f647b08727997391998f24",
+  "countyRelations": [
+    {
+      "id": "osm-r5662754",
+      "name": "米东区",
+      "osmRelationId": "5662754",
+      "adcode": null
+    },
+    {
+      "id": "osm-r5662915",
+      "name": "达坂城区",
+      "osmRelationId": "5662915",
+      "adcode": null
+    },
+    {
+      "id": "osm-r5663100",
+      "name": "沙依巴克区",
+      "osmRelationId": "5663100",
+      "adcode": null
+    },
+    {
+      "id": "osm-r5663101",
+      "name": "乌鲁木齐县",
+      "osmRelationId": "5663101",
+      "adcode": null
+    },
+    {
+      "id": "osm-r5663207",
+      "name": "天山区",
+      "osmRelationId": "5663207",
+      "adcode": null
+    },
+    {
+      "id": "osm-r5663231",
+      "name": "水磨沟区",
+      "osmRelationId": "5663231",
+      "adcode": null
+    },
+    {
+      "id": "osm-r5663232",
+      "name": "头屯河区",
+      "osmRelationId": "5663232",
+      "adcode": null
+    },
+    {
+      "id": "650104",
+      "name": "新市区",
+      "osmRelationId": "5663233",
+      "adcode": "650104"
+    }
+  ],
+  "parentRelationId": "2752472",
+  "parentAdminLevel": 5,
+  "parentDivisionCode": null,
+  "parentUsable": true,
+  "parentSelectionBasis": "name-lowest-admin-level",
+  "parentFenceRequired": true,
+  "rejected": [],
+  "idConflicts": [],
+  "excluded": [],
+  "associationBasis": "osm-admin-centre-point-in-parent",
+  "associations": [
+    {
+      "id": "osm-r5662754",
+      "osmRelationId": "5662754",
+      "name": "米东区",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    },
+    {
+      "id": "osm-r5662915",
+      "osmRelationId": "5662915",
+      "name": "达坂城区",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "273085306"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "osm-r5663100",
+      "osmRelationId": "5663100",
+      "name": "沙依巴克区",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "3392410068"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "osm-r5663101",
+      "osmRelationId": "5663101",
+      "name": "乌鲁木齐县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "4019402753"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "osm-r5663207",
+      "osmRelationId": "5663207",
+      "name": "天山区",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "3392410064"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "osm-r5663231",
+      "osmRelationId": "5663231",
+      "name": "水磨沟区",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "3392410067"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "osm-r5663232",
+      "osmRelationId": "5663232",
+      "name": "头屯河区",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "3392410065"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "650104",
+      "osmRelationId": "5663233",
+      "name": "新市区",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "3392410066"
+      ],
+      "unresolvedAdminCentres": 0
+    }
+  ],
+  "associationCaveat": "OSM node admin_centre association is boundary-inclusive, not full county-polygon intersection or an official registry. Missing centres are unverified candidates; publication requires the independent native WGS84 parent fence.",
+  "matchBasis": "OSM native parent and county geometry; BD-09 normalized from source-declared WGS84. Full originalRecord retained; unmatched preserved."
+}

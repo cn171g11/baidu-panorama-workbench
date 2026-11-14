@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 1,
+  "source": "OpenStreetMap",
+  "license": "ODbL-1.0",
+  "attribution": "© OpenStreetMap contributors",
+  "cityId": "650500",
+  "cityName": "哈密市",
+  "coordinateSystem": "WGS84",
+  "timestamp": "2026-11-14T10:40:20Z",
+  "parentTimestamp": "2026-11-14T09:49:36Z",
+  "endpoint": "https://overpass-api.de/api/interpreter",
+  "rawSha256": "e7a6fa520eb2a1cf343036d0ac58fceb41af4384c642ff39c4845dd923e4fa29",
+  "parentRawSha256": "260ed7d0e254e81d0e1a095f186bc385c1627f6948637c408988cfb8028eaec8",
+  "sha256": "be1783123f85706213e6d67326365d0fb80b4bd34cee124d74a170f0c012a4e6",
+  "bytes": 117692,
+  "parentBytes": 55712,
+  "parentSha256": "e184992a24e92eef462bb0c9d8eb082fc18635371f551a5a160c3b2d7422439a",
+  "countyRelations": [
+    {
+      "id": "652222",
+      "name": "巴里坤哈萨克自治县",
+      "osmRelationId": "2747164",
+      "adcode": "652222"
+    },
+    {
+      "id": "650502",
+      "name": "伊州区",
+      "osmRelationId": "2747165",
+      "adcode": "650502"
+    },
+    {
+      "id": "652223",
+      "name": "伊吾县",
+      "osmRelationId": "2747166",
+      "adcode": "652223"
+    }
+  ],
+  "parentRelationId": "2747108",
+  "parentAdminLevel": 5,
+  "parentDivisionCode": "650500",
+  "parentUsable": true,
+  "parentSelectionBasis": "name-lowest-admin-level",
+  "parentFenceRequired": true,
+  "rejected": [],
+  "idConflicts": [],
+  "excluded": [],
+  "associationBasis": "osm-admin-centre-point-in-parent",
+  "associations": [
+    {
+      "id": "652222",
+      "osmRelationId": "2747164",
+      "name": "巴里坤哈萨克自治县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "4644398977"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "650502",
+      "osmRelationId": "2747165",
+      "name": "伊州区",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "244080532"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "652223",
+      "osmRelationId": "2747166",
+      "name": "伊吾县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "4022439054"
+      ],
+      "unresolvedAdminCentres": 0
+    }
+  ],
+  "associationCaveat": "OSM node admin_centre association is boundary-inclusive, not full county-polygon intersection or an official registry. Missing centres are unverified candidates; publication requires the independent native WGS84 parent fence.",
+  "matchBasis": "OSM native parent and county geometry; BD-09 normalized from source-declared WGS84. Full originalRecord retained; unmatched preserved."
+}

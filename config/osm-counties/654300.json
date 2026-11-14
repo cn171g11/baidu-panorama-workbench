@@ -1,0 +1,153 @@
+{
+  "schemaVersion": 1,
+  "source": "OpenStreetMap",
+  "license": "ODbL-1.0",
+  "attribution": "© OpenStreetMap contributors",
+  "cityId": "654300",
+  "cityName": "阿勒泰地区",
+  "coordinateSystem": "WGS84",
+  "timestamp": "2026-11-14T10:38:14Z",
+  "parentTimestamp": "2026-11-14T09:46:35Z",
+  "endpoint": "https://overpass-api.de/api/interpreter",
+  "rawSha256": "82bc998f278870f7133691e966bc659e8f92cbd8b8faa4f3d4025b6567c87601",
+  "parentRawSha256": "ff51ddc547f13c0a8709ce95eda805b0e8e22af38803806cb7774b1bbc1e0d06",
+  "sha256": "13c68d72cd9badaca1f3e7f1ebdde3ff6ca17ccea02d296aad2aa6269605bf7d",
+  "bytes": 451573,
+  "parentBytes": 261236,
+  "parentSha256": "e4288fffa2f3476e415c2c6542082e0008d6c3b26ba1a3552b93f20d8e38e2a5",
+  "countyRelations": [
+    {
+      "id": "654301",
+      "name": "阿勒泰市",
+      "osmRelationId": "2752330",
+      "adcode": "654301"
+    },
+    {
+      "id": "654321",
+      "name": "布尔津县",
+      "osmRelationId": "2752331",
+      "adcode": "654321"
+    },
+    {
+      "id": "osm-r2752332",
+      "name": "福海县",
+      "osmRelationId": "2752332",
+      "adcode": null
+    },
+    {
+      "id": "654322",
+      "name": "富蕴县",
+      "osmRelationId": "2752333",
+      "adcode": "654322"
+    },
+    {
+      "id": "654324",
+      "name": "哈巴河县",
+      "osmRelationId": "2752334",
+      "adcode": "654324"
+    },
+    {
+      "id": "654326",
+      "name": "吉木乃县",
+      "osmRelationId": "2752335",
+      "adcode": "654326"
+    },
+    {
+      "id": "654325",
+      "name": "青河县",
+      "osmRelationId": "2752336",
+      "adcode": "654325"
+    }
+  ],
+  "parentRelationId": "239062",
+  "parentAdminLevel": 5,
+  "parentDivisionCode": "654300",
+  "parentUsable": true,
+  "parentSelectionBasis": "name-lowest-admin-level",
+  "parentFenceRequired": true,
+  "rejected": [],
+  "idConflicts": [],
+  "excluded": [],
+  "associationBasis": "osm-admin-centre-point-in-parent",
+  "associations": [
+    {
+      "id": "654301",
+      "osmRelationId": "2752330",
+      "name": "阿勒泰市",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "244075671"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "654321",
+      "osmRelationId": "2752331",
+      "name": "布尔津县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "244076973"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "osm-r2752332",
+      "osmRelationId": "2752332",
+      "name": "福海县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "244079303"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "654322",
+      "osmRelationId": "2752333",
+      "name": "富蕴县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "1601492558"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "654324",
+      "osmRelationId": "2752334",
+      "name": "哈巴河县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "4679887141"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "654326",
+      "osmRelationId": "2752335",
+      "name": "吉木乃县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "5137662856"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "654325",
+      "osmRelationId": "2752336",
+      "name": "青河县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "2003516423"
+      ],
+      "unresolvedAdminCentres": 0
+    }
+  ],
+  "associationCaveat": "OSM node admin_centre association is boundary-inclusive, not full county-polygon intersection or an official registry. Missing centres are unverified candidates; publication requires the independent native WGS84 parent fence.",
+  "matchBasis": "OSM native parent and county geometry; BD-09 normalized from source-declared WGS84. Full originalRecord retained; unmatched preserved."
+}

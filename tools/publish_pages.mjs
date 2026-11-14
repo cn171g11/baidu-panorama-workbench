@@ -95,7 +95,7 @@ export async function publishPages({root=PROJECT_ROOT,output='dist/pages',commit
   const files=(fullCatalog.importSummary?.files||[]).filter(file=>selectedIds.has(file.city));
   const total=sum(selected,'count');
   const summary=fullCatalog.importSummary?{
-    ...fullCatalog.importSummary,sourceFiles:files.length,rawRecords:sum(files,'rawRecords'),uniquePanoids:total,
+    ...fullCatalog.importSummary,sourceFiles:new Set(files.map(file=>`${file.name}\0${file.sha256}`)).size,rawRecords:sum(files,'rawRecords'),uniquePanoids:total,
     exactDuplicates:sum(files,'exactDuplicates'),differingDuplicates:sum(files,'differingDuplicates'),invalidRecords:0,files,
   }:undefined;
   const countyPublication=config.countyShards?{partition:COUNTY_PARTITION,maxShardRows:25000,counties:selected.reduce((n,city)=>n+city.counties.filter(county=>county.kind==='county').length,0),citiesWithCountyGeometry:selected.filter(city=>city.counties.some(county=>county.kind==='county')).length,matched:sum(selected.map(city=>city.partitionSummary),'matched'),unmatched:sum(selected.map(city=>city.partitionSummary),'unmatched'),ambiguous:sum(selected.map(city=>city.partitionSummary),'ambiguous')}:null;

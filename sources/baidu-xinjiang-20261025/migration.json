@@ -1,0 +1,289 @@
+{
+  "schemaVersion": 1,
+  "provider": "baidu",
+  "batch": "baidu-xinjiang-20261025",
+  "migratedAt": "2026-11-14",
+  "sourceRepository": "https://github.com/cn171g11/tencent-panorama-workbench",
+  "sourcePath": "staging/baidu-xinjiang-20261025/points.json",
+  "sourceCommit": "3376019",
+  "source": {
+    "name": "baidu-xinjiang-20261025/points.json",
+    "bytes": 2079457,
+    "sha256": "c2787a7640db868dfda504dd2f2848fcc8507f0e66481c46727345968f3372c4",
+    "inputCoordinateSystem": "WGS84"
+  },
+  "sourceRecords": 12986,
+  "upstreamRawRecords": 13022,
+  "upstreamDuplicatesRemoved": 36,
+  "upstreamDuplicateEquivalence": "not provided",
+  "existingDuplicates": 0,
+  "newPanoids": 12986,
+  "baseTotal": 18998732,
+  "nextTotal": 19011718,
+  "baseCatalogSha256": "387572f25a00cd28ab655a09f1e5834b067d4a04bd740b4b34a0d825bb81c250",
+  "sourceSummaryBeforeSha256": "c9ea7b3f6dedcbc14dcda4ac11b2bb58200be0540742332e334cbe5c770f29b2",
+  "newArchiveFiles": [
+    {
+      "path": "baidu/654300/points-001.json",
+      "count": 238,
+      "bytes": 171319,
+      "sha256": "e0db19056e5b3953ada68418f3a55b5e05ea7a257a1da3ccf9990408bc489f9d"
+    },
+    {
+      "path": "baidu/652700/points-001.json",
+      "count": 27,
+      "bytes": 19435,
+      "sha256": "9b90704d9e03c6296b70acb09179bd0166152dda43ababc7d0ce911c1bc8c2b2"
+    },
+    {
+      "path": "baidu/653000/points-001.json",
+      "count": 328,
+      "bytes": 236061,
+      "sha256": "799f9ff3d1055c5f75a650d0a5598f446b83985b37a34924fab87c7774d6d026"
+    },
+    {
+      "path": "baidu/650500/points-001.json",
+      "count": 78,
+      "bytes": 56317,
+      "sha256": "8291e25b866bd964a0ea1268c2c682228f68c8c316e87d9944a1afabbfd2a6af"
+    },
+    {
+      "path": "baidu/650400/points-001.json",
+      "count": 897,
+      "bytes": 655121,
+      "sha256": "e0348cc9d15d7851bf78a2d42a0718c6f3aa11563944b35b18a476eec2fc2e56"
+    },
+    {
+      "path": "baidu/652800/points-001.json",
+      "count": 522,
+      "bytes": 375521,
+      "sha256": "1a3f785f92ca5b54182018eb802959d44d4a62806684622e436e9cee34f85443"
+    },
+    {
+      "path": "baidu/653100/points-001.json",
+      "count": 1069,
+      "bytes": 770233,
+      "sha256": "cf0f7e29e35bf46151e8990f11a4d09cbc400bb59926bdafac49ca61786861df"
+    },
+    {
+      "path": "baidu/652900/points-001.json",
+      "count": 773,
+      "bytes": 556359,
+      "sha256": "3c754960197ddf4e1963261e00863f7a89702ad5890661c7e610e7ea6326cb67"
+    },
+    {
+      "path": "baidu/654000/points-001.json",
+      "count": 1268,
+      "bytes": 912975,
+      "sha256": "415d0b19f0c0c9a755de6abf03718be50c5ed04618171fab5475b5a2e8714b26"
+    },
+    {
+      "path": "baidu/650200/points-001.json",
+      "count": 2029,
+      "bytes": 1469348,
+      "sha256": "abf658c1a6922131d5593c3c08146d6baee27492e3cc4e1bd7fa3b4b32cfe190"
+    },
+    {
+      "path": "baidu/652300/points-001.json",
+      "count": 602,
+      "bytes": 432272,
+      "sha256": "7c128df6701fb61f4620f7d476e3dd63d5e3d46195d6c7caa30e7824e70281a0"
+    },
+    {
+      "path": "baidu/650100/points-001.json",
+      "count": 2032,
+      "bytes": 1461952,
+      "sha256": "83930a4b3d850776f3ccdbb5c2a0709ebdcfeeb12b92a24324f550b6bfc8c46b"
+    },
+    {
+      "path": "baidu/659900/points-001.json",
+      "count": 3123,
+      "bytes": 2042793,
+      "sha256": "f50222899baf55ab5a32e79095cab1dda94ae970b31af58ac956edff07d7c045"
+    }
+  ],
+  "collections": [
+    {
+      "id": "654300",
+      "name": "阿勒泰地区",
+      "count": 238
+    },
+    {
+      "id": "652700",
+      "name": "博尔塔拉蒙古自治州",
+      "count": 27
+    },
+    {
+      "id": "653000",
+      "name": "克孜勒苏柯尔克孜自治州",
+      "count": 328
+    },
+    {
+      "id": "650500",
+      "name": "哈密市",
+      "count": 78
+    },
+    {
+      "id": "650400",
+      "name": "吐鲁番市",
+      "count": 897
+    },
+    {
+      "id": "652800",
+      "name": "巴音郭楞蒙古自治州",
+      "count": 522
+    },
+    {
+      "id": "653100",
+      "name": "喀什地区",
+      "count": 1069
+    },
+    {
+      "id": "652900",
+      "name": "阿克苏地区",
+      "count": 773
+    },
+    {
+      "id": "654000",
+      "name": "伊犁哈萨克自治州",
+      "count": 1268
+    },
+    {
+      "id": "650200",
+      "name": "克拉玛依市",
+      "count": 2029
+    },
+    {
+      "id": "652300",
+      "name": "昌吉回族自治州",
+      "count": 602
+    },
+    {
+      "id": "650100",
+      "name": "乌鲁木齐市",
+      "count": 2032
+    },
+    {
+      "id": "659900",
+      "name": "新疆未匹配（源导出）",
+      "count": 3123,
+      "collectionKind": "unmatched-region"
+    }
+  ],
+  "preservation": {
+    "allSourceRecordsPreserved": true,
+    "verified": 12986,
+    "rowsWithOriginalCoordinatesAndPose": 12986,
+    "existingCityFilesUntouched": 280
+  },
+  "boundarySummary": [
+    {
+      "id": "654300",
+      "name": "阿勒泰地区",
+      "sourceCount": 238,
+      "counties": 7,
+      "rejected": [],
+      "excluded": []
+    },
+    {
+      "id": "652700",
+      "name": "博尔塔拉蒙古自治州",
+      "sourceCount": 27,
+      "counties": 4,
+      "rejected": [],
+      "excluded": []
+    },
+    {
+      "id": "653000",
+      "name": "克孜勒苏柯尔克孜自治州",
+      "sourceCount": 328,
+      "counties": 4,
+      "rejected": [],
+      "excluded": []
+    },
+    {
+      "id": "650500",
+      "name": "哈密市",
+      "sourceCount": 78,
+      "counties": 3,
+      "rejected": [],
+      "excluded": []
+    },
+    {
+      "id": "650400",
+      "name": "吐鲁番市",
+      "sourceCount": 897,
+      "counties": 3,
+      "rejected": [],
+      "excluded": []
+    },
+    {
+      "id": "652800",
+      "name": "巴音郭楞蒙古自治州",
+      "sourceCount": 522,
+      "counties": 9,
+      "rejected": [],
+      "excluded": []
+    },
+    {
+      "id": "653100",
+      "name": "喀什地区",
+      "sourceCount": 1069,
+      "counties": 13,
+      "rejected": [],
+      "excluded": []
+    },
+    {
+      "id": "652900",
+      "name": "阿克苏地区",
+      "sourceCount": 773,
+      "counties": 9,
+      "rejected": [],
+      "excluded": []
+    },
+    {
+      "id": "654000",
+      "name": "伊犁哈萨克自治州",
+      "sourceCount": 1268,
+      "counties": 11,
+      "rejected": [],
+      "excluded": []
+    },
+    {
+      "id": "650200",
+      "name": "克拉玛依市",
+      "sourceCount": 2029,
+      "counties": 4,
+      "rejected": [],
+      "excluded": []
+    },
+    {
+      "id": "652300",
+      "name": "昌吉回族自治州",
+      "sourceCount": 602,
+      "counties": 7,
+      "rejected": [],
+      "excluded": []
+    },
+    {
+      "id": "650100",
+      "name": "乌鲁木齐市",
+      "sourceCount": 2032,
+      "counties": 8,
+      "rejected": [],
+      "excluded": []
+    },
+    {
+      "id": "659900",
+      "name": "新疆未匹配（源导出）",
+      "sourceCount": 3123,
+      "counties": 0
+    }
+  ],
+  "classification": "unknown: source did not supply hidden/regular audit",
+  "unmatchedCollection": {
+    "id": "659900",
+    "notOfficialAdministrativeCode": true,
+    "reason": "No single usable OSM city boundary; geometry errors/direct-admin areas retained without guessing"
+  }
+}

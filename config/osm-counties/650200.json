@@ -1,0 +1,100 @@
+{
+  "schemaVersion": 1,
+  "source": "OpenStreetMap",
+  "license": "ODbL-1.0",
+  "attribution": "© OpenStreetMap contributors",
+  "cityId": "650200",
+  "cityName": "克拉玛依市",
+  "coordinateSystem": "WGS84",
+  "timestamp": "2026-11-14T10:44:21Z",
+  "parentTimestamp": "2026-11-14T10:10:52Z",
+  "endpoint": "https://overpass-api.de/api/interpreter",
+  "rawSha256": "26d839a72e46efd586b7ec55727daaab3a40f8ff339c97982e20515d9a664340",
+  "parentRawSha256": "9815cf77e771c88a9f8a6a14070013aec4e1e6073b7c1e5e540d863f6626a287",
+  "sha256": "8a4c40a90dae6990e093d9c6bf200888169c6fcf723e44ba4eb81db1731c1c15",
+  "bytes": 122486,
+  "parentBytes": 145422,
+  "parentSha256": "3eae39729e2ca15fd2899e03462836a264a91e5d8f1d06c26f17ab586e6eeca5",
+  "countyRelations": [
+    {
+      "id": "650204",
+      "name": "白碱滩区",
+      "osmRelationId": "2751562",
+      "adcode": "650204"
+    },
+    {
+      "id": "650202",
+      "name": "独山子区",
+      "osmRelationId": "2751563",
+      "adcode": "650202"
+    },
+    {
+      "id": "650203",
+      "name": "克拉玛依区",
+      "osmRelationId": "2751564",
+      "adcode": "650203"
+    },
+    {
+      "id": "650205",
+      "name": "乌尔禾区",
+      "osmRelationId": "2751565",
+      "adcode": "650205"
+    }
+  ],
+  "parentRelationId": "2751491",
+  "parentAdminLevel": 5,
+  "parentDivisionCode": "650200",
+  "parentUsable": true,
+  "parentSelectionBasis": "name-lowest-admin-level",
+  "parentFenceRequired": true,
+  "rejected": [],
+  "idConflicts": [],
+  "excluded": [],
+  "associationBasis": "osm-admin-centre-point-in-parent",
+  "associations": [
+    {
+      "id": "650204",
+      "osmRelationId": "2751562",
+      "name": "白碱滩区",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "445384503"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "650202",
+      "osmRelationId": "2751563",
+      "name": "独山子区",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    },
+    {
+      "id": "650203",
+      "osmRelationId": "2751564",
+      "name": "克拉玛依区",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    },
+    {
+      "id": "650205",
+      "osmRelationId": "2751565",
+      "name": "乌尔禾区",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "273477087"
+      ],
+      "unresolvedAdminCentres": 0
+    }
+  ],
+  "associationCaveat": "OSM node admin_centre association is boundary-inclusive, not full county-polygon intersection or an official registry. Missing centres are unverified candidates; publication requires the independent native WGS84 parent fence.",
+  "matchBasis": "OSM native parent and county geometry; BD-09 normalized from source-declared WGS84. Full originalRecord retained; unmatched preserved."
+}

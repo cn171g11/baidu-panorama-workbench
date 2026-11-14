@@ -189,7 +189,9 @@ async function main() {
   start = requests.length;
   assert.equal(inspected.count, expectedCount(county, defaultPart(county))); assert(inspected.allBaidu && inspected.allCounty, 'Published row provider/county provenance mismatch');
   const sample = inspected.sample, area = sample[9]?.administrativeArea;
-  assert(area && area.source === 'OpenStreetMap' && area.countyId === countyID && typeof area.boundaryDate === 'string' && area.boundaryDate, 'Missing county boundary provenance');
+  assert(area && area.source === 'OpenStreetMap' && area.countyId === countyID, 'Missing county provenance');
+  if(county.kind==='unmatched')assert(area.boundaryDate===null||(typeof area.boundaryDate==='string'&&area.boundaryDate),'Invalid unmatched boundary date');
+  else assert(typeof area.boundaryDate === 'string' && area.boundaryDate, 'Missing county boundary provenance');
   assert(county.kind === 'unmatched' ? ['unmatched', 'ambiguous'].includes(area.match) : area.match === 'matched', 'County assignment status mismatch');
   const capture = inspected.time;
   if (capture.value) {
@@ -206,7 +208,7 @@ async function main() {
   await click('#toggle-list'); await click('#record-rows > :first-child .record-link');
   await until(() => evaluate("Boolean(document.querySelector('.leaflet-popup #detail-panel')&&window.__BAIDU_WORKBENCH__.getState().popupOpen)"));
   const detail = await evaluate("document.querySelector('#detail-panel').textContent");
-  for (const expected of [sample[0], area.countyName || '未匹配 / 未提供', area.match, area.boundaryDate, '县区（OSM空间匹配）', '县区匹配状态', '县界来源日期', '日期来源']) assert(detail.includes(expected), 'Popup missing provenance: ' + expected);
+  for (const expected of [sample[0], area.countyName || '未匹配 / 未提供', area.match, area.boundaryDate || '未提供', '县区（OSM空间匹配）', '县区匹配状态', '县界来源日期', '日期来源']) assert(detail.includes(expected), 'Popup missing provenance: ' + expected);
   if (capture.value) assert(detail.includes(capture.value), 'Popup date mismatch');
   if (capture.source === 'panoid') assert(detail.includes('panoid 编码解析') && detail.includes('未逐条官网认证'), 'Encoded date lacks provenance caveat');
   if (capture.source === 'source') assert(detail.includes('源文件明确日期'), 'Source date provenance missing');

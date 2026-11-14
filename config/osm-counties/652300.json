@@ -1,0 +1,152 @@
+{
+  "schemaVersion": 1,
+  "source": "OpenStreetMap",
+  "license": "ODbL-1.0",
+  "attribution": "© OpenStreetMap contributors",
+  "cityId": "652300",
+  "cityName": "昌吉回族自治州",
+  "coordinateSystem": "WGS84",
+  "timestamp": "2026-11-14T10:44:21Z",
+  "parentTimestamp": "2026-07-28T02:16:18Z",
+  "endpoint": "https://overpass-api.de/api/interpreter",
+  "rawSha256": "e22804171b9116a9a5f2441280ac9538c79ddd8917604784d292de7539e32a3b",
+  "parentRawSha256": "1a1e45b85599d6df4360ac124cc089313811de2de8762482cf3253b8fcf8e7cc",
+  "sha256": "c7d054996b1684a17873a439f7e8a26049a9916dafc43a9fcbdc0f4118546662",
+  "bytes": 327978,
+  "parentBytes": 159796,
+  "parentSha256": "104aae1eda4df84c4564ed217c30ddeab5023956702ee1f459b1d7366f9a1ba0",
+  "countyRelations": [
+    {
+      "id": "osm-r2752405",
+      "name": "昌吉市",
+      "osmRelationId": "2752405",
+      "adcode": null
+    },
+    {
+      "id": "osm-r2752406",
+      "name": "阜康市",
+      "osmRelationId": "2752406",
+      "adcode": null
+    },
+    {
+      "id": "652323",
+      "name": "呼图壁县",
+      "osmRelationId": "2752407",
+      "adcode": "652323"
+    },
+    {
+      "id": "652327",
+      "name": "吉木萨尔县",
+      "osmRelationId": "2752408",
+      "adcode": "652327"
+    },
+    {
+      "id": "osm-r2752409",
+      "name": "玛纳斯县",
+      "osmRelationId": "2752409",
+      "adcode": null
+    },
+    {
+      "id": "652328",
+      "name": "木垒哈萨克自治县",
+      "osmRelationId": "2752410",
+      "adcode": "652328"
+    },
+    {
+      "id": "652325",
+      "name": "奇台县",
+      "osmRelationId": "2752411",
+      "adcode": "652325"
+    }
+  ],
+  "parentRelationId": "2752412",
+  "parentAdminLevel": 5,
+  "parentDivisionCode": null,
+  "parentUsable": true,
+  "parentSelectionBasis": "name-lowest-admin-level",
+  "parentFenceRequired": true,
+  "rejected": [],
+  "idConflicts": [],
+  "excluded": [],
+  "associationBasis": "osm-admin-centre-point-in-parent",
+  "associations": [
+    {
+      "id": "osm-r2752405",
+      "osmRelationId": "2752405",
+      "name": "昌吉市",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "244076980"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "osm-r2752406",
+      "osmRelationId": "2752406",
+      "name": "阜康市",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "429469860"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "652323",
+      "osmRelationId": "2752407",
+      "name": "呼图壁县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "4641990520"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "652327",
+      "osmRelationId": "2752408",
+      "name": "吉木萨尔县",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    },
+    {
+      "id": "osm-r2752409",
+      "osmRelationId": "2752409",
+      "name": "玛纳斯县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "5033667170"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "652328",
+      "osmRelationId": "2752410",
+      "name": "木垒哈萨克自治县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "1956438435"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "652325",
+      "osmRelationId": "2752411",
+      "name": "奇台县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "1956457853"
+      ],
+      "unresolvedAdminCentres": 0
+    }
+  ],
+  "associationCaveat": "OSM node admin_centre association is boundary-inclusive, not full county-polygon intersection or an official registry. Missing centres are unverified candidates; publication requires the independent native WGS84 parent fence.",
+  "matchBasis": "OSM native parent and county geometry; BD-09 normalized from source-declared WGS84. Full originalRecord retained; unmatched preserved."
+}

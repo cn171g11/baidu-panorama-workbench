@@ -1,0 +1,101 @@
+{
+  "schemaVersion": 1,
+  "source": "OpenStreetMap",
+  "license": "ODbL-1.0",
+  "attribution": "© OpenStreetMap contributors",
+  "cityId": "652700",
+  "cityName": "博尔塔拉蒙古自治州",
+  "coordinateSystem": "WGS84",
+  "timestamp": "2026-11-14T10:39:19Z",
+  "parentTimestamp": "2026-11-14T09:48:33Z",
+  "endpoint": "https://overpass-api.de/api/interpreter",
+  "rawSha256": "a34c46c96b1ab17a6a8eb4bf431becb0388edde02199c2f26e3478395c9d1cd3",
+  "parentRawSha256": "d96dd7e2bfcffd7e02f8e3737a91d391d5facd5771fba623579125a3594a5e97",
+  "sha256": "8a0ba24dc9871c9e23ceb7cc66ae94430c8d1c71432296df20fdded05c110776",
+  "bytes": 213703,
+  "parentBytes": 187187,
+  "parentSha256": "bcb794b312401ec42696088fa4e9926e6ed9402f5b31dc97efb8d1fb3ea9cc5b",
+  "countyRelations": [
+    {
+      "id": "652701",
+      "name": "博乐市",
+      "osmRelationId": "2751052",
+      "adcode": "652701"
+    },
+    {
+      "id": "652722",
+      "name": "精河县",
+      "osmRelationId": "2751053",
+      "adcode": "652722"
+    },
+    {
+      "id": "652723",
+      "name": "温泉县",
+      "osmRelationId": "2751054",
+      "adcode": "652723"
+    },
+    {
+      "id": "652702",
+      "name": "阿拉山口市",
+      "osmRelationId": "9068418",
+      "adcode": "652702"
+    }
+  ],
+  "parentRelationId": "239457",
+  "parentAdminLevel": 5,
+  "parentDivisionCode": "652700",
+  "parentUsable": true,
+  "parentSelectionBasis": "name-lowest-admin-level",
+  "parentFenceRequired": true,
+  "rejected": [],
+  "idConflicts": [],
+  "excluded": [],
+  "associationBasis": "osm-admin-centre-point-in-parent",
+  "associations": [
+    {
+      "id": "652701",
+      "osmRelationId": "2751052",
+      "name": "博乐市",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "244076944"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "652722",
+      "osmRelationId": "2751053",
+      "name": "精河县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "388325510"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "652723",
+      "osmRelationId": "2751054",
+      "name": "温泉县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "444376853"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "652702",
+      "osmRelationId": "9068418",
+      "name": "阿拉山口市",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    }
+  ],
+  "associationCaveat": "OSM node admin_centre association is boundary-inclusive, not full county-polygon intersection or an official registry. Missing centres are unverified candidates; publication requires the independent native WGS84 parent fence.",
+  "matchBasis": "OSM native parent and county geometry; BD-09 normalized from source-declared WGS84. Full originalRecord retained; unmatched preserved."
+}

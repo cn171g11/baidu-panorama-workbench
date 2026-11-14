@@ -1,0 +1,187 @@
+{
+  "schemaVersion": 1,
+  "source": "OpenStreetMap",
+  "license": "ODbL-1.0",
+  "attribution": "© OpenStreetMap contributors",
+  "cityId": "652900",
+  "cityName": "阿克苏地区",
+  "coordinateSystem": "WGS84",
+  "timestamp": "2026-11-14T10:42:21Z",
+  "parentTimestamp": "2026-11-14T10:09:46Z",
+  "endpoint": "https://overpass-api.de/api/interpreter",
+  "rawSha256": "bc3efc65e104c9e92d415a4e75550344478110335a25037d5f14821033d1fa3e",
+  "parentRawSha256": "fa8a279b94177f2f30750feeb41307e0793184a025a6e5d0e2bbdb85d0f005f1",
+  "sha256": "3c3d16389376a1be531c093b4263a6f8322ccf25eb860dbd9124683a98e709a5",
+  "bytes": 356008,
+  "parentBytes": 149539,
+  "parentSha256": "f00d3b6190c85c7b76567cffbc9e208994810528c298db1c2bb859b85f9f6411",
+  "countyRelations": [
+    {
+      "id": "652901",
+      "name": "阿克苏市",
+      "osmRelationId": "2748928",
+      "adcode": "652901"
+    },
+    {
+      "id": "652928",
+      "name": "阿瓦提县",
+      "osmRelationId": "2748929",
+      "adcode": "652928"
+    },
+    {
+      "id": "652926",
+      "name": "拜城县",
+      "osmRelationId": "2748930",
+      "adcode": "652926"
+    },
+    {
+      "id": "652929",
+      "name": "柯坪县",
+      "osmRelationId": "2748931",
+      "adcode": "652929"
+    },
+    {
+      "id": "652923",
+      "name": "库车市",
+      "osmRelationId": "2748932",
+      "adcode": "652923"
+    },
+    {
+      "id": "652925",
+      "name": "新和县",
+      "osmRelationId": "2748933",
+      "adcode": "652925"
+    },
+    {
+      "id": "652927",
+      "name": "乌什县",
+      "osmRelationId": "2748934",
+      "adcode": "652927"
+    },
+    {
+      "id": "652922",
+      "name": "温宿县",
+      "osmRelationId": "2748935",
+      "adcode": "652922"
+    },
+    {
+      "id": "652924",
+      "name": "沙雅县",
+      "osmRelationId": "2748936",
+      "adcode": "652924"
+    }
+  ],
+  "parentRelationId": "2748825",
+  "parentAdminLevel": 5,
+  "parentDivisionCode": null,
+  "parentUsable": true,
+  "parentSelectionBasis": "name-lowest-admin-level",
+  "parentFenceRequired": true,
+  "rejected": [],
+  "idConflicts": [],
+  "excluded": [],
+  "associationBasis": "osm-admin-centre-point-in-parent",
+  "associations": [
+    {
+      "id": "652901",
+      "osmRelationId": "2748928",
+      "name": "阿克苏市",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "244075609"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "652928",
+      "osmRelationId": "2748929",
+      "name": "阿瓦提县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "4570578247"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "652926",
+      "osmRelationId": "2748930",
+      "name": "拜城县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "4056974092"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "652929",
+      "osmRelationId": "2748931",
+      "name": "柯坪县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "4570527913"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "652923",
+      "osmRelationId": "2748932",
+      "name": "库车市",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "1941422496"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "652925",
+      "osmRelationId": "2748933",
+      "name": "新和县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "273052109"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "652927",
+      "osmRelationId": "2748934",
+      "name": "乌什县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "4054333893"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "652922",
+      "osmRelationId": "2748935",
+      "name": "温宿县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "4570647460"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "652924",
+      "osmRelationId": "2748936",
+      "name": "沙雅县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "4644398973"
+      ],
+      "unresolvedAdminCentres": 0
+    }
+  ],
+  "associationCaveat": "OSM node admin_centre association is boundary-inclusive, not full county-polygon intersection or an official registry. Missing centres are unverified candidates; publication requires the independent native WGS84 parent fence.",
+  "matchBasis": "OSM native parent and county geometry; BD-09 normalized from source-declared WGS84. Full originalRecord retained; unmatched preserved."
+}

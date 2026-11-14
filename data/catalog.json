@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "provider": "baidu",
   "coordinateSystem": "BD-09",
-  "updatedAt": "2026-11-11T15:50:26.545Z",
-  "total": 18998732,
+  "updatedAt": "2026-11-14T10:46:27.083Z",
+  "total": 19011718,
   "collections": [
     {
       "id": "110000",
@@ -7514,6 +7514,358 @@
       }
     },
     {
+      "id": "650100",
+      "adcode": "650100",
+      "name": "乌鲁木齐市",
+      "province": "新疆维吾尔自治区",
+      "coordinateSystem": "BD-09",
+      "count": 2032,
+      "bounds": [
+        87.23261102216456,
+        43.272454357582035,
+        88.33813870352644,
+        44.12668678692122
+      ],
+      "files": [
+        "baidu/650100/points-001.json"
+      ],
+      "sources": [
+        "baidu-xinjiang-20261025/points.json"
+      ],
+      "summary": {
+        "sourceFiles": 1,
+        "rawRecords": 2032,
+        "uniquePanoids": 2032,
+        "exactDuplicates": 0,
+        "differingDuplicates": 0
+      }
+    },
+    {
+      "id": "650200",
+      "adcode": "650200",
+      "name": "克拉玛依市",
+      "province": "新疆维吾尔自治区",
+      "coordinateSystem": "BD-09",
+      "count": 2029,
+      "bounds": [
+        84.71388128666212,
+        44.293384830302884,
+        85.77729138715442,
+        46.1443050971283
+      ],
+      "files": [
+        "baidu/650200/points-001.json"
+      ],
+      "sources": [
+        "baidu-xinjiang-20261025/points.json"
+      ],
+      "summary": {
+        "sourceFiles": 1,
+        "rawRecords": 2029,
+        "uniquePanoids": 2029,
+        "exactDuplicates": 0,
+        "differingDuplicates": 0
+      }
+    },
+    {
+      "id": "650400",
+      "adcode": "650400",
+      "name": "吐鲁番市",
+      "province": "新疆维吾尔自治区",
+      "coordinateSystem": "BD-09",
+      "count": 897,
+      "bounds": [
+        87.63864612169957,
+        42.8592089901997,
+        89.34785955295675,
+        43.27123723805445
+      ],
+      "files": [
+        "baidu/650400/points-001.json"
+      ],
+      "sources": [
+        "baidu-xinjiang-20261025/points.json"
+      ],
+      "summary": {
+        "sourceFiles": 1,
+        "rawRecords": 897,
+        "uniquePanoids": 897,
+        "exactDuplicates": 0,
+        "differingDuplicates": 0
+      }
+    },
+    {
+      "id": "650500",
+      "adcode": "650500",
+      "name": "哈密市",
+      "province": "新疆维吾尔自治区",
+      "coordinateSystem": "BD-09",
+      "count": 78,
+      "bounds": [
+        93.00282388215805,
+        42.81535097906843,
+        94.70310252236247,
+        43.61434515988929
+      ],
+      "files": [
+        "baidu/650500/points-001.json"
+      ],
+      "sources": [
+        "baidu-xinjiang-20261025/points.json"
+      ],
+      "summary": {
+        "sourceFiles": 1,
+        "rawRecords": 78,
+        "uniquePanoids": 78,
+        "exactDuplicates": 0,
+        "differingDuplicates": 0
+      }
+    },
+    {
+      "id": "652300",
+      "adcode": "652300",
+      "name": "昌吉回族自治州",
+      "province": "新疆维吾尔自治区",
+      "coordinateSystem": "BD-09",
+      "count": 602,
+      "bounds": [
+        86.13862199697047,
+        43.95328485937363,
+        89.19411391369621,
+        44.331749522269774
+      ],
+      "files": [
+        "baidu/652300/points-001.json"
+      ],
+      "sources": [
+        "baidu-xinjiang-20261025/points.json"
+      ],
+      "summary": {
+        "sourceFiles": 1,
+        "rawRecords": 602,
+        "uniquePanoids": 602,
+        "exactDuplicates": 0,
+        "differingDuplicates": 0
+      }
+    },
+    {
+      "id": "652700",
+      "adcode": "652700",
+      "name": "博尔塔拉蒙古自治州",
+      "province": "新疆维吾尔自治区",
+      "coordinateSystem": "BD-09",
+      "count": 27,
+      "bounds": [
+        81.03823776145667,
+        44.880561765831736,
+        82.57753007796643,
+        45.18334707785361
+      ],
+      "files": [
+        "baidu/652700/points-001.json"
+      ],
+      "sources": [
+        "baidu-xinjiang-20261025/points.json"
+      ],
+      "summary": {
+        "sourceFiles": 1,
+        "rawRecords": 27,
+        "uniquePanoids": 27,
+        "exactDuplicates": 0,
+        "differingDuplicates": 0
+      }
+    },
+    {
+      "id": "652800",
+      "adcode": "652800",
+      "name": "巴音郭楞蒙古自治州",
+      "province": "新疆维吾尔自治区",
+      "coordinateSystem": "BD-09",
+      "count": 522,
+      "bounds": [
+        83.98514251803836,
+        41.702394348656114,
+        86.19722413763388,
+        42.04501228818926
+      ],
+      "files": [
+        "baidu/652800/points-001.json"
+      ],
+      "sources": [
+        "baidu-xinjiang-20261025/points.json"
+      ],
+      "summary": {
+        "sourceFiles": 1,
+        "rawRecords": 522,
+        "uniquePanoids": 522,
+        "exactDuplicates": 0,
+        "differingDuplicates": 0
+      }
+    },
+    {
+      "id": "652900",
+      "adcode": "652900",
+      "name": "阿克苏地区",
+      "province": "新疆维吾尔自治区",
+      "coordinateSystem": "BD-09",
+      "count": 773,
+      "bounds": [
+        80.21560074764382,
+        41.107177099261655,
+        83.97878846561959,
+        41.841632470535885
+      ],
+      "files": [
+        "baidu/652900/points-001.json"
+      ],
+      "sources": [
+        "baidu-xinjiang-20261025/points.json"
+      ],
+      "summary": {
+        "sourceFiles": 1,
+        "rawRecords": 773,
+        "uniquePanoids": 773,
+        "exactDuplicates": 0,
+        "differingDuplicates": 0
+      }
+    },
+    {
+      "id": "653000",
+      "adcode": "653000",
+      "name": "克孜勒苏柯尔克孜自治州",
+      "province": "新疆维吾尔自治区",
+      "coordinateSystem": "BD-09",
+      "count": 328,
+      "bounds": [
+        75.19325354527784,
+        39.14740145691757,
+        78.49335507379936,
+        40.95661744824469
+      ],
+      "files": [
+        "baidu/653000/points-001.json"
+      ],
+      "sources": [
+        "baidu-xinjiang-20261025/points.json"
+      ],
+      "summary": {
+        "sourceFiles": 1,
+        "rawRecords": 328,
+        "uniquePanoids": 328,
+        "exactDuplicates": 0,
+        "differingDuplicates": 0
+      }
+    },
+    {
+      "id": "653100",
+      "adcode": "653100",
+      "name": "喀什地区",
+      "province": "新疆维吾尔自治区",
+      "coordinateSystem": "BD-09",
+      "count": 1069,
+      "bounds": [
+        75.8427408663612,
+        39.42429954928355,
+        76.14803628343813,
+        39.55298973399188
+      ],
+      "files": [
+        "baidu/653100/points-001.json"
+      ],
+      "sources": [
+        "baidu-xinjiang-20261025/points.json"
+      ],
+      "summary": {
+        "sourceFiles": 1,
+        "rawRecords": 1069,
+        "uniquePanoids": 1069,
+        "exactDuplicates": 0,
+        "differingDuplicates": 0
+      }
+    },
+    {
+      "id": "654000",
+      "adcode": "654000",
+      "name": "伊犁哈萨克自治州",
+      "province": "新疆维吾尔自治区",
+      "coordinateSystem": "BD-09",
+      "count": 1268,
+      "bounds": [
+        80.41470411159268,
+        43.17495708217602,
+        85.1908974836233,
+        44.64136893556236
+      ],
+      "files": [
+        "baidu/654000/points-001.json"
+      ],
+      "sources": [
+        "baidu-xinjiang-20261025/points.json"
+      ],
+      "summary": {
+        "sourceFiles": 1,
+        "rawRecords": 1268,
+        "uniquePanoids": 1268,
+        "exactDuplicates": 0,
+        "differingDuplicates": 0
+      }
+    },
+    {
+      "id": "654300",
+      "adcode": "654300",
+      "name": "阿勒泰地区",
+      "province": "新疆维吾尔自治区",
+      "coordinateSystem": "BD-09",
+      "count": 238,
+      "bounds": [
+        85.85798676948784,
+        46.66507869080515,
+        90.38740933883047,
+        48.52320152442633
+      ],
+      "files": [
+        "baidu/654300/points-001.json"
+      ],
+      "sources": [
+        "baidu-xinjiang-20261025/points.json"
+      ],
+      "summary": {
+        "sourceFiles": 1,
+        "rawRecords": 238,
+        "uniquePanoids": 238,
+        "exactDuplicates": 0,
+        "differingDuplicates": 0
+      }
+    },
+    {
+      "id": "659900",
+      "adcode": "659900",
+      "name": "新疆未匹配（源导出）",
+      "province": "新疆维吾尔自治区",
+      "coordinateSystem": "BD-09",
+      "count": 3123,
+      "bounds": [
+        79.02616994504376,
+        37.061145236508835,
+        87.69582713148542,
+        46.79655781849662
+      ],
+      "files": [
+        "baidu/659900/points-001.json"
+      ],
+      "sources": [
+        "baidu-xinjiang-20261025/points.json"
+      ],
+      "collectionKind": "unmatched-region",
+      "summary": {
+        "sourceFiles": 1,
+        "rawRecords": 3123,
+        "uniquePanoids": 3123,
+        "exactDuplicates": 0,
+        "differingDuplicates": 0
+      }
+    },
+    {
       "id": "810000",
       "adcode": "810000",
       "name": "香港特别行政区",
@@ -7569,13 +7921,13 @@
     }
   ],
   "importSummary": {
-    "sourceFiles": 282,
-    "rawRecords": 19020086,
-    "uniquePanoids": 18998732,
+    "sourceFiles": 283,
+    "rawRecords": 19033072,
+    "uniquePanoids": 19011718,
     "exactDuplicates": 21276,
     "differingDuplicates": 78,
     "invalidRecords": 0,
-    "inputCoordinateSystem": "GCJ-02",
+    "inputCoordinateSystem": "mixed",
     "archiveCoordinateSystem": "BD-09",
     "files": [
       {
@@ -10397,7 +10749,167 @@
         "uniquePanoids": 7509,
         "exactDuplicates": 0,
         "differingDuplicates": 77
+      },
+      {
+        "name": "baidu-xinjiang-20261025/points.json",
+        "bytes": 2079457,
+        "sha256": "c2787a7640db868dfda504dd2f2848fcc8507f0e66481c46727345968f3372c4",
+        "inputCoordinateSystem": "WGS84",
+        "city": "654300",
+        "rawRecords": 238,
+        "uniquePanoids": 238,
+        "exactDuplicates": 0,
+        "differingDuplicates": 0,
+        "sourceRecordSubset": true
+      },
+      {
+        "name": "baidu-xinjiang-20261025/points.json",
+        "bytes": 2079457,
+        "sha256": "c2787a7640db868dfda504dd2f2848fcc8507f0e66481c46727345968f3372c4",
+        "inputCoordinateSystem": "WGS84",
+        "city": "652700",
+        "rawRecords": 27,
+        "uniquePanoids": 27,
+        "exactDuplicates": 0,
+        "differingDuplicates": 0,
+        "sourceRecordSubset": true
+      },
+      {
+        "name": "baidu-xinjiang-20261025/points.json",
+        "bytes": 2079457,
+        "sha256": "c2787a7640db868dfda504dd2f2848fcc8507f0e66481c46727345968f3372c4",
+        "inputCoordinateSystem": "WGS84",
+        "city": "653000",
+        "rawRecords": 328,
+        "uniquePanoids": 328,
+        "exactDuplicates": 0,
+        "differingDuplicates": 0,
+        "sourceRecordSubset": true
+      },
+      {
+        "name": "baidu-xinjiang-20261025/points.json",
+        "bytes": 2079457,
+        "sha256": "c2787a7640db868dfda504dd2f2848fcc8507f0e66481c46727345968f3372c4",
+        "inputCoordinateSystem": "WGS84",
+        "city": "650500",
+        "rawRecords": 78,
+        "uniquePanoids": 78,
+        "exactDuplicates": 0,
+        "differingDuplicates": 0,
+        "sourceRecordSubset": true
+      },
+      {
+        "name": "baidu-xinjiang-20261025/points.json",
+        "bytes": 2079457,
+        "sha256": "c2787a7640db868dfda504dd2f2848fcc8507f0e66481c46727345968f3372c4",
+        "inputCoordinateSystem": "WGS84",
+        "city": "650400",
+        "rawRecords": 897,
+        "uniquePanoids": 897,
+        "exactDuplicates": 0,
+        "differingDuplicates": 0,
+        "sourceRecordSubset": true
+      },
+      {
+        "name": "baidu-xinjiang-20261025/points.json",
+        "bytes": 2079457,
+        "sha256": "c2787a7640db868dfda504dd2f2848fcc8507f0e66481c46727345968f3372c4",
+        "inputCoordinateSystem": "WGS84",
+        "city": "652800",
+        "rawRecords": 522,
+        "uniquePanoids": 522,
+        "exactDuplicates": 0,
+        "differingDuplicates": 0,
+        "sourceRecordSubset": true
+      },
+      {
+        "name": "baidu-xinjiang-20261025/points.json",
+        "bytes": 2079457,
+        "sha256": "c2787a7640db868dfda504dd2f2848fcc8507f0e66481c46727345968f3372c4",
+        "inputCoordinateSystem": "WGS84",
+        "city": "653100",
+        "rawRecords": 1069,
+        "uniquePanoids": 1069,
+        "exactDuplicates": 0,
+        "differingDuplicates": 0,
+        "sourceRecordSubset": true
+      },
+      {
+        "name": "baidu-xinjiang-20261025/points.json",
+        "bytes": 2079457,
+        "sha256": "c2787a7640db868dfda504dd2f2848fcc8507f0e66481c46727345968f3372c4",
+        "inputCoordinateSystem": "WGS84",
+        "city": "652900",
+        "rawRecords": 773,
+        "uniquePanoids": 773,
+        "exactDuplicates": 0,
+        "differingDuplicates": 0,
+        "sourceRecordSubset": true
+      },
+      {
+        "name": "baidu-xinjiang-20261025/points.json",
+        "bytes": 2079457,
+        "sha256": "c2787a7640db868dfda504dd2f2848fcc8507f0e66481c46727345968f3372c4",
+        "inputCoordinateSystem": "WGS84",
+        "city": "654000",
+        "rawRecords": 1268,
+        "uniquePanoids": 1268,
+        "exactDuplicates": 0,
+        "differingDuplicates": 0,
+        "sourceRecordSubset": true
+      },
+      {
+        "name": "baidu-xinjiang-20261025/points.json",
+        "bytes": 2079457,
+        "sha256": "c2787a7640db868dfda504dd2f2848fcc8507f0e66481c46727345968f3372c4",
+        "inputCoordinateSystem": "WGS84",
+        "city": "650200",
+        "rawRecords": 2029,
+        "uniquePanoids": 2029,
+        "exactDuplicates": 0,
+        "differingDuplicates": 0,
+        "sourceRecordSubset": true
+      },
+      {
+        "name": "baidu-xinjiang-20261025/points.json",
+        "bytes": 2079457,
+        "sha256": "c2787a7640db868dfda504dd2f2848fcc8507f0e66481c46727345968f3372c4",
+        "inputCoordinateSystem": "WGS84",
+        "city": "652300",
+        "rawRecords": 602,
+        "uniquePanoids": 602,
+        "exactDuplicates": 0,
+        "differingDuplicates": 0,
+        "sourceRecordSubset": true
+      },
+      {
+        "name": "baidu-xinjiang-20261025/points.json",
+        "bytes": 2079457,
+        "sha256": "c2787a7640db868dfda504dd2f2848fcc8507f0e66481c46727345968f3372c4",
+        "inputCoordinateSystem": "WGS84",
+        "city": "650100",
+        "rawRecords": 2032,
+        "uniquePanoids": 2032,
+        "exactDuplicates": 0,
+        "differingDuplicates": 0,
+        "sourceRecordSubset": true
+      },
+      {
+        "name": "baidu-xinjiang-20261025/points.json",
+        "bytes": 2079457,
+        "sha256": "c2787a7640db868dfda504dd2f2848fcc8507f0e66481c46727345968f3372c4",
+        "inputCoordinateSystem": "WGS84",
+        "city": "659900",
+        "rawRecords": 3123,
+        "uniquePanoids": 3123,
+        "exactDuplicates": 0,
+        "differingDuplicates": 0,
+        "sourceRecordSubset": true
       }
+    ],
+    "inputCoordinateSystems": [
+      "GCJ-02",
+      "WGS84"
     ]
   }
 }

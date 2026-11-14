@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 1,
+  "source": "OpenStreetMap",
+  "license": "ODbL-1.0",
+  "attribution": "© OpenStreetMap contributors",
+  "cityId": "650400",
+  "cityName": "吐鲁番市",
+  "coordinateSystem": "WGS84",
+  "timestamp": "2026-11-14T10:41:21Z",
+  "parentTimestamp": "2026-11-14T09:50:35Z",
+  "endpoint": "https://overpass-api.de/api/interpreter",
+  "rawSha256": "bfd5aa23bcd5043bf8b1cd131687ce0c3cb0c0b2ed94a546ebc7c066ce9dffd0",
+  "parentRawSha256": "0338af3dad04cc939fb83c1bc43e0049bce5fb4326c8e3674d58437e5050a39b",
+  "sha256": "0c65ca4cb09e634b5d27c14822f6b56a6b1300024a5b173da91d31e7d03e1a34",
+  "bytes": 269172,
+  "parentBytes": 99312,
+  "parentSha256": "a100a6e04a9042aad0190ddd80b70933c4c8ced03fa41d0cf6f4000a9048f710",
+  "countyRelations": [
+    {
+      "id": "652122",
+      "name": "鄯善县",
+      "osmRelationId": "2747194",
+      "adcode": "652122"
+    },
+    {
+      "id": "652123",
+      "name": "托克逊县",
+      "osmRelationId": "2747195",
+      "adcode": "652123"
+    },
+    {
+      "id": "650402",
+      "name": "高昌区",
+      "osmRelationId": "2747196",
+      "adcode": "650402"
+    }
+  ],
+  "parentRelationId": "2747197",
+  "parentAdminLevel": 5,
+  "parentDivisionCode": "652100",
+  "parentUsable": true,
+  "parentSelectionBasis": "name-lowest-admin-level",
+  "parentFenceRequired": true,
+  "rejected": [],
+  "idConflicts": [],
+  "excluded": [],
+  "associationBasis": "osm-admin-centre-point-in-parent",
+  "associations": [
+    {
+      "id": "652122",
+      "osmRelationId": "2747194",
+      "name": "鄯善县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "4637531510"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "652123",
+      "osmRelationId": "2747195",
+      "name": "托克逊县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "1954752519"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "650402",
+      "osmRelationId": "2747196",
+      "name": "高昌区",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "5004636993"
+      ],
+      "unresolvedAdminCentres": 0
+    }
+  ],
+  "associationCaveat": "OSM node admin_centre association is boundary-inclusive, not full county-polygon intersection or an official registry. Missing centres are unverified candidates; publication requires the independent native WGS84 parent fence.",
+  "matchBasis": "OSM native parent and county geometry; BD-09 normalized from source-declared WGS84. Full originalRecord retained; unmatched preserved."
+}

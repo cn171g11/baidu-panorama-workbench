@@ -1,0 +1,187 @@
+{
+  "schemaVersion": 1,
+  "source": "OpenStreetMap",
+  "license": "ODbL-1.0",
+  "attribution": "© OpenStreetMap contributors",
+  "cityId": "652800",
+  "cityName": "巴音郭楞蒙古自治州",
+  "coordinateSystem": "WGS84",
+  "timestamp": "2026-11-14T10:41:21Z",
+  "parentTimestamp": "2026-11-14T09:50:35Z",
+  "endpoint": "https://overpass-api.de/api/interpreter",
+  "rawSha256": "122e72fdc135ac21993339f76324528126d530270426ee73703daa44d0791ed9",
+  "parentRawSha256": "bcc10f6a542cc063bdcc470fb0ef2a2cc0a4539838303344db90d96b9e7f0202",
+  "sha256": "371a047e1f0e8eab37edf216b5b8e4a42c2353e1b8e8ecca7863cc5dbca4dd16",
+  "bytes": 621206,
+  "parentBytes": 307183,
+  "parentSha256": "891bac3a5ac8b49b47f3c13f3406fb9b3bc483e94a876d28d496e002cbde60cc",
+  "countyRelations": [
+    {
+      "id": "652827",
+      "name": "和静县",
+      "osmRelationId": "2747241",
+      "adcode": "652827"
+    },
+    {
+      "id": "osm-r2747281",
+      "name": "博湖县",
+      "osmRelationId": "2747281",
+      "adcode": null
+    },
+    {
+      "id": "652828",
+      "name": "和硕县",
+      "osmRelationId": "2747282",
+      "adcode": "652828"
+    },
+    {
+      "id": "osm-r2747283",
+      "name": "库尔勒市",
+      "osmRelationId": "2747283",
+      "adcode": null
+    },
+    {
+      "id": "652822",
+      "name": "轮台县",
+      "osmRelationId": "2747284",
+      "adcode": "652822"
+    },
+    {
+      "id": "652825",
+      "name": "且末县",
+      "osmRelationId": "2747285",
+      "adcode": "652825"
+    },
+    {
+      "id": "652824",
+      "name": "若羌县",
+      "osmRelationId": "2747286",
+      "adcode": "652824"
+    },
+    {
+      "id": "652826",
+      "name": "焉耆回族自治县",
+      "osmRelationId": "2747287",
+      "adcode": "652826"
+    },
+    {
+      "id": "652823",
+      "name": "尉犁县",
+      "osmRelationId": "2747288",
+      "adcode": "652823"
+    }
+  ],
+  "parentRelationId": "2747242",
+  "parentAdminLevel": 5,
+  "parentDivisionCode": "652800",
+  "parentUsable": true,
+  "parentSelectionBasis": "name-lowest-admin-level",
+  "parentFenceRequired": true,
+  "rejected": [],
+  "idConflicts": [],
+  "excluded": [],
+  "associationBasis": "osm-admin-centre-point-in-parent",
+  "associations": [
+    {
+      "id": "652827",
+      "osmRelationId": "2747241",
+      "name": "和静县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "244080484"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "osm-r2747281",
+      "osmRelationId": "2747281",
+      "name": "博湖县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "4598917387"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "652828",
+      "osmRelationId": "2747282",
+      "name": "和硕县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "244080547"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "osm-r2747283",
+      "osmRelationId": "2747283",
+      "name": "库尔勒市",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "244081037"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "652822",
+      "osmRelationId": "2747284",
+      "name": "轮台县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "272850274"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "652825",
+      "osmRelationId": "2747285",
+      "name": "且末县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "272621001"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "652824",
+      "osmRelationId": "2747286",
+      "name": "若羌县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "471877328"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "652826",
+      "osmRelationId": "2747287",
+      "name": "焉耆回族自治县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "244082275"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "652823",
+      "osmRelationId": "2747288",
+      "name": "尉犁县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "272706950"
+      ],
+      "unresolvedAdminCentres": 0
+    }
+  ],
+  "associationCaveat": "OSM node admin_centre association is boundary-inclusive, not full county-polygon intersection or an official registry. Missing centres are unverified candidates; publication requires the independent native WGS84 parent fence.",
+  "matchBasis": "OSM native parent and county geometry; BD-09 normalized from source-declared WGS84. Full originalRecord retained; unmatched preserved."
+}

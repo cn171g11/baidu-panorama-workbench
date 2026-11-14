@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "source": "OpenStreetMap",
+  "license": "ODbL-1.0",
+  "attribution": "© OpenStreetMap contributors",
+  "cityId": "659900",
+  "cityName": "新疆未匹配（源导出）",
+  "coordinateSystem": "WGS84",
+  "timestamp": null,
+  "parentTimestamp": null,
+  "sha256": "6d18edfe75b3149104038dcbca4d0096bbcb923f0f9fa4b49f4815344e75bb90",
+  "bytes": 43,
+  "parentUsable": false,
+  "parentBytes": 0,
+  "parentSha256": null,
+  "parentRelationId": null,
+  "parentAdminLevel": null,
+  "parentFenceRequired": true,
+  "countyRelations": [],
+  "rejected": [
+    {
+      "scope": "parent",
+      "name": "塔城地区",
+      "reason": "Invalid OSM county relation: member 165 (inner) is relation, not a way; fetch and resolve nested relation geometry explicitly"
+    },
+    {
+      "scope": "parent",
+      "name": "和田地区",
+      "reason": "Invalid OSM county relation: relation 2748339 geometry validation failed: Invalid county GeoJSON: 653200 polygon 6 holes 31 and 42 overlap, touch, or nest"
+    }
+  ],
+  "idConflicts": [],
+  "excluded": [],
+  "associations": [],
+  "associationBasis": "explicit-unmatched-source-region",
+  "matchBasis": "Holding collection 659900 is not an official administrative code. Source-region points without one usable city polygon are retained without guessing; includes unresolved direct-admin areas and unavailable OSM parents."
+}

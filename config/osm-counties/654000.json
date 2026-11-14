@@ -1,0 +1,220 @@
+{
+  "schemaVersion": 1,
+  "source": "OpenStreetMap",
+  "license": "ODbL-1.0",
+  "attribution": "© OpenStreetMap contributors",
+  "cityId": "654000",
+  "cityName": "伊犁哈萨克自治州",
+  "coordinateSystem": "WGS84",
+  "timestamp": "2026-11-14T10:43:21Z",
+  "parentTimestamp": "2026-11-14T10:10:52Z",
+  "endpoint": "https://overpass-api.de/api/interpreter",
+  "rawSha256": "309557508659937c29663fd8c8cd4659b8b584768f29d54637de5f411efb27b5",
+  "parentRawSha256": "e63472d8393603980570d9de65063e3e6d99de5c62de2d12c0b6b930bc883a04",
+  "sha256": "347da07849710944e7e05ecd288a628609a40e181ef40a05acc2982ef0753608",
+  "bytes": 1481504,
+  "parentBytes": 1293938,
+  "parentSha256": "d90bebfb17e4b28a59da31a84617fbce7381c8eee0e790dcb1cf13aa8d823920",
+  "countyRelations": [
+    {
+      "id": "654024",
+      "name": "巩留县",
+      "osmRelationId": "2751489",
+      "adcode": "654024"
+    },
+    {
+      "id": "654023",
+      "name": "霍城县",
+      "osmRelationId": "2751490",
+      "adcode": "654023"
+    },
+    {
+      "id": "654003",
+      "name": "奎屯市",
+      "osmRelationId": "2751492",
+      "adcode": "654003"
+    },
+    {
+      "id": "654028",
+      "name": "尼勒克县",
+      "osmRelationId": "2751493",
+      "adcode": "654028"
+    },
+    {
+      "id": "654022",
+      "name": "察布查尔锡伯自治县",
+      "osmRelationId": "2751494",
+      "adcode": "654022"
+    },
+    {
+      "id": "654027",
+      "name": "特克斯县",
+      "osmRelationId": "2751495",
+      "adcode": "654027"
+    },
+    {
+      "id": "654025",
+      "name": "新源县",
+      "osmRelationId": "2751496",
+      "adcode": "654025"
+    },
+    {
+      "id": "osm-r2751497",
+      "name": "伊宁市",
+      "osmRelationId": "2751497",
+      "adcode": null
+    },
+    {
+      "id": "654021",
+      "name": "伊宁县",
+      "osmRelationId": "2751498",
+      "adcode": "654021"
+    },
+    {
+      "id": "654026",
+      "name": "昭苏县",
+      "osmRelationId": "2751499",
+      "adcode": "654026"
+    },
+    {
+      "id": "654004",
+      "name": "霍尔果斯市",
+      "osmRelationId": "7027706",
+      "adcode": "654004"
+    }
+  ],
+  "parentRelationId": "2750980",
+  "parentAdminLevel": 5,
+  "parentDivisionCode": null,
+  "parentUsable": true,
+  "parentSelectionBasis": "name-lowest-admin-level",
+  "parentFenceRequired": true,
+  "rejected": [],
+  "idConflicts": [],
+  "excluded": [],
+  "associationBasis": "osm-admin-centre-point-in-parent",
+  "associations": [
+    {
+      "id": "654024",
+      "osmRelationId": "2751489",
+      "name": "巩留县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "4679926029"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "654023",
+      "osmRelationId": "2751490",
+      "name": "霍城县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "244080674"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "654003",
+      "osmRelationId": "2751492",
+      "name": "奎屯市",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "244081031"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "654028",
+      "osmRelationId": "2751493",
+      "name": "尼勒克县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "492174147"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "654022",
+      "osmRelationId": "2751494",
+      "name": "察布查尔锡伯自治县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "4214909785"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "654027",
+      "osmRelationId": "2751495",
+      "name": "特克斯县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "297362231"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "654025",
+      "osmRelationId": "2751496",
+      "name": "新源县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "2176924014"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "osm-r2751497",
+      "osmRelationId": "2751497",
+      "name": "伊宁市",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "243798633"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "654021",
+      "osmRelationId": "2751498",
+      "name": "伊宁县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "4679926030"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "654026",
+      "osmRelationId": "2751499",
+      "name": "昭苏县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "2053472891"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "654004",
+      "osmRelationId": "7027706",
+      "name": "霍尔果斯市",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    }
+  ],
+  "associationCaveat": "OSM node admin_centre association is boundary-inclusive, not full county-polygon intersection or an official registry. Missing centres are unverified candidates; publication requires the independent native WGS84 parent fence.",
+  "matchBasis": "OSM native parent and county geometry; BD-09 normalized from source-declared WGS84. Full originalRecord retained; unmatched preserved."
+}

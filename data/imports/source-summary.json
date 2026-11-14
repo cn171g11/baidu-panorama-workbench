@@ -1,13 +1,13 @@
 {
   "schemaVersion": 1,
   "provider": "baidu",
-  "sourceFiles": 281,
-  "rawRecords": 19012500,
-  "uniquePanoids": 18991223,
+  "sourceFiles": 283,
+  "rawRecords": 19033072,
+  "uniquePanoids": 19011718,
   "exactDuplicates": 21276,
-  "differingDuplicates": 1,
+  "differingDuplicates": 78,
   "invalidRecords": 0,
-  "inputCoordinateSystem": "GCJ-02",
+  "inputCoordinateSystem": "mixed",
   "archiveCoordinateSystem": "BD-09",
   "files": [
     {
@@ -2819,6 +2819,176 @@
       "uniquePanoids": 50000,
       "exactDuplicates": 0,
       "differingDuplicates": 0
+    },
+    {
+      "name": "百度滨州.json",
+      "city": "371600",
+      "bytes": 3956248,
+      "sha256": "7dbfdcd80d11f22d2a446f4965e96d0531aba4fa23ae1148bdf3795cd15e79cc",
+      "rawRecords": 7586,
+      "uniquePanoids": 7509,
+      "exactDuplicates": 0,
+      "differingDuplicates": 77
+    },
+    {
+      "name": "baidu-xinjiang-20261025/points.json",
+      "bytes": 2079457,
+      "sha256": "c2787a7640db868dfda504dd2f2848fcc8507f0e66481c46727345968f3372c4",
+      "inputCoordinateSystem": "WGS84",
+      "city": "654300",
+      "rawRecords": 238,
+      "uniquePanoids": 238,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0,
+      "sourceRecordSubset": true
+    },
+    {
+      "name": "baidu-xinjiang-20261025/points.json",
+      "bytes": 2079457,
+      "sha256": "c2787a7640db868dfda504dd2f2848fcc8507f0e66481c46727345968f3372c4",
+      "inputCoordinateSystem": "WGS84",
+      "city": "652700",
+      "rawRecords": 27,
+      "uniquePanoids": 27,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0,
+      "sourceRecordSubset": true
+    },
+    {
+      "name": "baidu-xinjiang-20261025/points.json",
+      "bytes": 2079457,
+      "sha256": "c2787a7640db868dfda504dd2f2848fcc8507f0e66481c46727345968f3372c4",
+      "inputCoordinateSystem": "WGS84",
+      "city": "653000",
+      "rawRecords": 328,
+      "uniquePanoids": 328,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0,
+      "sourceRecordSubset": true
+    },
+    {
+      "name": "baidu-xinjiang-20261025/points.json",
+      "bytes": 2079457,
+      "sha256": "c2787a7640db868dfda504dd2f2848fcc8507f0e66481c46727345968f3372c4",
+      "inputCoordinateSystem": "WGS84",
+      "city": "650500",
+      "rawRecords": 78,
+      "uniquePanoids": 78,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0,
+      "sourceRecordSubset": true
+    },
+    {
+      "name": "baidu-xinjiang-20261025/points.json",
+      "bytes": 2079457,
+      "sha256": "c2787a7640db868dfda504dd2f2848fcc8507f0e66481c46727345968f3372c4",
+      "inputCoordinateSystem": "WGS84",
+      "city": "650400",
+      "rawRecords": 897,
+      "uniquePanoids": 897,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0,
+      "sourceRecordSubset": true
+    },
+    {
+      "name": "baidu-xinjiang-20261025/points.json",
+      "bytes": 2079457,
+      "sha256": "c2787a7640db868dfda504dd2f2848fcc8507f0e66481c46727345968f3372c4",
+      "inputCoordinateSystem": "WGS84",
+      "city": "652800",
+      "rawRecords": 522,
+      "uniquePanoids": 522,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0,
+      "sourceRecordSubset": true
+    },
+    {
+      "name": "baidu-xinjiang-20261025/points.json",
+      "bytes": 2079457,
+      "sha256": "c2787a7640db868dfda504dd2f2848fcc8507f0e66481c46727345968f3372c4",
+      "inputCoordinateSystem": "WGS84",
+      "city": "653100",
+      "rawRecords": 1069,
+      "uniquePanoids": 1069,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0,
+      "sourceRecordSubset": true
+    },
+    {
+      "name": "baidu-xinjiang-20261025/points.json",
+      "bytes": 2079457,
+      "sha256": "c2787a7640db868dfda504dd2f2848fcc8507f0e66481c46727345968f3372c4",
+      "inputCoordinateSystem": "WGS84",
+      "city": "652900",
+      "rawRecords": 773,
+      "uniquePanoids": 773,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0,
+      "sourceRecordSubset": true
+    },
+    {
+      "name": "baidu-xinjiang-20261025/points.json",
+      "bytes": 2079457,
+      "sha256": "c2787a7640db868dfda504dd2f2848fcc8507f0e66481c46727345968f3372c4",
+      "inputCoordinateSystem": "WGS84",
+      "city": "654000",
+      "rawRecords": 1268,
+      "uniquePanoids": 1268,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0,
+      "sourceRecordSubset": true
+    },
+    {
+      "name": "baidu-xinjiang-20261025/points.json",
+      "bytes": 2079457,
+      "sha256": "c2787a7640db868dfda504dd2f2848fcc8507f0e66481c46727345968f3372c4",
+      "inputCoordinateSystem": "WGS84",
+      "city": "650200",
+      "rawRecords": 2029,
+      "uniquePanoids": 2029,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0,
+      "sourceRecordSubset": true
+    },
+    {
+      "name": "baidu-xinjiang-20261025/points.json",
+      "bytes": 2079457,
+      "sha256": "c2787a7640db868dfda504dd2f2848fcc8507f0e66481c46727345968f3372c4",
+      "inputCoordinateSystem": "WGS84",
+      "city": "652300",
+      "rawRecords": 602,
+      "uniquePanoids": 602,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0,
+      "sourceRecordSubset": true
+    },
+    {
+      "name": "baidu-xinjiang-20261025/points.json",
+      "bytes": 2079457,
+      "sha256": "c2787a7640db868dfda504dd2f2848fcc8507f0e66481c46727345968f3372c4",
+      "inputCoordinateSystem": "WGS84",
+      "city": "650100",
+      "rawRecords": 2032,
+      "uniquePanoids": 2032,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0,
+      "sourceRecordSubset": true
+    },
+    {
+      "name": "baidu-xinjiang-20261025/points.json",
+      "bytes": 2079457,
+      "sha256": "c2787a7640db868dfda504dd2f2848fcc8507f0e66481c46727345968f3372c4",
+      "inputCoordinateSystem": "WGS84",
+      "city": "659900",
+      "rawRecords": 3123,
+      "uniquePanoids": 3123,
+      "exactDuplicates": 0,
+      "differingDuplicates": 0,
+      "sourceRecordSubset": true
     }
+  ],
+  "inputCoordinateSystems": [
+    "GCJ-02",
+    "WGS84"
   ]
 }
