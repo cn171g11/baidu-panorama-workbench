@@ -2,6 +2,7 @@
   "schemaVersion": 1,
   "provider": "baidu",
   "mode": "pages-gzip",
+  "countyShards": true,
   "cities": [
     "110000",
     "310000",

@@ -1,0 +1,340 @@
+{
+  "schemaVersion": 1,
+  "source": "OpenStreetMap",
+  "license": "ODbL-1.0",
+  "attribution": "© OpenStreetMap contributors",
+  "cityId": "513300",
+  "cityName": "甘孜藏族自治州",
+  "coordinateSystem": "WGS84",
+  "timestamp": "2026-11-14T00:11:06Z",
+  "parentTimestamp": "2026-11-14T00:46:51Z",
+  "endpoint": "https://overpass-api.de/api/interpreter",
+  "rawSha256": "54e7ab4f87adf9cb598545ec1ed469acc426d77513183a8d813c89c73a040bf8",
+  "parentRawSha256": "cb1f363e327e05fd602d7bb3424136d537f53108d2d03594b5e5522a4598a273",
+  "sha256": "e182c20bb0bf2a07c081bfeb0b7efe5b7b54a69fb5a038b0cc6f9db0b45d8d7c",
+  "bytes": 608034,
+  "parentBytes": 297469,
+  "parentSha256": "892647adb7befc8fa8aab182303df5e7e8fc85d2d65a266d3d0aa669ca8a93ab",
+  "countyRelations": [
+    {
+      "id": "513335",
+      "name": "巴塘县",
+      "osmRelationId": "2186990",
+      "adcode": "513335"
+    },
+    {
+      "id": "513331",
+      "name": "白玉县",
+      "osmRelationId": "2785519",
+      "adcode": "513331"
+    },
+    {
+      "id": "513323",
+      "name": "丹巴县",
+      "osmRelationId": "2785520",
+      "adcode": "513323"
+    },
+    {
+      "id": "513337",
+      "name": "稻城县",
+      "osmRelationId": "2785521",
+      "adcode": "513337"
+    },
+    {
+      "id": "513326",
+      "name": "道孚县",
+      "osmRelationId": "2785522",
+      "adcode": "513326"
+    },
+    {
+      "id": "513330",
+      "name": "德格县",
+      "osmRelationId": "2785523",
+      "adcode": "513330"
+    },
+    {
+      "id": "513338",
+      "name": "得荣县",
+      "osmRelationId": "2785524",
+      "adcode": "513338"
+    },
+    {
+      "id": "513328",
+      "name": "甘孜县",
+      "osmRelationId": "2785525",
+      "adcode": "513328"
+    },
+    {
+      "id": "513324",
+      "name": "九龙县",
+      "osmRelationId": "2785526",
+      "adcode": "513324"
+    },
+    {
+      "id": "513301",
+      "name": "康定市",
+      "osmRelationId": "2785527",
+      "adcode": "513301"
+    },
+    {
+      "id": "513334",
+      "name": "理塘县",
+      "osmRelationId": "2785528",
+      "adcode": "513334"
+    },
+    {
+      "id": "513322",
+      "name": "泸定县",
+      "osmRelationId": "2785529",
+      "adcode": "513322"
+    },
+    {
+      "id": "513327",
+      "name": "炉霍县",
+      "osmRelationId": "2785530",
+      "adcode": "513327"
+    },
+    {
+      "id": "513333",
+      "name": "色达县",
+      "osmRelationId": "2785531",
+      "adcode": "513333"
+    },
+    {
+      "id": "513332",
+      "name": "石渠县",
+      "osmRelationId": "2785532",
+      "adcode": "513332"
+    },
+    {
+      "id": "513336",
+      "name": "乡城县",
+      "osmRelationId": "2785533",
+      "adcode": "513336"
+    },
+    {
+      "id": "513329",
+      "name": "新龙县",
+      "osmRelationId": "2785534",
+      "adcode": "513329"
+    },
+    {
+      "id": "513325",
+      "name": "雅江县",
+      "osmRelationId": "2785535",
+      "adcode": "513325"
+    }
+  ],
+  "parentRelationId": "2049312",
+  "parentAdminLevel": 5,
+  "parentDivisionCode": "513300",
+  "parentUsable": true,
+  "parentSelectionBasis": "name-lowest-admin-level",
+  "parentFenceRequired": true,
+  "rejected": [],
+  "idConflicts": [],
+  "excluded": [],
+  "associationBasis": "osm-admin-centre-point-in-parent",
+  "associations": [
+    {
+      "id": "513335",
+      "osmRelationId": "2186990",
+      "name": "巴塘县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "4464319692"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "513331",
+      "osmRelationId": "2785519",
+      "name": "白玉县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "244076451"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "513323",
+      "osmRelationId": "2785520",
+      "name": "丹巴县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "3790429067"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "513337",
+      "osmRelationId": "2785521",
+      "name": "稻城县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "6405662979"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "513326",
+      "osmRelationId": "2785522",
+      "name": "道孚县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "6416739698"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "513330",
+      "osmRelationId": "2785523",
+      "name": "德格县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "4459939890"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "513338",
+      "osmRelationId": "2785524",
+      "name": "得荣县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "6321024621"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "513328",
+      "osmRelationId": "2785525",
+      "name": "甘孜县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "6416739696"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "513324",
+      "osmRelationId": "2785526",
+      "name": "九龙县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "244080935"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "513301",
+      "osmRelationId": "2785527",
+      "name": "康定市",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "244080901"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "513334",
+      "osmRelationId": "2785528",
+      "name": "理塘县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "4464321648"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "513322",
+      "osmRelationId": "2785529",
+      "name": "泸定县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "7099954571"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "513327",
+      "osmRelationId": "2785530",
+      "name": "炉霍县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "6416739697"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "513333",
+      "osmRelationId": "2785531",
+      "name": "色达县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "6416739693"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "513332",
+      "osmRelationId": "2785532",
+      "name": "石渠县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "2355670585"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "513336",
+      "osmRelationId": "2785533",
+      "name": "乡城县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "5105437121"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "513329",
+      "osmRelationId": "2785534",
+      "name": "新龙县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "6416739690"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "513325",
+      "osmRelationId": "2785535",
+      "name": "雅江县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "4547705841"
+      ],
+      "unresolvedAdminCentres": 0
+    }
+  ],
+  "associationCaveat": "OSM node admin_centre association is boundary-inclusive, not full county-polygon intersection or an official registry. Missing centres are unverified candidates; publication requires the independent native WGS84 parent fence.",
+  "matchBasis": "OSM county admin-centre association + exact county and parent geometry matching WGS84. Historical OSM codes are retained, not official administrative certification."
+}

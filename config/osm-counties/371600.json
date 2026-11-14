@@ -1,0 +1,149 @@
+{
+  "schemaVersion": 1,
+  "source": "OpenStreetMap",
+  "license": "ODbL-1.0",
+  "attribution": "© OpenStreetMap contributors",
+  "cityId": "371600",
+  "cityName": "滨州市",
+  "coordinateSystem": "WGS84",
+  "timestamp": "2026-11-13T23:40:38Z",
+  "parentTimestamp": "2026-11-14T00:40:37Z",
+  "endpoint": "https://overpass-api.de/api/interpreter",
+  "rawSha256": "293addccd7a3efdb685f5b0ba5addf9f6db5f55c45a47a46963e8d309844f80e",
+  "parentRawSha256": "0e151b924c5a7b1070cfbe0fbbcd89ec7c64d47be4a2979e64f9b8e368121036",
+  "sha256": "5b635cc833306c4b8d5de57c4ad092ff566385e4b13d2bbe6d1b77f4f4e10441",
+  "bytes": 300228,
+  "parentBytes": 117453,
+  "parentSha256": "d6d2df2e55cdbd92625813716c4b93e328d1c92edab7d3127e7b189497bb5559",
+  "countyRelations": [
+    {
+      "id": "371626",
+      "name": "邹平市",
+      "osmRelationId": "4434114",
+      "adcode": "371626"
+    },
+    {
+      "id": "371602",
+      "name": "滨城区",
+      "osmRelationId": "5678249",
+      "adcode": "371602"
+    },
+    {
+      "id": "371625",
+      "name": "博兴县",
+      "osmRelationId": "5678250",
+      "adcode": "371625"
+    },
+    {
+      "id": "371621",
+      "name": "惠民县",
+      "osmRelationId": "5678251",
+      "adcode": "371621"
+    },
+    {
+      "id": "371623",
+      "name": "无棣县",
+      "osmRelationId": "5678252",
+      "adcode": "371623"
+    },
+    {
+      "id": "371622",
+      "name": "阳信县",
+      "osmRelationId": "5678253",
+      "adcode": "371622"
+    },
+    {
+      "id": "371603",
+      "name": "沾化区",
+      "osmRelationId": "5678254",
+      "adcode": "371603"
+    }
+  ],
+  "parentRelationId": "4434116",
+  "parentAdminLevel": 5,
+  "parentDivisionCode": "371600",
+  "parentUsable": true,
+  "parentSelectionBasis": "name-lowest-admin-level",
+  "parentFenceRequired": true,
+  "rejected": [],
+  "idConflicts": [],
+  "excluded": [],
+  "associationBasis": "osm-admin-centre-point-in-parent",
+  "associations": [
+    {
+      "id": "371626",
+      "osmRelationId": "4434114",
+      "name": "邹平市",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    },
+    {
+      "id": "371602",
+      "osmRelationId": "5678249",
+      "name": "滨城区",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    },
+    {
+      "id": "371625",
+      "osmRelationId": "5678250",
+      "name": "博兴县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "244076952"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "371621",
+      "osmRelationId": "5678251",
+      "name": "惠民县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "244080653"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "371623",
+      "osmRelationId": "5678252",
+      "name": "无棣县",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    },
+    {
+      "id": "371622",
+      "osmRelationId": "5678253",
+      "name": "阳信县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "244082483"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "371603",
+      "osmRelationId": "5678254",
+      "name": "沾化区",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    }
+  ],
+  "associationCaveat": "OSM node admin_centre association is boundary-inclusive, not full county-polygon intersection or an official registry. Missing centres are unverified candidates; publication requires the independent native WGS84 parent fence.",
+  "matchBasis": "OSM county admin-centre association + exact county and parent geometry matching WGS84. Historical OSM codes are retained, not official administrative certification."
+}

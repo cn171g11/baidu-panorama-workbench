@@ -1,0 +1,202 @@
+{
+  "schemaVersion": 1,
+  "source": "OpenStreetMap",
+  "license": "ODbL-1.0",
+  "attribution": "© OpenStreetMap contributors",
+  "cityId": "320500",
+  "cityName": "苏州市",
+  "coordinateSystem": "WGS84",
+  "timestamp": "2026-11-13T23:38:32Z",
+  "parentTimestamp": "2026-11-14T00:38:33Z",
+  "endpoint": "https://overpass-api.de/api/interpreter",
+  "rawSha256": "a63e29869d690cc41b74d4e3966fc22e9db50d47be212538e09ac13be29c13fb",
+  "parentRawSha256": "15cfdddef279f8fa819d3cc53f21c5f87c7aaa047def3f9a6da2718617f71083",
+  "sha256": "632985cb59197689274ac4fd671a1576129fbfa15d4577afd6e60aeaf6b7b608",
+  "bytes": 656922,
+  "parentBytes": 193786,
+  "parentSha256": "82ebb56402fed552130a4d534dab7b3c2fed47a610111c4be0634ee50f6a0b2a",
+  "countyRelations": [
+    {
+      "id": "osm-r4591593",
+      "name": "太仓市",
+      "osmRelationId": "4591593",
+      "adcode": null
+    },
+    {
+      "id": "osm-r4591596",
+      "name": "张家港市",
+      "osmRelationId": "4591596",
+      "adcode": null
+    },
+    {
+      "id": "osm-r4591597",
+      "name": "常熟市",
+      "osmRelationId": "4591597",
+      "adcode": null
+    },
+    {
+      "id": "osm-r4591876",
+      "name": "姑苏区",
+      "osmRelationId": "4591876",
+      "adcode": null
+    },
+    {
+      "id": "osm-r4591878",
+      "name": "昆山市",
+      "osmRelationId": "4591878",
+      "adcode": null
+    },
+    {
+      "id": "osm-r4591879",
+      "name": "吴江区",
+      "osmRelationId": "4591879",
+      "adcode": null
+    },
+    {
+      "id": "osm-r4591880",
+      "name": "吴中区",
+      "osmRelationId": "4591880",
+      "adcode": null
+    },
+    {
+      "id": "osm-r4591881",
+      "name": "相城区",
+      "osmRelationId": "4591881",
+      "adcode": null
+    },
+    {
+      "id": "320576",
+      "name": "苏州工业园区",
+      "osmRelationId": "7363894",
+      "adcode": "320576"
+    },
+    {
+      "id": "osm-r7598901",
+      "name": "虎丘区",
+      "osmRelationId": "7598901",
+      "adcode": null
+    }
+  ],
+  "parentRelationId": "4430941",
+  "parentAdminLevel": 5,
+  "parentDivisionCode": null,
+  "parentUsable": true,
+  "parentSelectionBasis": "name-lowest-admin-level",
+  "parentFenceRequired": true,
+  "rejected": [],
+  "idConflicts": [],
+  "excluded": [],
+  "associationBasis": "osm-admin-centre-point-in-parent",
+  "associations": [
+    {
+      "id": "osm-r4591593",
+      "osmRelationId": "4591593",
+      "name": "太仓市",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "244081745"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "osm-r4591596",
+      "osmRelationId": "4591596",
+      "name": "张家港市",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "244082879"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "osm-r4591597",
+      "osmRelationId": "4591597",
+      "name": "常熟市",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "244084671"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "osm-r4591876",
+      "osmRelationId": "4591876",
+      "name": "姑苏区",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "2003124362"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "osm-r4591878",
+      "osmRelationId": "4591878",
+      "name": "昆山市",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "2703828715"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "osm-r4591879",
+      "osmRelationId": "4591879",
+      "name": "吴江区",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "244082210"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "osm-r4591880",
+      "osmRelationId": "4591880",
+      "name": "吴中区",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "3506478907"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "osm-r4591881",
+      "osmRelationId": "4591881",
+      "name": "相城区",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "5124055792"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "320576",
+      "osmRelationId": "7363894",
+      "name": "苏州工业园区",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    },
+    {
+      "id": "osm-r7598901",
+      "osmRelationId": "7598901",
+      "name": "虎丘区",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    }
+  ],
+  "associationCaveat": "OSM node admin_centre association is boundary-inclusive, not full county-polygon intersection or an official registry. Missing centres are unverified candidates; publication requires the independent native WGS84 parent fence.",
+  "matchBasis": "OSM county admin-centre association + exact county and parent geometry matching WGS84. Historical OSM codes are retained, not official administrative certification."
+}

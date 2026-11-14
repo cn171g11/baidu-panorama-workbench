@@ -1,0 +1,233 @@
+{
+  "schemaVersion": 1,
+  "source": "OpenStreetMap",
+  "license": "ODbL-1.0",
+  "attribution": "© OpenStreetMap contributors",
+  "cityId": "530600",
+  "cityName": "昭通市",
+  "coordinateSystem": "WGS84",
+  "timestamp": "2026-11-13T23:48:50Z",
+  "parentTimestamp": "2026-11-14T00:48:50Z",
+  "endpoint": "https://overpass-api.de/api/interpreter",
+  "rawSha256": "b1d67c046b210c000c222a20faac106bb53f2cb51805446ac81d0cc66af9ad77",
+  "parentRawSha256": "512f148714a902469bd951a37ac5c31eefba2f12e8668682ef09a0af2b3a7c70",
+  "sha256": "54a43cb78470bb6d7e3c21c77dada9d89005bda0a63b3b1a6ec0a3c13a73351b",
+  "bytes": 388026,
+  "parentBytes": 94823,
+  "parentSha256": "2a3fb5c2e89a927f489b27bb11af104ff52666538d8721666f4547270290e7b2",
+  "countyRelations": [
+    {
+      "id": "530628",
+      "name": "彝良县",
+      "osmRelationId": "2402004",
+      "adcode": "530628"
+    },
+    {
+      "id": "530627",
+      "name": "镇雄县",
+      "osmRelationId": "2402010",
+      "adcode": "530627"
+    },
+    {
+      "id": "osm-r2402020",
+      "name": "大关县",
+      "osmRelationId": "2402020",
+      "adcode": "530624"
+    },
+    {
+      "id": "530602",
+      "name": "昭阳区",
+      "osmRelationId": "2402036",
+      "adcode": "530602"
+    },
+    {
+      "id": "530629",
+      "name": "威信县",
+      "osmRelationId": "2402040",
+      "adcode": "530629"
+    },
+    {
+      "id": "530623",
+      "name": "盐津县",
+      "osmRelationId": "2402045",
+      "adcode": "530623"
+    },
+    {
+      "id": "osm-r2402060",
+      "name": "永善县",
+      "osmRelationId": "2402060",
+      "adcode": "530624"
+    },
+    {
+      "id": "530621",
+      "name": "鲁甸县",
+      "osmRelationId": "2402646",
+      "adcode": "530621"
+    },
+    {
+      "id": "530622",
+      "name": "巧家县",
+      "osmRelationId": "2402647",
+      "adcode": "530622"
+    },
+    {
+      "id": "530681",
+      "name": "水富市",
+      "osmRelationId": "2402648",
+      "adcode": "530681"
+    },
+    {
+      "id": "530626",
+      "name": "绥江县",
+      "osmRelationId": "2402649",
+      "adcode": "530626"
+    }
+  ],
+  "parentRelationId": "2402650",
+  "parentAdminLevel": 5,
+  "parentDivisionCode": "530600",
+  "parentUsable": true,
+  "parentSelectionBasis": "name-lowest-admin-level",
+  "parentFenceRequired": true,
+  "rejected": [],
+  "idConflicts": [
+    {
+      "adcode": "530624",
+      "osmRelationId": "2402020",
+      "name": "大关县",
+      "id": "osm-r2402020"
+    },
+    {
+      "adcode": "530624",
+      "osmRelationId": "2402060",
+      "name": "永善县",
+      "id": "osm-r2402060"
+    }
+  ],
+  "excluded": [],
+  "associationBasis": "osm-admin-centre-point-in-parent",
+  "associations": [
+    {
+      "id": "530628",
+      "osmRelationId": "2402004",
+      "name": "彝良县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "469625256"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "530627",
+      "osmRelationId": "2402010",
+      "name": "镇雄县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "3006148033"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "osm-r2402020",
+      "osmRelationId": "2402020",
+      "name": "大关县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "469622646"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "530602",
+      "osmRelationId": "2402036",
+      "name": "昭阳区",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    },
+    {
+      "id": "530629",
+      "osmRelationId": "2402040",
+      "name": "威信县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "244081924"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "530623",
+      "osmRelationId": "2402045",
+      "name": "盐津县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "469625115"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "osm-r2402060",
+      "osmRelationId": "2402060",
+      "name": "永善县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "469625613"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "530621",
+      "osmRelationId": "2402646",
+      "name": "鲁甸县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "5035132523"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "530622",
+      "osmRelationId": "2402647",
+      "name": "巧家县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "5889565324"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "530681",
+      "osmRelationId": "2402648",
+      "name": "水富市",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "469624631"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "530626",
+      "osmRelationId": "2402649",
+      "name": "绥江县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "5035431927"
+      ],
+      "unresolvedAdminCentres": 0
+    }
+  ],
+  "associationCaveat": "OSM node admin_centre association is boundary-inclusive, not full county-polygon intersection or an official registry. Missing centres are unverified candidates; publication requires the independent native WGS84 parent fence.",
+  "matchBasis": "OSM county admin-centre association + exact county and parent geometry matching WGS84. Historical OSM codes are retained, not official administrative certification."
+}

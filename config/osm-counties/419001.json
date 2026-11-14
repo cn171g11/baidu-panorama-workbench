@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "source": "OpenStreetMap",
+  "license": "ODbL-1.0",
+  "attribution": "© OpenStreetMap contributors",
+  "cityId": "419001",
+  "cityName": "济源市",
+  "coordinateSystem": "WGS84",
+  "timestamp": "2026-11-13T23:40:38Z",
+  "parentTimestamp": "2026-11-14T00:41:38Z",
+  "endpoint": "https://overpass-api.de/api/interpreter",
+  "rawSha256": "536a6cfa6a77d44f517fe424ef466e1d5c217c54f0b4ab6ea800215f579166d4",
+  "parentRawSha256": "c58cc9a3f720b712a3a79501721cd7266d288a4050983e5df077fbf64ce7ca51",
+  "sha256": "c88bc544565cba02d23dc72e4c018c8d85661f9cfb688caa98db87fc9938ec42",
+  "bytes": 29040,
+  "parentBytes": 28998,
+  "parentSha256": "cc4ca1ccc934d44382c0517c595fcdb4a095d0c82490dd00696a5ab854169543",
+  "countyRelations": [
+    {
+      "id": "419001",
+      "name": "济源市",
+      "osmRelationId": "3010773",
+      "adcode": "419001"
+    }
+  ],
+  "parentRelationId": "3010773",
+  "parentAdminLevel": 6,
+  "parentDivisionCode": "419001",
+  "parentUsable": true,
+  "parentSelectionBasis": "name-lowest-admin-level",
+  "parentFenceRequired": true,
+  "rejected": [],
+  "idConflicts": [],
+  "excluded": [],
+  "associationBasis": "osm-admin-centre-point-in-parent",
+  "associations": [
+    {
+      "id": "419001",
+      "osmRelationId": "3010773",
+      "name": "济源市",
+      "status": "associated",
+      "basis": "parent-relation-self",
+      "adminCentreRefs": [
+        "244080926"
+      ],
+      "unresolvedAdminCentres": 0
+    }
+  ],
+  "associationCaveat": "OSM node admin_centre association is boundary-inclusive, not full county-polygon intersection or an official registry. Missing centres are unverified candidates; publication requires the independent native WGS84 parent fence.",
+  "matchBasis": "OSM county admin-centre association + exact county and parent geometry matching WGS84. Historical OSM codes are retained, not official administrative certification."
+}

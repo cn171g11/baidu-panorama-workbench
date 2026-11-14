@@ -1,0 +1,214 @@
+{
+  "schemaVersion": 1,
+  "source": "OpenStreetMap",
+  "license": "ODbL-1.0",
+  "attribution": "© OpenStreetMap contributors",
+  "cityId": "440100",
+  "cityName": "广州市",
+  "coordinateSystem": "WGS84",
+  "timestamp": "2026-11-13T23:42:43Z",
+  "parentTimestamp": "2026-11-14T00:43:41Z",
+  "endpoint": "https://overpass-api.de/api/interpreter",
+  "rawSha256": "d650e4e6146e26a47e4e692750b4bb17abf477833487043df5b34ea04a94d741",
+  "parentRawSha256": "28757da98c048e73a1fd424af264e14138e373f167ee5825e00c2d1bca9604bf",
+  "sha256": "c789736b1a880683a0a4d60056ba1251db87509130fd08b513a42c4edeaab611",
+  "bytes": 307928,
+  "parentBytes": 127170,
+  "parentSha256": "166b2091b0fd50490b3b294bb4f963f3eb2f52fed1a2c0172d511b8b09ca9b1d",
+  "countyRelations": [
+    {
+      "id": "osm-r3287298",
+      "name": "从化区",
+      "osmRelationId": "3287298",
+      "adcode": null
+    },
+    {
+      "id": "osm-r3287299",
+      "name": "增城区",
+      "osmRelationId": "3287299",
+      "adcode": null
+    },
+    {
+      "id": "osm-r3287345",
+      "name": "南沙区",
+      "osmRelationId": "3287345",
+      "adcode": null
+    },
+    {
+      "id": "osm-r3287615",
+      "name": "海珠区",
+      "osmRelationId": "3287615",
+      "adcode": null
+    },
+    {
+      "id": "osm-r3287616",
+      "name": "花都区",
+      "osmRelationId": "3287616",
+      "adcode": null
+    },
+    {
+      "id": "osm-r3287617",
+      "name": "荔湾区",
+      "osmRelationId": "3287617",
+      "adcode": null
+    },
+    {
+      "id": "osm-r3287618",
+      "name": "番禺区",
+      "osmRelationId": "3287618",
+      "adcode": null
+    },
+    {
+      "id": "osm-r3987393",
+      "name": "白云区",
+      "osmRelationId": "3987393",
+      "adcode": null
+    },
+    {
+      "id": "osm-r3987394",
+      "name": "越秀区",
+      "osmRelationId": "3987394",
+      "adcode": null
+    },
+    {
+      "id": "osm-r3987435",
+      "name": "天河区",
+      "osmRelationId": "3987435",
+      "adcode": null
+    },
+    {
+      "id": "osm-r3987437",
+      "name": "黄埔区",
+      "osmRelationId": "3987437",
+      "adcode": null
+    }
+  ],
+  "parentRelationId": "3287346",
+  "parentAdminLevel": 5,
+  "parentDivisionCode": null,
+  "parentUsable": true,
+  "parentSelectionBasis": "name-lowest-admin-level",
+  "parentFenceRequired": true,
+  "rejected": [],
+  "idConflicts": [],
+  "excluded": [],
+  "associationBasis": "osm-admin-centre-point-in-parent",
+  "associations": [
+    {
+      "id": "osm-r3287298",
+      "osmRelationId": "3287298",
+      "name": "从化区",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "4643987386"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "osm-r3287299",
+      "osmRelationId": "3287299",
+      "name": "增城区",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "4644296472"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "osm-r3287345",
+      "osmRelationId": "3287345",
+      "name": "南沙区",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    },
+    {
+      "id": "osm-r3287615",
+      "osmRelationId": "3287615",
+      "name": "海珠区",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    },
+    {
+      "id": "osm-r3287616",
+      "osmRelationId": "3287616",
+      "name": "花都区",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "625090049"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "osm-r3287617",
+      "osmRelationId": "3287617",
+      "name": "荔湾区",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    },
+    {
+      "id": "osm-r3287618",
+      "osmRelationId": "3287618",
+      "name": "番禺区",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    },
+    {
+      "id": "osm-r3987393",
+      "osmRelationId": "3987393",
+      "name": "白云区",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "5113279718"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "osm-r3987394",
+      "osmRelationId": "3987394",
+      "name": "越秀区",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    },
+    {
+      "id": "osm-r3987435",
+      "osmRelationId": "3987435",
+      "name": "天河区",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    },
+    {
+      "id": "osm-r3987437",
+      "osmRelationId": "3987437",
+      "name": "黄埔区",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    }
+  ],
+  "associationCaveat": "OSM node admin_centre association is boundary-inclusive, not full county-polygon intersection or an official registry. Missing centres are unverified candidates; publication requires the independent native WGS84 parent fence.",
+  "matchBasis": "OSM county admin-centre association + exact county and parent geometry matching WGS84. Historical OSM codes are retained, not official administrative certification."
+}

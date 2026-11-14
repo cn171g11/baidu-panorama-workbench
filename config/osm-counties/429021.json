@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "source": "OpenStreetMap",
+  "license": "ODbL-1.0",
+  "attribution": "© OpenStreetMap contributors",
+  "cityId": "429021",
+  "cityName": "神农架林区",
+  "coordinateSystem": "WGS84",
+  "timestamp": "2026-11-13T23:41:39Z",
+  "parentTimestamp": "2026-11-14T00:42:38Z",
+  "endpoint": "https://overpass-api.de/api/interpreter",
+  "rawSha256": "cbaf0020caa6d881e4ece04e2ca959ac11c3c078f1817661a5e3507647471e4b",
+  "parentRawSha256": "3439932ae0af39abf77a7640fc70e67e824a048dfdd07a1e491053d159da137d",
+  "sha256": "1f6f092e920f6d9376fcc2de4989ce0ddbfafb56f6b9b7b3a6594b805662945e",
+  "bytes": 12734,
+  "parentBytes": 12692,
+  "parentSha256": "1be1e9a6b7e9e530b165a80d1d96495bd0258918855717cf2ffa45027a8c4373",
+  "countyRelations": [
+    {
+      "id": "429021",
+      "name": "神农架林区",
+      "osmRelationId": "2984052",
+      "adcode": "429021"
+    }
+  ],
+  "parentRelationId": "2984052",
+  "parentAdminLevel": 6,
+  "parentDivisionCode": "429021",
+  "parentUsable": true,
+  "parentSelectionBasis": "name-lowest-admin-level",
+  "parentFenceRequired": true,
+  "rejected": [],
+  "idConflicts": [],
+  "excluded": [],
+  "associationBasis": "osm-admin-centre-point-in-parent",
+  "associations": [
+    {
+      "id": "429021",
+      "osmRelationId": "2984052",
+      "name": "神农架林区",
+      "status": "associated",
+      "basis": "parent-relation-self",
+      "adminCentreRefs": [
+        "244081639"
+      ],
+      "unresolvedAdminCentres": 0
+    }
+  ],
+  "associationCaveat": "OSM node admin_centre association is boundary-inclusive, not full county-polygon intersection or an official registry. Missing centres are unverified candidates; publication requires the independent native WGS84 parent fence.",
+  "matchBasis": "OSM county admin-centre association + exact county and parent geometry matching WGS84. Historical OSM codes are retained, not official administrative certification."
+}

@@ -1,0 +1,238 @@
+{
+  "schemaVersion": 1,
+  "source": "OpenStreetMap",
+  "license": "ODbL-1.0",
+  "attribution": "© OpenStreetMap contributors",
+  "cityId": "431200",
+  "cityName": "怀化市",
+  "coordinateSystem": "WGS84",
+  "timestamp": "2026-11-13T23:42:43Z",
+  "parentTimestamp": "2026-11-14T00:42:38Z",
+  "endpoint": "https://overpass-api.de/api/interpreter",
+  "rawSha256": "155575f1db0d263836fc897b4dc881888071adecf1cfcc07d80677ae5524cb43",
+  "parentRawSha256": "5fb7259e5bc1a9b8f2e126ebbce35cc8151730024cf2f8479cd21008c8535883",
+  "sha256": "c2fcbe8f75306bd37a8fde003490529959302542dc69a5195027ed39f41ee37a",
+  "bytes": 505722,
+  "parentBytes": 156545,
+  "parentSha256": "847ba19bc4577a2303862c9262fb52853007f8aec689109e06c7b6835e4174f0",
+  "countyRelations": [
+    {
+      "id": "osm-r3074571",
+      "name": "辰溪县",
+      "osmRelationId": "3074571",
+      "adcode": null
+    },
+    {
+      "id": "431202",
+      "name": "鹤城区",
+      "osmRelationId": "3074572",
+      "adcode": "431202"
+    },
+    {
+      "id": "431281",
+      "name": "洪江市",
+      "osmRelationId": "3074573",
+      "adcode": "431281"
+    },
+    {
+      "id": "431225",
+      "name": "会同县",
+      "osmRelationId": "3074574",
+      "adcode": "431225"
+    },
+    {
+      "id": "431229",
+      "name": "靖州苗族侗族自治县",
+      "osmRelationId": "3074575",
+      "adcode": "431229"
+    },
+    {
+      "id": "431226",
+      "name": "麻阳苗族自治县",
+      "osmRelationId": "3074576",
+      "adcode": "431226"
+    },
+    {
+      "id": "431230",
+      "name": "通道侗族自治县",
+      "osmRelationId": "3074577",
+      "adcode": "431230"
+    },
+    {
+      "id": "431227",
+      "name": "新晃侗族自治县",
+      "osmRelationId": "3074578",
+      "adcode": "431227"
+    },
+    {
+      "id": "431224",
+      "name": "溆浦县",
+      "osmRelationId": "3074579",
+      "adcode": "431224"
+    },
+    {
+      "id": "431222",
+      "name": "沅陵县",
+      "osmRelationId": "3074580",
+      "adcode": "431222"
+    },
+    {
+      "id": "431228",
+      "name": "芷江侗族自治县",
+      "osmRelationId": "3074581",
+      "adcode": "431228"
+    },
+    {
+      "id": "431221",
+      "name": "中方县",
+      "osmRelationId": "3074582",
+      "adcode": "431221"
+    }
+  ],
+  "parentRelationId": "2773826",
+  "parentAdminLevel": 5,
+  "parentDivisionCode": "431200",
+  "parentUsable": true,
+  "parentSelectionBasis": "name-lowest-admin-level",
+  "parentFenceRequired": true,
+  "rejected": [],
+  "idConflicts": [],
+  "excluded": [],
+  "associationBasis": "osm-admin-centre-point-in-parent",
+  "associations": [
+    {
+      "id": "osm-r3074571",
+      "osmRelationId": "3074571",
+      "name": "辰溪县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "244077533"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "431202",
+      "osmRelationId": "3074572",
+      "name": "鹤城区",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "244083746"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "431281",
+      "osmRelationId": "3074573",
+      "name": "洪江市",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "244080560"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "431225",
+      "osmRelationId": "3074574",
+      "name": "会同县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "244080657"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "431229",
+      "osmRelationId": "3074575",
+      "name": "靖州苗族侗族自治县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "244084442"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "431226",
+      "osmRelationId": "3074576",
+      "name": "麻阳苗族自治县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "5168561344"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "431230",
+      "osmRelationId": "3074577",
+      "name": "通道侗族自治县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "244082053"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "431227",
+      "osmRelationId": "3074578",
+      "name": "新晃侗族自治县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "244082380"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "431224",
+      "osmRelationId": "3074579",
+      "name": "溆浦县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "627493868"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "431222",
+      "osmRelationId": "3074580",
+      "name": "沅陵县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "244082355"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "431228",
+      "osmRelationId": "3074581",
+      "name": "芷江侗族自治县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "244083142"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "431221",
+      "osmRelationId": "3074582",
+      "name": "中方县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "244084439"
+      ],
+      "unresolvedAdminCentres": 0
+    }
+  ],
+  "associationCaveat": "OSM node admin_centre association is boundary-inclusive, not full county-polygon intersection or an official registry. Missing centres are unverified candidates; publication requires the independent native WGS84 parent fence.",
+  "matchBasis": "OSM county admin-centre association + exact county and parent geometry matching WGS84. Historical OSM codes are retained, not official administrative certification."
+}

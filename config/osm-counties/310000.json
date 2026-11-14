@@ -1,0 +1,283 @@
+{
+  "schemaVersion": 1,
+  "source": "OpenStreetMap",
+  "license": "ODbL-1.0",
+  "attribution": "© OpenStreetMap contributors",
+  "cityId": "310000",
+  "cityName": "上海市",
+  "coordinateSystem": "WGS84",
+  "timestamp": "2026-11-13T23:36:35Z",
+  "parentTimestamp": "2026-11-14T00:36:35Z",
+  "endpoint": "https://overpass-api.de/api/interpreter",
+  "rawSha256": "9abb10778e71ae041e12675a9b9df98d00c281767b0b7a68694d640979fc1fc5",
+  "parentRawSha256": "1a595fe2336ef6331beedd2c3e14c50de60b5afe2679d747a5aa991c3cb0d542",
+  "sha256": "3830c6f2ffa34bc991266950dfaaf0c82997e870ee6444427c50c3bebdbdfc65",
+  "bytes": 388648,
+  "parentBytes": 113135,
+  "parentSha256": "fba55a00b377df975d66d956031a9cc04ab7b49c1ffbef1779f6621ad097717e",
+  "countyRelations": [
+    {
+      "id": "osm-r371650",
+      "name": "黄浦区",
+      "osmRelationId": "371650",
+      "adcode": null
+    },
+    {
+      "id": "osm-r398348",
+      "name": "浦东新区",
+      "osmRelationId": "398348",
+      "adcode": null
+    },
+    {
+      "id": "310110",
+      "name": "杨浦区",
+      "osmRelationId": "398350",
+      "adcode": "310110"
+    },
+    {
+      "id": "310109",
+      "name": "虹口区",
+      "osmRelationId": "398351",
+      "adcode": "310109"
+    },
+    {
+      "id": "310106",
+      "name": "静安区",
+      "osmRelationId": "398353",
+      "adcode": "310106"
+    },
+    {
+      "id": "310107",
+      "name": "普陀区",
+      "osmRelationId": "398886",
+      "adcode": "310107"
+    },
+    {
+      "id": "310105",
+      "name": "长宁区",
+      "osmRelationId": "398899",
+      "adcode": "310105"
+    },
+    {
+      "id": "310104",
+      "name": "徐汇区",
+      "osmRelationId": "1278188",
+      "adcode": "310104"
+    },
+    {
+      "id": "310112",
+      "name": "闵行区",
+      "osmRelationId": "1278189",
+      "adcode": "310112"
+    },
+    {
+      "id": "310114",
+      "name": "嘉定区",
+      "osmRelationId": "1673543",
+      "adcode": "310114"
+    },
+    {
+      "id": "310151",
+      "name": "崇明区",
+      "osmRelationId": "3292750",
+      "adcode": "310151"
+    },
+    {
+      "id": "osm-r3292751",
+      "name": "奉贤区",
+      "osmRelationId": "3292751",
+      "adcode": null
+    },
+    {
+      "id": "310116",
+      "name": "金山区",
+      "osmRelationId": "3292756",
+      "adcode": "310116"
+    },
+    {
+      "id": "310118",
+      "name": "青浦区",
+      "osmRelationId": "3292760",
+      "adcode": "310118"
+    },
+    {
+      "id": "310117",
+      "name": "松江区",
+      "osmRelationId": "3293722",
+      "adcode": "310117"
+    }
+  ],
+  "parentRelationId": "913067",
+  "parentAdminLevel": 4,
+  "parentDivisionCode": null,
+  "parentUsable": true,
+  "parentSelectionBasis": "name-lowest-admin-level",
+  "parentFenceRequired": true,
+  "rejected": [
+    {
+      "scope": "county",
+      "osmRelationId": "398374",
+      "name": "宝山区",
+      "reason": "Invalid OSM county relation: outer has ambiguous branched endpoint 120.5695373,33.3691136; explicit ring membership is required"
+    }
+  ],
+  "idConflicts": [],
+  "excluded": [],
+  "associationBasis": "osm-admin-centre-point-in-parent",
+  "associations": [
+    {
+      "id": "osm-r371650",
+      "osmRelationId": "371650",
+      "name": "黄浦区",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    },
+    {
+      "id": "osm-r398348",
+      "osmRelationId": "398348",
+      "name": "浦东新区",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    },
+    {
+      "id": "310110",
+      "osmRelationId": "398350",
+      "name": "杨浦区",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    },
+    {
+      "id": "310109",
+      "osmRelationId": "398351",
+      "name": "虹口区",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    },
+    {
+      "id": "310106",
+      "osmRelationId": "398353",
+      "name": "静安区",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    },
+    {
+      "id": "310107",
+      "osmRelationId": "398886",
+      "name": "普陀区",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "244081604"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "310105",
+      "osmRelationId": "398899",
+      "name": "长宁区",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    },
+    {
+      "id": "310104",
+      "osmRelationId": "1278188",
+      "name": "徐汇区",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    },
+    {
+      "id": "310112",
+      "osmRelationId": "1278189",
+      "name": "闵行区",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "859922155"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "310114",
+      "osmRelationId": "1673543",
+      "name": "嘉定区",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    },
+    {
+      "id": "310151",
+      "osmRelationId": "3292750",
+      "name": "崇明区",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    },
+    {
+      "id": "osm-r3292751",
+      "osmRelationId": "3292751",
+      "name": "奉贤区",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    },
+    {
+      "id": "310116",
+      "osmRelationId": "3292756",
+      "name": "金山区",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    },
+    {
+      "id": "310118",
+      "osmRelationId": "3292760",
+      "name": "青浦区",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    },
+    {
+      "id": "310117",
+      "osmRelationId": "3293722",
+      "name": "松江区",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    }
+  ],
+  "associationCaveat": "OSM node admin_centre association is boundary-inclusive, not full county-polygon intersection or an official registry. Missing centres are unverified candidates; publication requires the independent native WGS84 parent fence.",
+  "matchBasis": "OSM county admin-centre association + exact county and parent geometry matching WGS84. Historical OSM codes are retained, not official administrative certification."
+}

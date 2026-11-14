@@ -1,0 +1,255 @@
+{
+  "schemaVersion": 1,
+  "source": "OpenStreetMap",
+  "license": "ODbL-1.0",
+  "attribution": "© OpenStreetMap contributors",
+  "cityId": "513200",
+  "cityName": "阿坝藏族羌族自治州",
+  "coordinateSystem": "WGS84",
+  "timestamp": "2026-11-14T00:10:05Z",
+  "parentTimestamp": "2026-11-14T00:46:51Z",
+  "endpoint": "https://overpass-api.de/api/interpreter",
+  "rawSha256": "399bad780eba0577ceb9b311e2f2f66915ad075941324054a4f452da7b56861a",
+  "parentRawSha256": "8fa385269cd7e4afc44b92f8559d096f689daafd5e4b04993b355ce520fdae85",
+  "sha256": "75e153fd0e7935fc7a99e0df50532b971ba3ad8a86d135a0e940c5f802a29d61",
+  "bytes": 580784,
+  "parentBytes": 327860,
+  "parentSha256": "060889ac4a929f1f80f0a3cb37667885037b158788e461d08a8bebfac3774640",
+  "countyRelations": [
+    {
+      "id": "513222",
+      "name": "理县",
+      "osmRelationId": "2110258",
+      "adcode": "513222"
+    },
+    {
+      "id": "513221",
+      "name": "汶川县",
+      "osmRelationId": "2110260",
+      "adcode": "513221"
+    },
+    {
+      "id": "513225",
+      "name": "九寨沟县",
+      "osmRelationId": "2111958",
+      "adcode": "513225"
+    },
+    {
+      "id": "513227",
+      "name": "小金县",
+      "osmRelationId": "2116633",
+      "adcode": "513227"
+    },
+    {
+      "id": "513223",
+      "name": "茂县",
+      "osmRelationId": "2139336",
+      "adcode": "513223"
+    },
+    {
+      "id": "513231",
+      "name": "阿坝县",
+      "osmRelationId": "2785343",
+      "adcode": "513231"
+    },
+    {
+      "id": "513201",
+      "name": "马尔康市",
+      "osmRelationId": "2785344",
+      "adcode": "513201"
+    },
+    {
+      "id": "513228",
+      "name": "黑水县",
+      "osmRelationId": "2785345",
+      "adcode": "513228"
+    },
+    {
+      "id": "513233",
+      "name": "红原县",
+      "osmRelationId": "2785346",
+      "adcode": "513233"
+    },
+    {
+      "id": "513226",
+      "name": "金川县",
+      "osmRelationId": "2785347",
+      "adcode": "513226"
+    },
+    {
+      "id": "513224",
+      "name": "松潘县",
+      "osmRelationId": "2785348",
+      "adcode": "513224"
+    },
+    {
+      "id": "513230",
+      "name": "壤塘县",
+      "osmRelationId": "2785349",
+      "adcode": "513230"
+    },
+    {
+      "id": "513232",
+      "name": "若尔盖县",
+      "osmRelationId": "2785350",
+      "adcode": "513232"
+    }
+  ],
+  "parentRelationId": "2110265",
+  "parentAdminLevel": 5,
+  "parentDivisionCode": "513200",
+  "parentUsable": true,
+  "parentSelectionBasis": "name-lowest-admin-level",
+  "parentFenceRequired": true,
+  "rejected": [],
+  "idConflicts": [],
+  "excluded": [],
+  "associationBasis": "osm-admin-centre-point-in-parent",
+  "associations": [
+    {
+      "id": "513222",
+      "osmRelationId": "2110258",
+      "name": "理县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "4721795955"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "513221",
+      "osmRelationId": "2110260",
+      "name": "汶川县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "1700680482"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "513225",
+      "osmRelationId": "2111958",
+      "name": "九寨沟县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "6416739694"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "513227",
+      "osmRelationId": "2116633",
+      "name": "小金县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "244082134"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "513223",
+      "osmRelationId": "2139336",
+      "name": "茂县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "4721725008"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "513231",
+      "osmRelationId": "2785343",
+      "name": "阿坝县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "6416739691"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "513201",
+      "osmRelationId": "2785344",
+      "name": "马尔康市",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "811086332"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "513228",
+      "osmRelationId": "2785345",
+      "name": "黑水县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "244080479"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "513233",
+      "osmRelationId": "2785346",
+      "name": "红原县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "4793542356"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "513226",
+      "osmRelationId": "2785347",
+      "name": "金川县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "6416739695"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "513224",
+      "osmRelationId": "2785348",
+      "name": "松潘县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "4721739285"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "513230",
+      "osmRelationId": "2785349",
+      "name": "壤塘县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "6416739692"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "513232",
+      "osmRelationId": "2785350",
+      "name": "若尔盖县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "4793482642"
+      ],
+      "unresolvedAdminCentres": 0
+    }
+  ],
+  "associationCaveat": "OSM node admin_centre association is boundary-inclusive, not full county-polygon intersection or an official registry. Missing centres are unverified candidates; publication requires the independent native WGS84 parent fence.",
+  "matchBasis": "OSM county admin-centre association + exact county and parent geometry matching WGS84. Historical OSM codes are retained, not official administrative certification."
+}

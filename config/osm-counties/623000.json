@@ -1,0 +1,170 @@
+{
+  "schemaVersion": 1,
+  "source": "OpenStreetMap",
+  "license": "ODbL-1.0",
+  "attribution": "© OpenStreetMap contributors",
+  "cityId": "623000",
+  "cityName": "甘南藏族自治州",
+  "coordinateSystem": "WGS84",
+  "timestamp": "2026-11-14T00:16:12Z",
+  "parentTimestamp": "2026-11-14T00:53:50Z",
+  "endpoint": "https://overpass-api.de/api/interpreter",
+  "rawSha256": "dc9ed0b7f40c6edb4c3eed0bdaf6963218872994f644529ebdecc9d356a36849",
+  "parentRawSha256": "9f66ef6aeeb986c7515a58522659aa86bb297a41f5050c817dcbd87816c23b51",
+  "sha256": "5e068077dfbe50eedba3c1433ea13e2bbfb9cab2ac7351d18825b56ed3ccbebd",
+  "bytes": 2870630,
+  "parentBytes": 1137342,
+  "parentSha256": "fe0fedbe4cd00753a565c38a541113655e109287d4f4acb7a53784fe5b2a2791",
+  "countyRelations": [
+    {
+      "id": "osm-r2693680",
+      "name": "碌曲县",
+      "osmRelationId": "2693680",
+      "adcode": null
+    },
+    {
+      "id": "osm-r2693681",
+      "name": "玛曲县",
+      "osmRelationId": "2693681",
+      "adcode": null
+    },
+    {
+      "id": "osm-r2693682",
+      "name": "夏河县",
+      "osmRelationId": "2693682",
+      "adcode": null
+    },
+    {
+      "id": "osm-r2693951",
+      "name": "合作市",
+      "osmRelationId": "2693951",
+      "adcode": null
+    },
+    {
+      "id": "osm-r2693952",
+      "name": "卓尼县",
+      "osmRelationId": "2693952",
+      "adcode": null
+    },
+    {
+      "id": "osm-r2693953",
+      "name": "临潭县",
+      "osmRelationId": "2693953",
+      "adcode": null
+    },
+    {
+      "id": "osm-r2693954",
+      "name": "迭部县",
+      "osmRelationId": "2693954",
+      "adcode": null
+    },
+    {
+      "id": "osm-r2693956",
+      "name": "舟曲县",
+      "osmRelationId": "2693956",
+      "adcode": null
+    }
+  ],
+  "parentRelationId": "165639",
+  "parentAdminLevel": 5,
+  "parentDivisionCode": null,
+  "parentUsable": true,
+  "parentSelectionBasis": "name-lowest-admin-level",
+  "parentFenceRequired": true,
+  "rejected": [],
+  "idConflicts": [],
+  "excluded": [],
+  "associationBasis": "osm-admin-centre-point-in-parent",
+  "associations": [
+    {
+      "id": "osm-r2693680",
+      "osmRelationId": "2693680",
+      "name": "碌曲县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "5045046779"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "osm-r2693681",
+      "osmRelationId": "2693681",
+      "name": "玛曲县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "892481167"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "osm-r2693682",
+      "osmRelationId": "2693682",
+      "name": "夏河县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "683773654"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "osm-r2693951",
+      "osmRelationId": "2693951",
+      "name": "合作市",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "244083665"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "osm-r2693952",
+      "osmRelationId": "2693952",
+      "name": "卓尼县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "5045046777"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "osm-r2693953",
+      "osmRelationId": "2693953",
+      "name": "临潭县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "2105622099"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "osm-r2693954",
+      "osmRelationId": "2693954",
+      "name": "迭部县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "4352064877"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "osm-r2693956",
+      "osmRelationId": "2693956",
+      "name": "舟曲县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "7407682649"
+      ],
+      "unresolvedAdminCentres": 0
+    }
+  ],
+  "associationCaveat": "OSM node admin_centre association is boundary-inclusive, not full county-polygon intersection or an official registry. Missing centres are unverified candidates; publication requires the independent native WGS84 parent fence.",
+  "matchBasis": "OSM county admin-centre association + exact county and parent geometry matching WGS84. Historical OSM codes are retained, not official administrative certification."
+}

@@ -16,7 +16,9 @@
     <a class="brand" href="./" aria-label="百度街景工作台首页">百度街景 <span class="provider-pill">仅百度</span></a>
     <label class="toolbar-field province-field"><span class="sr-only">省份</span><select id="province-filter" title="省级行政区"><option value="">全部省份</option></select></label>
     <label class="toolbar-field city-field"><span class="sr-only">城市</span><select id="city-filter" title="城市" disabled><option value="">先选省份</option></select></label>
-    <button class="button button-primary" id="load-city" type="button" disabled title="载入或重新载入所选城市">载入</button>
+    <label class="toolbar-field county-field"><span class="sr-only">县区</span><select id="county-filter" title="按OSM边界分区" disabled><option value="">先选择城市</option></select></label>
+    <label class="toolbar-field shard-field"><span class="sr-only">县级分片</span><select id="shard-filter" title="最多25,000点/片" disabled><option value="all">全部分片</option></select></label>
+    <button class="button button-primary" id="load-city" type="button" disabled title="载入所选县区分片">载入</button>
     <label class="toolbar-field search-field"><span class="sr-only">搜索街道或 panoid</span><input id="search-input" type="search" placeholder="搜索 panoid / 路名 / 日期 / 坐标" autocomplete="off"></label>
     <button class="button" id="toggle-filters" type="button" aria-expanded="false" aria-controls="extra-filters">更多筛选</button>
     <label class="toolbar-field basemap-field"><span class="sr-only">底图</span><select id="basemap-select" title="底图"><option value="amap-dark" selected>高德 · 暗色</option><option value="amap">高德 · 标准</option><option value="amap-satellite">高德 · 卫星</option><option value="osm">OSM · 标准</option><option value="osm-dark">OSM · 暗色</option><option value="none">无底图 · 离线点位</option></select></label>

@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "source": "OpenStreetMap",
+  "license": "ODbL-1.0",
+  "attribution": "© OpenStreetMap contributors",
+  "cityId": "620300",
+  "cityName": "金昌市",
+  "coordinateSystem": "WGS84",
+  "timestamp": "2026-11-13T23:52:51Z",
+  "parentTimestamp": "2026-11-14T00:52:48Z",
+  "endpoint": "https://overpass-api.de/api/interpreter",
+  "rawSha256": "2db38ab99ff6bb02d0abaddab6523d05340de60cbabdca9f64b846c55e0651a1",
+  "parentRawSha256": "59673d3ecce3b67fde6c5c53c2381f2c4600eaba9f36a6417820f73a9cfe1ae6",
+  "sha256": "b1f4bdaad6b95931f6c8136feeb7cee0b4e78f579fbfa5ffa249ed9a178443b1",
+  "bytes": 236510,
+  "parentBytes": 192237,
+  "parentSha256": "5eb4e7174a2dad130ecc0cf3e378612ad47b8efb0ac1367b20835ef74bf9c6a1",
+  "countyRelations": [
+    {
+      "id": "osm-r2705763",
+      "name": "金川区",
+      "osmRelationId": "2705763",
+      "adcode": null
+    },
+    {
+      "id": "osm-r2705764",
+      "name": "永昌县",
+      "osmRelationId": "2705764",
+      "adcode": null
+    }
+  ],
+  "parentRelationId": "2705765",
+  "parentAdminLevel": 5,
+  "parentDivisionCode": null,
+  "parentUsable": true,
+  "parentSelectionBasis": "name-lowest-admin-level",
+  "parentFenceRequired": true,
+  "rejected": [],
+  "idConflicts": [],
+  "excluded": [],
+  "associationBasis": "osm-admin-centre-point-in-parent",
+  "associations": [
+    {
+      "id": "osm-r2705763",
+      "osmRelationId": "2705763",
+      "name": "金川区",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "8096772486"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "osm-r2705764",
+      "osmRelationId": "2705764",
+      "name": "永昌县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "244082327"
+      ],
+      "unresolvedAdminCentres": 0
+    }
+  ],
+  "associationCaveat": "OSM node admin_centre association is boundary-inclusive, not full county-polygon intersection or an official registry. Missing centres are unverified candidates; publication requires the independent native WGS84 parent fence.",
+  "matchBasis": "OSM county admin-centre association + exact county and parent geometry matching WGS84. Historical OSM codes are retained, not official administrative certification."
+}

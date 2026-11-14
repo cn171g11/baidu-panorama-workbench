@@ -1,0 +1,236 @@
+{
+  "schemaVersion": 1,
+  "source": "OpenStreetMap",
+  "license": "ODbL-1.0",
+  "attribution": "© OpenStreetMap contributors",
+  "cityId": "522700",
+  "cityName": "黔南布依族苗族自治州",
+  "coordinateSystem": "WGS84",
+  "timestamp": "2026-11-13T23:47:51Z",
+  "parentTimestamp": "2026-11-14T00:47:49Z",
+  "endpoint": "https://overpass-api.de/api/interpreter",
+  "rawSha256": "5b619cf1954b33eafc6dd31a8aa4fcb755fd69ae2889a6f3e020832ec581553a",
+  "parentRawSha256": "c19efb77d7c61d5bf12f42d5ee7b747016fc106990bfe8c158b77b30cff86d84",
+  "sha256": "2235d8bf5b94035bfddb0833bf72f11db311ffc38ce0a1cd8950e829a2987c28",
+  "bytes": 343139,
+  "parentBytes": 148998,
+  "parentSha256": "44fa7efceedd82353251582508c6175f9204c483d088138ea2c240d5d5520b35",
+  "countyRelations": [
+    {
+      "id": "522729",
+      "name": "长顺县",
+      "osmRelationId": "2777414",
+      "adcode": "522729"
+    },
+    {
+      "id": "osm-r2777415",
+      "name": "独山县",
+      "osmRelationId": "2777415",
+      "adcode": null
+    },
+    {
+      "id": "522701",
+      "name": "都匀市",
+      "osmRelationId": "2777416",
+      "adcode": "522701"
+    },
+    {
+      "id": "522702",
+      "name": "福泉市",
+      "osmRelationId": "2777417",
+      "adcode": "522702"
+    },
+    {
+      "id": "osm-r2777418",
+      "name": "贵定县",
+      "osmRelationId": "2777418",
+      "adcode": null
+    },
+    {
+      "id": "522731",
+      "name": "惠水县",
+      "osmRelationId": "2777419",
+      "adcode": "522731"
+    },
+    {
+      "id": "522730",
+      "name": "龙里县",
+      "osmRelationId": "2777420",
+      "adcode": "522730"
+    },
+    {
+      "id": "522728",
+      "name": "罗甸县",
+      "osmRelationId": "2777421",
+      "adcode": "522728"
+    },
+    {
+      "id": "522727",
+      "name": "平塘县",
+      "osmRelationId": "2777422",
+      "adcode": "522727"
+    },
+    {
+      "id": "osm-r2777423",
+      "name": "三都水族自治县",
+      "osmRelationId": "2777423",
+      "adcode": null
+    },
+    {
+      "id": "522725",
+      "name": "瓮安县",
+      "osmRelationId": "2777424",
+      "adcode": "522725"
+    },
+    {
+      "id": "522722",
+      "name": "荔波县",
+      "osmRelationId": "4425368",
+      "adcode": "522722"
+    }
+  ],
+  "parentRelationId": "2777425",
+  "parentAdminLevel": 5,
+  "parentDivisionCode": "522700",
+  "parentUsable": true,
+  "parentSelectionBasis": "name-lowest-admin-level",
+  "parentFenceRequired": true,
+  "rejected": [],
+  "idConflicts": [],
+  "excluded": [],
+  "associationBasis": "osm-admin-centre-point-in-parent",
+  "associations": [
+    {
+      "id": "522729",
+      "osmRelationId": "2777414",
+      "name": "长顺县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "6542868570"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "osm-r2777415",
+      "osmRelationId": "2777415",
+      "name": "独山县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "1612747500"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "522701",
+      "osmRelationId": "2777416",
+      "name": "都匀市",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    },
+    {
+      "id": "522702",
+      "osmRelationId": "2777417",
+      "name": "福泉市",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "244079997"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "osm-r2777418",
+      "osmRelationId": "2777418",
+      "name": "贵定县",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    },
+    {
+      "id": "522731",
+      "osmRelationId": "2777419",
+      "name": "惠水县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "244080658"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "522730",
+      "osmRelationId": "2777420",
+      "name": "龙里县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "6416740058"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "522728",
+      "osmRelationId": "2777421",
+      "name": "罗甸县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "4271477852"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "522727",
+      "osmRelationId": "2777422",
+      "name": "平塘县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "5035132521"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "osm-r2777423",
+      "osmRelationId": "2777423",
+      "name": "三都水族自治县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "4809065526"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "522725",
+      "osmRelationId": "2777424",
+      "name": "瓮安县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "6416739704"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "522722",
+      "osmRelationId": "4425368",
+      "name": "荔波县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "4269360329"
+      ],
+      "unresolvedAdminCentres": 0
+    }
+  ],
+  "associationCaveat": "OSM node admin_centre association is boundary-inclusive, not full county-polygon intersection or an official registry. Missing centres are unverified candidates; publication requires the independent native WGS84 parent fence.",
+  "matchBasis": "OSM county admin-centre association + exact county and parent geometry matching WGS84. Historical OSM codes are retained, not official administrative certification."
+}

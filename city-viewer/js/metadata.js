@@ -26,7 +26,7 @@ function inspectProvenance(value, key = "") {
     return;
   }
   for (const [childKey, child] of Object.entries(value)) {
-    if (/tencent|qq|svid|rdid|sno|level0/i.test(childKey)) fail(`Non-Baidu field is forbidden: ${childKey}`);
+    if (FORBIDDEN_KEYS.test(childKey) || /tencent|qq|svid|rdid|sno|level0/i.test(childKey)) fail(`Non-Baidu field is forbidden: ${childKey}`);
     inspectProvenance(child, childKey);
   }
 }

@@ -35,9 +35,9 @@ jobs:
       - name: Build selected Baidu city shards for same-origin Pages publication
         run: npm run build:pages
       - name: Verify browser interactions using an unpublished empty-data fixture
-        run: node tools/browser_smoke.mjs --site-root dist/pages --ui-fixture --browser /usr/bin/google-chrome
-      - name: Verify real Baidu city shards and metadata in Chromium
-        run: node tools/browser_data_check.mjs --site-root dist/pages --browser /usr/bin/google-chrome --require-pages
+        run: node --max-old-space-size=128 tools/browser_smoke.mjs --site-root dist/pages --ui-fixture --low-memory --browser /usr/bin/google-chrome
+      - name: Verify real Baidu county shards and metadata in Chromium
+        run: node --max-old-space-size=128 tools/browser_county_check.mjs --site-root dist/pages --browser /usr/bin/google-chrome --city 371600
       - name: Upload only the verified public site
         uses: actions/upload-pages-artifact@v3
         with:

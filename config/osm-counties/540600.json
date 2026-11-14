@@ -1,0 +1,221 @@
+{
+  "schemaVersion": 1,
+  "source": "OpenStreetMap",
+  "license": "ODbL-1.0",
+  "attribution": "© OpenStreetMap contributors",
+  "cityId": "540600",
+  "cityName": "那曲市",
+  "coordinateSystem": "WGS84",
+  "timestamp": "2026-11-14T00:15:11Z",
+  "parentTimestamp": "2026-11-14T00:51:49Z",
+  "endpoint": "https://overpass-api.de/api/interpreter",
+  "rawSha256": "d7cf4c6b6b2998de6989dc34b8287bc1b569a851a979e0d694f17e6ac03e73d3",
+  "parentRawSha256": "6a186d93ea2a7757341dd9b935043dfdcf2243787c79b4eb2e8a242080746bd0",
+  "sha256": "57193812c917a19e10e1efa38b160fd455ee131e5fd82fc2de7948c64b033106",
+  "bytes": 630070,
+  "parentBytes": 270597,
+  "parentSha256": "96f39b8eb9c0d60f68abe08f010806af4bab3d5e79ebb81fada14014a89c65e5",
+  "countyRelations": [
+    {
+      "id": "540624",
+      "name": "安多县",
+      "osmRelationId": "2745047",
+      "adcode": "540624"
+    },
+    {
+      "id": "540628",
+      "name": "巴青县",
+      "osmRelationId": "2745048",
+      "adcode": "540628"
+    },
+    {
+      "id": "540622",
+      "name": "比如县",
+      "osmRelationId": "2745049",
+      "adcode": "540622"
+    },
+    {
+      "id": "540621",
+      "name": "嘉黎县",
+      "osmRelationId": "2745050",
+      "adcode": "540621"
+    },
+    {
+      "id": "540602",
+      "name": "色尼区",
+      "osmRelationId": "2745051",
+      "adcode": "540602"
+    },
+    {
+      "id": "540623",
+      "name": "聂荣县",
+      "osmRelationId": "2745052",
+      "adcode": "540623"
+    },
+    {
+      "id": "540629",
+      "name": "尼玛县",
+      "osmRelationId": "2745053",
+      "adcode": "540629"
+    },
+    {
+      "id": "540626",
+      "name": "索县",
+      "osmRelationId": "2745054",
+      "adcode": "540626"
+    },
+    {
+      "id": "540625",
+      "name": "申扎县",
+      "osmRelationId": "2745055",
+      "adcode": "540625"
+    },
+    {
+      "id": "540627",
+      "name": "班戈县",
+      "osmRelationId": "2747064",
+      "adcode": "540627"
+    },
+    {
+      "id": "540630",
+      "name": "双湖县",
+      "osmRelationId": "2747065",
+      "adcode": "540630"
+    }
+  ],
+  "parentRelationId": "2744938",
+  "parentAdminLevel": 5,
+  "parentDivisionCode": "540600",
+  "parentUsable": true,
+  "parentSelectionBasis": "name-lowest-admin-level",
+  "parentFenceRequired": true,
+  "rejected": [],
+  "idConflicts": [],
+  "excluded": [],
+  "associationBasis": "osm-admin-centre-point-in-parent",
+  "associations": [
+    {
+      "id": "540624",
+      "osmRelationId": "2745047",
+      "name": "安多县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "244075725"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "540628",
+      "osmRelationId": "2745048",
+      "name": "巴青县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "3074302149"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "540622",
+      "osmRelationId": "2745049",
+      "name": "比如县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "244076950"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "540621",
+      "osmRelationId": "2745050",
+      "name": "嘉黎县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "11201558646"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "540602",
+      "osmRelationId": "2745051",
+      "name": "色尼区",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "4960798740"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "540623",
+      "osmRelationId": "2745052",
+      "name": "聂荣县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "244081304"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "540629",
+      "osmRelationId": "2745053",
+      "name": "尼玛县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "4029505704"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "540626",
+      "osmRelationId": "2745054",
+      "name": "索县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "4037770894"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "540625",
+      "osmRelationId": "2745055",
+      "name": "申扎县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "244082167"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "540627",
+      "osmRelationId": "2747064",
+      "name": "班戈县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "244076314"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "540630",
+      "osmRelationId": "2747065",
+      "name": "双湖县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "2552532668"
+      ],
+      "unresolvedAdminCentres": 0
+    }
+  ],
+  "associationCaveat": "OSM node admin_centre association is boundary-inclusive, not full county-polygon intersection or an official registry. Missing centres are unverified candidates; publication requires the independent native WGS84 parent fence.",
+  "matchBasis": "OSM county admin-centre association + exact county and parent geometry matching WGS84. Historical OSM codes are retained, not official administrative certification."
+}

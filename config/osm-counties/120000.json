@@ -1,0 +1,347 @@
+{
+  "schemaVersion": 1,
+  "source": "OpenStreetMap",
+  "license": "ODbL-1.0",
+  "attribution": "© OpenStreetMap contributors",
+  "cityId": "120000",
+  "cityName": "天津市",
+  "coordinateSystem": "WGS84",
+  "timestamp": "2026-11-13T23:35:35Z",
+  "parentTimestamp": "2026-11-14T00:35:35Z",
+  "endpoint": "https://overpass-api.de/api/interpreter",
+  "rawSha256": "894296457bbcb0a3dd429cfdf2aef74c2108a18d6ab0e55f752b338050200f18",
+  "parentRawSha256": "c9ec953df08804448308af3953b3376f9cf91c48aefaffcd5d51ab8f8eaba0a4",
+  "sha256": "8ccbc8ff241b30e5c052b19c05535fceef907205cc53c2bac6446b953196a4ce",
+  "bytes": 308854,
+  "parentBytes": 161665,
+  "parentSha256": "4282ce801d5ce2ffb104163581178e120dbb1377ddb1302c3a52735941446ead",
+  "countyRelations": [
+    {
+      "id": "120115",
+      "name": "宝坻区",
+      "osmRelationId": "3286885",
+      "adcode": "120115"
+    },
+    {
+      "id": "120113",
+      "name": "北辰区",
+      "osmRelationId": "3286886",
+      "adcode": "120113"
+    },
+    {
+      "id": "120116",
+      "name": "滨海新区",
+      "osmRelationId": "3286887",
+      "adcode": "120116"
+    },
+    {
+      "id": "120110",
+      "name": "东丽区",
+      "osmRelationId": "3286888",
+      "adcode": "120110"
+    },
+    {
+      "id": "osm-r3286889",
+      "name": "河北区",
+      "osmRelationId": "3286889",
+      "adcode": null
+    },
+    {
+      "id": "osm-r3286890",
+      "name": "河东区",
+      "osmRelationId": "3286890",
+      "adcode": null
+    },
+    {
+      "id": "osm-r3286891",
+      "name": "和平区",
+      "osmRelationId": "3286891",
+      "adcode": null
+    },
+    {
+      "id": "osm-r3286892",
+      "name": "河西区",
+      "osmRelationId": "3286892",
+      "adcode": null
+    },
+    {
+      "id": "osm-r3286893",
+      "name": "红桥区",
+      "osmRelationId": "3286893",
+      "adcode": null
+    },
+    {
+      "id": "osm-r3286894",
+      "name": "蓟州区",
+      "osmRelationId": "3286894",
+      "adcode": null
+    },
+    {
+      "id": "120118",
+      "name": "静海区",
+      "osmRelationId": "3286895",
+      "adcode": "120118"
+    },
+    {
+      "id": "osm-r3286896",
+      "name": "津南区",
+      "osmRelationId": "3286896",
+      "adcode": null
+    },
+    {
+      "id": "osm-r3286897",
+      "name": "南开区",
+      "osmRelationId": "3286897",
+      "adcode": null
+    },
+    {
+      "id": "120117",
+      "name": "宁河区",
+      "osmRelationId": "3286898",
+      "adcode": "120117"
+    },
+    {
+      "id": "120114",
+      "name": "武清区",
+      "osmRelationId": "3286899",
+      "adcode": "120114"
+    },
+    {
+      "id": "120111",
+      "name": "西青区",
+      "osmRelationId": "3286900",
+      "adcode": "120111"
+    }
+  ],
+  "parentRelationId": "912999",
+  "parentAdminLevel": 4,
+  "parentDivisionCode": "120000",
+  "parentUsable": true,
+  "parentSelectionBasis": "name-lowest-admin-level",
+  "parentFenceRequired": true,
+  "rejected": [
+    {
+      "scope": "county",
+      "osmRelationId": "5642213",
+      "name": "丰南区",
+      "reason": "Invalid OSM county relation: member 99 (outer) is relation, not a way; fetch and resolve nested relation geometry explicitly"
+    }
+  ],
+  "idConflicts": [],
+  "excluded": [
+    {
+      "id": "130224",
+      "osmRelationId": "5642217",
+      "name": "滦南县",
+      "status": "excluded",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "244081238"
+      ],
+      "unresolvedAdminCentres": 0,
+      "reason": "OSM admin_centre outside native parent geometry",
+      "outsideAdminCentres": [
+        {
+          "ref": "244081238",
+          "coordinates": [
+            118.6776438,
+            39.519236
+          ]
+        }
+      ]
+    }
+  ],
+  "associationBasis": "osm-admin-centre-point-in-parent",
+  "associations": [
+    {
+      "id": "120115",
+      "osmRelationId": "3286885",
+      "name": "宝坻区",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    },
+    {
+      "id": "120113",
+      "osmRelationId": "3286886",
+      "name": "北辰区",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    },
+    {
+      "id": "120116",
+      "osmRelationId": "3286887",
+      "name": "滨海新区",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "6416740294"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "120110",
+      "osmRelationId": "3286888",
+      "name": "东丽区",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "6416740293"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "osm-r3286889",
+      "osmRelationId": "3286889",
+      "name": "河北区",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "6416740296"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "osm-r3286890",
+      "osmRelationId": "3286890",
+      "name": "河东区",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    },
+    {
+      "id": "osm-r3286891",
+      "osmRelationId": "3286891",
+      "name": "和平区",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "10819498976"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "osm-r3286892",
+      "osmRelationId": "3286892",
+      "name": "河西区",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "3169937813"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "osm-r3286893",
+      "osmRelationId": "3286893",
+      "name": "红桥区",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    },
+    {
+      "id": "osm-r3286894",
+      "osmRelationId": "3286894",
+      "name": "蓟州区",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "6416740302"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "120118",
+      "osmRelationId": "3286895",
+      "name": "静海区",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    },
+    {
+      "id": "osm-r3286896",
+      "osmRelationId": "3286896",
+      "name": "津南区",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    },
+    {
+      "id": "osm-r3286897",
+      "osmRelationId": "3286897",
+      "name": "南开区",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "3169937809"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "120117",
+      "osmRelationId": "3286898",
+      "name": "宁河区",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    },
+    {
+      "id": "120114",
+      "osmRelationId": "3286899",
+      "name": "武清区",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    },
+    {
+      "id": "120111",
+      "osmRelationId": "3286900",
+      "name": "西青区",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    },
+    {
+      "id": "130224",
+      "osmRelationId": "5642217",
+      "name": "滦南县",
+      "status": "excluded",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "244081238"
+      ],
+      "unresolvedAdminCentres": 0,
+      "reason": "OSM admin_centre outside native parent geometry",
+      "outsideAdminCentres": [
+        {
+          "ref": "244081238",
+          "coordinates": [
+            118.6776438,
+            39.519236
+          ]
+        }
+      ]
+    }
+  ],
+  "associationCaveat": "OSM node admin_centre association is boundary-inclusive, not full county-polygon intersection or an official registry. Missing centres are unverified candidates; publication requires the independent native WGS84 parent fence.",
+  "matchBasis": "OSM county admin-centre association + exact county and parent geometry matching WGS84. Historical OSM codes are retained, not official administrative certification."
+}

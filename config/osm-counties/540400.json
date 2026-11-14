@@ -1,0 +1,151 @@
+{
+  "schemaVersion": 1,
+  "source": "OpenStreetMap",
+  "license": "ODbL-1.0",
+  "attribution": "© OpenStreetMap contributors",
+  "cityId": "540400",
+  "cityName": "林芝市",
+  "coordinateSystem": "WGS84",
+  "timestamp": "2026-11-14T00:13:09Z",
+  "parentTimestamp": "2026-11-14T00:49:47Z",
+  "endpoint": "https://overpass-api.de/api/interpreter",
+  "rawSha256": "ebb335c294035063036b384f86149e455b782e2e6b0c95080901029d51f1cea8",
+  "parentRawSha256": "c2b90f953ea5f47db5ae3a6188e46da52da953022286c637bccc5546664afa0e",
+  "sha256": "591191888d47f3f808d8948c4153a3c845bd91c5b16bebca5bd78862386467da",
+  "bytes": 455270,
+  "parentBytes": 138114,
+  "parentSha256": "d424450080c7beed4eb147a5d3c807a3e8dd91feb73703a14f7110f5904a79d3",
+  "countyRelations": [
+    {
+      "id": "540424",
+      "name": "波密县",
+      "osmRelationId": "2734498",
+      "adcode": "540424"
+    },
+    {
+      "id": "540421",
+      "name": "工布江达县",
+      "osmRelationId": "2734499",
+      "adcode": "540421"
+    },
+    {
+      "id": "540481",
+      "name": "米林市",
+      "osmRelationId": "2734500",
+      "adcode": "540481"
+    },
+    {
+      "id": "540423",
+      "name": "墨脱县",
+      "osmRelationId": "2734501",
+      "adcode": "540423"
+    },
+    {
+      "id": "540426",
+      "name": "朗县",
+      "osmRelationId": "2734502",
+      "adcode": "540426"
+    },
+    {
+      "id": "540402",
+      "name": "巴宜区",
+      "osmRelationId": "2734503",
+      "adcode": "540402"
+    },
+    {
+      "id": "540425",
+      "name": "察隅县",
+      "osmRelationId": "2734504",
+      "adcode": "540425"
+    }
+  ],
+  "parentRelationId": "2734427",
+  "parentAdminLevel": 5,
+  "parentDivisionCode": "540400",
+  "parentUsable": true,
+  "parentSelectionBasis": "name-lowest-admin-level",
+  "parentFenceRequired": true,
+  "rejected": [],
+  "idConflicts": [],
+  "excluded": [],
+  "associationBasis": "osm-admin-centre-point-in-parent",
+  "associations": [
+    {
+      "id": "540424",
+      "osmRelationId": "2734498",
+      "name": "波密县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "4547672829"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "540421",
+      "osmRelationId": "2734499",
+      "name": "工布江达县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "332540144"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "540481",
+      "osmRelationId": "2734500",
+      "name": "米林市",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    },
+    {
+      "id": "540423",
+      "osmRelationId": "2734501",
+      "name": "墨脱县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "4595873793"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "540426",
+      "osmRelationId": "2734502",
+      "name": "朗县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "244081417"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "540402",
+      "osmRelationId": "2734503",
+      "name": "巴宜区",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "244081299"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "540425",
+      "osmRelationId": "2734504",
+      "name": "察隅县",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    }
+  ],
+  "associationCaveat": "OSM node admin_centre association is boundary-inclusive, not full county-polygon intersection or an official registry. Missing centres are unverified candidates; publication requires the independent native WGS84 parent fence.",
+  "matchBasis": "OSM county admin-centre association + exact county and parent geometry matching WGS84. Historical OSM codes are retained, not official administrative certification."
+}

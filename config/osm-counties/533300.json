@@ -1,0 +1,101 @@
+{
+  "schemaVersion": 1,
+  "source": "OpenStreetMap",
+  "license": "ODbL-1.0",
+  "attribution": "© OpenStreetMap contributors",
+  "cityId": "533300",
+  "cityName": "怒江傈僳族自治州",
+  "coordinateSystem": "WGS84",
+  "timestamp": "2026-11-14T00:12:03Z",
+  "parentTimestamp": "2026-11-14T00:48:50Z",
+  "endpoint": "https://overpass-api.de/api/interpreter",
+  "rawSha256": "51a39626078758ef485b9ed9cde8dcaf986ecc70f2bbdf3168f267a63ff0cd91",
+  "parentRawSha256": "23b138c517f76c4bbad2283fc0e88701a76a332f0623b154012253ebd110a19a",
+  "sha256": "59c66b69d03aaee022936d7da4e1359bf9a169bfd00bad911815bb42fbce900b",
+  "bytes": 149744,
+  "parentBytes": 116016,
+  "parentSha256": "21ce7e0803d21e90cbbec2694a60a6586f01dffd53b93f95ea670952aae0e2d2",
+  "countyRelations": [
+    {
+      "id": "533323",
+      "name": "福贡县",
+      "osmRelationId": "2729764",
+      "adcode": "533323"
+    },
+    {
+      "id": "533300",
+      "name": "贡山独龙族怒族自治县",
+      "osmRelationId": "2729765",
+      "adcode": "533300"
+    },
+    {
+      "id": "osm-r2729766",
+      "name": "兰坪白族普米族自治县 ꓡꓽ-ꓒꓲꓽ ꓡꓽ-ꓐꓶꓽ ꓫꓵꓽ ꓒꓴ-ꓟꓲ ꓫꓵꓽ ꓚꓲꓸ ꓛꓬꓽ ꓗꓪꓼ ꓫꓵꓽ ꓫꓯꓹ",
+      "osmRelationId": "2729766",
+      "adcode": null
+    },
+    {
+      "id": "533301",
+      "name": "泸水市",
+      "osmRelationId": "2729767",
+      "adcode": "533301"
+    }
+  ],
+  "parentRelationId": "2729768",
+  "parentAdminLevel": 5,
+  "parentDivisionCode": "533300",
+  "parentUsable": true,
+  "parentSelectionBasis": "name-lowest-admin-level",
+  "parentFenceRequired": true,
+  "rejected": [],
+  "idConflicts": [],
+  "excluded": [],
+  "associationBasis": "osm-admin-centre-point-in-parent",
+  "associations": [
+    {
+      "id": "533323",
+      "osmRelationId": "2729764",
+      "name": "福贡县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "469622913"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "533300",
+      "osmRelationId": "2729765",
+      "name": "贡山独龙族怒族自治县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "6835209792"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "osm-r2729766",
+      "osmRelationId": "2729766",
+      "name": "兰坪白族普米族自治县 ꓡꓽ-ꓒꓲꓽ ꓡꓽ-ꓐꓶꓽ ꓫꓵꓽ ꓒꓴ-ꓟꓲ ꓫꓵꓽ ꓚꓲꓸ ꓛꓬꓽ ꓗꓪꓼ ꓫꓵꓽ ꓫꓯꓹ",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "5116095227"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "533301",
+      "osmRelationId": "2729767",
+      "name": "泸水市",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    }
+  ],
+  "associationCaveat": "OSM node admin_centre association is boundary-inclusive, not full county-polygon intersection or an official registry. Missing centres are unverified candidates; publication requires the independent native WGS84 parent fence.",
+  "matchBasis": "OSM county admin-centre association + exact county and parent geometry matching WGS84. Historical OSM codes are retained, not official administrative certification."
+}

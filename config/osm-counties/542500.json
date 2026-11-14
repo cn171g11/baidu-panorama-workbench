@@ -1,0 +1,153 @@
+{
+  "schemaVersion": 1,
+  "source": "OpenStreetMap",
+  "license": "ODbL-1.0",
+  "attribution": "© OpenStreetMap contributors",
+  "cityId": "542500",
+  "cityName": "阿里地区",
+  "coordinateSystem": "WGS84",
+  "timestamp": "2026-11-14T00:15:11Z",
+  "parentTimestamp": "2026-11-14T00:51:49Z",
+  "endpoint": "https://overpass-api.de/api/interpreter",
+  "rawSha256": "eb126b49812a838f3cf2d8002a4c0394684ef10d05e83b7fc443afb7bbe4ea22",
+  "parentRawSha256": "f848f1d8e2fa20e3b74f70a6c70ffe1d35b89a640c7c4e39250b617a79e077d5",
+  "sha256": "8e15fe9a34a948dcb985a436102915a400f40cb7d75da8e65010efbc7614e88f",
+  "bytes": 450070,
+  "parentBytes": 303008,
+  "parentSha256": "e15730ddd0a9846f004ce95e2f8041e0a57ebf1232abaf909cb56d450e8f0b81",
+  "countyRelations": [
+    {
+      "id": "542521",
+      "name": "普兰县",
+      "osmRelationId": "1997907",
+      "adcode": "542521"
+    },
+    {
+      "id": "542527",
+      "name": "措勤县",
+      "osmRelationId": "1997908",
+      "adcode": "542527"
+    },
+    {
+      "id": "542523",
+      "name": "噶尔县",
+      "osmRelationId": "1997909",
+      "adcode": "542523"
+    },
+    {
+      "id": "542526",
+      "name": "改则县",
+      "osmRelationId": "1997910",
+      "adcode": "542526"
+    },
+    {
+      "id": "542525",
+      "name": "革吉县",
+      "osmRelationId": "1997911",
+      "adcode": "542525"
+    },
+    {
+      "id": "542524",
+      "name": "日土县",
+      "osmRelationId": "1997912",
+      "adcode": "542524"
+    },
+    {
+      "id": "542522",
+      "name": "札达县",
+      "osmRelationId": "1997913",
+      "adcode": "542522"
+    }
+  ],
+  "parentRelationId": "1997914",
+  "parentAdminLevel": 5,
+  "parentDivisionCode": "542500",
+  "parentUsable": true,
+  "parentSelectionBasis": "name-lowest-admin-level",
+  "parentFenceRequired": true,
+  "rejected": [],
+  "idConflicts": [],
+  "excluded": [],
+  "associationBasis": "osm-admin-centre-point-in-parent",
+  "associations": [
+    {
+      "id": "542521",
+      "osmRelationId": "1997907",
+      "name": "普兰县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "3017726301"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "542527",
+      "osmRelationId": "1997908",
+      "name": "措勤县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "244077918"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "542523",
+      "osmRelationId": "1997909",
+      "name": "噶尔县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "5604103184"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "542526",
+      "osmRelationId": "1997910",
+      "name": "改则县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "4272631089"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "542525",
+      "osmRelationId": "1997911",
+      "name": "革吉县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "8014214959",
+        "5200336216"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "542524",
+      "osmRelationId": "1997912",
+      "name": "日土县",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    },
+    {
+      "id": "542522",
+      "osmRelationId": "1997913",
+      "name": "札达县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "244082831"
+      ],
+      "unresolvedAdminCentres": 0
+    }
+  ],
+  "associationCaveat": "OSM node admin_centre association is boundary-inclusive, not full county-polygon intersection or an official registry. Missing centres are unverified candidates; publication requires the independent native WGS84 parent fence.",
+  "matchBasis": "OSM county admin-centre association + exact county and parent geometry matching WGS84. Historical OSM codes are retained, not official administrative certification."
+}

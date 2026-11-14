@@ -1,0 +1,153 @@
+{
+  "schemaVersion": 1,
+  "source": "OpenStreetMap",
+  "license": "ODbL-1.0",
+  "attribution": "© OpenStreetMap contributors",
+  "cityId": "621100",
+  "cityName": "定西市",
+  "coordinateSystem": "WGS84",
+  "timestamp": "2026-11-13T23:53:46Z",
+  "parentTimestamp": "2026-11-14T00:53:50Z",
+  "endpoint": "https://overpass-api.de/api/interpreter",
+  "rawSha256": "85fb9ce52f0e2cb4e44bd1a2455f72b3e0350c012b2e10c922ae065d285e7695",
+  "parentRawSha256": "555644da73616316148f3d03635c3027bc8a667dea7d3b20a3540f3ddc9d40c5",
+  "sha256": "8b7abaa3a58d603374cd82286d78c60dfecd372c5d72f7a6e590431cb3e8abde",
+  "bytes": 2212541,
+  "parentBytes": 1119867,
+  "parentSha256": "852d9632d607d7e3077a714b952b5b3e951832ff13c0f01dcc720abea7e7f904",
+  "countyRelations": [
+    {
+      "id": "osm-r2701703",
+      "name": "临洮县",
+      "osmRelationId": "2701703",
+      "adcode": null
+    },
+    {
+      "id": "osm-r2701704",
+      "name": "陇西县",
+      "osmRelationId": "2701704",
+      "adcode": null
+    },
+    {
+      "id": "osm-r2701705",
+      "name": "岷县",
+      "osmRelationId": "2701705",
+      "adcode": null
+    },
+    {
+      "id": "osm-r2701706",
+      "name": "通渭县",
+      "osmRelationId": "2701706",
+      "adcode": null
+    },
+    {
+      "id": "osm-r2701707",
+      "name": "渭源县",
+      "osmRelationId": "2701707",
+      "adcode": null
+    },
+    {
+      "id": "osm-r2701708",
+      "name": "漳县",
+      "osmRelationId": "2701708",
+      "adcode": null
+    },
+    {
+      "id": "osm-r4420903",
+      "name": "安定区",
+      "osmRelationId": "4420903",
+      "adcode": null
+    }
+  ],
+  "parentRelationId": "2701633",
+  "parentAdminLevel": 5,
+  "parentDivisionCode": null,
+  "parentUsable": true,
+  "parentSelectionBasis": "name-lowest-admin-level",
+  "parentFenceRequired": true,
+  "rejected": [],
+  "idConflicts": [],
+  "excluded": [],
+  "associationBasis": "osm-admin-centre-point-in-parent",
+  "associations": [
+    {
+      "id": "osm-r2701703",
+      "osmRelationId": "2701703",
+      "name": "临洮县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "3409831640"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "osm-r2701704",
+      "osmRelationId": "2701704",
+      "name": "陇西县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "1706632221"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "osm-r2701705",
+      "osmRelationId": "2701705",
+      "name": "岷县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "892044049"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "osm-r2701706",
+      "osmRelationId": "2701706",
+      "name": "通渭县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "3409833706"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "osm-r2701707",
+      "osmRelationId": "2701707",
+      "name": "渭源县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "2110356901"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "osm-r2701708",
+      "osmRelationId": "2701708",
+      "name": "漳县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "3409831414"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "osm-r4420903",
+      "osmRelationId": "4420903",
+      "name": "安定区",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "244078614"
+      ],
+      "unresolvedAdminCentres": 0
+    }
+  ],
+  "associationCaveat": "OSM node admin_centre association is boundary-inclusive, not full county-polygon intersection or an official registry. Missing centres are unverified candidates; publication requires the independent native WGS84 parent fence.",
+  "matchBasis": "OSM county admin-centre association + exact county and parent geometry matching WGS84. Historical OSM codes are retained, not official administrative certification."
+}

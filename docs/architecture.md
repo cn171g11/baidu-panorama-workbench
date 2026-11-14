@@ -18,6 +18,8 @@
 
 Pages现在按 `config/pages-publication.json` 选择实际托管的城市，由 `tools/publish_pages.mjs` 生成本站 `.json.gz` 分片与 `source:github-pages` 清单。每次构建都是完整发布快照，因此追加批次时必须保留前面已成功的城市；不能省略旧城来假装增量累积。全量数据约792MB曾两次同步超时，故先5个城市，再验证后扩大。gzip压缩前后的SHA、字节数和回读解压均严格核对。线上catalog只计当前发布城市，`publication.sourceCities/sourcePanoids`保留完整全国规模，根 `data/` 不删除不修改。详细操作见 `docs/pages-batches.md`。`tools/build_site.mjs`仍保留轻量GitHub Raw固定SHA备用方案，但正式Pages workflow不依赖该外部数据源。
 
+县级查看已接入：正式Pages可启用 `countyShards:true`，按已提交的OSM县界与父市界WGS84空间归属生成最多25,000点的县级gzip，所有未匹配/歧义点独立保留。原城市归档不变；发布城市 `files` 为县片扁平目录，`sourceFiles`/manifest `sources`保留原归档SHA。报告只读县级摘要，选市不下载点位，选县默认单片，快速切换取消旧请求。规则与许可见 `docs/county-shards.md`。
+
 ## 地图、报告与官网入口
 
 默认高德暗色，地图为单Canvas散点/密度显示。高德瓦片使用GCJ-02投影，OSM使用WGS84；切换底图同步转换中心与弹窗，不改变归档BD-09。密度显示真实视野方格，Z15起绘制每个真实点。`classification.js`在构建/地图/报告共享源标注分类；构建生成已发布城市 `displayCounts`，省市折叠报告仅载入小目录，不读取街景正文。报告筛选后的省级合计重新计算，链接可直达城市及隐藏类型。
@@ -28,7 +30,7 @@ Pages现在按 `config/pages-publication.json` 选择实际托管的城市，由
 
 - `city-viewer/js/coordinates.js`: `convertCoordinate(lng, lat, from, to) -> [lng,lat]`、`toWgs84(lng,lat,from="BD-09")`；严格验证有限值与已知坐标系。
 - `city-viewer/js/metadata.js`: `parseImport(text, {format, confirmedBaidu, coordinateSystem}) -> rows`（支持 JSON / JSONL / CSV /参考九字段行，完整批次验证后才返回）；`validateRows(rows) -> rows`；`filterRows(rows, {query, road, date}) -> rows`；`baiduPanoramaUrl(panoid) -> official URL`；`mergeRows(existing,incoming) -> 去重后的 rows`。
-- `city-viewer/js/data-store.js`: `loadCatalog() -> catalog`、`loadCollection(collection) -> rows`；`LOCAL_STORAGE_PREFIX="baidu-panorama-workbench:v1:"`、`saveLocalRows(collectionId,rows)`、`loadLocalRows(collectionId) -> rows|null`、`clearLocalRows(collectionId)`。catalog、asset manifest、rows 均须验证；没有 manifest 不能执行远端脚本或改读腾讯路径。
+- `city-viewer/js/data-store.js`: `loadCatalog() -> catalog`、`loadCollection(collection,{county:"all",part:"all",signal}) -> rows`；`LOCAL_STORAGE_PREFIX="baidu-panorama-workbench:v1:"`、`saveLocalRows(collectionId,rows)`、`loadLocalRows(collectionId) -> rows|null`、`clearLocalRows(collectionId)`。catalog、asset manifest、rows 均须验证；没有 manifest 不能执行远端脚本或改读腾讯路径。
 - `tools/import_baidu.mjs`: CLI 显式指定行政区/城市/省份、源坐标系与（缺来源时）百度确认。默认合并现有数据并在全库去重，成功后原子更新百度分片与目录。任何失败不得留下半批数据；禁止把用户输入当 JS 执行。
 - `tools/validate_data.mjs`: `validateCatalog(root,{includeRows:false})` 返回 `{catalog,files:[{path,count,bounds,bytes,sha256}],indexPath,cacheHit}`。按文件读取，使用私有 SQLite owner index 避免全国 Set/Map 限制；缓存键含 catalog SHA 和所有 file SHA，绝不只用 mtime。小 fixture 显式 includeRows；索引、缓存与 payload 绝不发布。
 - `tools/import_directory.mjs`: 读取 customCoordinates，显式源坐标，文件 SHA 与审计清单核对，按源文件 SQLite transaction、按城市排序输出；只允许全新暂存目录，验证通过后再切换正式源。完全相同重复计数并保留来源成员；同 ID 差异保留旧/新 observations、合并 links，不丢有效信息。

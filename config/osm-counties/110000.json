@@ -1,0 +1,294 @@
+{
+  "schemaVersion": 1,
+  "source": "OpenStreetMap",
+  "license": "ODbL-1.0",
+  "attribution": "© OpenStreetMap contributors",
+  "cityId": "110000",
+  "cityName": "北京市",
+  "coordinateSystem": "WGS84",
+  "timestamp": "2026-11-13T23:34:35Z",
+  "parentTimestamp": "2026-11-14T00:34:36Z",
+  "endpoint": "https://overpass-api.de/api/interpreter",
+  "rawSha256": "55982c9cb373957c36bd979980d44a068b81f0d8de33d9c9e7b289d1bf061172",
+  "parentRawSha256": "30a70539a60982a3d89523393449fc54f42e9b748e4e7a7ac7f415f1b834a4ee",
+  "sha256": "170fbb5013e61836a3a5d9776fddddbdb680e585f152e0b87e44933736dde1b5",
+  "bytes": 835078,
+  "parentBytes": 291582,
+  "parentSha256": "ac55323c5c9d1343a796fe50bbebaa9c00d8dfaa3373995c69cc5fe385bf8b6a",
+  "countyRelations": [
+    {
+      "id": "osm-r288600",
+      "name": "东城区",
+      "osmRelationId": "288600",
+      "adcode": null
+    },
+    {
+      "id": "osm-r568660",
+      "name": "西城区",
+      "osmRelationId": "568660",
+      "adcode": null
+    },
+    {
+      "id": "osm-r2988894",
+      "name": "昌平区",
+      "osmRelationId": "2988894",
+      "adcode": null
+    },
+    {
+      "id": "osm-r2988895",
+      "name": "大兴区",
+      "osmRelationId": "2988895",
+      "adcode": null
+    },
+    {
+      "id": "osm-r2988896",
+      "name": "房山区",
+      "osmRelationId": "2988896",
+      "adcode": null
+    },
+    {
+      "id": "osm-r2988897",
+      "name": "怀柔区",
+      "osmRelationId": "2988897",
+      "adcode": null
+    },
+    {
+      "id": "osm-r2988898",
+      "name": "门头沟区",
+      "osmRelationId": "2988898",
+      "adcode": null
+    },
+    {
+      "id": "osm-r2988899",
+      "name": "密云区",
+      "osmRelationId": "2988899",
+      "adcode": null
+    },
+    {
+      "id": "osm-r2988900",
+      "name": "平谷区",
+      "osmRelationId": "2988900",
+      "adcode": null
+    },
+    {
+      "id": "osm-r2988901",
+      "name": "顺义区",
+      "osmRelationId": "2988901",
+      "adcode": null
+    },
+    {
+      "id": "osm-r2988902",
+      "name": "通州区",
+      "osmRelationId": "2988902",
+      "adcode": null
+    },
+    {
+      "id": "osm-r2988903",
+      "name": "延庆区",
+      "osmRelationId": "2988903",
+      "adcode": null
+    },
+    {
+      "id": "osm-r2988933",
+      "name": "朝阳区",
+      "osmRelationId": "2988933",
+      "adcode": null
+    },
+    {
+      "id": "osm-r2988946",
+      "name": "丰台区",
+      "osmRelationId": "2988946",
+      "adcode": null
+    },
+    {
+      "id": "osm-r5505984",
+      "name": "海淀区",
+      "osmRelationId": "5505984",
+      "adcode": null
+    },
+    {
+      "id": "110107",
+      "name": "石景山区",
+      "osmRelationId": "5505985",
+      "adcode": "110107"
+    }
+  ],
+  "parentRelationId": "912940",
+  "parentAdminLevel": 4,
+  "parentDivisionCode": null,
+  "parentUsable": true,
+  "parentSelectionBasis": "name-lowest-admin-level",
+  "parentFenceRequired": true,
+  "rejected": [],
+  "idConflicts": [],
+  "excluded": [],
+  "associationBasis": "osm-admin-centre-point-in-parent",
+  "associations": [
+    {
+      "id": "osm-r288600",
+      "osmRelationId": "288600",
+      "name": "东城区",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    },
+    {
+      "id": "osm-r568660",
+      "osmRelationId": "568660",
+      "name": "西城区",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    },
+    {
+      "id": "osm-r2988894",
+      "osmRelationId": "2988894",
+      "name": "昌平区",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "244077246"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "osm-r2988895",
+      "osmRelationId": "2988895",
+      "name": "大兴区",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    },
+    {
+      "id": "osm-r2988896",
+      "osmRelationId": "2988896",
+      "name": "房山区",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "3379200037"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "osm-r2988897",
+      "osmRelationId": "2988897",
+      "name": "怀柔区",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "244080565"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "osm-r2988898",
+      "osmRelationId": "2988898",
+      "name": "门头沟区",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    },
+    {
+      "id": "osm-r2988899",
+      "osmRelationId": "2988899",
+      "name": "密云区",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    },
+    {
+      "id": "osm-r2988900",
+      "osmRelationId": "2988900",
+      "name": "平谷区",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    },
+    {
+      "id": "osm-r2988901",
+      "osmRelationId": "2988901",
+      "name": "顺义区",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "244081855"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "osm-r2988902",
+      "osmRelationId": "2988902",
+      "name": "通州区",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    },
+    {
+      "id": "osm-r2988903",
+      "osmRelationId": "2988903",
+      "name": "延庆区",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    },
+    {
+      "id": "osm-r2988933",
+      "osmRelationId": "2988933",
+      "name": "朝阳区",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    },
+    {
+      "id": "osm-r2988946",
+      "osmRelationId": "2988946",
+      "name": "丰台区",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    },
+    {
+      "id": "osm-r5505984",
+      "osmRelationId": "5505984",
+      "name": "海淀区",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    },
+    {
+      "id": "110107",
+      "osmRelationId": "5505985",
+      "name": "石景山区",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    }
+  ],
+  "associationCaveat": "OSM node admin_centre association is boundary-inclusive, not full county-polygon intersection or an official registry. Missing centres are unverified candidates; publication requires the independent native WGS84 parent fence.",
+  "matchBasis": "OSM county admin-centre association + exact county and parent geometry matching WGS84. Historical OSM codes are retained, not official administrative certification."
+}

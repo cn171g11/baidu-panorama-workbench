@@ -1,4 +1,5 @@
 import { validateRows } from "./metadata.js";
+import { COUNTY_PARTITION, validateCountyCatalog, selectCountyFiles } from './county-data.js';
 
 const LOCAL_STORAGE_PREFIX = "baidu-panorama-workbench:v1:";
 const CATALOG_URL = new URL("../data/catalog.json", import.meta.url);
@@ -19,10 +20,13 @@ function assertCatalog(catalog) {
     if (typeof item.name !== "string" || typeof item.province !== "string" || !Number.isInteger(item.count) || item.count < 0 || !Array.isArray(item.files)) throw new Error(`Invalid collection metadata: ${item.id}`);
     if (item.bounds !== null && (!Array.isArray(item.bounds) || item.bounds.length !== 4 || item.bounds.some(n => !Number.isFinite(n)))) throw new Error(`Invalid bounds: ${item.id}`);
     if (item.count > 0 && !item.files.length) throw new Error(`Collection ${item.id} has rows but no files`);
-    if (item.files.length !== Math.ceil(item.count / 180000)) throw new Error(`Invalid shard count: ${item.id}`);
-    for (let index = 0; index < item.files.length; index++) {
-      const expected = `baidu/${item.id}/points-${String(index + 1).padStart(3, "0")}.json`;
-      if (item.files[index] !== expected) throw new Error(`Invalid Baidu shard path: ${item.files[index]}`);
+    if(item.partition===COUNTY_PARTITION)validateCountyCatalog(item);
+    else {
+      if (item.files.length !== Math.ceil(item.count / 180000)) throw new Error(`Invalid shard count: ${item.id}`);
+      for (let index = 0; index < item.files.length; index++) {
+        const expected = `baidu/${item.id}/points-${String(index + 1).padStart(3, "0")}.json`;
+        if (item.files[index] !== expected) throw new Error(`Invalid Baidu shard path: ${item.files[index]}`);
+      }
     }
     total += item.count;
   }
@@ -47,20 +51,28 @@ async function loadCatalog() {
   return assertCatalog(await response.json());
 }
 
-async function loadCollection(collection) {
+async function loadCollection(collection, {county='all',part='all',signal}={}) {
+  signal?.throwIfAborted();
   if (!collection || !ID_PATTERN.test(collection.id) || !ID_PATTERN.test(collection.adcode) || collection.coordinateSystem !== "BD-09" || !Number.isSafeInteger(collection.count) || collection.count < 0 || !Array.isArray(collection.files)) throw new Error("Invalid Baidu collection identity");
-  if (!ID_PATTERN.test(collection.id) || !ID_PATTERN.test(collection.adcode) || collection.coordinateSystem !== "BD-09") throw new Error("Invalid Baidu collection identity");
-  if (collection.files.length !== Math.ceil(collection.count / 180000)) throw new Error("Invalid Baidu collection shard count");
-  for (let index = 0; index < collection.files.length; index++) {
-    const expected = `baidu/${collection.id}/points-${String(index + 1).padStart(3, "0")}.json`;
-    if (collection.files[index] !== expected) throw new Error(`Invalid Baidu shard path: ${collection.files[index]}`);
+  let selection;
+  if(collection.partition===COUNTY_PARTITION)selection=selectCountyFiles(collection,county,part);
+  else {
+    if(county!=='all'||part!=='all')throw Error('County shards are not published for this city');
+    if (collection.files.length !== Math.ceil(collection.count / 180000)) throw new Error("Invalid Baidu collection shard count");
+    for (let index = 0; index < collection.files.length; index++) {
+      const expected = `baidu/${collection.id}/points-${String(index + 1).padStart(3, "0")}.json`;
+      if (collection.files[index] !== expected) throw new Error(`Invalid Baidu shard path: ${collection.files[index]}`);
+    }
+    selection={files:collection.files,count:collection.count,maxRows:180000};
   }
-  const manifestResponse = await fetch(MANIFEST_URL);
+  if(!selection.files.length)return [];
+  const manifestResponse = await fetch(MANIFEST_URL,{signal});
   if (!manifestResponse.ok) throw new Error(`Unable to load asset manifest (${manifestResponse.status})`);
   const manifest = await manifestResponse.json();
   if (manifest.schemaVersion !== 1 || manifest.provider !== "baidu" || !["gzip", "identity"].includes(manifest.codec) || !manifest.assets || typeof manifest.assets !== "object") throw new Error("Invalid Baidu asset manifest");
   if (manifest.codec === 'identity' && (manifest.source !== 'github-raw' || !/^[a-f0-9]{40}$/i.test(manifest.revision || ''))) throw new Error('Invalid pinned Baidu raw source');
-  const shardPaths = collection.files;
+  if(collection.partition===COUNTY_PARTITION&&(manifest.codec!=='gzip'||manifest.source!=='github-pages'))throw Error('County shards must use same-origin Pages gzip');
+  const shardPaths = selection.files;
   const allRows = [];
   const ids = new Set();
   for (const path of shardPaths) {
@@ -72,26 +84,28 @@ async function loadCollection(collection) {
       const expected = `https://raw.githubusercontent.com/cn171g11/baidu-panorama-workbench/${manifest.revision}/data/${path}`;
       if (manifest.source !== 'github-raw' || !/^[a-f0-9]{40}$/.test(manifest.revision || '') || asset.storage !== 'github-raw' || asset.url !== expected) throw new Error(`Untrusted raw asset URL: ${path}`);
     }
-    const response = await fetch(new URL(asset.url, MANIFEST_URL), { referrerPolicy: 'no-referrer' });
+    const response = await fetch(new URL(asset.url, MANIFEST_URL), { referrerPolicy: 'no-referrer', signal });
     if (!response.ok) throw new Error(`Unable to load shard ${path} (${response.status})`);
     const bytes = new Uint8Array(await response.arrayBuffer());
     if (isGzip) {
       if (bytes.byteLength !== asset.compressedBytes) throw new Error(`Compressed size mismatch: ${path}`);
       if (await sha256(bytes) !== asset.compressedSha256.toLowerCase()) throw new Error(`Compressed SHA-256 mismatch: ${path}`);
     } else if (bytes.byteLength !== asset.bytes) throw new Error(`Source size mismatch: ${path}`);
+    signal?.throwIfAborted();
     const plain = isGzip ? await decompressGzip(bytes) : bytes;
+    signal?.throwIfAborted();
     if (plain.byteLength !== asset.bytes) throw new Error(`Uncompressed size mismatch: ${path}`);
     if (isGzip && await sha256(plain) !== asset.sha256.toLowerCase()) throw new Error(`Uncompressed SHA-256 mismatch: ${path}`);
     if (!isGzip && await sha256(plain) !== asset.sha256.toLowerCase()) throw new Error(`Source SHA-256 mismatch: ${path}`);
     const rows = validateRows(JSON.parse(new TextDecoder().decode(plain)));
-    if (rows.length === 0 || rows.length > 180000) throw new Error(`Invalid shard row count: ${path}`);
+    if (rows.length === 0 || rows.length > selection.maxRows || (asset.count!==undefined&&asset.count!==rows.length)) throw new Error(`Invalid shard row count: ${path}`);
     for (const row of rows) {
       if (ids.has(row[0])) throw new Error(`Duplicate panoid across shards: ${row[0]}`);
       ids.add(row[0]);
     }
     for (const row of rows) allRows.push(row);
   }
-  if (allRows.length !== collection.count) throw new Error(`Collection count mismatch: ${collection.id}`);
+  if (allRows.length !== selection.count) throw new Error(`Collection count mismatch: ${collection.id}`);
   return allRows;
 }
 

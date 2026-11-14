@@ -1,0 +1,251 @@
+{
+  "schemaVersion": 1,
+  "source": "OpenStreetMap",
+  "license": "ODbL-1.0",
+  "attribution": "© OpenStreetMap contributors",
+  "cityId": "330100",
+  "cityName": "杭州市",
+  "coordinateSystem": "WGS84",
+  "timestamp": "2026-11-13T23:39:35Z",
+  "parentTimestamp": "2026-11-14T00:39:36Z",
+  "endpoint": "https://overpass-api.de/api/interpreter",
+  "rawSha256": "0e3233166fc590e8c3c82ee025e0dd7783fa21d54d0fda49c6b6caa9a7d1d4a4",
+  "parentRawSha256": "a083288a0037e4aea2b3ff63c247626580081fe3cd960c4ab863e6a131056594",
+  "sha256": "1b5c042a3a91047fb32ad9fd846f8ba4954e8ac56a8f6e1da86d7f30bc82e3df",
+  "bytes": 1249196,
+  "parentBytes": 634671,
+  "parentSha256": "2c4f15aee33a2e0cacfb644e356f2474cddb2cb993ce30207befa24cad320d6f",
+  "countyRelations": [
+    {
+      "id": "osm-r3125919",
+      "name": "淳安县",
+      "osmRelationId": "3125919",
+      "adcode": null
+    },
+    {
+      "id": "osm-r3221113",
+      "name": "建德市",
+      "osmRelationId": "3221113",
+      "adcode": null
+    },
+    {
+      "id": "330108",
+      "name": "滨江区",
+      "osmRelationId": "3221179",
+      "adcode": "330108"
+    },
+    {
+      "id": "osm-r3221180",
+      "name": "富阳区",
+      "osmRelationId": "3221180",
+      "adcode": null
+    },
+    {
+      "id": "osm-r3221181",
+      "name": "临安区",
+      "osmRelationId": "3221181",
+      "adcode": null
+    },
+    {
+      "id": "osm-r3221182",
+      "name": "桐庐县",
+      "osmRelationId": "3221182",
+      "adcode": null
+    },
+    {
+      "id": "osm-r3221183",
+      "name": "萧山区",
+      "osmRelationId": "3221183",
+      "adcode": null
+    },
+    {
+      "id": "330110",
+      "name": "临平区",
+      "osmRelationId": "3221184",
+      "adcode": "330110"
+    },
+    {
+      "id": "osm-r4591384",
+      "name": "拱墅区",
+      "osmRelationId": "4591384",
+      "adcode": null
+    },
+    {
+      "id": "osm-r4591409",
+      "name": "上城区",
+      "osmRelationId": "4591409",
+      "adcode": null
+    },
+    {
+      "id": "osm-r4591410",
+      "name": "西湖区",
+      "osmRelationId": "4591410",
+      "adcode": null
+    },
+    {
+      "id": "330114",
+      "name": "钱塘区",
+      "osmRelationId": "10724589",
+      "adcode": "330114"
+    },
+    {
+      "id": "osm-r12555971",
+      "name": "余杭区",
+      "osmRelationId": "12555971",
+      "adcode": null
+    }
+  ],
+  "parentRelationId": "3221112",
+  "parentAdminLevel": 5,
+  "parentDivisionCode": "330100",
+  "parentUsable": true,
+  "parentSelectionBasis": "name-lowest-admin-level",
+  "parentFenceRequired": true,
+  "rejected": [],
+  "idConflicts": [],
+  "excluded": [],
+  "associationBasis": "osm-admin-centre-point-in-parent",
+  "associations": [
+    {
+      "id": "osm-r3125919",
+      "osmRelationId": "3125919",
+      "name": "淳安县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "3900049026"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "osm-r3221113",
+      "osmRelationId": "3221113",
+      "name": "建德市",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "1338631346"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "330108",
+      "osmRelationId": "3221179",
+      "name": "滨江区",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    },
+    {
+      "id": "osm-r3221180",
+      "osmRelationId": "3221180",
+      "name": "富阳区",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "244079822"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "osm-r3221181",
+      "osmRelationId": "3221181",
+      "name": "临安区",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "244081124"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "osm-r3221182",
+      "osmRelationId": "3221182",
+      "name": "桐庐县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "244082032"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "osm-r3221183",
+      "osmRelationId": "3221183",
+      "name": "萧山区",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "244082135"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "330110",
+      "osmRelationId": "3221184",
+      "name": "临平区",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    },
+    {
+      "id": "osm-r4591384",
+      "osmRelationId": "4591384",
+      "name": "拱墅区",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "244085074"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "osm-r4591409",
+      "osmRelationId": "4591409",
+      "name": "上城区",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    },
+    {
+      "id": "osm-r4591410",
+      "osmRelationId": "4591410",
+      "name": "西湖区",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "244085108"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "330114",
+      "osmRelationId": "10724589",
+      "name": "钱塘区",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    },
+    {
+      "id": "osm-r12555971",
+      "osmRelationId": "12555971",
+      "name": "余杭区",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "8608935518"
+      ],
+      "unresolvedAdminCentres": 0
+    }
+  ],
+  "associationCaveat": "OSM node admin_centre association is boundary-inclusive, not full county-polygon intersection or an official registry. Missing centres are unverified candidates; publication requires the independent native WGS84 parent fence.",
+  "matchBasis": "OSM county admin-centre association + exact county and parent geometry matching WGS84. Historical OSM codes are retained, not official administrative certification."
+}

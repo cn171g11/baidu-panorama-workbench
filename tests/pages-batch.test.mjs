@@ -48,6 +48,7 @@ test('expanding a batch retains previous cities and supports explicit full publi
   assert.equal(result.total,2);assert.equal(result.collections,2);assert.equal(result.publication.remainingCities,0);
   const entries=JSON.parse(await readFile(path.join(result.output,'city-viewer/data/asset-manifest.json'),'utf8')).assets;
   assert.equal(Object.keys(entries).length,2);
+  assert(!(await readdir(path.join(f.root,'dist'))).some(name=>name.startsWith('pages-publication-')),'Publication stage/backup leaked');
  }finally{await f.dispose();}
 });
 test('bad IDs or oversized batch cannot replace previous verified publication',async()=>{
@@ -57,5 +58,6 @@ test('bad IDs or oversized batch cannot replace previous verified publication',a
   await assert.rejects(publishPages({root:f.root,commit:'c'.repeat(40),selection:selection(['999999'])}),/Unknown/);
   await assert.rejects(publishPages({root:f.root,commit:'c'.repeat(40),selection:{...selection(['all']),maxPublishedBytes:1}}),/size limit/);
   assert((await readFile(path.join(good.output,'city-viewer/data/catalog.json'))).equals(before));
+  assert(!(await readdir(path.join(f.root,'dist'))).some(name=>name.startsWith('pages-publication-')),'Failed publication stage leaked');
  }finally{await f.dispose();}
 });

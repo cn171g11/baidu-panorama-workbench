@@ -15,7 +15,7 @@ test('root route leads to the Baidu-only viewer', async () => {
 
 test('viewer exposes stable accessible controls and local privacy language', async () => {
   const html = await read('city-viewer/index.html');
-  for (const id of ['source-state', 'province-filter', 'city-filter', 'load-city', 'search-input', 'road-filter', 'date-filter', 'result-count', 'empty-state', 'record-list', 'record-rows', 'detail-panel', 'open-import', 'import-dialog', 'import-format', 'coordinate-system', 'import-file', 'import-text', 'confirm-baidu', 'confirm-import', 'import-message', 'clear-local', 'reload-data', 'export-data']) {
+  for (const id of ['source-state', 'province-filter', 'city-filter', 'county-filter', 'shard-filter', 'load-city', 'search-input', 'road-filter', 'date-filter', 'result-count', 'empty-state', 'record-list', 'record-rows', 'detail-panel', 'open-import', 'import-dialog', 'import-format', 'coordinate-system', 'import-file', 'import-text', 'confirm-baidu', 'confirm-import', 'import-message', 'clear-local', 'reload-data', 'export-data']) {
     assert.match(html, new RegExp(`id=["']${id}["']`), `missing #${id}`);
   }
   assert.match(html, /不会自动上传/);
@@ -53,7 +53,9 @@ test('app uses metadata and isolated local storage APIs with bounded pagination'
   assert.match(app, /priorRows/);
   assert.match(app, /collectionRequest/);
   assert.match(app, /load-city/);
-  assert.match(app, /loadCollection\(collection\)/);
+  assert.match(app, /loadCollection\(collection,options\)/);
+  assert.match(app, /syncCounties\(\)/);
+  assert.match(app, /selectCountyFiles\(/);
 });
 
 test('map uses local Leaflet host dependency and public OSM, never requires tiles for table', async () => {

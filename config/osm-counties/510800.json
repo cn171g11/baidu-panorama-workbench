@@ -1,0 +1,196 @@
+{
+  "schemaVersion": 1,
+  "source": "OpenStreetMap",
+  "license": "ODbL-1.0",
+  "attribution": "© OpenStreetMap contributors",
+  "cityId": "510800",
+  "cityName": "广元市",
+  "coordinateSystem": "WGS84",
+  "timestamp": "2026-11-13T23:44:50Z",
+  "parentTimestamp": "2026-11-14T00:44:48Z",
+  "endpoint": "https://overpass-api.de/api/interpreter",
+  "rawSha256": "807023665d6813c5eaf40fcab432909289de62207e072e208abebf714124bf8e",
+  "parentRawSha256": "58277d52e4743f21e82c25783e03e638480ac9fa59e72fa6d1ce076334ba9e8a",
+  "sha256": "07c6c4c1ba1426bdae35b3791df055177d5ef8c041d84bc78b42da0dfec21653",
+  "bytes": 230565,
+  "parentBytes": 115524,
+  "parentSha256": "8045baf2135998bc0bc42e4545b668e5fcd4f26045c932b6445c10ed5b52e344",
+  "countyRelations": [
+    {
+      "id": "510822",
+      "name": "青川县",
+      "osmRelationId": "2116385",
+      "adcode": "510822"
+    },
+    {
+      "id": "510824",
+      "name": "苍溪县",
+      "osmRelationId": "2787600",
+      "adcode": "510824"
+    },
+    {
+      "id": "510812",
+      "name": "朝天区",
+      "osmRelationId": "2787601",
+      "adcode": "510812"
+    },
+    {
+      "id": "510823",
+      "name": "剑阁县",
+      "osmRelationId": "2787602",
+      "adcode": "510823"
+    },
+    {
+      "id": "osm-r2787603",
+      "name": "利州区",
+      "osmRelationId": "2787603",
+      "adcode": null
+    },
+    {
+      "id": "510821",
+      "name": "旺苍县",
+      "osmRelationId": "2787604",
+      "adcode": "510821"
+    },
+    {
+      "id": "510811",
+      "name": "昭化区",
+      "osmRelationId": "2787605",
+      "adcode": "510811"
+    }
+  ],
+  "parentRelationId": "2787606",
+  "parentAdminLevel": 5,
+  "parentDivisionCode": "510800",
+  "parentUsable": true,
+  "parentSelectionBasis": "name-lowest-admin-level",
+  "parentFenceRequired": true,
+  "rejected": [],
+  "idConflicts": [],
+  "excluded": [
+    {
+      "id": "510781",
+      "osmRelationId": "2172152",
+      "name": "江油市",
+      "status": "excluded",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "244080750"
+      ],
+      "unresolvedAdminCentres": 0,
+      "reason": "OSM admin_centre outside native parent geometry",
+      "outsideAdminCentres": [
+        {
+          "ref": "244080750",
+          "coordinates": [
+            104.7427532,
+            31.780984
+          ]
+        }
+      ]
+    }
+  ],
+  "associationBasis": "osm-admin-centre-point-in-parent",
+  "associations": [
+    {
+      "id": "510822",
+      "osmRelationId": "2116385",
+      "name": "青川县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "4793266896"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "510781",
+      "osmRelationId": "2172152",
+      "name": "江油市",
+      "status": "excluded",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "244080750"
+      ],
+      "unresolvedAdminCentres": 0,
+      "reason": "OSM admin_centre outside native parent geometry",
+      "outsideAdminCentres": [
+        {
+          "ref": "244080750",
+          "coordinates": [
+            104.7427532,
+            31.780984
+          ]
+        }
+      ]
+    },
+    {
+      "id": "510824",
+      "osmRelationId": "2787600",
+      "name": "苍溪县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "4578339588"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "510812",
+      "osmRelationId": "2787601",
+      "name": "朝天区",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "7327789690"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "510823",
+      "osmRelationId": "2787602",
+      "name": "剑阁县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "244080765"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "osm-r2787603",
+      "osmRelationId": "2787603",
+      "name": "利州区",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "7324936110"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "510821",
+      "osmRelationId": "2787604",
+      "name": "旺苍县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "1547099770"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "510811",
+      "osmRelationId": "2787605",
+      "name": "昭化区",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "7318112443"
+      ],
+      "unresolvedAdminCentres": 0
+    }
+  ],
+  "associationCaveat": "OSM node admin_centre association is boundary-inclusive, not full county-polygon intersection or an official registry. Missing centres are unverified candidates; publication requires the independent native WGS84 parent fence.",
+  "matchBasis": "OSM county admin-centre association + exact county and parent geometry matching WGS84. Historical OSM codes are retained, not official administrative certification."
+}

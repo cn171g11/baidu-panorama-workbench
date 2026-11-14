@@ -1,0 +1,119 @@
+{
+  "schemaVersion": 1,
+  "source": "OpenStreetMap",
+  "license": "ODbL-1.0",
+  "attribution": "© OpenStreetMap contributors",
+  "cityId": "511900",
+  "cityName": "巴中市",
+  "coordinateSystem": "WGS84",
+  "timestamp": "2026-11-13T23:45:50Z",
+  "parentTimestamp": "2026-11-14T00:45:42Z",
+  "endpoint": "https://overpass-api.de/api/interpreter",
+  "rawSha256": "0b7cc2f55925cc029686a1857156ee94a23338ad97b4ab17d0b2e0170905e1fd",
+  "parentRawSha256": "b77c67b2fafb62d616651d52146802346cb1d34c79c552031cf6a2ac1d33cb66",
+  "sha256": "c23e3f255b77831bee0c287a3325aaf4d219c5adc4473cae3b24734226b505b7",
+  "bytes": 221238,
+  "parentBytes": 92022,
+  "parentSha256": "e3164bdda6b196d7c413fad838c41d652d3753bb2c41c1db3b28ac28186b0340",
+  "countyRelations": [
+    {
+      "id": "511902",
+      "name": "巴州区",
+      "osmRelationId": "2787654",
+      "adcode": "511902"
+    },
+    {
+      "id": "511922",
+      "name": "南江县",
+      "osmRelationId": "2787655",
+      "adcode": "511922"
+    },
+    {
+      "id": "511923",
+      "name": "平昌县",
+      "osmRelationId": "2787656",
+      "adcode": "511923"
+    },
+    {
+      "id": "511921",
+      "name": "通江县",
+      "osmRelationId": "2787657",
+      "adcode": "511921"
+    },
+    {
+      "id": "511903",
+      "name": "恩阳区",
+      "osmRelationId": "8022755",
+      "adcode": "511903"
+    }
+  ],
+  "parentRelationId": "2787658",
+  "parentAdminLevel": 5,
+  "parentDivisionCode": "511900",
+  "parentUsable": true,
+  "parentSelectionBasis": "name-lowest-admin-level",
+  "parentFenceRequired": true,
+  "rejected": [],
+  "idConflicts": [],
+  "excluded": [],
+  "associationBasis": "osm-admin-centre-point-in-parent",
+  "associations": [
+    {
+      "id": "511902",
+      "osmRelationId": "2787654",
+      "name": "巴州区",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "244076793"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "511922",
+      "osmRelationId": "2787655",
+      "name": "南江县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "3784610903"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "511923",
+      "osmRelationId": "2787656",
+      "name": "平昌县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "622005548"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "511921",
+      "osmRelationId": "2787657",
+      "name": "通江县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "244082045"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "511903",
+      "osmRelationId": "8022755",
+      "name": "恩阳区",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "3162948687"
+      ],
+      "unresolvedAdminCentres": 0
+    }
+  ],
+  "associationCaveat": "OSM node admin_centre association is boundary-inclusive, not full county-polygon intersection or an official registry. Missing centres are unverified candidates; publication requires the independent native WGS84 parent fence.",
+  "matchBasis": "OSM county admin-centre association + exact county and parent geometry matching WGS84. Historical OSM codes are retained, not official administrative certification."
+}

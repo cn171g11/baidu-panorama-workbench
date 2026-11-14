@@ -1,0 +1,194 @@
+{
+  "schemaVersion": 1,
+  "source": "OpenStreetMap",
+  "license": "ODbL-1.0",
+  "attribution": "© OpenStreetMap contributors",
+  "cityId": "440300",
+  "cityName": "深圳市",
+  "coordinateSystem": "WGS84",
+  "timestamp": "2026-11-13T23:43:48Z",
+  "parentTimestamp": "2026-11-14T00:43:41Z",
+  "endpoint": "https://overpass-api.de/api/interpreter",
+  "rawSha256": "896fdb12b0a8f3bce290827e3a30b72b6898b51ad04b0100f54fbf199df9e6c3",
+  "parentRawSha256": "7c9b3684cfbfa2655afd6f203e743d9e70ea1b8c3a2f82563a280b589fc53bc9",
+  "sha256": "d58cdb775745f32bc90fd4ccb41a6b0f3bd2dc9fc9638b1831a637419c36d608",
+  "bytes": 219774,
+  "parentBytes": 143662,
+  "parentSha256": "fd800b04920d5823f2b129a92d3b9d1e6ef35e73b31438d52310a0574d872cb5",
+  "countyRelations": [
+    {
+      "id": "osm-r4590423",
+      "name": "坪山区",
+      "osmRelationId": "4590423",
+      "adcode": null
+    },
+    {
+      "id": "osm-r5663273",
+      "name": "盐田区",
+      "osmRelationId": "5663273",
+      "adcode": null
+    },
+    {
+      "id": "osm-r5664101",
+      "name": "宝安区",
+      "osmRelationId": "5664101",
+      "adcode": null
+    },
+    {
+      "id": "osm-r5664102",
+      "name": "龙岗区",
+      "osmRelationId": "5664102",
+      "adcode": null
+    },
+    {
+      "id": "osm-r5664191",
+      "name": "福田区",
+      "osmRelationId": "5664191",
+      "adcode": null
+    },
+    {
+      "id": "osm-r5664192",
+      "name": "光明区",
+      "osmRelationId": "5664192",
+      "adcode": null
+    },
+    {
+      "id": "osm-r5664193",
+      "name": "龙华区",
+      "osmRelationId": "5664193",
+      "adcode": null
+    },
+    {
+      "id": "osm-r5664194",
+      "name": "罗湖区",
+      "osmRelationId": "5664194",
+      "adcode": null
+    },
+    {
+      "id": "osm-r5664195",
+      "name": "南山区",
+      "osmRelationId": "5664195",
+      "adcode": null
+    },
+    {
+      "id": "osm-r9223823",
+      "name": "深汕特别合作区",
+      "osmRelationId": "9223823",
+      "adcode": null
+    }
+  ],
+  "parentRelationId": "3464353",
+  "parentAdminLevel": 5,
+  "parentDivisionCode": null,
+  "parentUsable": true,
+  "parentSelectionBasis": "name-lowest-admin-level",
+  "parentFenceRequired": true,
+  "rejected": [],
+  "idConflicts": [],
+  "excluded": [],
+  "associationBasis": "osm-admin-centre-point-in-parent",
+  "associations": [
+    {
+      "id": "osm-r4590423",
+      "osmRelationId": "4590423",
+      "name": "坪山区",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    },
+    {
+      "id": "osm-r5663273",
+      "osmRelationId": "5663273",
+      "name": "盐田区",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    },
+    {
+      "id": "osm-r5664101",
+      "osmRelationId": "5664101",
+      "name": "宝安区",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    },
+    {
+      "id": "osm-r5664102",
+      "osmRelationId": "5664102",
+      "name": "龙岗区",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    },
+    {
+      "id": "osm-r5664191",
+      "osmRelationId": "5664191",
+      "name": "福田区",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    },
+    {
+      "id": "osm-r5664192",
+      "osmRelationId": "5664192",
+      "name": "光明区",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    },
+    {
+      "id": "osm-r5664193",
+      "osmRelationId": "5664193",
+      "name": "龙华区",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    },
+    {
+      "id": "osm-r5664194",
+      "osmRelationId": "5664194",
+      "name": "罗湖区",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    },
+    {
+      "id": "osm-r5664195",
+      "osmRelationId": "5664195",
+      "name": "南山区",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    },
+    {
+      "id": "osm-r9223823",
+      "osmRelationId": "9223823",
+      "name": "深汕特别合作区",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    }
+  ],
+  "associationCaveat": "OSM node admin_centre association is boundary-inclusive, not full county-polygon intersection or an official registry. Missing centres are unverified candidates; publication requires the independent native WGS84 parent fence.",
+  "matchBasis": "OSM county admin-centre association + exact county and parent geometry matching WGS84. Historical OSM codes are retained, not official administrative certification."
+}

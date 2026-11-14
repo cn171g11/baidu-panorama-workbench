@@ -14,7 +14,9 @@ body.map-viewer { height: 100vh; height: 100dvh; overflow: hidden; min-width: 32
 .map-viewer select, .map-viewer input[type=search], .map-viewer input[type=date] { height: 33px; min-width: 0; max-width: 100%; padding: 5px 8px; border: 1px solid #35414e; border-radius: 6px; background: #10141a; color: #dce3ea; font-size: 12px; }
 .province-field { flex: 0 1 165px; }
 .city-field { flex: 0 1 165px; }
-.province-field select, .city-field select { width: 100%; }
+.province-field select, .city-field select, .county-field select, .shard-field select { width: 100%; }
+.county-field { flex:0 1 220px; }
+.shard-field { flex:0 1 180px; }
 .search-field { flex: 1 1 260px; min-width: 170px; max-width: 560px; }
 .search-field input { width: 100%; }
 .basemap-field { flex: 0 1 130px; }
@@ -69,6 +71,7 @@ body.map-viewer { height: 100vh; height: 100dvh; overflow: hidden; min-width: 32
   .map-viewer .brand { flex: 0 0 auto; font-size: 11px; }
   .provider-pill { display: none; }
   .province-field, .city-field { flex: 1 1 0; max-width: none; }
+  .county-field, .shard-field { flex:1 1 40%; max-width:none; order:4; }
   .search-field { flex: 1 1 100%; max-width: none; min-width: 0; order: 5; }
   .search-field input { font-size: 16px !important; }
   .basemap-field, .map-viewer .segmented, #toggle-filters { order: 6; }

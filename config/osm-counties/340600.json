@@ -1,0 +1,102 @@
+{
+  "schemaVersion": 1,
+  "source": "OpenStreetMap",
+  "license": "ODbL-1.0",
+  "attribution": "© OpenStreetMap contributors",
+  "cityId": "340600",
+  "cityName": "淮北市",
+  "coordinateSystem": "WGS84",
+  "timestamp": "2026-11-13T23:39:35Z",
+  "parentTimestamp": "2026-11-14T00:40:37Z",
+  "endpoint": "https://overpass-api.de/api/interpreter",
+  "rawSha256": "dc8df497c54e7970a7f227be35e2e00459edf552c7f6e12258050a57d0c2c74d",
+  "parentRawSha256": "21443c66b28d4fa7866514ea34ed1a798d38a485fdc3276c5bc18b189a032f4a",
+  "sha256": "f6dc27452d9178d8f83bf426254987689a24a35199a4089c9df34f93ba76d85d",
+  "bytes": 139087,
+  "parentBytes": 95439,
+  "parentSha256": "3b3af29bce93eb386265a092d3094ed777bc457d3e2b0f805d48f3ec6bf73830",
+  "countyRelations": [
+    {
+      "id": "osm-r3231906",
+      "name": "杜集区",
+      "osmRelationId": "3231906",
+      "adcode": null
+    },
+    {
+      "id": "osm-r3231907",
+      "name": "烈山区",
+      "osmRelationId": "3231907",
+      "adcode": null
+    },
+    {
+      "id": "osm-r3231908",
+      "name": "濉溪县",
+      "osmRelationId": "3231908",
+      "adcode": null
+    },
+    {
+      "id": "osm-r3231909",
+      "name": "相山区",
+      "osmRelationId": "3231909",
+      "adcode": null
+    }
+  ],
+  "parentRelationId": "3231910",
+  "parentAdminLevel": 5,
+  "parentDivisionCode": null,
+  "parentUsable": true,
+  "parentSelectionBasis": "name-lowest-admin-level",
+  "parentFenceRequired": true,
+  "rejected": [],
+  "idConflicts": [],
+  "excluded": [],
+  "associationBasis": "osm-admin-centre-point-in-parent",
+  "associations": [
+    {
+      "id": "osm-r3231906",
+      "osmRelationId": "3231906",
+      "name": "杜集区",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "244083597"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "osm-r3231907",
+      "osmRelationId": "3231907",
+      "name": "烈山区",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "3727858472"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "osm-r3231908",
+      "osmRelationId": "3231908",
+      "name": "濉溪县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "244081826"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "osm-r3231909",
+      "osmRelationId": "3231909",
+      "name": "相山区",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "244083617"
+      ],
+      "unresolvedAdminCentres": 0
+    }
+  ],
+  "associationCaveat": "OSM node admin_centre association is boundary-inclusive, not full county-polygon intersection or an official registry. Missing centres are unverified candidates; publication requires the independent native WGS84 parent fence.",
+  "matchBasis": "OSM county admin-centre association + exact county and parent geometry matching WGS84. Historical OSM codes are retained, not official administrative certification."
+}

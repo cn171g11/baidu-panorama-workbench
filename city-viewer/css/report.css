@@ -3,10 +3,29 @@
 .report-fold-controls { display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:10px 0;color:#8b949e;font-size:12px; }
 .report-fold-controls button { border:1px solid #30363d;background:#161b22;color:#c9d1d9;padding:6px 10px;border-radius:6px;cursor:pointer; }
 .summary-card:nth-child(3) strong {color:#ff6262;}.summary-card:nth-child(4) strong {color:#b47af0;}
-.province-body { overflow-x:auto; }.province-card summary {min-width:0;}.province-total {margin-left:auto;text-align:right;}.province-name {flex-shrink:0;}
+.province-body { overflow-x:auto; }.province-card > summary {min-width:0;}.province-total {margin-left:auto;text-align:right;}.province-name {flex-shrink:0;}
 .province-body small {color:#8b949e;}.province-body a {color:#58a6ff;}
 .report-sort[data-direction=desc]::after {content:' ▾';}.report-sort[data-direction=asc]::after {content:' ▴';}
-@media(max-width:700px){.report-status{white-space:normal;}.province-card summary{padding:12px 8px;}.province-total{white-space:normal;font-size:10px;}.report-controls .report-search{min-width:0;width:100%;}.summary-card strong{font-size:18px;}}
+@media(max-width:700px){.report-status{white-space:normal;}.province-card > summary{padding:12px 8px;}.province-total{white-space:normal;font-size:10px;}.report-controls .report-search{min-width:0;width:100%;}.summary-card strong{font-size:18px;}}
+
+.report-page .report-city-select-note { display:block; font-size:10px; margin-top:3px; }
+.report-page .report-county-container > td { padding:0 0 12px; white-space:normal; }
+.report-page .report-county-details { min-width:0; border:1px solid #303945; border-radius:6px; background:#10161d; }
+.report-page .report-county-details > summary { display:flex; align-items:center; gap:10px; padding:10px 12px; cursor:pointer; list-style:none; white-space:normal; color:#cbd4dd; }
+.report-page .report-county-details > summary::-webkit-details-marker { display:none; }
+.report-page .report-county-details > summary::before { content:'▸'; color:#7f8b98; }
+.report-page .report-county-details[open] > summary::before { content:'▾'; }
+.report-page .report-county-status { margin-left:auto; color:#8e9aa7; font-size:10px; text-align:right; }
+.report-page .report-county-body { min-width:0; padding:0 12px 12px; }
+.report-page .report-county-note { white-space:normal; overflow-wrap:anywhere; color:#9da8b5; font-size:11px; line-height:1.65; margin:10px 0; }
+.report-page .report-county-scroll { max-width:100%; overflow-x:auto; }
+.report-page .report-county-table { width:100%; border-collapse:collapse; font-variant-numeric:tabular-nums; }
+.report-page .report-county-table caption { text-align:left; padding:8px; color:#9da8b5; white-space:normal; }
+.report-page .report-county-table th[scope=row] { font-weight:500; color:#ccd4dc; }
+.report-page .report-county-table small { display:block; font-size:10px; margin-top:3px; }
+.report-page .report-county-unmatched { background:#261f16; }
+.report-page .report-county-unmatched th[scope=row] a { color:#e1bb6f; }
+@media(max-width:700px) { .report-page .report-county-details > summary { align-items:flex-start; flex-wrap:wrap; padding:10px 8px; }.report-page .report-county-status { margin-left:18px; text-align:left; width:100%; }.report-page .report-county-body { padding:0 8px 8px; } }
 
 .report-head { display:flex; justify-content:space-between; gap:24px; align-items:flex-end; margin-bottom:22px; }
 .report-subtitle { color:#9da8b5; font-size:12px; }
@@ -24,10 +43,10 @@
 .report-sort.active, .report-sort:hover { border-color:#65baa6; color:#f1f5f7; }
 .province-groups { display:grid; gap:12px; }
 .province-card { border:1px solid #303945; border-radius:7px; background:#151a21; overflow:hidden; }
-.province-card summary { display:flex; justify-content:space-between; gap:12px; padding:15px 17px; cursor:pointer; list-style:none; }
-.province-card summary::-webkit-details-marker { display:none; }
-.province-card summary::before { content:'▸'; color:#7f8b98; margin-right:8px; }
-.province-card[open] summary::before { content:'▾'; }
+.province-card > summary { display:flex; justify-content:space-between; gap:12px; padding:15px 17px; cursor:pointer; list-style:none; }
+.province-card > summary::-webkit-details-marker { display:none; }
+.province-card > summary::before { content:'▸'; color:#7f8b98; margin-right:8px; }
+.province-card[open] > summary::before { content:'▾'; }
 .province-name { color:#edf1f5; font-weight:650; }
 .province-total { color:#8e9aa7; font-size:11px; }
 .province-body { padding:0 17px 16px; }
@@ -40,4 +59,4 @@
 .province-body th, .province-body td { padding:9px 8px; border-bottom:1px solid #29313b; text-align:left; white-space:nowrap; }
 .province-body th { color:#84909d; font-weight:500; }.province-body td { color:#ccd4dc; }.province-body a { color:#d8e1e8; text-decoration:none; }.province-body a:hover { color:#ff858d; text-decoration:underline; }
 .report-empty { padding:28px; color:#aeb8c4; text-align:center; }
-@media (max-width:700px) { .report-page { padding:20px 14px 44px; }.report-head { display:block; }.report-status { margin-top:12px; white-space:normal; overflow-wrap:anywhere; }.summary-cards { grid-template-columns:repeat(2,minmax(0,1fr)); }.summary-card:first-child { grid-column:1/-1; }.sort-controls { margin-left:0; flex-wrap:wrap; }.province-body { overflow-x:auto; }.province-card summary{padding:12px 8px;}.province-total{white-space:normal;font-size:10px;}.report-controls .report-search{min-width:0;width:100%;} }
+@media (max-width:700px) { .report-page { padding:20px 14px 44px; }.report-head { display:block; }.report-status { margin-top:12px; white-space:normal; overflow-wrap:anywhere; }.summary-cards { grid-template-columns:repeat(2,minmax(0,1fr)); }.summary-card:first-child { grid-column:1/-1; }.sort-controls { margin-left:0; flex-wrap:wrap; }.province-body { overflow-x:auto; }.province-card > summary{padding:12px 8px;}.province-total{white-space:normal;font-size:10px;}.report-controls .report-search{min-width:0;width:100%;} }

@@ -1,0 +1,238 @@
+{
+  "schemaVersion": 1,
+  "source": "OpenStreetMap",
+  "license": "ODbL-1.0",
+  "attribution": "© OpenStreetMap contributors",
+  "cityId": "540500",
+  "cityName": "山南市",
+  "coordinateSystem": "WGS84",
+  "timestamp": "2026-11-14T00:14:08Z",
+  "parentTimestamp": "2026-11-14T00:50:44Z",
+  "endpoint": "https://overpass-api.de/api/interpreter",
+  "rawSha256": "cd1f0656f53910d85eefabaa72d6e0f7b4019caead98b3a31107ffdb1d02ddbf",
+  "parentRawSha256": "bda810aff17221aff7253b63f0907d667a2506155c9f9e3577207571428568ce",
+  "sha256": "facc0deab85a793ec1f408ff1cd2c1208d3a2445914e1b392ba4f1a0516f41a4",
+  "bytes": 240322,
+  "parentBytes": 103495,
+  "parentSha256": "da79172f24b14144ecba67f378ea849954adf51c6bd603a7d461e55a81e8158d",
+  "countyRelations": [
+    {
+      "id": "540526",
+      "name": "措美县",
+      "osmRelationId": "2743966",
+      "adcode": "540526"
+    },
+    {
+      "id": "540581",
+      "name": "错那市",
+      "osmRelationId": "2743967",
+      "adcode": "540581"
+    },
+    {
+      "id": "540522",
+      "name": "贡嘎县",
+      "osmRelationId": "2743968",
+      "adcode": "540522"
+    },
+    {
+      "id": "540528",
+      "name": "加查县",
+      "osmRelationId": "2743969",
+      "adcode": "540528"
+    },
+    {
+      "id": "540527",
+      "name": "洛扎县",
+      "osmRelationId": "2743970",
+      "adcode": "540527"
+    },
+    {
+      "id": "540529",
+      "name": "隆子县",
+      "osmRelationId": "2743971",
+      "adcode": "540529"
+    },
+    {
+      "id": "540531",
+      "name": "浪卡子县",
+      "osmRelationId": "2743972",
+      "adcode": "540531"
+    },
+    {
+      "id": "540502",
+      "name": "乃东区",
+      "osmRelationId": "2743973",
+      "adcode": "540502"
+    },
+    {
+      "id": "540524",
+      "name": "琼结县",
+      "osmRelationId": "2743974",
+      "adcode": "540524"
+    },
+    {
+      "id": "540525",
+      "name": "曲松县",
+      "osmRelationId": "2743975",
+      "adcode": "540525"
+    },
+    {
+      "id": "540523",
+      "name": "桑日县",
+      "osmRelationId": "2743976",
+      "adcode": "540523"
+    },
+    {
+      "id": "540521",
+      "name": "扎囊县",
+      "osmRelationId": "2743977",
+      "adcode": "540521"
+    }
+  ],
+  "parentRelationId": "2743978",
+  "parentAdminLevel": 5,
+  "parentDivisionCode": "540500",
+  "parentUsable": true,
+  "parentSelectionBasis": "name-lowest-admin-level",
+  "parentFenceRequired": true,
+  "rejected": [],
+  "idConflicts": [],
+  "excluded": [],
+  "associationBasis": "osm-admin-centre-point-in-parent",
+  "associations": [
+    {
+      "id": "540526",
+      "osmRelationId": "2743966",
+      "name": "措美县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "3087785376"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "540581",
+      "osmRelationId": "2743967",
+      "name": "错那市",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "289362556"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "540522",
+      "osmRelationId": "2743968",
+      "name": "贡嘎县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "1741211203"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "540528",
+      "osmRelationId": "2743969",
+      "name": "加查县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "244080420"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "540527",
+      "osmRelationId": "2743970",
+      "name": "洛扎县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "3087754671"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "540529",
+      "osmRelationId": "2743971",
+      "name": "隆子县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "289363440"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "540531",
+      "osmRelationId": "2743972",
+      "name": "浪卡子县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "8037374624"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "540502",
+      "osmRelationId": "2743973",
+      "name": "乃东区",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "4960798738"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "540524",
+      "osmRelationId": "2743974",
+      "name": "琼结县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "244081726"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "540525",
+      "osmRelationId": "2743975",
+      "name": "曲松县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "2703828745"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "540523",
+      "osmRelationId": "2743976",
+      "name": "桑日县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "244081703"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "540521",
+      "osmRelationId": "2743977",
+      "name": "扎囊县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "3087788007"
+      ],
+      "unresolvedAdminCentres": 0
+    }
+  ],
+  "associationCaveat": "OSM node admin_centre association is boundary-inclusive, not full county-polygon intersection or an official registry. Missing centres are unverified candidates; publication requires the independent native WGS84 parent fence.",
+  "matchBasis": "OSM county admin-centre association + exact county and parent geometry matching WGS84. Historical OSM codes are retained, not official administrative certification."
+}

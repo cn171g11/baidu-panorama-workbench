@@ -1,0 +1,119 @@
+{
+  "schemaVersion": 1,
+  "source": "OpenStreetMap",
+  "license": "ODbL-1.0",
+  "attribution": "© OpenStreetMap contributors",
+  "cityId": "140300",
+  "cityName": "阳泉市",
+  "coordinateSystem": "WGS84",
+  "timestamp": "2026-11-13T23:35:35Z",
+  "parentTimestamp": "2026-11-14T00:36:35Z",
+  "endpoint": "https://overpass-api.de/api/interpreter",
+  "rawSha256": "b417a2a8b8dd086c83b73e26632c16cb6b5febbb19815fc07e1fea73ab5a5303",
+  "parentRawSha256": "46d5f3cbfafdbb5b279e5d4138f023b0de0cd0b17040faaf55a2da94cdcf04d3",
+  "sha256": "538c4ef16b4ffe28981f44ac4a81e620dd2e0d9aad191e683fcc190bdec5cc67",
+  "bytes": 222992,
+  "parentBytes": 138006,
+  "parentSha256": "bac2a95725c49b0546b92a602257a60c10f34018184c57c1acbb7f8e846c0b20",
+  "countyRelations": [
+    {
+      "id": "osm-r3285000",
+      "name": "城区",
+      "osmRelationId": "3285000",
+      "adcode": null
+    },
+    {
+      "id": "osm-r3285001",
+      "name": "郊区",
+      "osmRelationId": "3285001",
+      "adcode": null
+    },
+    {
+      "id": "osm-r3285002",
+      "name": "矿区",
+      "osmRelationId": "3285002",
+      "adcode": null
+    },
+    {
+      "id": "osm-r3285003",
+      "name": "平定县",
+      "osmRelationId": "3285003",
+      "adcode": null
+    },
+    {
+      "id": "osm-r3285004",
+      "name": "盂县",
+      "osmRelationId": "3285004",
+      "adcode": null
+    }
+  ],
+  "parentRelationId": "3285005",
+  "parentAdminLevel": 5,
+  "parentDivisionCode": null,
+  "parentUsable": true,
+  "parentSelectionBasis": "name-lowest-admin-level",
+  "parentFenceRequired": true,
+  "rejected": [],
+  "idConflicts": [],
+  "excluded": [],
+  "associationBasis": "osm-admin-centre-point-in-parent",
+  "associations": [
+    {
+      "id": "osm-r3285000",
+      "osmRelationId": "3285000",
+      "name": "城区",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "11037382280"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "osm-r3285001",
+      "osmRelationId": "3285001",
+      "name": "郊区",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "3225938381"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "osm-r3285002",
+      "osmRelationId": "3285002",
+      "name": "矿区",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "11037382279"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "osm-r3285003",
+      "osmRelationId": "3285003",
+      "name": "平定县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "731918586"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "osm-r3285004",
+      "osmRelationId": "3285004",
+      "name": "盂县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "3225938382"
+      ],
+      "unresolvedAdminCentres": 0
+    }
+  ],
+  "associationCaveat": "OSM node admin_centre association is boundary-inclusive, not full county-polygon intersection or an official registry. Missing centres are unverified candidates; publication requires the independent native WGS84 parent fence.",
+  "matchBasis": "OSM county admin-centre association + exact county and parent geometry matching WGS84. Historical OSM codes are retained, not official administrative certification."
+}

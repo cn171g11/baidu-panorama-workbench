@@ -1,0 +1,210 @@
+{
+  "schemaVersion": 1,
+  "source": "OpenStreetMap",
+  "license": "ODbL-1.0",
+  "attribution": "© OpenStreetMap contributors",
+  "cityId": "540300",
+  "cityName": "昌都市",
+  "coordinateSystem": "WGS84",
+  "timestamp": "2026-11-14T00:13:09Z",
+  "parentTimestamp": "2026-11-14T00:49:47Z",
+  "endpoint": "https://overpass-api.de/api/interpreter",
+  "rawSha256": "61090d9664f1cdb67af08f2a1708564676c34817e1f760bc7f282626d5bbbbdc",
+  "parentRawSha256": "4f6df6c8b8fc139b8101134219cc8e1ce2cf58db92946e199ba15381210dead4",
+  "sha256": "8bb062635a9488eb0d861b439aa3c26aef73be938513b83f594560e7deb46357",
+  "bytes": 329775,
+  "parentBytes": 189020,
+  "parentSha256": "e9fc893778e3cb41572d652e09e3cc6ddc7ad624f1cbe02b081f1f27ee8d4f4c",
+  "countyRelations": [
+    {
+      "id": "540302",
+      "name": "卡若区",
+      "osmRelationId": "2734864",
+      "adcode": "540302"
+    },
+    {
+      "id": "540324",
+      "name": "丁青县",
+      "osmRelationId": "2734865",
+      "adcode": "540324"
+    },
+    {
+      "id": "540326",
+      "name": "八宿县",
+      "osmRelationId": "2734909",
+      "adcode": "540326"
+    },
+    {
+      "id": "540322",
+      "name": "贡觉县",
+      "osmRelationId": "2734910",
+      "adcode": "540322"
+    },
+    {
+      "id": "540321",
+      "name": "江达县",
+      "osmRelationId": "2734911",
+      "adcode": "540321"
+    },
+    {
+      "id": "540329",
+      "name": "洛隆县",
+      "osmRelationId": "2734912",
+      "adcode": "540329"
+    },
+    {
+      "id": "540328",
+      "name": "芒康县",
+      "osmRelationId": "2734913",
+      "adcode": "540328"
+    },
+    {
+      "id": "540323",
+      "name": "类乌齐县",
+      "osmRelationId": "2734914",
+      "adcode": "540323"
+    },
+    {
+      "id": "540325",
+      "name": "察雅县",
+      "osmRelationId": "2734915",
+      "adcode": "540325"
+    },
+    {
+      "id": "540327",
+      "name": "左贡县",
+      "osmRelationId": "2734916",
+      "adcode": "540327"
+    },
+    {
+      "id": "540330",
+      "name": "边坝县",
+      "osmRelationId": "2745361",
+      "adcode": "540330"
+    }
+  ],
+  "parentRelationId": "2734866",
+  "parentAdminLevel": 5,
+  "parentDivisionCode": "540300",
+  "parentUsable": true,
+  "parentSelectionBasis": "name-lowest-admin-level",
+  "parentFenceRequired": true,
+  "rejected": [],
+  "idConflicts": [],
+  "excluded": [],
+  "associationBasis": "osm-admin-centre-point-in-parent",
+  "associations": [
+    {
+      "id": "540302",
+      "osmRelationId": "2734864",
+      "name": "卡若区",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    },
+    {
+      "id": "540324",
+      "osmRelationId": "2734865",
+      "name": "丁青县",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    },
+    {
+      "id": "540326",
+      "osmRelationId": "2734909",
+      "name": "八宿县",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    },
+    {
+      "id": "540322",
+      "osmRelationId": "2734910",
+      "name": "贡觉县",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    },
+    {
+      "id": "540321",
+      "osmRelationId": "2734911",
+      "name": "江达县",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    },
+    {
+      "id": "540329",
+      "osmRelationId": "2734912",
+      "name": "洛隆县",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    },
+    {
+      "id": "540328",
+      "osmRelationId": "2734913",
+      "name": "芒康县",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    },
+    {
+      "id": "540323",
+      "osmRelationId": "2734914",
+      "name": "类乌齐县",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    },
+    {
+      "id": "540325",
+      "osmRelationId": "2734915",
+      "name": "察雅县",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    },
+    {
+      "id": "540327",
+      "osmRelationId": "2734916",
+      "name": "左贡县",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    },
+    {
+      "id": "540330",
+      "osmRelationId": "2745361",
+      "name": "边坝县",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    }
+  ],
+  "associationCaveat": "OSM node admin_centre association is boundary-inclusive, not full county-polygon intersection or an official registry. Missing centres are unverified candidates; publication requires the independent native WGS84 parent fence.",
+  "matchBasis": "OSM county admin-centre association + exact county and parent geometry matching WGS84. Historical OSM codes are retained, not official administrative certification."
+}
