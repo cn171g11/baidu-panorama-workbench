@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 1,
+  "source": "OpenStreetMap",
+  "license": "ODbL-1.0",
+  "attribution": "© OpenStreetMap contributors",
+  "cityId": "152900",
+  "cityName": "阿拉善盟",
+  "coordinateSystem": "WGS84",
+  "timestamp": "2026-11-16T11:59:38Z",
+  "parentTimestamp": "2026-05-31T22:37:44Z",
+  "endpoint": "https://overpass-api.de/api/interpreter",
+  "rawSha256": "87fa6c47593fcd141cae7a34e58af9bd6b8c8f001a045cf4190ec08a95bf719a",
+  "parentRawSha256": "42337aac823b195770991278d71bb706ecbc303fff0b87cb0a0c96691285ada3",
+  "sha256": "b59290dceb4944014351f70cb11cc2b82b5b35552224d1dea4c6e5733aef901a",
+  "bytes": 112294,
+  "parentBytes": 71089,
+  "parentSha256": "c84f4af2a730a2ae4cce32d5cb1fdf91c5527d1c5a5c9a8eedba278de60e0aa0",
+  "countyRelations": [
+    {
+      "id": "152921",
+      "name": "阿拉善左旗",
+      "osmRelationId": "2752740",
+      "adcode": "152921"
+    },
+    {
+      "id": "152922",
+      "name": "阿拉善右旗",
+      "osmRelationId": "2752741",
+      "adcode": "152922"
+    },
+    {
+      "id": "152923",
+      "name": "额济纳旗",
+      "osmRelationId": "2752742",
+      "adcode": "152923"
+    }
+  ],
+  "parentRelationId": "2752743",
+  "parentAdminLevel": 5,
+  "parentDivisionCode": "152900",
+  "parentUsable": true,
+  "parentSelectionBasis": "name-lowest-admin-level",
+  "parentFenceRequired": true,
+  "rejected": [],
+  "idConflicts": [],
+  "excluded": [],
+  "associationBasis": "osm-admin-centre-point-in-parent",
+  "associations": [
+    {
+      "id": "152921",
+      "osmRelationId": "2752740",
+      "name": "阿拉善左旗",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "244075714"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "152922",
+      "osmRelationId": "2752741",
+      "name": "阿拉善右旗",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "427654867"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "152923",
+      "osmRelationId": "2752742",
+      "name": "额济纳旗",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "672756981"
+      ],
+      "unresolvedAdminCentres": 0
+    }
+  ],
+  "associationCaveat": "OSM node admin_centre association is boundary-inclusive, not full county-polygon intersection or an official registry. Missing centres are unverified candidates; publication requires the independent native WGS84 parent fence.",
+  "matchBasis": "OSM county admin-centre association + exact county and parent geometry matching WGS84. Historical OSM codes are retained, not official administrative certification."
+}

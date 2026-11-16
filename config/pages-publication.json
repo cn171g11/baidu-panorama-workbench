@@ -4,6 +4,7 @@
   "mode": "pages-gzip",
   "countyShards": true,
   "cities": [
+    "152900",
     "371600"
   ],
   "maxPublishedBytes": 900000000,

@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "provider": "baidu",
   "coordinateSystem": "BD-09",
-  "updatedAt": "2026-11-14T10:46:27.083Z",
-  "total": 19011718,
+  "updatedAt": "2026-11-16T11:17:59.322Z",
+  "total": 19011934,
   "collections": [
     {
       "id": "110000",
@@ -957,23 +957,24 @@
       "name": "阿拉善盟",
       "province": "内蒙古自治区",
       "coordinateSystem": "BD-09",
-      "count": 30000,
+      "count": 30216,
       "bounds": [
-        105.02231419917422,
+        101.03999028184678,
         37.59580084418224,
         106.72883260009823,
-        39.4516896219159
+        42.34322699901204
       ],
       "files": [
         "baidu/152900/points-001.json"
       ],
       "sources": [
-        "阿拉善盟（30000 个位置）.json"
+        "阿拉善盟（30000 个位置）.json",
+        "6Z.json"
       ],
       "summary": {
-        "sourceFiles": 1,
-        "rawRecords": 30000,
-        "uniquePanoids": 30000,
+        "sourceFiles": 2,
+        "rawRecords": 30216,
+        "uniquePanoids": 30216,
         "exactDuplicates": 0,
         "differingDuplicates": 0
       }
@@ -7921,9 +7922,9 @@
     }
   ],
   "importSummary": {
-    "sourceFiles": 283,
-    "rawRecords": 19033072,
-    "uniquePanoids": 19011718,
+    "sourceFiles": 284,
+    "rawRecords": 19033288,
+    "uniquePanoids": 19011934,
     "exactDuplicates": 21276,
     "differingDuplicates": 78,
     "invalidRecords": 0,
@@ -10905,6 +10906,17 @@
         "exactDuplicates": 0,
         "differingDuplicates": 0,
         "sourceRecordSubset": true
+      },
+      {
+        "name": "6Z.json",
+        "city": "152900",
+        "bytes": 41644,
+        "sha256": "95661cd396011fd7d341cfebd839dc30109054d800ca5d176140cba19a6103f4",
+        "rawRecords": 216,
+        "uniquePanoids": 216,
+        "exactDuplicates": 0,
+        "differingDuplicates": 0,
+        "inputCoordinateSystem": "GCJ-02"
       }
     ],
     "inputCoordinateSystems": [
