@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "provider": "baidu",
   "coordinateSystem": "BD-09",
-  "updatedAt": "2026-11-17T13:16:53.644Z",
+  "updatedAt": "2026-11-17T16:51:20.745Z",
   "total": 19019450,
   "collections": [
     {
@@ -4469,7 +4469,7 @@
       "name": "珠海市",
       "province": "广东省",
       "coordinateSystem": "BD-09",
-      "count": 100000,
+      "count": 102720,
       "bounds": [
         113.16572037792042,
         21.993892207561284,
@@ -4484,10 +4484,16 @@
       ],
       "summary": {
         "sourceFiles": 1,
-        "rawRecords": 100000,
-        "uniquePanoids": 100000,
+        "rawRecords": 102720,
+        "uniquePanoids": 102720,
         "exactDuplicates": 0,
         "differingDuplicates": 0
+      },
+      "reallocation": {
+        "source": "820000",
+        "count": 2720,
+        "reason": "User confirmed 090063 points are on Zhuhai streets and must leave Macau",
+        "preserved": "original records in observations"
       }
     },
     {
@@ -7899,10 +7905,10 @@
       "name": "澳门特别行政区",
       "province": "澳门特别行政区",
       "coordinateSystem": "BD-09",
-      "count": 27516,
+      "count": 24796,
       "bounds": [
-        113.53364968714388,
-        22.11251216590892,
+        113.54057741923452,
+        22.113298200403786,
         113.60135209883092,
         22.213699485244412
       ],
@@ -7914,15 +7920,15 @@
       ],
       "summary": {
         "sourceFiles": 1,
-        "rawRecords": 27516,
-        "uniquePanoids": 27516,
+        "rawRecords": 24796,
+        "uniquePanoids": 24796,
         "exactDuplicates": 0,
         "differingDuplicates": 0
       },
       "sourceExclusions": {
-        "count": 1387,
+        "count": 4107,
         "originalSourceRecords": 28903,
-        "reason": "user-confirmed-withdrawal-of-Zhuhai-transfer",
+        "reason": "user-confirmed-withdrawal-of-Zhuhai-prefix-090063-records",
         "restoredCollection": "440400"
       }
     }
@@ -10682,8 +10688,8 @@
         "city": "440400",
         "bytes": 26632155,
         "sha256": "f179e0f5a6175280709e69208f46ece89aa8f0c700b651ab59a3ef6b7da5cd29",
-        "rawRecords": 100000,
-        "uniquePanoids": 100000,
+        "rawRecords": 102720,
+        "uniquePanoids": 102720,
         "exactDuplicates": 0,
         "differingDuplicates": 0
       },
@@ -10919,8 +10925,8 @@
         "city": "820000",
         "bytes": 3338640,
         "sha256": "d8cb915c24022e4a355942b484df12282c3c27c7a290fc3a676a83f8c7d251af",
-        "rawRecords": 27516,
-        "uniquePanoids": 27516,
+        "rawRecords": 24796,
+        "uniquePanoids": 24796,
         "exactDuplicates": 0,
         "differingDuplicates": 0,
         "inputCoordinateSystem": "BD-09",
@@ -10928,7 +10934,7 @@
         "sourceClassification": "regular",
         "sourceRecordSubset": true,
         "sourceRawRecords": 28903,
-        "excludedRecords": 1387,
+        "excludedRecords": 4107,
         "excludedAlreadyOwnedBy": "440400"
       }
     ],

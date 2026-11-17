@@ -9,5 +9,5 @@
     "820000"
   ],
   "maxPublishedBytes": 900000000,
-  "note": "Baidu-only Pages: retain Binzhou and Alxa; Macau publishes 27,516 regular source records. The incorrect transfer of 1,387 previously Zhuhai-owned panoids was withdrawn at the user request; original Zhuhai rows restored, other Macau coordinates unchanged."
+  "note": "Baidu-only Pages: retain Binzhou and Alxa; Macau publishes 24,796 regular 090107-prefix records. The 4,107 misassigned Zhuhai-prefix records were withdrawn at the user request (1,387 duplicate IDs first, then 2,720 moved to Zhuhai 440400); original coordinates and metadata preserved."
 }
