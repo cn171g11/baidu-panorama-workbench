@@ -5,8 +5,9 @@
   "countyShards": true,
   "cities": [
     "152900",
-    "371600"
+    "371600",
+    "820000"
   ],
   "maxPublishedBytes": 900000000,
-  "note": "Baidu-only Pages publication deliberately reduced to 山东省滨州市 (371600) at the user's request on 2026-11-14; local data/ archive keeps all 280+ source cities and can be re-expanded later."
+  "note": "Baidu-only Pages: retain Binzhou and Alxa, publish the user-declared regular Macau export on 2026-11-17. Macau is replaced using BD-09 source; 1,387 globally duplicate IDs are transferred from Zhuhai with previous metadata preserved."
 }

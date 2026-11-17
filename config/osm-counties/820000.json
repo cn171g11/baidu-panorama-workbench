@@ -1,0 +1,80 @@
+{
+  "schemaVersion": 1,
+  "source": "OpenStreetMap",
+  "license": "ODbL-1.0",
+  "attribution": "© OpenStreetMap contributors",
+  "cityId": "820000",
+  "cityName": "澳门特别行政区",
+  "coordinateSystem": "WGS84",
+  "timestamp": "2026-11-17T10:48:50Z",
+  "parentTimestamp": "2026-11-17T10:48:50Z",
+  "endpoint": "https://overpass-api.de/api/interpreter",
+  "rawSha256": "29b3eedc8d4c9112fdedc3cfe751dbc25a8e7bfd863c3cbdd6dcb47e105a63ab",
+  "parentRawSha256": "29b3eedc8d4c9112fdedc3cfe751dbc25a8e7bfd863c3cbdd6dcb47e105a63ab",
+  "sha256": "819ca8ac60a714082bfbab915e62f3aad32289b47d42fd3dc10d8bd5e77d1065",
+  "bytes": 61584,
+  "parentBytes": 8485,
+  "parentSha256": "d30b16810d0999535831303eabffaedec69f81557c5ff419b35b4b2f1c52aad3",
+  "parentRelationId": "1867188",
+  "parentAdminLevel": 3,
+  "parentDivisionCode": null,
+  "parentUsable": true,
+  "parentSelectionBasis": "user-approved-exact-OSM-CN-MO-relation",
+  "parentFenceRequired": true,
+  "countyRelations": [
+    {
+      "id": "osm-r5758865",
+      "name": "嘉模堂区",
+      "osmRelationId": "5758865",
+      "adcode": null
+    },
+    {
+      "id": "osm-r5758866",
+      "name": "聖方濟各堂區",
+      "osmRelationId": "5758866",
+      "adcode": null
+    },
+    {
+      "id": "osm-r5758867",
+      "name": "路氹填海區",
+      "osmRelationId": "5758867",
+      "adcode": null
+    },
+    {
+      "id": "osm-r9506156",
+      "name": "花地瑪堂區",
+      "osmRelationId": "9506156",
+      "adcode": null
+    },
+    {
+      "id": "osm-r9506168",
+      "name": "花王堂區",
+      "osmRelationId": "9506168",
+      "adcode": null
+    },
+    {
+      "id": "osm-r12107627",
+      "name": "大堂區",
+      "osmRelationId": "12107627",
+      "adcode": null
+    },
+    {
+      "id": "osm-r12107628",
+      "name": "望德堂區",
+      "osmRelationId": "12107628",
+      "adcode": null
+    },
+    {
+      "id": "osm-r12107629",
+      "name": "風順堂區",
+      "osmRelationId": "12107629",
+      "adcode": null
+    }
+  ],
+  "rejected": [],
+  "excluded": [],
+  "idConflicts": [],
+  "associationBasis": "explicit-Macau-parish-relations-native-parent-fence-required",
+  "matchBasis": "User-approved OSM Macau relation 1867188 (CN-MO, admin_level=3) and native admin_level=6 parish/landfill boundaries; exact WGS84 point-in-polygon with parent fence. No official six-digit parish codes are invented.",
+  "associationCaveat": "Macau OSM parishes and Cotai landfill are not mainland counties or official administrative certification. Native geometry and relation IDs are retained; unmatched and ambiguous points remain independent partitions."
+}

@@ -4,9 +4,9 @@
 
 根 `data/` 保留完整百度元数据，构建不会删除或改写。`.github/workflows/pages.yml` 用 `tools/publish_pages.mjs` 生成本站同源城市分片；不再仅发布指向 GitHub Raw 的链接。
 
-`config/pages-publication.json` 控制实际发布的城市。2026-11-14 用户要求把网站城市清空、只留 **山东省滨州市（371600）**，清单因此从44个集合缩减为单城滨州；源 `data/` 仍保留全部293集合、19,011,718条，未经部署验收前只能称“构建选定城市”，不能称已上线。
+[发布配置](<../config/pages-publication.json>) 控制实际发布城市。2026-11-14曾按用户要求从44集合缩减为滨州单城，2026-11-16恢复阿拉善盟。2026-11-17按用户确认追加澳门常规街景，保留阿拉善盟与滨州；当前选定3集合 / 116,628条，完整活动归档293集合 / 19,019,450条。澳门替换旧库和从珠海迁入1,387条的授权、源字段保留、边界差异见 [澳门导入记录](<macau-import-20261117.md>)；部署验收前不能将构建清单称为已上线。
 
-缩减清单（而不是只追加）时要注意：Pages 每次部署是整体快照，旧城市的 gzip 不会残留；但 `browser_county_check.mjs` 等 CI 检查只针对滨州，其它城市在站点上不可再选，只能从源仓库或本地 `dist` 构建中查看。
+缩减清单时Pages每次部署整体替换旧快照，旧城市gzip不会残留。当前CI实际浏览器回归仍以滨州为基准；新增澳门另运行真实堂区加载与来源字段验证，不能仅凭既有滨州CI检查证明新城市内容正确。
 
 ## 增加城市
 
@@ -35,7 +35,7 @@ node tools/browser_data_check.mjs --site-root dist/pages --require-pages --resul
 node tools/verify_pages.mjs --commit <完整Git提交SHA> --output dist/verified-batch.json
 ```
 
-该工具逐城下载本站gzip，验证压缩与原始SHA、百度来源及真实条数，不只检查HTTP 200。
+该工具逐城下载普通城市gzip，但目前不支持 `counties/<id>/points-NNN.json.gz` 县级路径；**县级部署不要重试它来等待上线**。县级验证应从同一线上manifest逐资产核对压缩/解压SHA、大小与计数，结合 `browser_county_check.mjs --url <站点根URL> --city <ID>` 的实际浏览器检查；本次澳门验证脚本和报告只放忽略的dist。
 6. 成功后再扩下一批。失败时保留完整源数据；恢复上次成功发布的城市清单并重新部署。Pages每次部署是整体快照，不能靠省略旧文件累积文件，必须把已成功城市继续包含在清单中。
 
 ## 尝试全量
