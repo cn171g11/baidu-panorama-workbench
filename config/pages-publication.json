@@ -9,5 +9,5 @@
     "820000"
   ],
   "maxPublishedBytes": 900000000,
-  "note": "Baidu-only Pages: retain Binzhou and Alxa, publish the user-declared regular Macau export on 2026-11-17. Macau is replaced using BD-09 source; 1,387 globally duplicate IDs are transferred from Zhuhai with previous metadata preserved."
+  "note": "Baidu-only Pages: retain Binzhou and Alxa; Macau publishes 27,516 regular source records. The incorrect transfer of 1,387 previously Zhuhai-owned panoids was withdrawn at the user request; original Zhuhai rows restored, other Macau coordinates unchanged."
 }

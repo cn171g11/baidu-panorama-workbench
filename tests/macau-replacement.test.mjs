@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
-import { streamRows } from '../tools/stream_rows.mjs';
+import { streamRows, fileFingerprint } from '../tools/stream_rows.mjs';
 import { validateRows, parseImport } from '../city-viewer/js/metadata.js';
 import { captureInfo } from '../city-viewer/js/panoid-time.js';
 import { categoryFor } from '../city-viewer/js/classification.js';
@@ -18,22 +18,25 @@ test('Macau replacement retains exact source BD-09 records, dates, flags and app
     assert.equal(row[6],false);assert.equal(row[7],false);
     assert.equal(categoryFor(row),'regular');assert.equal(captureInfo(row).source,'source');
     assert.equal(row[9].extra.sourceSha256,SOURCE_SHA);assert.equal(row[9].extra.sourceCoordinateSystem,'BD-09');
-    if(row[9].observations){assert.equal(row[9].observations.length,1);const observation=row[9].observations[0];assert.equal(observation.previousCollection,'440400');assert.equal(observation.variant[0],row[0]);assert.equal(observation.variant[8],'baidu');observations++;}
+    assert.equal(row[9].observations,undefined,'Withdrawn Zhuhai transfer must not remain in Macau');
     sample ||= row;
   }
-  assert.equal(count,28903);assert.equal(north,142);assert.equal(observations,1387);
+  assert.equal(count,27516);assert.equal(north,127);assert.equal(observations,0);
   assert.deepEqual(parseImport(JSON.stringify({provider:'baidu',coordinateSystem:'BD-09',rows:[sample]}),{format:'json',confirmedBaidu:true,coordinateSystem:'BD-09'}),[sample]);
 });
-test('Transferred Macau IDs occur once globally across Macau and Zhuhai; active provenance reconciles',async()=>{
+test('Withdrawn Zhuhai IDs are excluded from Macau and original Zhuhai archive is restored',async()=>{
   const macauIds=new Set();for await(const {row}of streamRows('data/baidu/820000/points-001.json'))macauIds.add(row[0]);
   let zhuhaiCount=0;for await(const {row}of streamRows('data/baidu/440400/points-001.json')){assert(!macauIds.has(row[0]),'Panoid must not remain in both cities');zhuhaiCount++;}
-  assert.equal(zhuhaiCount,98613);
+  assert.equal(zhuhaiCount,100000);
+  assert.deepEqual(await fileFingerprint('data/baidu/440400/points-001.json'),{bytes:27231547,sha256:'ab07f2c6fd28f631bd26c1bcfc80508d786540d3cf4d59245ee5ee63b0795a6c'});
   const catalog=JSON.parse(await readFile('data/catalog.json','utf8'));assert.equal(catalog.total,19019450);assert.equal(catalog.collections.length,293);
-  assert.equal(catalog.collections.find(c=>c.id==='820000').count,28903);assert.equal(catalog.collections.find(c=>c.id==='440400').count,98613);
+  const macau=catalog.collections.find(c=>c.id==='820000');assert.equal(macau.count,27516);assert.equal(catalog.collections.find(c=>c.id==='440400').count,100000);
+  assert.equal(macau.sourceExclusions.count,1387);assert.equal(macau.sourceExclusions.restoredCollection,'440400');assert.equal(macau.sourceObservations,undefined);
   const summary=JSON.parse(await readFile('data/imports/source-summary.json','utf8'));assert.deepEqual(summary,{schemaVersion:1,provider:'baidu',...catalog.importSummary});
   assert.equal(summary.rawRecords,summary.uniquePanoids+summary.exactDuplicates+summary.differingDuplicates+summary.invalidRecords);
-  const membership=JSON.parse(await readFile('data/imports/source-memberships.json','utf8'));const transferred=membership.entries.filter(e=>e.previousCollection==='440400');assert.equal(transferred.length,1387);
-  for(const member of transferred){assert.equal(member.city,'820000');assert(macauIds.has(member.panoid));assert(member.sources.includes('data_820000.js'));}
+  const file=summary.files.find(f=>f.city==='820000');assert.equal(file.rawRecords,27516);assert.equal(file.sourceRawRecords,28903);assert.equal(file.excludedRecords,1387);
+  const membership=JSON.parse(await readFile('data/imports/source-memberships.json','utf8'));assert.equal(membership.entries.filter(e=>e.previousCollection==='440400').length,0);
+  assert.deepEqual(await fileFingerprint('data/imports/source-memberships.json'),{bytes:3087770,sha256:'91ae79fa4320fed4630d9b0616ebde181569081c404f7284588af7f495cb1e5b'});
 });
 test('Macau boundary snapshot preserves actual parent level and parish relation IDs without invented adcodes',async()=>{
   const meta=JSON.parse(await readFile('config/osm-counties/820000.json','utf8'));

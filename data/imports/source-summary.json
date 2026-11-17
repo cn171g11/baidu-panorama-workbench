@@ -2755,14 +2755,10 @@
       "city": "440400",
       "bytes": 26632155,
       "sha256": "f179e0f5a6175280709e69208f46ece89aa8f0c700b651ab59a3ef6b7da5cd29",
-      "rawRecords": 98613,
-      "uniquePanoids": 98613,
+      "rawRecords": 100000,
+      "uniquePanoids": 100000,
       "exactDuplicates": 0,
-      "differingDuplicates": 0,
-      "sourceRecordSubset": true,
-      "sourceRawRecords": 100000,
-      "reallocatedRecords": 1387,
-      "reallocatedTo": "820000"
+      "differingDuplicates": 0
     },
     {
       "name": "驻马店市（100000 个位置）.json",
@@ -2996,13 +2992,17 @@
       "city": "820000",
       "bytes": 3338640,
       "sha256": "d8cb915c24022e4a355942b484df12282c3c27c7a290fc3a676a83f8c7d251af",
-      "rawRecords": 28903,
-      "uniquePanoids": 28903,
+      "rawRecords": 27516,
+      "uniquePanoids": 27516,
       "exactDuplicates": 0,
       "differingDuplicates": 0,
       "inputCoordinateSystem": "BD-09",
       "sourceFormat": "PANO_CITY-json-array",
-      "sourceClassification": "regular"
+      "sourceClassification": "regular",
+      "sourceRecordSubset": true,
+      "sourceRawRecords": 28903,
+      "excludedRecords": 1387,
+      "excludedAlreadyOwnedBy": "440400"
     }
   ],
   "inputCoordinateSystems": [

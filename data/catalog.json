@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "provider": "baidu",
   "coordinateSystem": "BD-09",
-  "updatedAt": "2026-11-17T11:18:08.580Z",
+  "updatedAt": "2026-11-17T13:16:53.644Z",
   "total": 19019450,
   "collections": [
     {
@@ -4469,7 +4469,7 @@
       "name": "珠海市",
       "province": "广东省",
       "coordinateSystem": "BD-09",
-      "count": 98613,
+      "count": 100000,
       "bounds": [
         113.16572037792042,
         21.993892207561284,
@@ -4484,17 +4484,10 @@
       ],
       "summary": {
         "sourceFiles": 1,
-        "rawRecords": 98613,
-        "uniquePanoids": 98613,
+        "rawRecords": 100000,
+        "uniquePanoids": 100000,
         "exactDuplicates": 0,
         "differingDuplicates": 0
-      },
-      "reallocation": {
-        "destination": "820000",
-        "count": 1387,
-        "reason": "User confirmed moving IDs contained in Macau data_820000.js to Macau",
-        "sourceFile": "data_820000.js",
-        "sourceSha256": "d8cb915c24022e4a355942b484df12282c3c27c7a290fc3a676a83f8c7d251af"
       }
     },
     {
@@ -7906,10 +7899,10 @@
       "name": "澳门特别行政区",
       "province": "澳门特别行政区",
       "coordinateSystem": "BD-09",
-      "count": 28903,
+      "count": 27516,
       "bounds": [
-        113.5336230973008,
-        22.112346754890535,
+        113.53364968714388,
+        22.11251216590892,
         113.60135209883092,
         22.213699485244412
       ],
@@ -7921,17 +7914,16 @@
       ],
       "summary": {
         "sourceFiles": 1,
-        "rawRecords": 28903,
-        "uniquePanoids": 28903,
+        "rawRecords": 27516,
+        "uniquePanoids": 27516,
         "exactDuplicates": 0,
         "differingDuplicates": 0
       },
-      "sourceObservations": {
-        "previousCollection": "440400",
+      "sourceExclusions": {
         "count": 1387,
-        "sourceFile": "珠海市（100000 个位置）.json",
-        "sourceSha256": "f179e0f5a6175280709e69208f46ece89aa8f0c700b651ab59a3ef6b7da5cd29",
-        "retained": "full canonical rows in extras.observations"
+        "originalSourceRecords": 28903,
+        "reason": "user-confirmed-withdrawal-of-Zhuhai-transfer",
+        "restoredCollection": "440400"
       }
     }
   ],
@@ -10690,14 +10682,10 @@
         "city": "440400",
         "bytes": 26632155,
         "sha256": "f179e0f5a6175280709e69208f46ece89aa8f0c700b651ab59a3ef6b7da5cd29",
-        "rawRecords": 98613,
-        "uniquePanoids": 98613,
+        "rawRecords": 100000,
+        "uniquePanoids": 100000,
         "exactDuplicates": 0,
-        "differingDuplicates": 0,
-        "sourceRecordSubset": true,
-        "sourceRawRecords": 100000,
-        "reallocatedRecords": 1387,
-        "reallocatedTo": "820000"
+        "differingDuplicates": 0
       },
       {
         "name": "驻马店市（100000 个位置）.json",
@@ -10931,13 +10919,17 @@
         "city": "820000",
         "bytes": 3338640,
         "sha256": "d8cb915c24022e4a355942b484df12282c3c27c7a290fc3a676a83f8c7d251af",
-        "rawRecords": 28903,
-        "uniquePanoids": 28903,
+        "rawRecords": 27516,
+        "uniquePanoids": 27516,
         "exactDuplicates": 0,
         "differingDuplicates": 0,
         "inputCoordinateSystem": "BD-09",
         "sourceFormat": "PANO_CITY-json-array",
-        "sourceClassification": "regular"
+        "sourceClassification": "regular",
+        "sourceRecordSubset": true,
+        "sourceRawRecords": 28903,
+        "excludedRecords": 1387,
+        "excludedAlreadyOwnedBy": "440400"
       }
     ],
     "inputCoordinateSystems": [
