@@ -1,0 +1,385 @@
+{
+  "schemaVersion": 1,
+  "source": "OpenStreetMap",
+  "license": "ODbL-1.0",
+  "attribution": "© OpenStreetMap contributors",
+  "cityId": "810000",
+  "cityName": "香港特别行政区",
+  "coordinateSystem": "WGS84",
+  "timestamp": "2026-11-18T22:44:26Z",
+  "parentTimestamp": "2026-11-18T22:43:24Z",
+  "endpoint": "https://overpass-api.de/api/interpreter",
+  "parentEndpoint": "https://overpass-api.de/api/interpreter",
+  "rawSha256": "2081ab93c35144e82514b910197198443a40ff44075180987786f0056b73efa6",
+  "parentRawSha256": "ae5133221a662771e50089763211d1b89e55dae9a4345bd398893955fed921f9",
+  "sha256": "9dd4afa666581c74626aef091645e798b65c829262485e9c060a7ebad7d9182b",
+  "bytes": 445468,
+  "parentBytes": 43035,
+  "parentSha256": "e22b599475b30038549e0ea032c9ab9ac9255f8d930463d1882448250bc63ed8",
+  "countyRelations": [
+    {
+      "id": "osm-r2558879",
+      "name": "中西區",
+      "osmRelationId": "2558879",
+      "adcode": null
+    },
+    {
+      "id": "osm-r2558880",
+      "name": "東區",
+      "osmRelationId": "2558880",
+      "adcode": null
+    },
+    {
+      "id": "osm-r2558881",
+      "name": "南區",
+      "osmRelationId": "2558881",
+      "adcode": null
+    },
+    {
+      "id": "osm-r2558883",
+      "name": "灣仔區",
+      "osmRelationId": "2558883",
+      "adcode": null
+    },
+    {
+      "id": "osm-r2670978",
+      "name": "油尖旺區",
+      "osmRelationId": "2670978",
+      "adcode": null
+    },
+    {
+      "id": "osm-r2800200",
+      "name": "深水埗區",
+      "osmRelationId": "2800200",
+      "adcode": null
+    },
+    {
+      "id": "osm-r2800201",
+      "name": "九龍城區",
+      "osmRelationId": "2800201",
+      "adcode": null
+    },
+    {
+      "id": "osm-r2800276",
+      "name": "觀塘區",
+      "osmRelationId": "2800276",
+      "adcode": null
+    },
+    {
+      "id": "osm-r2800277",
+      "name": "黃大仙區",
+      "osmRelationId": "2800277",
+      "adcode": null
+    },
+    {
+      "id": "osm-r7351646",
+      "name": "葵青區",
+      "osmRelationId": "7351646",
+      "adcode": null
+    },
+    {
+      "id": "osm-r8189562",
+      "name": "西貢區",
+      "osmRelationId": "8189562",
+      "adcode": null
+    },
+    {
+      "id": "osm-r8191142",
+      "name": "離島區",
+      "osmRelationId": "8191142",
+      "adcode": null
+    },
+    {
+      "id": "osm-r8368100",
+      "name": "荃灣區",
+      "osmRelationId": "8368100",
+      "adcode": null
+    },
+    {
+      "id": "osm-r8477820",
+      "name": "沙田區",
+      "osmRelationId": "8477820",
+      "adcode": null
+    },
+    {
+      "id": "osm-r8480494",
+      "name": "屯門區",
+      "osmRelationId": "8480494",
+      "adcode": null
+    },
+    {
+      "id": "osm-r8480823",
+      "name": "元朗區",
+      "osmRelationId": "8480823",
+      "adcode": null
+    },
+    {
+      "id": "osm-r9159733",
+      "name": "北區",
+      "osmRelationId": "9159733",
+      "adcode": null
+    },
+    {
+      "id": "osm-r9159737",
+      "name": "大埔區",
+      "osmRelationId": "9159737",
+      "adcode": null
+    }
+  ],
+  "parentRelationId": "913110",
+  "parentAdminLevel": 3,
+  "parentDivisionCode": null,
+  "parentUsable": false,
+  "parentGeometryRetainedForAuditOnly": true,
+  "parentSelectionBasis": "queried-exact-OSM-ISO3166-2-CN-HK-relation",
+  "parentFenceRequired": true,
+  "rejected": [
+    {
+      "scope": "parent",
+      "osmRelationId": "913110",
+      "name": "香港",
+      "reason": "Invalid OSM county relation: relation 913110 geometry validation failed: Invalid county GeoJSON: osm-r913110 polygon 0 holes 2 and 8 overlap, touch, or nest",
+      "geometryRetainedForAuditOnly": true
+    }
+  ],
+  "excluded": [],
+  "idConflicts": [],
+  "associationBasis": "actual-Hong-Kong-level6-area-query-native-parent-fence-required",
+  "associations": [
+    {
+      "id": "osm-r2558879",
+      "osmRelationId": "2558879",
+      "name": "中西區",
+      "status": "candidate",
+      "basis": "unusable-native-parent-no-spatial-association",
+      "explicitParentSubarea": false,
+      "adminCentreRefs": [
+        "26412835"
+      ],
+      "unresolvedAdminCentres": 0,
+      "reason": "Native parent geometry fails strict hole topology validation; county metadata retained but all points must remain unmatched."
+    },
+    {
+      "id": "osm-r2558880",
+      "osmRelationId": "2558880",
+      "name": "東區",
+      "status": "candidate",
+      "basis": "unusable-native-parent-no-spatial-association",
+      "explicitParentSubarea": false,
+      "adminCentreRefs": [
+        "459499268"
+      ],
+      "unresolvedAdminCentres": 0,
+      "reason": "Native parent geometry fails strict hole topology validation; county metadata retained but all points must remain unmatched."
+    },
+    {
+      "id": "osm-r2558881",
+      "osmRelationId": "2558881",
+      "name": "南區",
+      "status": "candidate",
+      "basis": "unusable-native-parent-no-spatial-association",
+      "explicitParentSubarea": false,
+      "adminCentreRefs": [
+        "253290581"
+      ],
+      "unresolvedAdminCentres": 0,
+      "reason": "Native parent geometry fails strict hole topology validation; county metadata retained but all points must remain unmatched."
+    },
+    {
+      "id": "osm-r2558883",
+      "osmRelationId": "2558883",
+      "name": "灣仔區",
+      "status": "candidate",
+      "basis": "unusable-native-parent-no-spatial-association",
+      "explicitParentSubarea": false,
+      "adminCentreRefs": [
+        "490729978"
+      ],
+      "unresolvedAdminCentres": 0,
+      "reason": "Native parent geometry fails strict hole topology validation; county metadata retained but all points must remain unmatched."
+    },
+    {
+      "id": "osm-r2670978",
+      "osmRelationId": "2670978",
+      "name": "油尖旺區",
+      "status": "candidate",
+      "basis": "unusable-native-parent-no-spatial-association",
+      "explicitParentSubarea": false,
+      "adminCentreRefs": [
+        "1295654855"
+      ],
+      "unresolvedAdminCentres": 0,
+      "reason": "Native parent geometry fails strict hole topology validation; county metadata retained but all points must remain unmatched."
+    },
+    {
+      "id": "osm-r2800200",
+      "osmRelationId": "2800200",
+      "name": "深水埗區",
+      "status": "candidate",
+      "basis": "unusable-native-parent-no-spatial-association",
+      "explicitParentSubarea": false,
+      "adminCentreRefs": [
+        "2621314796"
+      ],
+      "unresolvedAdminCentres": 0,
+      "reason": "Native parent geometry fails strict hole topology validation; county metadata retained but all points must remain unmatched."
+    },
+    {
+      "id": "osm-r2800201",
+      "osmRelationId": "2800201",
+      "name": "九龍城區",
+      "status": "candidate",
+      "basis": "unusable-native-parent-no-spatial-association",
+      "explicitParentSubarea": false,
+      "adminCentreRefs": [
+        "358321428"
+      ],
+      "unresolvedAdminCentres": 0,
+      "reason": "Native parent geometry fails strict hole topology validation; county metadata retained but all points must remain unmatched."
+    },
+    {
+      "id": "osm-r2800276",
+      "osmRelationId": "2800276",
+      "name": "觀塘區",
+      "status": "candidate",
+      "basis": "unusable-native-parent-no-spatial-association",
+      "explicitParentSubarea": false,
+      "adminCentreRefs": [
+        "2390266376"
+      ],
+      "unresolvedAdminCentres": 0,
+      "reason": "Native parent geometry fails strict hole topology validation; county metadata retained but all points must remain unmatched."
+    },
+    {
+      "id": "osm-r2800277",
+      "osmRelationId": "2800277",
+      "name": "黃大仙區",
+      "status": "candidate",
+      "basis": "unusable-native-parent-no-spatial-association",
+      "explicitParentSubarea": false,
+      "adminCentreRefs": [
+        "2089480454"
+      ],
+      "unresolvedAdminCentres": 0,
+      "reason": "Native parent geometry fails strict hole topology validation; county metadata retained but all points must remain unmatched."
+    },
+    {
+      "id": "osm-r7351646",
+      "osmRelationId": "7351646",
+      "name": "葵青區",
+      "status": "candidate",
+      "basis": "unusable-native-parent-no-spatial-association",
+      "explicitParentSubarea": false,
+      "adminCentreRefs": [
+        "482150692"
+      ],
+      "unresolvedAdminCentres": 0,
+      "reason": "Native parent geometry fails strict hole topology validation; county metadata retained but all points must remain unmatched."
+    },
+    {
+      "id": "osm-r8189562",
+      "osmRelationId": "8189562",
+      "name": "西貢區",
+      "status": "candidate",
+      "basis": "unusable-native-parent-no-spatial-association",
+      "explicitParentSubarea": false,
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Native parent geometry fails strict hole topology validation; county metadata retained but all points must remain unmatched."
+    },
+    {
+      "id": "osm-r8191142",
+      "osmRelationId": "8191142",
+      "name": "離島區",
+      "status": "candidate",
+      "basis": "unusable-native-parent-no-spatial-association",
+      "explicitParentSubarea": false,
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Native parent geometry fails strict hole topology validation; county metadata retained but all points must remain unmatched."
+    },
+    {
+      "id": "osm-r8368100",
+      "osmRelationId": "8368100",
+      "name": "荃灣區",
+      "status": "candidate",
+      "basis": "unusable-native-parent-no-spatial-association",
+      "explicitParentSubarea": false,
+      "adminCentreRefs": [
+        "327185199"
+      ],
+      "unresolvedAdminCentres": 0,
+      "reason": "Native parent geometry fails strict hole topology validation; county metadata retained but all points must remain unmatched."
+    },
+    {
+      "id": "osm-r8477820",
+      "osmRelationId": "8477820",
+      "name": "沙田區",
+      "status": "candidate",
+      "basis": "unusable-native-parent-no-spatial-association",
+      "explicitParentSubarea": false,
+      "adminCentreRefs": [
+        "316731268"
+      ],
+      "unresolvedAdminCentres": 0,
+      "reason": "Native parent geometry fails strict hole topology validation; county metadata retained but all points must remain unmatched."
+    },
+    {
+      "id": "osm-r8480494",
+      "osmRelationId": "8480494",
+      "name": "屯門區",
+      "status": "candidate",
+      "basis": "unusable-native-parent-no-spatial-association",
+      "explicitParentSubarea": false,
+      "adminCentreRefs": [
+        "241572623"
+      ],
+      "unresolvedAdminCentres": 0,
+      "reason": "Native parent geometry fails strict hole topology validation; county metadata retained but all points must remain unmatched."
+    },
+    {
+      "id": "osm-r8480823",
+      "osmRelationId": "8480823",
+      "name": "元朗區",
+      "status": "candidate",
+      "basis": "unusable-native-parent-no-spatial-association",
+      "explicitParentSubarea": false,
+      "adminCentreRefs": [
+        "313159855"
+      ],
+      "unresolvedAdminCentres": 0,
+      "reason": "Native parent geometry fails strict hole topology validation; county metadata retained but all points must remain unmatched."
+    },
+    {
+      "id": "osm-r9159733",
+      "osmRelationId": "9159733",
+      "name": "北區",
+      "status": "candidate",
+      "basis": "unusable-native-parent-no-spatial-association",
+      "explicitParentSubarea": false,
+      "adminCentreRefs": [
+        "2295984249"
+      ],
+      "unresolvedAdminCentres": 0,
+      "reason": "Native parent geometry fails strict hole topology validation; county metadata retained but all points must remain unmatched."
+    },
+    {
+      "id": "osm-r9159737",
+      "osmRelationId": "9159737",
+      "name": "大埔區",
+      "status": "candidate",
+      "basis": "unusable-native-parent-no-spatial-association",
+      "explicitParentSubarea": false,
+      "adminCentreRefs": [
+        "2525372140"
+      ],
+      "unresolvedAdminCentres": 0,
+      "reason": "Native parent geometry fails strict hole topology validation; county metadata retained but all points must remain unmatched."
+    }
+  ],
+  "associationCaveat": "Native OSM Hong Kong districts (admin_level=6), not mainland counties or official administrative certification. Area-query and available explicit admin_centre/subarea evidence do not prove complete polygon containment; every point must pass the original Hong Kong parent fence. Missing division_code uses osm-r relation IDs.",
+  "parentOsmName": "香港 Hong Kong",
+  "parentOsmNameZh": "香港",
+  "preparationName": "香港",
+  "matchBasis": "Queried exact OSM CN-HK r913110 native level3 parent and 18 actual level6 districts; original WGS84 geometry retained without repairs or invented administrative codes. Native parent strict validation fails because two inner rings touch; parentUsable=false, parent retained for audit only, all Hong Kong points must remain unmatched."
+}

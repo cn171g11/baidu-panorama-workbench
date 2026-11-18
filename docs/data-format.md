@@ -6,6 +6,8 @@ The repository starts with an empty catalog. Do not add demonstration or fabrica
 
 `data/catalog.json` uses schema version 1, provider `baidu`, and coordinate system `BD-09`. A collection has a six-digit `id` and `adcode`, human-readable `name` and `province`, count, bounds in `[minLng,minLat,maxLng,maxLat]` order, and ordered paths such as `baidu/320100/points-001.json`. Unknown administrative areas must use a separately assigned six-digit custom code described in project documentation; never reuse another provider's collection identifiers.
 
+`shardMaxRows` is optional: absent means 180,000; when present it must be a safe integer in 1..180,000. Source shard count is exactly `ceil(count/shardMaxRows)`, canonical shard numbering/path checks and all integrity/uniqueness rules still apply. A smaller declared cap allows rich lossless metadata to remain below the GitHub 100,000,000-byte single-file limit. Published county partitions still use their independent 25,000-row cap, not the source archive cap.
+
 A shard is a JSON array of rows:
 
 ```json

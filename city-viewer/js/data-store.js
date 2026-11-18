@@ -5,6 +5,13 @@ const LOCAL_STORAGE_PREFIX = "baidu-panorama-workbench:v1:";
 const CATALOG_URL = new URL("../data/catalog.json", import.meta.url);
 const MANIFEST_URL = new URL("../data/asset-manifest.json", import.meta.url);
 const ID_PATTERN = /^\d{6}$/;
+const MAX_SHARD_ROWS = 180000;
+
+function collectionShardMaxRows(collection) {
+  const maxRows = Object.prototype.hasOwnProperty.call(collection, 'shardMaxRows') ? collection.shardMaxRows : MAX_SHARD_ROWS;
+  if (!Number.isSafeInteger(maxRows) || maxRows < 1 || maxRows > MAX_SHARD_ROWS) throw new Error(`Invalid collection shardMaxRows: ${collection.id}`);
+  return maxRows;
+}
 
 function assertCatalog(catalog) {
   if (!catalog || catalog.schemaVersion !== 1 || catalog.provider !== "baidu" || catalog.coordinateSystem !== "BD-09") throw new Error("Invalid Baidu catalog header");
@@ -20,9 +27,10 @@ function assertCatalog(catalog) {
     if (typeof item.name !== "string" || typeof item.province !== "string" || !Number.isInteger(item.count) || item.count < 0 || !Array.isArray(item.files)) throw new Error(`Invalid collection metadata: ${item.id}`);
     if (item.bounds !== null && (!Array.isArray(item.bounds) || item.bounds.length !== 4 || item.bounds.some(n => !Number.isFinite(n)))) throw new Error(`Invalid bounds: ${item.id}`);
     if (item.count > 0 && !item.files.length) throw new Error(`Collection ${item.id} has rows but no files`);
+    const maxRows = collectionShardMaxRows(item);
     if(item.partition===COUNTY_PARTITION)validateCountyCatalog(item);
     else {
-      if (item.files.length !== Math.ceil(item.count / 180000)) throw new Error(`Invalid shard count: ${item.id}`);
+      if (item.files.length !== Math.ceil(item.count / maxRows)) throw new Error(`Invalid shard count: ${item.id}`);
       for (let index = 0; index < item.files.length; index++) {
         const expected = `baidu/${item.id}/points-${String(index + 1).padStart(3, "0")}.json`;
         if (item.files[index] !== expected) throw new Error(`Invalid Baidu shard path: ${item.files[index]}`);
@@ -54,16 +62,17 @@ async function loadCatalog() {
 async function loadCollection(collection, {county='all',part='all',signal}={}) {
   signal?.throwIfAborted();
   if (!collection || !ID_PATTERN.test(collection.id) || !ID_PATTERN.test(collection.adcode) || collection.coordinateSystem !== "BD-09" || !Number.isSafeInteger(collection.count) || collection.count < 0 || !Array.isArray(collection.files)) throw new Error("Invalid Baidu collection identity");
+  const maxRows = collectionShardMaxRows(collection);
   let selection;
   if(collection.partition===COUNTY_PARTITION)selection=selectCountyFiles(collection,county,part);
   else {
     if(county!=='all'||part!=='all')throw Error('County shards are not published for this city');
-    if (collection.files.length !== Math.ceil(collection.count / 180000)) throw new Error("Invalid Baidu collection shard count");
+    if (collection.files.length !== Math.ceil(collection.count / maxRows)) throw new Error("Invalid Baidu collection shard count");
     for (let index = 0; index < collection.files.length; index++) {
       const expected = `baidu/${collection.id}/points-${String(index + 1).padStart(3, "0")}.json`;
       if (collection.files[index] !== expected) throw new Error(`Invalid Baidu shard path: ${collection.files[index]}`);
     }
-    selection={files:collection.files,count:collection.count,maxRows:180000};
+    selection={files:collection.files,count:collection.count,maxRows};
   }
   if(!selection.files.length)return [];
   const manifestResponse = await fetch(MANIFEST_URL,{signal});

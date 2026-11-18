@@ -10,6 +10,11 @@ const MAX_SHARD_ROWS = 180000;
 const PROJECT_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const digest = bytes => createHash('sha256').update(bytes).digest('hex');
 function assert(condition, message) { if (!condition) throw new Error(message); }
+function collectionShardMaxRows(city) {
+  const maxRows = Object.prototype.hasOwnProperty.call(city, 'shardMaxRows') ? city.shardMaxRows : MAX_SHARD_ROWS;
+  assert(Number.isSafeInteger(maxRows) && maxRows >= 1 && maxRows <= MAX_SHARD_ROWS, 'Invalid collection shardMaxRows: ' + city.id);
+  return maxRows;
+}
 async function exists(file) { try { await access(file); return true; } catch (error) { if (error.code === 'ENOENT') return false; throw error; } }
 function isInside(root, file) { const relative = path.relative(root, file); return relative && !relative.startsWith('..' + path.sep) && relative !== '..' && !path.isAbsolute(relative); }
 async function listDataFiles(directory, prefix = 'baidu') {
@@ -54,7 +59,7 @@ export async function validateCatalog(root, { includeRows = false, indexPath = n
   const reportPath = path.resolve(cachePath || path.join(cacheRoot, 'validation.json'));
   await mkdir(path.dirname(ownerPath), { recursive: true });
   await mkdir(path.dirname(reportPath), { recursive: true });
-  const files = [], ids = new Set(), expected = new Set();
+  const files = [], ids = new Set(), expected = new Set(), shardCaps = new Map();
   let declaredTotal = 0;
   for (const city of catalog.collections) {
     assert(city && typeof city.id === 'string' && /^\d{6}$/.test(city.id) && typeof city.adcode === 'string' && /^\d{6}$/.test(city.adcode), 'Collection id/adcode must be six-digit strings');
@@ -62,7 +67,9 @@ export async function validateCatalog(root, { includeRows = false, indexPath = n
     assert(typeof city.name === 'string' && city.name.trim() && typeof city.province === 'string' && city.province.trim(), 'Invalid collection names: ' + city.id);
     assert(city.coordinateSystem === 'BD-09' && Number.isSafeInteger(city.count) && city.count >= 0, 'Invalid collection metadata: ' + city.id);
     assert(city.bounds === null || (Array.isArray(city.bounds) && city.bounds.length === 4 && city.bounds.every(Number.isFinite)), 'Invalid collection bounds: ' + city.id);
-    assert(Array.isArray(city.files) && city.files.length === Math.ceil(city.count / MAX_SHARD_ROWS), 'Invalid shard count: ' + city.id);
+    const maxRows = collectionShardMaxRows(city);
+    shardCaps.set(city.id, maxRows);
+    assert(Array.isArray(city.files) && city.files.length === Math.ceil(city.count / maxRows), 'Invalid shard count: ' + city.id);
     for (let i = 0; i < city.files.length; i++) {
       const logical = `baidu/${city.id}/points-${String(i + 1).padStart(3, '0')}.json`;
       assert(city.files[i] === logical, 'Unexpected shard path; expected ' + logical);
@@ -100,6 +107,7 @@ export async function validateCatalog(root, { includeRows = false, indexPath = n
     for (const file of files) {
       const validated = cachedFiles.get(file.path);
       assert(validated && validated.sha256 === file.sha256 && validated.bytes === file.bytes, 'Invalid validation cache');
+      assert(Number.isSafeInteger(validated.count) && validated.count > 0 && validated.count <= shardCaps.get(file.city), 'Invalid shard row count: ' + file.path);
       file.count = validated.count; file.bounds = validated.bounds;
       if (includeRows) file.rows = validateRows(JSON.parse(await readFile(path.join(dataRoot, file.path), 'utf8')));
     }
@@ -115,6 +123,7 @@ export async function validateCatalog(root, { includeRows = false, indexPath = n
     const insert = db.prepare('INSERT INTO owners VALUES (?,?)');
     let total = 0;
     for (const city of catalog.collections) {
+      const maxRows = shardCaps.get(city.id);
       let cityCount = 0, minLng = Infinity, minLat = Infinity, maxLng = -Infinity, maxLat = -Infinity;
       for (const logical of city.files) {
         const file = files.find(item => item.path === logical);
@@ -125,7 +134,7 @@ export async function validateCatalog(root, { includeRows = false, indexPath = n
         try {
           for await (const {row: input} of streamRows(path.join(dataRoot, logical), {onChunk(chunk){byteCount+=chunk.length;hash.update(chunk);}})) {
             const row = validateRows([input])[0];
-            if (++rowCount > MAX_SHARD_ROWS) throw Error('Invalid shard row count: '+logical);
+            if (++rowCount > maxRows) throw Error('Invalid shard row count: '+logical);
             try { insert.run(row[0], city.id); }
             catch (error) { if (/UNIQUE/.test(error.message)) throw new Error('Duplicate panoid in catalog: ' + row[0]); throw error; }
             if(retainedRows)retainedRows.push(row);

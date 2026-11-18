@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "provider": "baidu",
   "coordinateSystem": "BD-09",
-  "updatedAt": "2026-11-17T16:51:20.745Z",
-  "total": 19019450,
+  "updatedAt": "2026-11-18T23:12:36.699Z",
+  "total": 19356607,
   "collections": [
     {
       "id": "110000",
@@ -6689,25 +6689,39 @@
       "name": "拉萨市",
       "province": "西藏自治区",
       "coordinateSystem": "BD-09",
-      "count": 100000,
+      "count": 133284,
       "bounds": [
-        89.99161965844608,
-        29.252013804321926,
+        89.99161966435473,
+        29.252013508708725,
         92.37466870508553,
         30.94088896413504
       ],
       "files": [
-        "baidu/540100/points-001.json"
+        "baidu/540100/points-001.json",
+        "baidu/540100/points-002.json"
       ],
       "sources": [
-        "拉萨市（100000 个位置）.json"
+        "拉萨市（100000 个位置）.json",
+        "data_540100.js"
       ],
       "summary": {
-        "sourceFiles": 1,
-        "rawRecords": 100000,
-        "uniquePanoids": 100000,
+        "sourceFiles": 2,
+        "rawRecords": 232302,
+        "uniquePanoids": 133284,
         "exactDuplicates": 0,
-        "differingDuplicates": 0
+        "differingDuplicates": 99018
+      },
+      "shardMaxRows": 75000,
+      "sourceSupplement": {
+        "sourceFile": "data_540100.js",
+        "sourceSha256": "44de0f0472b27fb4dc9e25619a16a2b79d6b0c89ff0d02199223f3776ccd4106",
+        "newSourceRecords": 132302,
+        "sourceCoordinateSystem": "BD-09",
+        "coordinateBasis": "same-panoid-local-BD09-agreement-below-0.1m",
+        "localPanoidsAdded": 982,
+        "localObservations": 99018,
+        "crossCityIdsRetainedElsewhere": 0,
+        "preservedOtherOwners": {}
       }
     },
     {
@@ -7878,25 +7892,45 @@
       "name": "香港特别行政区",
       "province": "香港特别行政区",
       "coordinateSystem": "BD-09",
-      "count": 100000,
+      "count": 403873,
       "bounds": [
-        113.90552054884648,
-        22.208487552144877,
-        114.3715625498679,
-        22.556871672572324
+        113.90552041051166,
+        22.20848712933677,
+        114.37156220723978,
+        22.556935463662207
       ],
       "files": [
-        "baidu/810000/points-001.json"
+        "baidu/810000/points-001.json",
+        "baidu/810000/points-002.json",
+        "baidu/810000/points-003.json",
+        "baidu/810000/points-004.json",
+        "baidu/810000/points-005.json",
+        "baidu/810000/points-006.json"
       ],
       "sources": [
-        "香港特别行政区（100000 个位置） .json"
+        "香港特别行政区（100000 个位置） .json",
+        "data_810000.js"
       ],
       "summary": {
-        "sourceFiles": 1,
-        "rawRecords": 100000,
-        "uniquePanoids": 100000,
+        "sourceFiles": 2,
+        "rawRecords": 500591,
+        "uniquePanoids": 403873,
         "exactDuplicates": 0,
-        "differingDuplicates": 0
+        "differingDuplicates": 96718
+      },
+      "shardMaxRows": 75000,
+      "sourceSupplement": {
+        "sourceFile": "data_810000.js",
+        "sourceSha256": "ad26cef76caf823eef2d2b51166155478ee6f812f10d1e3d97e38cdaa8a16514",
+        "newSourceRecords": 400598,
+        "sourceCoordinateSystem": "BD-09",
+        "coordinateBasis": "same-panoid-local-BD09-agreement-below-0.1m",
+        "localPanoidsAdded": 3282,
+        "localObservations": 96718,
+        "crossCityIdsRetainedElsewhere": 7,
+        "preservedOtherOwners": {
+          "440300": 7
+        }
       }
     },
     {
@@ -7934,11 +7968,11 @@
     }
   ],
   "importSummary": {
-    "sourceFiles": 284,
-    "rawRecords": 19040804,
-    "uniquePanoids": 19019450,
+    "sourceFiles": 286,
+    "rawRecords": 19573697,
+    "uniquePanoids": 19356607,
     "exactDuplicates": 21276,
-    "differingDuplicates": 78,
+    "differingDuplicates": 195814,
     "invalidRecords": 0,
     "inputCoordinateSystem": "mixed",
     "archiveCoordinateSystem": "BD-09",
@@ -10936,6 +10970,44 @@
         "sourceRawRecords": 28903,
         "excludedRecords": 4107,
         "excludedAlreadyOwnedBy": "440400"
+      },
+      {
+        "name": "data_540100.js",
+        "city": "540100",
+        "bytes": 14794410,
+        "sha256": "44de0f0472b27fb4dc9e25619a16a2b79d6b0c89ff0d02199223f3776ccd4106",
+        "rawRecords": 132302,
+        "uniquePanoids": 33284,
+        "exactDuplicates": 0,
+        "differingDuplicates": 99018,
+        "inputCoordinateSystem": "BD-09",
+        "sourceFormat": "PANO_CITY-json-array",
+        "sourceRawRecords": 132302,
+        "sourceRecordSubset": false,
+        "excludedAlreadyOwnedIds": 0,
+        "providerBreakdown": {
+          "baidu_pano": 132301,
+          "baidu_road_member": 1
+        }
+      },
+      {
+        "name": "data_810000.js",
+        "city": "810000",
+        "bytes": 45793255,
+        "sha256": "ad26cef76caf823eef2d2b51166155478ee6f812f10d1e3d97e38cdaa8a16514",
+        "rawRecords": 400591,
+        "uniquePanoids": 303873,
+        "exactDuplicates": 0,
+        "differingDuplicates": 96718,
+        "inputCoordinateSystem": "BD-09",
+        "sourceFormat": "PANO_CITY-json-array",
+        "sourceRawRecords": 400598,
+        "sourceRecordSubset": true,
+        "excludedAlreadyOwnedIds": 7,
+        "providerBreakdown": {
+          "baidu_pano": 400569,
+          "baidu_road_member": 29
+        }
       }
     ],
     "inputCoordinateSystems": [

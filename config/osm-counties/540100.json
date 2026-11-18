@@ -1,0 +1,174 @@
+{
+  "schemaVersion": 1,
+  "source": "OpenStreetMap",
+  "license": "ODbL-1.0",
+  "attribution": "© OpenStreetMap contributors",
+  "cityId": "540100",
+  "cityName": "拉萨市",
+  "coordinateSystem": "WGS84",
+  "timestamp": "2026-11-18T22:48:28Z",
+  "parentTimestamp": "2026-11-18T22:47:27Z",
+  "endpoint": "https://overpass-api.de/api/interpreter",
+  "parentEndpoint": "https://overpass-api.de/api/interpreter",
+  "rawSha256": "0f2b988f1d103db774155b472b3fd393644127a66c929b1ff9b98a6eb91fc88e",
+  "parentRawSha256": "27e1f8039e18fd92dca269ae4e8c93bba9bb75d86cfbeb3857c07e8f99890f7a",
+  "sha256": "035a073c589cf4aea89ea949f5039f91e81031e699b0c37688ecaf2debf66cbe",
+  "bytes": 107593,
+  "parentBytes": 37823,
+  "parentSha256": "0e6b0229087fc5b237eee4727e6b9311c18dd784d27bf03282412bc9c995a6de",
+  "countyRelations": [
+    {
+      "id": "540102",
+      "name": "城关区",
+      "osmRelationId": "2745212",
+      "adcode": "540102"
+    },
+    {
+      "id": "540126",
+      "name": "达孜区",
+      "osmRelationId": "2745213",
+      "adcode": "540126"
+    },
+    {
+      "id": "540122",
+      "name": "当雄县",
+      "osmRelationId": "2745214",
+      "adcode": "540122"
+    },
+    {
+      "id": "540103",
+      "name": "堆龙德庆区",
+      "osmRelationId": "2745215",
+      "adcode": "540103"
+    },
+    {
+      "id": "540121",
+      "name": "林周县",
+      "osmRelationId": "2745216",
+      "adcode": "540121"
+    },
+    {
+      "id": "540127",
+      "name": "墨竹工卡县",
+      "osmRelationId": "2745217",
+      "adcode": "540127"
+    },
+    {
+      "id": "540123",
+      "name": "尼木县",
+      "osmRelationId": "2745218",
+      "adcode": "540123"
+    },
+    {
+      "id": "540124",
+      "name": "曲水县",
+      "osmRelationId": "2745219",
+      "adcode": "540124"
+    }
+  ],
+  "parentRelationId": "2745046",
+  "parentAdminLevel": 5,
+  "parentDivisionCode": "540100",
+  "parentUsable": true,
+  "parentSelectionBasis": "name-lowest-admin-level",
+  "parentFenceRequired": true,
+  "rejected": [],
+  "idConflicts": [],
+  "excluded": [],
+  "associationBasis": "osm-admin-centre-point-in-parent",
+  "associations": [
+    {
+      "id": "540102",
+      "osmRelationId": "2745212",
+      "name": "城关区",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "244083381"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "540126",
+      "osmRelationId": "2745213",
+      "name": "达孜区",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "4960798739"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "540122",
+      "osmRelationId": "2745214",
+      "name": "当雄县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "244077942"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "540103",
+      "osmRelationId": "2745215",
+      "name": "堆龙德庆区",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "4087710661"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "540121",
+      "osmRelationId": "2745216",
+      "name": "林周县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "4960798736"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "540127",
+      "osmRelationId": "2745217",
+      "name": "墨竹工卡县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "343530332"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "540123",
+      "osmRelationId": "2745218",
+      "name": "尼木县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "244081302"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "540124",
+      "osmRelationId": "2745219",
+      "name": "曲水县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "336328655"
+      ],
+      "unresolvedAdminCentres": 0
+    }
+  ],
+  "associationCaveat": "OSM node admin_centre association is boundary-inclusive, not full county-polygon intersection or an official registry. Missing centres are unverified candidates; publication requires the independent native WGS84 parent fence.",
+  "parentOsmName": "拉萨市 ལྷ་ས་གྲོང་ཁྱེར།",
+  "parentOsmNameZh": "拉萨市",
+  "preparationName": "拉萨市",
+  "matchBasis": "Normal prepareBoundarySnapshot with temporary OSM Chinese-name match; native level5 Lhasa parent and level6 counties, OSM admin-centre association + exact WGS84 county and parent fence. Historical OSM codes are not official administrative certification."
+}

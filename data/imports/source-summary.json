@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
   "provider": "baidu",
-  "sourceFiles": 284,
-  "rawRecords": 19040804,
-  "uniquePanoids": 19019450,
+  "sourceFiles": 286,
+  "rawRecords": 19573697,
+  "uniquePanoids": 19356607,
   "exactDuplicates": 21276,
-  "differingDuplicates": 78,
+  "differingDuplicates": 195814,
   "invalidRecords": 0,
   "inputCoordinateSystem": "mixed",
   "archiveCoordinateSystem": "BD-09",
@@ -3003,6 +3003,44 @@
       "sourceRawRecords": 28903,
       "excludedRecords": 4107,
       "excludedAlreadyOwnedBy": "440400"
+    },
+    {
+      "name": "data_540100.js",
+      "city": "540100",
+      "bytes": 14794410,
+      "sha256": "44de0f0472b27fb4dc9e25619a16a2b79d6b0c89ff0d02199223f3776ccd4106",
+      "rawRecords": 132302,
+      "uniquePanoids": 33284,
+      "exactDuplicates": 0,
+      "differingDuplicates": 99018,
+      "inputCoordinateSystem": "BD-09",
+      "sourceFormat": "PANO_CITY-json-array",
+      "sourceRawRecords": 132302,
+      "sourceRecordSubset": false,
+      "excludedAlreadyOwnedIds": 0,
+      "providerBreakdown": {
+        "baidu_pano": 132301,
+        "baidu_road_member": 1
+      }
+    },
+    {
+      "name": "data_810000.js",
+      "city": "810000",
+      "bytes": 45793255,
+      "sha256": "ad26cef76caf823eef2d2b51166155478ee6f812f10d1e3d97e38cdaa8a16514",
+      "rawRecords": 400591,
+      "uniquePanoids": 303873,
+      "exactDuplicates": 0,
+      "differingDuplicates": 96718,
+      "inputCoordinateSystem": "BD-09",
+      "sourceFormat": "PANO_CITY-json-array",
+      "sourceRawRecords": 400598,
+      "sourceRecordSubset": true,
+      "excludedAlreadyOwnedIds": 7,
+      "providerBreakdown": {
+        "baidu_pano": 400569,
+        "baidu_road_member": 29
+      }
     }
   ],
   "inputCoordinateSystems": [

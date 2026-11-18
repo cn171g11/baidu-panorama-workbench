@@ -6,8 +6,10 @@
   "cities": [
     "152900",
     "371600",
+    "540100",
+    "810000",
     "820000"
   ],
   "maxPublishedBytes": 900000000,
-  "note": "Baidu-only Pages: retain Binzhou and Alxa; Macau publishes 24,796 regular 090107-prefix records. The 4,107 misassigned Zhuhai-prefix records were withdrawn at the user request (1,387 duplicate IDs first, then 2,720 moved to Zhuhai 440400); original coordinates and metadata preserved."
+  "note": "Baidu-only cumulative publication keeps Alxa, Binzhou and corrected Macau; Hong Kong and Lhasa use native BD-09 source data and local missing panoids. Seven other-city IDs keep original ownership. Hong Kong parent geometry is unusable so all its points remain in unmatched partitions."
 }
