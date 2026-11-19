@@ -150,7 +150,7 @@ export async function validateCatalog(root, { includeRows = false, indexPath = n
         minLng = Math.min(minLng, shardMinLng); minLat = Math.min(minLat, shardMinLat);
         maxLng = Math.max(maxLng, shardMaxLng); maxLat = Math.max(maxLat, shardMaxLat);
       }
-      assert(cityCount === city.count, 'Collection count mismatch: ' + city.id);
+      assert(cityCount === city.count, `Collection count mismatch: ${city.id} (declared=${city.count}, validated=${cityCount})`);
       const actualBounds = cityCount ? [minLng, minLat, maxLng, maxLat] : null;
       assert(JSON.stringify(actualBounds) === JSON.stringify(city.bounds), 'Collection bounds mismatch: ' + city.id);
       total += cityCount;

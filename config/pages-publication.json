@@ -11,5 +11,5 @@
     "820000"
   ],
   "maxPublishedBytes": 900000000,
-  "note": "Baidu-only cumulative publication keeps Alxa, Binzhou and corrected Macau; Hong Kong and Lhasa use native BD-09 source data and local missing panoids. Seven other-city IDs keep original ownership. Hong Kong parent geometry is unusable so all its points remain in unmatched partitions."
+  "note": "Cloud publication filtered to hidden-only records for Alxa, Binzhou, Lhasa, Hong Kong and Macau. Hong Kong and Lhasa have no source-hidden records and therefore publish no city points in this mode. Local archives remain complete."
 }
