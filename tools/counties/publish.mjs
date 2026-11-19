@@ -23,7 +23,7 @@ function relativeInside(parent,file){const rel=path.relative(parent,file);return
  * Only one city's polygons/64KiB per-county buffers are resident; source data is read-only.
  * geometry is a validated FeatureCollection. No polygon -> explicit unmatched fragment.
  */
-export async function publishCountyCity({root,city,verifiedFiles,geometry,parentGeometry=null,requireParent=false,publicData,workRoot,sourceInfo={},maxShardRows=COUNTY_SHARD_ROWS}={}) {
+export async function publishCountyCity({root,city,verifiedFiles,geometry,parentGeometry=null,requireParent=false,publicData,workRoot,sourceInfo={},maxShardRows=COUNTY_SHARD_ROWS,rowFilter=null}={}) {
   if(!/^\d{6}$/.test(city?.id)||!Number.isSafeInteger(maxShardRows)||maxShardRows<1||maxShardRows>COUNTY_SHARD_ROWS)throw Error('Invalid county publication parameters');
   root=await realpath(path.resolve(root));
   const dist=path.join(root,'dist');workRoot=path.resolve(workRoot);publicData=path.resolve(publicData);
@@ -53,7 +53,7 @@ export async function publishCountyCity({root,city,verifiedFiles,geometry,parent
       if(!verified||await realpath(source)!==source||!(await lstat(source)).isFile())throw Error('Unverified county source');
       const hash=createHash('sha256');let bytes=0,count=0;
       for await(const {row:input}of streamRows(source,{onChunk(chunk){bytes+=chunk.length;hash.update(chunk);}})){
-        const row=validateRows([input])[0],wgs=convertCoordinate(row[1],row[2],'BD-09','WGS84');
+        const row=validateRows([input])[0];if(rowFilter&&!rowFilter(row))continue;const wgs=convertCoordinate(row[1],row[2],'BD-09','WGS84');
         const insideParent=parentMatcher?.assign(wgs[0],wgs[1]).status==='matched';
         const assignment=(requireParent&&!insideParent)?{county:null,status:'unmatched'}:matcher.assign(wgs[0],wgs[1]);
         const bucket=buckets.get(assignment.county?.id||'unmatched');
@@ -67,7 +67,7 @@ export async function publishCountyCity({root,city,verifiedFiles,geometry,parent
         if(part.batch.length>=64*1024)await flush(part);
         if(part.count===maxShardRows){await finish(part);bucket.part=null;}
       }
-      if(bytes!==verified.bytes||hash.digest('hex')!==verified.sha256||(verified.count!==undefined&&count!==verified.count))throw Error('Source changed during county partition: '+logical);
+      if(bytes!==verified.bytes||hash.digest('hex')!==verified.sha256||(!rowFilter&&verified.count!==undefined&&count!==verified.count))throw Error('Source changed during county partition: '+logical);
     }
     if(partitionSummary.total!==city.count)throw Error('County partition city count mismatch');
     for(const bucket of buckets.values())if(bucket.part){await finish(bucket.part);bucket.part=null;}

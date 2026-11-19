@@ -1,0 +1,1019 @@
+{
+  "schemaVersion": 1,
+  "provider": "baidu",
+  "displayLabel": "小蓝点",
+  "coordinateSystem": "BD09MC / BD09LL",
+  "total": 4137538,
+  "parts": [
+    {
+      "source": "china-110000-377b657400ea1ed2.json.gz",
+      "province": "北京市",
+      "provinceCode": "110000",
+      "file": "china-110000-377b657400ea1ed2-part-001.json.gz",
+      "part": 1,
+      "rows": 50000,
+      "bytes": 5130331,
+      "sha256": "80bf3aa61bcd99e4413725f2573117fde90511643a7c48d39f20860e600147ee"
+    },
+    {
+      "source": "china-110000-377b657400ea1ed2.json.gz",
+      "province": "北京市",
+      "provinceCode": "110000",
+      "file": "china-110000-377b657400ea1ed2-part-002.json.gz",
+      "part": 2,
+      "rows": 30689,
+      "bytes": 3149433,
+      "sha256": "a95eba92ab8fbbfda71606e2f2e6291f5aec028208e92dd4dc350ec43a12f13a"
+    },
+    {
+      "source": "china-120000-153ccdd46287250d.json.gz",
+      "province": "天津市",
+      "provinceCode": "120000",
+      "file": "china-120000-153ccdd46287250d-part-001.json.gz",
+      "part": 1,
+      "rows": 45338,
+      "bytes": 4670051,
+      "sha256": "314a7670816f2564fb3d59c995d7d458a0df28a616287e134d1e860c9f39bf6f"
+    },
+    {
+      "source": "china-130000-2cdd83e5f7774ad0.json.gz",
+      "province": "河北省",
+      "provinceCode": "130000",
+      "file": "china-130000-2cdd83e5f7774ad0-part-001.json.gz",
+      "part": 1,
+      "rows": 50000,
+      "bytes": 5154565,
+      "sha256": "4aea7e459b6fca2b547792ab064792e9d18f1984b8f7c5605a1e64fa4cd4994f"
+    },
+    {
+      "source": "china-130000-2cdd83e5f7774ad0.json.gz",
+      "province": "河北省",
+      "provinceCode": "130000",
+      "file": "china-130000-2cdd83e5f7774ad0-part-002.json.gz",
+      "part": 2,
+      "rows": 50000,
+      "bytes": 5164648,
+      "sha256": "6040a8632a63cdb6ccdb8d9ce26e8769fb0a1a3f53d077b6ae18ae02b7ded896"
+    },
+    {
+      "source": "china-130000-2cdd83e5f7774ad0.json.gz",
+      "province": "河北省",
+      "provinceCode": "130000",
+      "file": "china-130000-2cdd83e5f7774ad0-part-003.json.gz",
+      "part": 3,
+      "rows": 50000,
+      "bytes": 5181478,
+      "sha256": "7cd7b569a85e34cc8ca758006427e714edf08b4e1f7cfe1f663e684a9440a3a8"
+    },
+    {
+      "source": "china-130000-2cdd83e5f7774ad0.json.gz",
+      "province": "河北省",
+      "provinceCode": "130000",
+      "file": "china-130000-2cdd83e5f7774ad0-part-004.json.gz",
+      "part": 4,
+      "rows": 17101,
+      "bytes": 1773469,
+      "sha256": "e91b060ea5cd09cfb85b3bd90e76160a247c08945353e3d35730f1f3cc2e06ba"
+    },
+    {
+      "source": "china-140000-e977b486bd55d844.json.gz",
+      "province": "山西省",
+      "provinceCode": "140000",
+      "file": "china-140000-e977b486bd55d844-part-001.json.gz",
+      "part": 1,
+      "rows": 37425,
+      "bytes": 3837555,
+      "sha256": "9a706d70f8e35612b4bcee83e95f16d580385e6fdd9a65c47178bc4d8e8fee4f"
+    },
+    {
+      "source": "china-150000-5f00d085bfe30ddb.json.gz",
+      "province": "内蒙古自治区",
+      "provinceCode": "150000",
+      "file": "china-150000-5f00d085bfe30ddb-part-001.json.gz",
+      "part": 1,
+      "rows": 10850,
+      "bytes": 1261529,
+      "sha256": "fed4005bf763fff38161092a678c77ab2e93816e4d5511ad1ae14ff91084c4ff"
+    },
+    {
+      "source": "china-210000-9a1b8e2aa22f784e.json.gz",
+      "province": "辽宁省",
+      "provinceCode": "210000",
+      "file": "china-210000-9a1b8e2aa22f784e-part-001.json.gz",
+      "part": 1,
+      "rows": 50000,
+      "bytes": 5127271,
+      "sha256": "3cf0807cc3af151c79c96d8c498fe2bab2345ffff4416d7c18c6e4decd6b7f03"
+    },
+    {
+      "source": "china-210000-9a1b8e2aa22f784e.json.gz",
+      "province": "辽宁省",
+      "provinceCode": "210000",
+      "file": "china-210000-9a1b8e2aa22f784e-part-002.json.gz",
+      "part": 2,
+      "rows": 2239,
+      "bytes": 229650,
+      "sha256": "f55a0e647c2e863a375d1dfbad6d7fdd00c5a18043071e50470399ecab446e17"
+    },
+    {
+      "source": "china-220000-0d06fa0ac990e883.json.gz",
+      "province": "吉林省",
+      "provinceCode": "220000",
+      "file": "china-220000-0d06fa0ac990e883-part-001.json.gz",
+      "part": 1,
+      "rows": 14914,
+      "bytes": 1538850,
+      "sha256": "6f68ea8aed0343c382d7835ca1e7aef1d1d3ee0332b348d97ad0a8aee9542b81"
+    },
+    {
+      "source": "china-230000-b8db2ea6b24ab1f3.json.gz",
+      "province": "黑龙江省",
+      "provinceCode": "230000",
+      "file": "china-230000-b8db2ea6b24ab1f3-part-001.json.gz",
+      "part": 1,
+      "rows": 16491,
+      "bytes": 1787543,
+      "sha256": "8ecc1fc9104fab47ff79ea53d70dcaa2b29ff635d604a54f0d825e2a11f8508a"
+    },
+    {
+      "source": "china-310000-200c83dd7023a74f.json.gz",
+      "province": "上海市",
+      "provinceCode": "310000",
+      "file": "china-310000-200c83dd7023a74f-part-001.json.gz",
+      "part": 1,
+      "rows": 50000,
+      "bytes": 5155758,
+      "sha256": "11f508e4a9a90984cf7613b8795a3522a1a112f94f033255360e4a8eeafd916d"
+    },
+    {
+      "source": "china-310000-200c83dd7023a74f.json.gz",
+      "province": "上海市",
+      "provinceCode": "310000",
+      "file": "china-310000-200c83dd7023a74f-part-002.json.gz",
+      "part": 2,
+      "rows": 50000,
+      "bytes": 5166312,
+      "sha256": "ad242486a1c5a44269dd40ed34db8728d103cd036652fc2db1e4486cd4748662"
+    },
+    {
+      "source": "china-310000-200c83dd7023a74f.json.gz",
+      "province": "上海市",
+      "provinceCode": "310000",
+      "file": "china-310000-200c83dd7023a74f-part-003.json.gz",
+      "part": 3,
+      "rows": 9183,
+      "bytes": 950289,
+      "sha256": "3f4dbe3c6990ca1eb3baa9dbe77b2a9b721315e2859f5d4444c856f085cb2b44"
+    },
+    {
+      "source": "china-320000-e16227514a2af10c.json.gz",
+      "province": "江苏省",
+      "provinceCode": "320000",
+      "file": "china-320000-e16227514a2af10c-part-001.json.gz",
+      "part": 1,
+      "rows": 50000,
+      "bytes": 5126968,
+      "sha256": "c41e8e7b7049b53d60082107b134610c7f7a060f131bd1c79dfc2827a39c1a85"
+    },
+    {
+      "source": "china-320000-e16227514a2af10c.json.gz",
+      "province": "江苏省",
+      "provinceCode": "320000",
+      "file": "china-320000-e16227514a2af10c-part-002.json.gz",
+      "part": 2,
+      "rows": 50000,
+      "bytes": 5126531,
+      "sha256": "11740cad0cfced0c02903d7f43bada134d65e99a3d7b382e8a5c0e1766f67e61"
+    },
+    {
+      "source": "china-320000-e16227514a2af10c.json.gz",
+      "province": "江苏省",
+      "provinceCode": "320000",
+      "file": "china-320000-e16227514a2af10c-part-003.json.gz",
+      "part": 3,
+      "rows": 50000,
+      "bytes": 5126783,
+      "sha256": "6149fa3704f3a4ed380e0b1682ff9424f1f51b4b202ac6e89253dd776a98ad9f"
+    },
+    {
+      "source": "china-320000-e16227514a2af10c.json.gz",
+      "province": "江苏省",
+      "provinceCode": "320000",
+      "file": "china-320000-e16227514a2af10c-part-004.json.gz",
+      "part": 4,
+      "rows": 50000,
+      "bytes": 5126966,
+      "sha256": "df9af584a91271ff8e7e6b1046ba74367081a0d6dc4e96a60067d1e09760b850"
+    },
+    {
+      "source": "china-320000-e16227514a2af10c.json.gz",
+      "province": "江苏省",
+      "provinceCode": "320000",
+      "file": "china-320000-e16227514a2af10c-part-005.json.gz",
+      "part": 5,
+      "rows": 50000,
+      "bytes": 5139949,
+      "sha256": "9b714979509e5e3568f91d8038d2588f377a16d342f0a7030770b446dea3979c"
+    },
+    {
+      "source": "china-320000-e16227514a2af10c.json.gz",
+      "province": "江苏省",
+      "provinceCode": "320000",
+      "file": "china-320000-e16227514a2af10c-part-006.json.gz",
+      "part": 6,
+      "rows": 50000,
+      "bytes": 5126922,
+      "sha256": "ccf1b4a6ca7705a68d3fca2524b0214e19a53d728c5497bcf619563dab8da0b2"
+    },
+    {
+      "source": "china-320000-e16227514a2af10c.json.gz",
+      "province": "江苏省",
+      "provinceCode": "320000",
+      "file": "china-320000-e16227514a2af10c-part-007.json.gz",
+      "part": 7,
+      "rows": 50000,
+      "bytes": 5126960,
+      "sha256": "d407da4adace2a08efb4a60c6da924f4238c19b57dd5afc30e55a0f0422d036f"
+    },
+    {
+      "source": "china-320000-e16227514a2af10c.json.gz",
+      "province": "江苏省",
+      "provinceCode": "320000",
+      "file": "china-320000-e16227514a2af10c-part-008.json.gz",
+      "part": 8,
+      "rows": 50000,
+      "bytes": 5126760,
+      "sha256": "2c88de7aeedbfeec6c43b75cd9176e47ce4ea921802e8753b89d1a0a7f496117"
+    },
+    {
+      "source": "china-320000-e16227514a2af10c.json.gz",
+      "province": "江苏省",
+      "provinceCode": "320000",
+      "file": "china-320000-e16227514a2af10c-part-009.json.gz",
+      "part": 9,
+      "rows": 50000,
+      "bytes": 5126503,
+      "sha256": "49ecf249502cdf2e99eae7b09ad2cf19f9e97a0d7ab910946419726fc5404fff"
+    },
+    {
+      "source": "china-320000-e16227514a2af10c.json.gz",
+      "province": "江苏省",
+      "provinceCode": "320000",
+      "file": "china-320000-e16227514a2af10c-part-010.json.gz",
+      "part": 10,
+      "rows": 50000,
+      "bytes": 5128847,
+      "sha256": "716b237dc096add74c9e9b2750f6f0b86306fef712b64fa65caa3e0ab5eedb60"
+    },
+    {
+      "source": "china-320000-e16227514a2af10c.json.gz",
+      "province": "江苏省",
+      "provinceCode": "320000",
+      "file": "china-320000-e16227514a2af10c-part-011.json.gz",
+      "part": 11,
+      "rows": 22927,
+      "bytes": 2352343,
+      "sha256": "98532400a7191f4809620266c9f1b54bf207e80748cd716d80c1e0544db0c6d1"
+    },
+    {
+      "source": "china-330000-93cbd461182d4ddc.json.gz",
+      "province": "浙江省",
+      "provinceCode": "330000",
+      "file": "china-330000-93cbd461182d4ddc-part-001.json.gz",
+      "part": 1,
+      "rows": 50000,
+      "bytes": 5126869,
+      "sha256": "8d4f8e147c7e4a80e1aa30efd4801b21c285d5ee802938fdb12f30008af77965"
+    },
+    {
+      "source": "china-330000-93cbd461182d4ddc.json.gz",
+      "province": "浙江省",
+      "provinceCode": "330000",
+      "file": "china-330000-93cbd461182d4ddc-part-002.json.gz",
+      "part": 2,
+      "rows": 50000,
+      "bytes": 5126960,
+      "sha256": "b4d1bc443d12f1cd39a79f5f36f6cd0a5cd20ca748ea9777e3b08cd7764a0511"
+    },
+    {
+      "source": "china-330000-93cbd461182d4ddc.json.gz",
+      "province": "浙江省",
+      "provinceCode": "330000",
+      "file": "china-330000-93cbd461182d4ddc-part-003.json.gz",
+      "part": 3,
+      "rows": 50000,
+      "bytes": 5127187,
+      "sha256": "bde40f924b455dc5c8de85fb5d2a1f3bd942d93eacc3aee785d50e1f4cbb2a68"
+    },
+    {
+      "source": "china-330000-93cbd461182d4ddc.json.gz",
+      "province": "浙江省",
+      "provinceCode": "330000",
+      "file": "china-330000-93cbd461182d4ddc-part-004.json.gz",
+      "part": 4,
+      "rows": 50000,
+      "bytes": 5126960,
+      "sha256": "c6ffe86ea47d2220d0380a1354d60587629bc1387063cf9cc62c4a9c76088132"
+    },
+    {
+      "source": "china-330000-93cbd461182d4ddc.json.gz",
+      "province": "浙江省",
+      "provinceCode": "330000",
+      "file": "china-330000-93cbd461182d4ddc-part-005.json.gz",
+      "part": 5,
+      "rows": 50000,
+      "bytes": 5126736,
+      "sha256": "e47500b09c9a3402dbb42194acbe00a4aca138750d85e75fad18406ef9f4a3c7"
+    },
+    {
+      "source": "china-330000-93cbd461182d4ddc.json.gz",
+      "province": "浙江省",
+      "provinceCode": "330000",
+      "file": "china-330000-93cbd461182d4ddc-part-006.json.gz",
+      "part": 6,
+      "rows": 50000,
+      "bytes": 5127033,
+      "sha256": "a56772f3c8005f0f77f0faf189ebcf1eb1f6364b1aea9b23127cc958cb90f6b2"
+    },
+    {
+      "source": "china-330000-93cbd461182d4ddc.json.gz",
+      "province": "浙江省",
+      "provinceCode": "330000",
+      "file": "china-330000-93cbd461182d4ddc-part-007.json.gz",
+      "part": 7,
+      "rows": 50000,
+      "bytes": 5126882,
+      "sha256": "f53f5bc6772f9cb007b550260a4671d8de5654aa217b45ffad4ca9dcac2795f1"
+    },
+    {
+      "source": "china-330000-93cbd461182d4ddc.json.gz",
+      "province": "浙江省",
+      "provinceCode": "330000",
+      "file": "china-330000-93cbd461182d4ddc-part-008.json.gz",
+      "part": 8,
+      "rows": 50000,
+      "bytes": 5126051,
+      "sha256": "6fa8584f4bd4e3f167a88d7a55f26864a451022a41a826f387afa4077a4b9af0"
+    },
+    {
+      "source": "china-330000-93cbd461182d4ddc.json.gz",
+      "province": "浙江省",
+      "provinceCode": "330000",
+      "file": "china-330000-93cbd461182d4ddc-part-009.json.gz",
+      "part": 9,
+      "rows": 20621,
+      "bytes": 2114137,
+      "sha256": "c7f9fe7a4fb22449125c37bbfde7a936dc5174c74d6a080bbd5b63180acf854b"
+    },
+    {
+      "source": "china-340000-4ac0987f9218b214.json.gz",
+      "province": "安徽省",
+      "provinceCode": "340000",
+      "file": "china-340000-4ac0987f9218b214-part-001.json.gz",
+      "part": 1,
+      "rows": 50000,
+      "bytes": 5146180,
+      "sha256": "0d8d21d6b074ca465c218c0bf6c2ca64f8e36c767e3003470bdca96b021b4602"
+    },
+    {
+      "source": "china-340000-4ac0987f9218b214.json.gz",
+      "province": "安徽省",
+      "provinceCode": "340000",
+      "file": "china-340000-4ac0987f9218b214-part-002.json.gz",
+      "part": 2,
+      "rows": 50000,
+      "bytes": 5127158,
+      "sha256": "b35e79ce45de856e77c577acc85ab5aa5b85c2d556033f2ff424158557981cf3"
+    },
+    {
+      "source": "china-340000-4ac0987f9218b214.json.gz",
+      "province": "安徽省",
+      "provinceCode": "340000",
+      "file": "china-340000-4ac0987f9218b214-part-003.json.gz",
+      "part": 3,
+      "rows": 50000,
+      "bytes": 5126816,
+      "sha256": "ba3356ad458b4eb322eb1d4fa41538060afc7c8d0c94c4ff1f4c8bf96e9a2d12"
+    },
+    {
+      "source": "china-340000-4ac0987f9218b214.json.gz",
+      "province": "安徽省",
+      "provinceCode": "340000",
+      "file": "china-340000-4ac0987f9218b214-part-004.json.gz",
+      "part": 4,
+      "rows": 21231,
+      "bytes": 2177415,
+      "sha256": "2e9d795581cfacb55cafbc6dd40a277ad710ab58d6990d4261159d517df0e0c8"
+    },
+    {
+      "source": "china-350000-2c3903e5d8df3de7.json.gz",
+      "province": "福建省",
+      "provinceCode": "350000",
+      "file": "china-350000-2c3903e5d8df3de7-part-001.json.gz",
+      "part": 1,
+      "rows": 50000,
+      "bytes": 5126583,
+      "sha256": "818a8e930143055d6a439ba788be85ee94ab86ff156ee4f4188b7a738662203b"
+    },
+    {
+      "source": "china-350000-2c3903e5d8df3de7.json.gz",
+      "province": "福建省",
+      "provinceCode": "350000",
+      "file": "china-350000-2c3903e5d8df3de7-part-002.json.gz",
+      "part": 2,
+      "rows": 50000,
+      "bytes": 5126326,
+      "sha256": "cd99f2428725e34736141877455bc29cbd909ce44e403b1131a18839c25b48f4"
+    },
+    {
+      "source": "china-350000-2c3903e5d8df3de7.json.gz",
+      "province": "福建省",
+      "provinceCode": "350000",
+      "file": "china-350000-2c3903e5d8df3de7-part-003.json.gz",
+      "part": 3,
+      "rows": 8733,
+      "bytes": 895462,
+      "sha256": "b20b31c2c8866cf40a9a65e94238aedd7bbeb2593c8982c159d18a45730db0d8"
+    },
+    {
+      "source": "china-360000-a405afe0ef59813e.json.gz",
+      "province": "江西省",
+      "provinceCode": "360000",
+      "file": "china-360000-a405afe0ef59813e-part-001.json.gz",
+      "part": 1,
+      "rows": 50000,
+      "bytes": 5127500,
+      "sha256": "f69376462412652e0ee7464495ce7e28e2022a702810aca85283c383e94b397b"
+    },
+    {
+      "source": "china-360000-a405afe0ef59813e.json.gz",
+      "province": "江西省",
+      "provinceCode": "360000",
+      "file": "china-360000-a405afe0ef59813e-part-002.json.gz",
+      "part": 2,
+      "rows": 31748,
+      "bytes": 3255517,
+      "sha256": "1e1e3f4ed1ef2e0f302ee6cc9e380ee24f73e13ad23e4ceb5bc4fe676b4e65fa"
+    },
+    {
+      "source": "china-370000-7eadfd12ea5d49ff.json.gz",
+      "province": "山东省",
+      "provinceCode": "370000",
+      "file": "china-370000-7eadfd12ea5d49ff-part-001.json.gz",
+      "part": 1,
+      "rows": 50000,
+      "bytes": 5126688,
+      "sha256": "77b9b3ceaeba74703e4e0e5b618efea5a62c91604f67d4133b01150b6bd3a1f2"
+    },
+    {
+      "source": "china-370000-7eadfd12ea5d49ff.json.gz",
+      "province": "山东省",
+      "provinceCode": "370000",
+      "file": "china-370000-7eadfd12ea5d49ff-part-002.json.gz",
+      "part": 2,
+      "rows": 50000,
+      "bytes": 5126837,
+      "sha256": "7bd148d1d21a43289111b1e844d1934177759c470872607a42a5b616439546e3"
+    },
+    {
+      "source": "china-370000-7eadfd12ea5d49ff.json.gz",
+      "province": "山东省",
+      "provinceCode": "370000",
+      "file": "china-370000-7eadfd12ea5d49ff-part-003.json.gz",
+      "part": 3,
+      "rows": 50000,
+      "bytes": 5127293,
+      "sha256": "52a518428c1ecd72cc5b8d6cbd62b483d474406c91de75877a949c913e893394"
+    },
+    {
+      "source": "china-370000-7eadfd12ea5d49ff.json.gz",
+      "province": "山东省",
+      "provinceCode": "370000",
+      "file": "china-370000-7eadfd12ea5d49ff-part-004.json.gz",
+      "part": 4,
+      "rows": 50000,
+      "bytes": 5127046,
+      "sha256": "72e9cf3df57aaeb9736faa09b05732cf9151c354b73fddafd7edab2dac84844d"
+    },
+    {
+      "source": "china-370000-7eadfd12ea5d49ff.json.gz",
+      "province": "山东省",
+      "provinceCode": "370000",
+      "file": "china-370000-7eadfd12ea5d49ff-part-005.json.gz",
+      "part": 5,
+      "rows": 50000,
+      "bytes": 5127038,
+      "sha256": "e455c7b0d179b410654c46a92fd6dcd7bb3607d63d6e4be694342692b2017dd5"
+    },
+    {
+      "source": "china-370000-7eadfd12ea5d49ff.json.gz",
+      "province": "山东省",
+      "provinceCode": "370000",
+      "file": "china-370000-7eadfd12ea5d49ff-part-006.json.gz",
+      "part": 6,
+      "rows": 50000,
+      "bytes": 5126730,
+      "sha256": "01c22a525c5ab81a5cbcbb48313157c9a1ac617c68c670d691414e0aa44278fe"
+    },
+    {
+      "source": "china-370000-7eadfd12ea5d49ff.json.gz",
+      "province": "山东省",
+      "provinceCode": "370000",
+      "file": "china-370000-7eadfd12ea5d49ff-part-007.json.gz",
+      "part": 7,
+      "rows": 50000,
+      "bytes": 5126789,
+      "sha256": "a63ce506d13b17acd62b5af2e4426288fc9cad451e687f94524c040c395cf7dd"
+    },
+    {
+      "source": "china-370000-7eadfd12ea5d49ff.json.gz",
+      "province": "山东省",
+      "provinceCode": "370000",
+      "file": "china-370000-7eadfd12ea5d49ff-part-008.json.gz",
+      "part": 8,
+      "rows": 50000,
+      "bytes": 5126497,
+      "sha256": "e940859a6e576dec8c1df7e13a8074fa5a0f3404d154f191d87645e655f3ed14"
+    },
+    {
+      "source": "china-370000-7eadfd12ea5d49ff.json.gz",
+      "province": "山东省",
+      "provinceCode": "370000",
+      "file": "china-370000-7eadfd12ea5d49ff-part-009.json.gz",
+      "part": 9,
+      "rows": 31380,
+      "bytes": 3217587,
+      "sha256": "cc6d501cc04773be8832fe7b4c520ad2a27b307a3b8187521efb5d64a47733bf"
+    },
+    {
+      "source": "china-410000-80116ee4b93213db.json.gz",
+      "province": "河南省",
+      "provinceCode": "410000",
+      "file": "china-410000-80116ee4b93213db-part-001.json.gz",
+      "part": 1,
+      "rows": 50000,
+      "bytes": 5147946,
+      "sha256": "50061bbbec4360d6c17d99cda7e446ebe7bf098ed67dd981437671373e0bfa93"
+    },
+    {
+      "source": "china-410000-80116ee4b93213db.json.gz",
+      "province": "河南省",
+      "provinceCode": "410000",
+      "file": "china-410000-80116ee4b93213db-part-002.json.gz",
+      "part": 2,
+      "rows": 50000,
+      "bytes": 5127994,
+      "sha256": "3b2b43343cc7056fb93a961c0c6b33ef055e772b8249ed5935796d0d53bfb58b"
+    },
+    {
+      "source": "china-410000-80116ee4b93213db.json.gz",
+      "province": "河南省",
+      "provinceCode": "410000",
+      "file": "china-410000-80116ee4b93213db-part-003.json.gz",
+      "part": 3,
+      "rows": 50000,
+      "bytes": 5126976,
+      "sha256": "a2159360b5fa38f83b700cff5327b7951ff3eede9a9020d024c2ebed98ffe6de"
+    },
+    {
+      "source": "china-410000-80116ee4b93213db.json.gz",
+      "province": "河南省",
+      "provinceCode": "410000",
+      "file": "china-410000-80116ee4b93213db-part-004.json.gz",
+      "part": 4,
+      "rows": 50000,
+      "bytes": 5126569,
+      "sha256": "4fb657f45196a6251f60656c9364d2d6e3e4c32dee022fce979b4a5c293a5693"
+    },
+    {
+      "source": "china-410000-80116ee4b93213db.json.gz",
+      "province": "河南省",
+      "provinceCode": "410000",
+      "file": "china-410000-80116ee4b93213db-part-005.json.gz",
+      "part": 5,
+      "rows": 40632,
+      "bytes": 4174714,
+      "sha256": "fbfdc7cba75a37c001984bbf2b1a9fe44c6833801ed071dcc977ba5ddb8d9502"
+    },
+    {
+      "source": "china-420000-be3d05299780af8d.json.gz",
+      "province": "湖北省",
+      "provinceCode": "420000",
+      "file": "china-420000-be3d05299780af8d-part-001.json.gz",
+      "part": 1,
+      "rows": 50000,
+      "bytes": 5127105,
+      "sha256": "93d33363f2728935f7c7b18c97eceb51b41039d1c803253063d263ac1cd6304a"
+    },
+    {
+      "source": "china-420000-be3d05299780af8d.json.gz",
+      "province": "湖北省",
+      "provinceCode": "420000",
+      "file": "china-420000-be3d05299780af8d-part-002.json.gz",
+      "part": 2,
+      "rows": 39867,
+      "bytes": 4094322,
+      "sha256": "02bcc2d622dc3e5e862c4a32be9f1337c6e47aa79ac031348ba375d2e2991eef"
+    },
+    {
+      "source": "china-430000-d75e3729bfe456aa.json.gz",
+      "province": "湖南省",
+      "provinceCode": "430000",
+      "file": "china-430000-d75e3729bfe456aa-part-001.json.gz",
+      "part": 1,
+      "rows": 50000,
+      "bytes": 5127029,
+      "sha256": "123f2b5e20a6b3e8b8210811553e893c396f102d6d0814fa23ecd17993de8414"
+    },
+    {
+      "source": "china-430000-d75e3729bfe456aa.json.gz",
+      "province": "湖南省",
+      "provinceCode": "430000",
+      "file": "china-430000-d75e3729bfe456aa-part-002.json.gz",
+      "part": 2,
+      "rows": 50000,
+      "bytes": 5137919,
+      "sha256": "be13c706a5ae40218baad445af383259cad17bb92042776065773502a7030a78"
+    },
+    {
+      "source": "china-430000-d75e3729bfe456aa.json.gz",
+      "province": "湖南省",
+      "provinceCode": "430000",
+      "file": "china-430000-d75e3729bfe456aa-part-003.json.gz",
+      "part": 3,
+      "rows": 50000,
+      "bytes": 5127661,
+      "sha256": "366f18084c63c9545c2c4b3247ddf4c59b90017f63fddd03b73f4a124f2df67e"
+    },
+    {
+      "source": "china-430000-d75e3729bfe456aa.json.gz",
+      "province": "湖南省",
+      "provinceCode": "430000",
+      "file": "china-430000-d75e3729bfe456aa-part-004.json.gz",
+      "part": 4,
+      "rows": 6101,
+      "bytes": 628878,
+      "sha256": "6eba6be552a23866b23bb89858fec9424c41d8b74aa218ef34450968c67c627d"
+    },
+    {
+      "source": "china-440000-d3a2d998ac07482d.json.gz",
+      "province": "广东省",
+      "provinceCode": "440000",
+      "file": "china-440000-d3a2d998ac07482d-part-001.json.gz",
+      "part": 1,
+      "rows": 50000,
+      "bytes": 5127204,
+      "sha256": "0917adecc0cbf5413438f9ef7fb2c2725d1f938b8dff988822e9d1165ff01f36"
+    },
+    {
+      "source": "china-440000-d3a2d998ac07482d.json.gz",
+      "province": "广东省",
+      "provinceCode": "440000",
+      "file": "china-440000-d3a2d998ac07482d-part-002.json.gz",
+      "part": 2,
+      "rows": 50000,
+      "bytes": 5126810,
+      "sha256": "ea4b040a5ba4cb2e5fe659d4e7fa98d578e91fd9d24d14afbee3b3adffea2aa0"
+    },
+    {
+      "source": "china-440000-d3a2d998ac07482d.json.gz",
+      "province": "广东省",
+      "provinceCode": "440000",
+      "file": "china-440000-d3a2d998ac07482d-part-003.json.gz",
+      "part": 3,
+      "rows": 50000,
+      "bytes": 5126474,
+      "sha256": "f5818a7c5333a43771820d572de1033eda7ac79806111e1bbd8b0baafff76246"
+    },
+    {
+      "source": "china-440000-d3a2d998ac07482d.json.gz",
+      "province": "广东省",
+      "provinceCode": "440000",
+      "file": "china-440000-d3a2d998ac07482d-part-004.json.gz",
+      "part": 4,
+      "rows": 50000,
+      "bytes": 5126832,
+      "sha256": "9fa47b1970da793af2096117e6587b96ff2438edb41632863c542425b51980bd"
+    },
+    {
+      "source": "china-440000-d3a2d998ac07482d.json.gz",
+      "province": "广东省",
+      "provinceCode": "440000",
+      "file": "china-440000-d3a2d998ac07482d-part-005.json.gz",
+      "part": 5,
+      "rows": 50000,
+      "bytes": 5127012,
+      "sha256": "eb07eb55db4d4ed33e6826fd74ceed02e2ba05e0a5d0ce433e619268ed3ec548"
+    },
+    {
+      "source": "china-440000-d3a2d998ac07482d.json.gz",
+      "province": "广东省",
+      "provinceCode": "440000",
+      "file": "china-440000-d3a2d998ac07482d-part-006.json.gz",
+      "part": 6,
+      "rows": 50000,
+      "bytes": 5126690,
+      "sha256": "a8a11cbb2dbcac72a9d379e96f1784b2b2037bea85ec9da1143d4c0d94a5108a"
+    },
+    {
+      "source": "china-440000-d3a2d998ac07482d.json.gz",
+      "province": "广东省",
+      "provinceCode": "440000",
+      "file": "china-440000-d3a2d998ac07482d-part-007.json.gz",
+      "part": 7,
+      "rows": 50000,
+      "bytes": 5127098,
+      "sha256": "7eced88bc30c65ee67138ebd20638ef8cbddd7a0af839000128c1b9e328a98b4"
+    },
+    {
+      "source": "china-440000-d3a2d998ac07482d.json.gz",
+      "province": "广东省",
+      "provinceCode": "440000",
+      "file": "china-440000-d3a2d998ac07482d-part-008.json.gz",
+      "part": 8,
+      "rows": 50000,
+      "bytes": 5127026,
+      "sha256": "ae02aa8b7169b50b000f7b08982c6d622b72ae2f152a83be0609c8279a4a202a"
+    },
+    {
+      "source": "china-440000-d3a2d998ac07482d.json.gz",
+      "province": "广东省",
+      "provinceCode": "440000",
+      "file": "china-440000-d3a2d998ac07482d-part-009.json.gz",
+      "part": 9,
+      "rows": 50000,
+      "bytes": 5126730,
+      "sha256": "1406318cd7e65bee9cca5aac05fb3b090ce21609858375c648f9c47ae54f6192"
+    },
+    {
+      "source": "china-440000-d3a2d998ac07482d.json.gz",
+      "province": "广东省",
+      "provinceCode": "440000",
+      "file": "china-440000-d3a2d998ac07482d-part-010.json.gz",
+      "part": 10,
+      "rows": 50000,
+      "bytes": 5126659,
+      "sha256": "0ab233b0fc8165f4c31c59518c558f042a1237a032f0987a8a79fe4112772637"
+    },
+    {
+      "source": "china-440000-d3a2d998ac07482d.json.gz",
+      "province": "广东省",
+      "provinceCode": "440000",
+      "file": "china-440000-d3a2d998ac07482d-part-011.json.gz",
+      "part": 11,
+      "rows": 50000,
+      "bytes": 5126281,
+      "sha256": "4d1e22a02b5ad14bef493c722ba608cd58a7fcf46c97e60962400737b7fbaa1a"
+    },
+    {
+      "source": "china-440000-d3a2d998ac07482d.json.gz",
+      "province": "广东省",
+      "provinceCode": "440000",
+      "file": "china-440000-d3a2d998ac07482d-part-012.json.gz",
+      "part": 12,
+      "rows": 50000,
+      "bytes": 5126740,
+      "sha256": "c0b2ff28d9b9fb1ad68761c092c5d582c3ea7a626f906e3a8f8d908fff76bd64"
+    },
+    {
+      "source": "china-440000-d3a2d998ac07482d.json.gz",
+      "province": "广东省",
+      "provinceCode": "440000",
+      "file": "china-440000-d3a2d998ac07482d-part-013.json.gz",
+      "part": 13,
+      "rows": 17618,
+      "bytes": 1806449,
+      "sha256": "b8867953f096c53677f594341927e31c74455e4a870aa5cbb38b0244f32c715a"
+    },
+    {
+      "source": "china-450000-32a5d6bb88d60234.json.gz",
+      "province": "广西壮族自治区",
+      "provinceCode": "450000",
+      "file": "china-450000-32a5d6bb88d60234-part-001.json.gz",
+      "part": 1,
+      "rows": 50000,
+      "bytes": 5727124,
+      "sha256": "34e2065f2bceb279e73e93c5cf796615de560be005121374c96c6e359df510a7"
+    },
+    {
+      "source": "china-450000-32a5d6bb88d60234.json.gz",
+      "province": "广西壮族自治区",
+      "provinceCode": "450000",
+      "file": "china-450000-32a5d6bb88d60234-part-002.json.gz",
+      "part": 2,
+      "rows": 31016,
+      "bytes": 3552251,
+      "sha256": "9c1b745c14ef3aedc122d71255cb51e823683c7e7c8dd7cb9661a1a72fac424e"
+    },
+    {
+      "source": "china-460000-636403bd78697f09.json.gz",
+      "province": "海南省",
+      "provinceCode": "460000",
+      "file": "china-460000-636403bd78697f09-part-001.json.gz",
+      "part": 1,
+      "rows": 25697,
+      "bytes": 2639939,
+      "sha256": "7c1444fa4e795c8a088fa4c04bc234e0c4f42f9216fe413f08dd9239f1c3863b"
+    },
+    {
+      "source": "china-500000-1f68ef16a3df866d.json.gz",
+      "province": "重庆市",
+      "provinceCode": "500000",
+      "file": "china-500000-1f68ef16a3df866d-part-001.json.gz",
+      "part": 1,
+      "rows": 50000,
+      "bytes": 5193481,
+      "sha256": "e465d7a7c469bd87be41ee551afc15477fb93929bb8d881a092ed9c16df5d43b"
+    },
+    {
+      "source": "china-500000-1f68ef16a3df866d.json.gz",
+      "province": "重庆市",
+      "provinceCode": "500000",
+      "file": "china-500000-1f68ef16a3df866d-part-002.json.gz",
+      "part": 2,
+      "rows": 50000,
+      "bytes": 5272893,
+      "sha256": "4ce580eaca1b317d025e838580716acf4612d06147623a24f9b19974d349d4c0"
+    },
+    {
+      "source": "china-500000-1f68ef16a3df866d.json.gz",
+      "province": "重庆市",
+      "provinceCode": "500000",
+      "file": "china-500000-1f68ef16a3df866d-part-003.json.gz",
+      "part": 3,
+      "rows": 28198,
+      "bytes": 2905393,
+      "sha256": "bafdf1776bfa84ac57a3d43b6c0d606d4c47a364898ab50934ec7540a7ec811f"
+    },
+    {
+      "source": "china-510000-9086b65c9954e134.json.gz",
+      "province": "四川省",
+      "provinceCode": "510000",
+      "file": "china-510000-9086b65c9954e134-part-001.json.gz",
+      "part": 1,
+      "rows": 50000,
+      "bytes": 5127145,
+      "sha256": "3c092696979e18daa7ed28feb14ec6593ba5680185974e766556581a6e93fea7"
+    },
+    {
+      "source": "china-510000-9086b65c9954e134.json.gz",
+      "province": "四川省",
+      "provinceCode": "510000",
+      "file": "china-510000-9086b65c9954e134-part-002.json.gz",
+      "part": 2,
+      "rows": 50000,
+      "bytes": 5126669,
+      "sha256": "8e2e11d643978aad684790d24d11d70deb1759ef6d4c31c533d0fa8f2b59d4ae"
+    },
+    {
+      "source": "china-510000-9086b65c9954e134.json.gz",
+      "province": "四川省",
+      "provinceCode": "510000",
+      "file": "china-510000-9086b65c9954e134-part-003.json.gz",
+      "part": 3,
+      "rows": 50000,
+      "bytes": 5126813,
+      "sha256": "b067f5e1e8e90aa142ea581283ded05801dcc5546705efba8a93191e40f6e3b8"
+    },
+    {
+      "source": "china-510000-9086b65c9954e134.json.gz",
+      "province": "四川省",
+      "provinceCode": "510000",
+      "file": "china-510000-9086b65c9954e134-part-004.json.gz",
+      "part": 4,
+      "rows": 50000,
+      "bytes": 5127209,
+      "sha256": "9f21ed2476ccc46566f031d7f3d17be8ea091da2cf2ad273d639d8834fb464c6"
+    },
+    {
+      "source": "china-510000-9086b65c9954e134.json.gz",
+      "province": "四川省",
+      "provinceCode": "510000",
+      "file": "china-510000-9086b65c9954e134-part-005.json.gz",
+      "part": 5,
+      "rows": 50000,
+      "bytes": 5127252,
+      "sha256": "8ac1458f0fe119c618630774360799c2cb7b60a99c61a349246e7c8e7be6619f"
+    },
+    {
+      "source": "china-510000-9086b65c9954e134.json.gz",
+      "province": "四川省",
+      "provinceCode": "510000",
+      "file": "china-510000-9086b65c9954e134-part-006.json.gz",
+      "part": 6,
+      "rows": 19216,
+      "bytes": 1975158,
+      "sha256": "d8453f6b9002ad7585eea25afa0ab5bc6840386de733063e3149d95b370f1c34"
+    },
+    {
+      "source": "china-520000-9f0d6ca822e260cd.json.gz",
+      "province": "贵州省",
+      "provinceCode": "520000",
+      "file": "china-520000-9f0d6ca822e260cd-part-001.json.gz",
+      "part": 1,
+      "rows": 40264,
+      "bytes": 4215507,
+      "sha256": "bc49e91cdd1dbb8df4d477981fe5638d0ae8573b29fe48a6a5c263677ab98fed"
+    },
+    {
+      "source": "china-530000-4b4a154f30ef1a27.json.gz",
+      "province": "云南省",
+      "provinceCode": "530000",
+      "file": "china-530000-4b4a154f30ef1a27-part-001.json.gz",
+      "part": 1,
+      "rows": 50000,
+      "bytes": 5219019,
+      "sha256": "16e34c0b826cc222bd8ff660b17f6f7153d1962c9cc42fa05eb777f9141c6259"
+    },
+    {
+      "source": "china-530000-4b4a154f30ef1a27.json.gz",
+      "province": "云南省",
+      "provinceCode": "530000",
+      "file": "china-530000-4b4a154f30ef1a27-part-002.json.gz",
+      "part": 2,
+      "rows": 2712,
+      "bytes": 295405,
+      "sha256": "68433a9c09caf11d1bac40fb5d1011676a9790913159647de16b9e9c5a1929c6"
+    },
+    {
+      "source": "china-540000-d4972c3c8a1c00ee.json.gz",
+      "province": "西藏自治区",
+      "provinceCode": "540000",
+      "file": "china-540000-d4972c3c8a1c00ee-part-001.json.gz",
+      "part": 1,
+      "rows": 5024,
+      "bytes": 543566,
+      "sha256": "2954652cf97806b6de20620a7aeffb3a2088a1a523f61c2e5abb9eb4cc2b09d8"
+    },
+    {
+      "source": "china-610000-44c250e0f885f168.json.gz",
+      "province": "陕西省",
+      "provinceCode": "610000",
+      "file": "china-610000-44c250e0f885f168-part-001.json.gz",
+      "part": 1,
+      "rows": 50000,
+      "bytes": 5126905,
+      "sha256": "dd1ce43a673a416d0e8fccafd338173027996b9ebc088d66f13eeb377f36eb24"
+    },
+    {
+      "source": "china-610000-44c250e0f885f168.json.gz",
+      "province": "陕西省",
+      "provinceCode": "610000",
+      "file": "china-610000-44c250e0f885f168-part-002.json.gz",
+      "part": 2,
+      "rows": 50000,
+      "bytes": 5126856,
+      "sha256": "23ad805fe4869c911981d6b1b34ec38847de6f63be5273a5818d933fa5495be2"
+    },
+    {
+      "source": "china-610000-44c250e0f885f168.json.gz",
+      "province": "陕西省",
+      "provinceCode": "610000",
+      "file": "china-610000-44c250e0f885f168-part-003.json.gz",
+      "part": 3,
+      "rows": 22993,
+      "bytes": 2357353,
+      "sha256": "90832b6405032fe072195d4fbb8d802139ea278e7d607d0c5369b3e97352bf5a"
+    },
+    {
+      "source": "china-620000-960935a672c1ce2e.json.gz",
+      "province": "甘肃省",
+      "provinceCode": "620000",
+      "file": "china-620000-960935a672c1ce2e-part-001.json.gz",
+      "part": 1,
+      "rows": 10470,
+      "bytes": 1075297,
+      "sha256": "9b333f51b8d8cffd681865b65ea6a3d31b0cabaeb402bed2df59a419471b78aa"
+    },
+    {
+      "source": "china-630000-49c6a4b0707abcdb.json.gz",
+      "province": "青海省",
+      "provinceCode": "630000",
+      "file": "china-630000-49c6a4b0707abcdb-part-001.json.gz",
+      "part": 1,
+      "rows": 4301,
+      "bytes": 446435,
+      "sha256": "1a25d1c18b9d8dcab9de07800d92a5a660cfe4cbec66a4d17729d1277d212e08"
+    },
+    {
+      "source": "china-640000-a2f937480bf23a04.json.gz",
+      "province": "宁夏回族自治区",
+      "provinceCode": "640000",
+      "file": "china-640000-a2f937480bf23a04-part-001.json.gz",
+      "part": 1,
+      "rows": 7551,
+      "bytes": 865431,
+      "sha256": "13a7ed55c705bb3ea118fdb55b6fc5d16ef0ff77b9e0cba528b0ce636d457dc5"
+    },
+    {
+      "source": "china-650000-d3a9281e0525b487.json.gz",
+      "province": "新疆维吾尔自治区",
+      "provinceCode": "650000",
+      "file": "china-650000-d3a9281e0525b487-part-001.json.gz",
+      "part": 1,
+      "rows": 15008,
+      "bytes": 1832367,
+      "sha256": "ea856a688a29bc5ab7f629198697f21f79d9ba34df6a950ffb75254c13efd7ca"
+    }
+  ]
+}

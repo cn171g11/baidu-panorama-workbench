@@ -11,5 +11,6 @@
     "820000"
   ],
   "maxPublishedBytes": 900000000,
-  "note": "Cloud publication filtered to hidden-only records for Alxa, Binzhou, Lhasa, Hong Kong and Macau. Hong Kong and Lhasa have no source-hidden records and therefore publish no city points in this mode. Local archives remain complete."
+  "hiddenOnly": true,
+  "note": "Cloud publication keeps only hidden source-marked records for selected cities; local archive remains complete. Blue-dot resources are published separately."
 }

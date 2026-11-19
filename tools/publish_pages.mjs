@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { readFile, mkdir, writeFile, rename, lstat, realpath, access, rm } from 'node:fs/promises';
+import { readFile, mkdir, writeFile, rename, lstat, realpath, access, rm, readdir, copyFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createHash } from 'node:crypto';
@@ -8,6 +8,8 @@ import { publishTimeShard } from './publish_time_shard.mjs';
 import { publishCountyCity } from './counties/publish.mjs';
 import { COUNTY_PARTITION, validateCountyCatalog } from '../city-viewer/js/county-data.js';
 import { newCaptureSummary, PANOID_TIME_ENCODING } from '../city-viewer/js/panoid-time.js';
+import { categoryFor } from '../city-viewer/js/classification.js';
+import { streamRows } from './stream_rows.mjs';
 
 function sum(items, key) { return items.reduce((total, item) => total + (Number(item[key]) || 0), 0); }
 async function cleanupPublication(dist,directory){
@@ -41,12 +43,22 @@ export async function publishPages({root=PROJECT_ROOT,output='dist/pages',commit
   try{
   const initial=await buildSite({root,output:stage,commit});
   const target=initial.output;
-  const publicData=path.join(target,'city-viewer/data');
+     const blueSource=path.join(root,'data/blue-dots');if(await access(path.join(blueSource,'parts-manifest.json')).then(()=>true,()=>false)){const blueData=path.join(target,'city-viewer/data/blue-dots');await mkdir(blueData,{recursive:true});await copyFile(path.join(blueSource,'parts-manifest.json'),path.join(blueData,'parts-manifest.json'));for(const entry of await readdir(blueSource)){if(entry.endsWith('.json.gz'))await copyFile(path.join(blueSource,entry),path.join(blueData,entry));}}
+   const publicData=path.join(target,'city-viewer/data');
   const originalManifest=JSON.parse(await readFile(path.join(publicData,'asset-manifest.json'),'utf8'));
   const assets={};let compressedBytes=0;
   const sources={};
-  for(const city of selected){
-    if(config.countyShards===true){
+   const hiddenOnly=config.hiddenOnly===true;
+   const rowFilter=hiddenOnly?((row)=>categoryFor(row)==='hidden'):null;
+   if(hiddenOnly){
+     for(const city of selected){
+       let count=0;
+       for(const logical of city.files) for await(const {row} of streamRows(path.join(root,'data',logical))) if(rowFilter(row)) count++;
+       city.count=count;city.bounds=null;city.files=Array.from({length:Math.ceil(count/25000)},(_,i)=>`baidu/${city.id}/points-${String(i+1).padStart(3,'0')}.json`);
+     }
+   }
+   for(const city of selected){
+     if(config.countyShards===true){
       const folder=path.join(root,'config/osm-counties'),metaPath=path.join(folder,city.id+'.json'),geometryPath=path.join(folder,city.id+'.geojson');
       for(const file of [metaPath,geometryPath])if(await realpath(file)!==file||!(await lstat(file)).isFile())throw Error('Unsafe county boundary snapshot');
       const boundaryInfo=JSON.parse(await readFile(metaPath,'utf8')),geometryBytes=await readFile(geometryPath);
@@ -63,7 +75,7 @@ export async function publishPages({root=PROJECT_ROOT,output='dist/pages',commit
       }
       const sourceFiles=city.files.map(file=>({path:file,...originalManifest.assets[file]}));
       for(const source of sourceFiles)if(!source.sha256)throw Error('Unverified county source');
-      const published=await publishCountyCity({root,city,verifiedFiles:new Map(sourceFiles.map(source=>[source.path,source])),geometry,parentGeometry,requireParent:true,publicData,workRoot:path.join(dist,'county-work'),sourceInfo:boundaryInfo});
+      const published=await publishCountyCity({root,city,verifiedFiles:new Map(sourceFiles.map(source=>[source.path,source])),geometry,parentGeometry,requireParent:true,publicData,workRoot:path.join(dist,'county-work'),sourceInfo:boundaryInfo,rowFilter});
       city.sourceFiles=sourceFiles.map(source=>({path:source.path,bytes:source.bytes,sha256:source.sha256,count:source.count}));
       for(const source of city.sourceFiles)sources[source.path]=source;
       Object.assign(city,{partition:COUNTY_PARTITION,files:published.files,counties:published.counties,partitionSummary:published.partitionSummary,boundaryInfo,displayCounts:published.displayCounts,captureSummary:published.captureSummary});
@@ -74,7 +86,7 @@ export async function publishPages({root=PROJECT_ROOT,output='dist/pages',commit
       const verified=originalManifest.assets[logical];
       if(!verified||!/^baidu\/\d{6}\/points-\d{3,}\.json$/.test(logical))throw Error('Unverified or unsafe Pages shard');
       const url=logical+'.gz',destination=path.join(publicData,url);
-      const published=await publishTimeShard({source:path.join(root,'data',logical),destination,verified});
+      const published=await publishTimeShard({source:path.join(root,'data',logical),destination,verified,rowFilter});
       for(const key of Object.keys(city.displayCounts))city.displayCounts[key]+=published.displayCounts[key];
       for(const key of ['source','panoid','unknown','total'])city.captureSummary[key]+=published.captureSummary[key];
       const {earliest,latest}=published.captureSummary;
@@ -112,8 +124,8 @@ export async function publishPages({root=PROJECT_ROOT,output='dist/pages',commit
     publication,captureSummary,derivation:PANOID_TIME_ENCODING,sourceDataBytes:config.countyShards?sum(Object.values(sources),'bytes'):sum(Object.values(assets),'sourceBytes'),shards:Object.keys(assets).length};
   delete build.output;delete build.publishedBytes;
   await writeFile(path.join(target,'build.json'),JSON.stringify(build,null,2)+'\n');
-  const {readdir,stat}=await import('node:fs/promises');
-  async function size(directory){let bytes=0;for(const entry of await readdir(directory,{withFileTypes:true})){const file=path.join(directory,entry.name);bytes+=entry.isDirectory()?await size(file):(await stat(file)).size;}return bytes;}
+  const {readdir:readDirForSize,stat}=await import('node:fs/promises');
+  async function size(directory){let bytes=0;for(const entry of await readDirForSize(directory,{withFileTypes:true})){const file=path.join(directory,entry.name);bytes+=entry.isDirectory()?await size(file):(await stat(file)).size;}return bytes;}
   const publishedBytes=await size(target);
   const max=config.maxPublishedBytes??900000000;
   if(!Number.isSafeInteger(max)||max<1||max>1000000000)throw Error('Publication byte limit must be at most 1 GB');

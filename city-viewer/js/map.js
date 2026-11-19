@@ -4,7 +4,7 @@ import { categoryFor } from './classification.js';
 export const CANVAS_THRESHOLD = 1500;
 export const GRID_SIZE = 32;
 export const BASEMAP_MODES = Object.freeze(['amap-dark', 'amap', 'amap-satellite', 'osm', 'osm-dark', 'none']);
-export const POINT_COLORS = Object.freeze({regular:'#FFD400',hidden:'#FF1A1A','time-machine':'#B47AF0',unknown:'#00E5FF'});
+export const POINT_COLORS = Object.freeze({regular:'#FFD400',hidden:'#FF1A1A','time-machine':'#B47AF0',unknown:'#00E5FF',blue:'#27A9FF'});
 const cache = new WeakMap();
 const systemFor = mode => mode.startsWith('amap') ? 'GCJ-02' : 'WGS84';
 const amap = 'https://webrd0{s}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}';
@@ -33,8 +33,9 @@ function pointFor(row,map){
   let point=cache.get(row);if(point)return point;
   const wgs=projectForBasemap(row[1],row[2],'osm'),gcj=projectForBasemap(row[1],row[2],'amap');
   const a=map.project([wgs[1],wgs[0]],0),b=map.project([gcj[1],gcj[0]],0);
-  const category=categoryFor(row);
-  point={row,lng:wgs[0],lat:wgs[1],gcjLng:gcj[0],gcjLat:gcj[1],worldX:a.x,worldY:a.y,gcjWorldX:b.x,gcjWorldY:b.y,category,color:category==='regular'&&!row[7]?'unknown':category};
+  const isBlue=row[9]?.blueDot===true;
+  const category=isBlue?'blue':categoryFor(row);
+  point={row,lng:wgs[0],lat:wgs[1],gcjLng:gcj[0],gcjLat:gcj[1],worldX:a.x,worldY:a.y,gcjWorldX:b.x,gcjWorldY:b.y,category,color:isBlue?'blue':(category==='regular'&&!row[7]?'unknown':category)};
   cache.set(row,point);return point;
 }
 function latLng(point,state){return systemFor(state.basemap)==='GCJ-02'?[point.gcjLat,point.gcjLng]:[point.lat,point.lng];}
@@ -55,7 +56,7 @@ export function createMap(container){
   try{
     const initial=convertCoordinate(104.2,35.8,'WGS84','GCJ-02');
     const map=L.map(container,{zoomControl:true,scrollWheelZoom:true,preferCanvas:true,minZoom:3,maxZoom:20}).setView([initial[1],initial[0]],4);
-    const state={map,container,tileLayer:null,popup:null,points:[],background:[],grid:new Map(),mode:'points',actualMode:'points',renderedCount:0,drawnSymbols:0,activeRow:null,canvasLayer:null,bound:false,basemap:'amap-dark'};
+    const state={map,container,tileLayer:null,popup:null,points:[],bluePoints:[],background:[],grid:new Map(),mode:'points',actualMode:'points',renderedCount:0,drawnSymbols:0,activeRow:null,canvasLayer:null,bound:false,basemap:'amap-dark'};
     const PointCanvas=L.Layer.extend({
       onAdd(instance){this._map=instance;this._canvas=L.DomUtil.create('canvas','baidu-point-canvas leaflet-zoom-hide');this._canvas.style.cssText='position:absolute;pointer-events:none';instance.getPane('overlayPane').appendChild(this._canvas);instance.on('move moveend zoomend viewreset resize',this.schedule,this);this.draw();},
       onRemove(instance){instance.off('move moveend zoomend viewreset resize',this.schedule,this);if(this._frame)cancelAnimationFrame(this._frame);L.DomUtil.remove(this._canvas);this._map=null;},
@@ -67,10 +68,14 @@ export function createMap(container){
         const ctx=canvas.getContext('2d');if(!ctx)return;ctx.setTransform(ratio,0,0,ratio,0,0);ctx.clearRect(0,0,frame.width,frame.height);
         state.grid.clear();state.renderedCount=0;state.drawnSymbols=0;state.actualMode=displayModeFor(state.mode,map.getZoom());
         ctx.fillStyle='rgba(150,170,195,.28)';for(const point of state.background){const p=pixelFor(point,frame);if(inside(p,frame))ctx.fillRect(p.x-1,p.y-1,2,2);}
-        const groups={regular:[],hidden:[],'time-machine':[],unknown:[]};
+        const groups={regular:[],hidden:[],'time-machine':[],unknown:[],blue:[]};
         for(const point of state.points){const p=pixelFor(point,frame);if(!inside(p,frame))continue;state.renderedCount++;if(state.mode==='density')addToGrid(state.grid,p,GRID_SIZE);if(state.actualMode==='points')groups[point.color].push(p);}
+        const bluePixels=[];
         if(state.actualMode==='points'){
-          for(const key of ['regular','unknown','time-machine','hidden']){drawBatch(ctx,groups[key],POINT_COLORS[key],key==='hidden'?3:2,key==='hidden');state.drawnSymbols+=groups[key].length;}
+          for(const point of state.bluePoints){const p=pixelFor(point,frame);if(!inside(p,frame))continue;state.renderedCount++;bluePixels.push(p);}
+          for(const key of ['regular','unknown','time-machine','hidden']){drawBatch(ctx,groups[key],POINT_COLORS[key],key==='hidden'?3:2,key==='hidden');state.drawnSymbols+=groups[key].length;}drawBatch(ctx,groups.blue,POINT_COLORS.blue,3.5,true);state.drawnSymbols+=groups.blue.length;
+          // Small blue dots are drawn last so they stay visible on top of overlapping records.
+          for(const p of bluePixels){ctx.beginPath();ctx.arc(p.x,p.y,2.5,0,Math.PI*2);ctx.fillStyle=POINT_COLORS.blue;ctx.fill();ctx.strokeStyle='#fff';ctx.lineWidth=1;ctx.stroke();}state.drawnSymbols+=bluePixels.length;
         }else{
           let max=1;for(const cell of state.grid.values())max=Math.max(max,cell.count);const log=Math.log(max+1);
           for(const cell of state.grid.values()){
@@ -88,13 +93,17 @@ export function createMap(container){
     state.canvasLayer=new PointCanvas().addTo(map);setBasemap(state,'amap-dark');return state;
   }catch(error){console.warn('Baidu metadata map unavailable:',error.message);return null;}
 }
-export function renderMap(state,rows,mode='points',backgroundRows=[]){
+export function renderMap(state,rows,mode='points',backgroundRows=[],blueRows=[]){
   if(!state)return;if(!['points','density'].includes(mode))throw Error('Unknown map display mode');
   const sameRows=state.points.length===rows.length&&state.points.every((point,i)=>point.row===rows[i]);
   state.points=rows.map(row=>pointFor(row,state.map));state.mode=mode;
+  const sameBlue=state.bluePoints.length===blueRows.length&&state.bluePoints.every((point,i)=>point.row===blueRows[i]);
+  state.bluePoints=blueRows.map(row=>pointFor(row,state.map));
   const hits=new Set(rows);state.background=backgroundRows.filter(row=>!hits.has(row)).map(row=>pointFor(row,state.map));
-  if(state.activeRow&&!hits.has(state.activeRow))state.activeRow=null;
-  if(!sameRows&&rows.length)fitRows(state,rows);state.canvasLayer.schedule();
+  if(state.activeRow&&!hits.has(state.activeRow)&&!blueRows.includes(state.activeRow))state.activeRow=null;
+  if(!sameRows&&rows.length)fitRows(state,rows);
+  else if(!sameBlue&&!rows.length&&blueRows.length)fitRows(state,blueRows);
+  state.canvasLayer.schedule();
 }
 export function fitRows(state,rows){
   if(!state||!rows.length)return;let west=Infinity,south=Infinity,east=-Infinity,north=-Infinity;
@@ -125,6 +134,7 @@ export function bindMapInteractions(state){
   state.map.on('click',event=>{
     const frame=frameFor(state),clicked=event.containerPoint||state.map.latLngToContainerPoint(event.latlng);let nearest=null,best=Infinity;
     for(const point of state.points){const p=pixelFor(point,frame);if(!inside(p,frame))continue;const d=(p.x-clicked.x)**2+(p.y-clicked.y)**2;if(d<best){nearest=point;best=d;}}
+    for(const point of state.bluePoints){const p=pixelFor(point,frame);if(!inside(p,frame))continue;const d=(p.x-clicked.x)**2+(p.y-clicked.y)**2;if(d<best){nearest=point;best=d;}}
     if(nearest)document.dispatchEvent(new CustomEvent('baidu:select',{detail:nearest.row}));
   });
   if(typeof ResizeObserver==='function'){const observer=new ResizeObserver(()=>state.map.invalidateSize({debounceMoveend:true}));observer.observe(state.container);state.map.once('unload',()=>observer.disconnect());}

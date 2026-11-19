@@ -18,7 +18,7 @@ function meter() {
 
 // One shard at a time; only one row is parsed, derived and serialized at a time.
 // Output is new derived publication, source archive is never rewritten.
-export async function publishTimeShard({source,destination,verified,collectSummary=true,progress}={}) {
+export async function publishTimeShard({source,destination,verified,collectSummary=true,progress,rowFilter=null}={}) {
   await mkdir(path.dirname(destination),{recursive:true});
   const original=createHash('sha256');let originalBytes=0,rowCount=0;
   const timeSummary=newCaptureSummary(),counts={regular:0,hidden:0,timeMachine:0,unknown:0,total:0};

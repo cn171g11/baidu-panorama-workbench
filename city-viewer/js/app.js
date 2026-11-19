@@ -13,7 +13,7 @@ const elements = {
   count: $('result-count'), mapCount: $('map-result-count'), mapEmpty: $('map-empty'), empty: $('empty-state'), list: $('record-list'), rows: $('record-rows'), pageSummary: $('page-summary'), pageNumber: $('page-number'),
   prev: $('page-prev'), next: $('page-next'), detail: $('detail-panel'), export: $('export-data'), dialog: $('import-dialog'), importMessage: $('import-message'), importText: $('import-text'), importFile: $('import-file'), format: $('import-format'), coordinate: $('coordinate-system'), confirmBaidu: $('confirm-baidu'), live: $('live-message')
 };
-const state = { catalog: null, publishedRows: [], localRows: [], visibleRows: [], selected: null, page: 0, mode: 'points', mapModeManual: false, map: null, collectionById: new Map(), loadedCollection: null, totalPublished: 0, ready: false, listOpen: false, loading: false, loadedSelection:null };
+const state = { catalog: null, publishedRows: [], localRows: [], visibleRows: [], blueRows: [], selected: null, page: 0, mode: 'points', mapModeManual: false, map: null, collectionById: new Map(), loadedCollection: null, totalPublished: 0, ready: false, listOpen: false, loading: false, loadedSelection:null };
 const cityCache = new Map();
 let activeLoad = null;
 let activeController=null;
@@ -127,9 +127,11 @@ function populateFilters() {
   elements.province.innerHTML = '<option value="">全部省份</option>';
   [...provinces].sort((a, b) => a.localeCompare(b, 'zh-CN')).forEach((name) => elements.province.add(new Option(name, name)));
   syncCities();
-}
+  if (province) void loadBlueDotsForProvince(province).catch(error => announce(`小蓝点无法加载：${error.message}`));
 function syncCities() {
   const province = elements.province.value;
+  cancelBlueDotLoad();
+  state.blueRows = [];
   elements.city.innerHTML = `<option value="">${province ? '选择城市' : '选择省份后载入'}</option>`;
   state.catalog.collections.filter((c) => !province || c.province === province).forEach((c) => elements.city.add(new Option(c.name, c.id)));
   elements.city.disabled = !province;
@@ -159,6 +161,61 @@ function selectedRequest(city){
   if(city.partition===COUNTY_PARTITION){if(!elements.county.value)throw Error('请先选择县/区');return selectCountyFiles(city,elements.county.value,elements.shard.value);}
   return {files:city.files,count:city.count,county:null,part:'all'};
 }
+
+// --- 小蓝点（blue-dots）图层 -------------------------------------------------
+// 按省份按需加载 data/blue-dots/<adcode>/points-NNN.json；只渲染在地图上，
+// 不进入列表/导出；接口可取消，缓存按省份保留（不整国一次性加载）。
+const BLUE_DOTS_URL = new URL('../data/blue-dots/', import.meta.url);
+const blueDotCache = new Map();
+let blueDotController = null;
+let blueDotManifestPromise = null;
+function normalizeBlueRow(row) {
+  if (!Array.isArray(row) || typeof row[0] !== 'string' || !Number.isFinite(row[4]) || !Number.isFinite(row[5])) return null;
+  const extras = { ...(row[6] && typeof row[6] === 'object' ? row[6] : {}), blueDot: true, source: 'blue-dots' };
+  return [row[0], row[4], row[5], row[3] ?? '', '', null, false, false, 'baidu', extras];
+}
+async function blueDotManifest(signal) {
+  if (!blueDotManifestPromise) blueDotManifestPromise = fetch(new URL('parts-manifest.json', BLUE_DOTS_URL), { signal }).then(async response => { if (!response.ok) throw new Error(`小蓝点清单加载失败 (${response.status})`); const data = await response.json(); if (data.schemaVersion !== 1 || data.coordinateSystem !== 'BD09MC / BD09LL' || !Array.isArray(data.parts)) throw new Error('小蓝点清单无效'); return data; });
+  return blueDotManifestPromise;
+}
+async function fetchBlueDots(collection, signal) {
+  const cacheKey = collection.province || collection.id;
+  if (blueDotCache.has(cacheKey)) return blueDotCache.get(cacheKey);
+  const manifest = await blueDotManifest(signal), province = collection.province;
+  const parts = manifest.parts.filter(part => part.province === province);
+  const rows = [];
+  for (const part of parts) {
+    if (signal.aborted) return null;
+    const response = await fetch(new URL(part.file, BLUE_DOTS_URL), { signal });
+    if (!response.ok) throw new Error(`小蓝点分片加载失败：${part.file} (${response.status})`);
+    const text = await response.text();
+    const rawRows = JSON.parse(text);
+    if (!Array.isArray(rawRows) || rawRows.length !== part.rows) throw new Error(`小蓝点分片行数错误：${part.file}`);
+    for (const raw of rawRows) { const row = normalizeBlueRow(raw); if (row) rows.push(Object.assign(row, { __collectionId: collection.id, __city: collection.name, __province: collection.province, __blueDot: true })); }
+  }
+  blueDotCache.set(cacheKey, rows);
+  if (blueDotCache.size > 6) blueDotCache.delete(blueDotCache.keys().next().value);
+  return rows;
+}
+export async function loadBlueDotsForProvince(province) {
+  if (!state.catalog) throw new Error('目录尚未加载');
+  blueDotController?.abort();
+  const controller = new AbortController();
+  blueDotController = controller;
+  const collections = state.catalog.collections.filter((c) => !province || c.province === province);
+  const next = [];
+  for (const collection of collections) {
+    const rows = await fetchBlueDots(collection, controller.signal);
+    if (controller.signal.aborted) return null;
+    if (rows) next.push(...rows);
+  }
+  if (controller.signal.aborted) return null;
+  state.blueRows = next;
+  updateView();
+  return next;
+}
+function cancelBlueDotLoad() { blueDotController?.abort(); blueDotController = null; }
+
 
 function filtered(rows) {
   rows = filterRows(rows, { query: elements.search.value.trim(), road: elements.road.value.trim(), date: elements.date.value });
@@ -224,7 +281,7 @@ function updateView() {
   elements.prev.disabled = state.page === 0;
   elements.next.disabled = state.page >= totalPages - 1;
   const showContext=!elements.search.value.trim()&&(elements.road.value.trim()||elements.date.value||$('kind-filter').value!=='all');
-  renderMap(state.map, state.visibleRows, state.mode, showContext?rows:[]);
+  renderMap(state.map, state.visibleRows, state.mode, showContext?rows:[], state.blueRows);
   if (!state.visibleRows.includes(state.selected)) showDetail(null);
   updateStatus(); updateHud();
   refreshSnapshot();
@@ -301,6 +358,7 @@ async function loadData() {
   state.localRows = local ? validateRows(local).map((r) => Object.assign(r, { __collectionId: 'local', __city: '本地导入' })) : [];
   $('empty-title').dataset.localError = localError;
   state.publishedRows = [];
+  state.blueRows = [];
   state.loadedCollection = null;
   state.loadedSelection = null;
   state.ready = true;
@@ -369,7 +427,7 @@ $('empty-load').addEventListener('click',()=>$('load-city').click());
 $('page-prev').addEventListener('click', () => { state.page--; updateView(); });
 $('page-next').addEventListener('click', () => { state.page++; updateView(); });
 function clearPublishedSelection(){++collectionRequest;cancelActiveLoad();state.loading=false;cityCache.clear();state.publishedRows=[];state.loadedCollection=null;state.loadedSelection=null;state.page=0;}
-elements.province.addEventListener('change',()=>{clearPublishedSelection();syncCities();updateView();});
+elements.province.addEventListener('change',()=>{clearPublishedSelection();syncCities();updateView();cancelBlueDotLoad();void loadBlueDotsForProvince(elements.province.value);});
 elements.city.addEventListener('change',()=>{clearPublishedSelection();syncCounties();updateView();const collection=state.collectionById.get(elements.city.value);if(collection&&collection.partition!==COUNTY_PARTITION)void loadPublishedCollections([collection]);});
 elements.county.addEventListener('change',()=>{clearPublishedSelection();syncShards();updateView();const collection=state.collectionById.get(elements.city.value);if(collection&&elements.county.value)void loadPublishedCollections([collection]);});
 elements.shard.addEventListener('change',()=>{clearPublishedSelection();updateView();const collection=state.collectionById.get(elements.city.value);if(collection&&elements.county.value)void loadPublishedCollections([collection]);});
@@ -409,3 +467,12 @@ loadData().then(async()=>{
     }else await loadPublishedCollections([collection]);
   }
 }).catch((error) => { elements.source.querySelector('span:last-child').textContent = '百度元数据源：加载失败'; setMessage(error.message, 'error'); elements.empty.hidden = false; });
+
+// 对外桥接：主流程可调用 window.__blueDotsBridge.load(province) 触发某省蓝点加载；
+// 未提供 manifest 时也能通过 window.__blueDotsBridge.setRows(rows) 直接注入。
+window.__blueDotsBridge = {
+  load: (province) => loadBlueDotsForProvince(province ?? ''),
+  setRows: (rows) => { state.blueRows = (rows ?? []).map(normalizeBlueRow).filter(Boolean); updateView(); },
+  clear: () => { cancelBlueDotLoad(); state.blueRows = []; updateView(); },
+  get rows() { return state.blueRows; },
+};

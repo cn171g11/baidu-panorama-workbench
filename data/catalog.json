@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "provider": "baidu",
   "coordinateSystem": "BD-09",
-  "updatedAt": "2026-11-19T14:41:43.791Z",
-  "total": 18714563,
+  "updatedAt": "2026-11-18T23:12:36.699Z",
+  "total": 19356607,
   "collections": [
     {
       "id": "110000",
@@ -957,11 +957,11 @@
       "name": "阿拉善盟",
       "province": "内蒙古自治区",
       "coordinateSystem": "BD-09",
-      "count": 216,
+      "count": 30216,
       "bounds": [
         101.03999028184678,
-        38.85150375236116,
-        105.72861795828634,
+        37.59580084418224,
+        106.72883260009823,
         42.34322699901204
       ],
       "files": [
@@ -973,20 +973,10 @@
       ],
       "summary": {
         "sourceFiles": 2,
-        "rawRecords": 216,
-        "uniquePanoids": 216,
+        "rawRecords": 30216,
+        "uniquePanoids": 30216,
         "exactDuplicates": 0,
         "differingDuplicates": 0
-      },
-      "sourcePublicSubset": {
-        "reason": "User requested removal of all regular/time-machine metadata from cloud publication while keeping hidden records.",
-        "keptHidden": 216,
-        "removedNonHidden": 30000,
-        "originalCount": 30216
-      },
-      "sourceExclusions": {
-        "count": 30000,
-        "reason": "user-requested-hidden-only-cloud-publication"
       }
     },
     {
@@ -3020,11 +3010,11 @@
       "name": "滨州市",
       "province": "山东省",
       "coordinateSystem": "BD-09",
-      "count": 7418,
+      "count": 57509,
       "bounds": [
         117.44072504445413,
         37.18230733173052,
-        118.15724154634445,
+        118.22552474206232,
         37.726305150076115
       ],
       "files": [
@@ -3036,20 +3026,10 @@
       ],
       "summary": {
         "sourceFiles": 2,
-        "rawRecords": 7418,
-        "uniquePanoids": 7418,
+        "rawRecords": 57586,
+        "uniquePanoids": 57509,
         "exactDuplicates": 0,
-        "differingDuplicates": 0
-      },
-      "sourcePublicSubset": {
-        "reason": "User requested removal of all regular/time-machine metadata from cloud publication while keeping hidden records.",
-        "keptHidden": 7418,
-        "removedNonHidden": 50091,
-        "originalCount": 57509
-      },
-      "sourceExclusions": {
-        "count": 50091,
-        "reason": "user-requested-hidden-only-cloud-publication"
+        "differingDuplicates": 77
       }
     },
     {
@@ -6709,19 +6689,27 @@
       "name": "拉萨市",
       "province": "西藏自治区",
       "coordinateSystem": "BD-09",
-      "count": 0,
-      "bounds": null,
-      "files": [],
+      "count": 133284,
+      "bounds": [
+        89.99161966435473,
+        29.252013508708725,
+        92.37466870508553,
+        30.94088896413504
+      ],
+      "files": [
+        "baidu/540100/points-001.json",
+        "baidu/540100/points-002.json"
+      ],
       "sources": [
         "拉萨市（100000 个位置）.json",
         "data_540100.js"
       ],
       "summary": {
         "sourceFiles": 2,
-        "rawRecords": 0,
-        "uniquePanoids": 0,
+        "rawRecords": 232302,
+        "uniquePanoids": 133284,
         "exactDuplicates": 0,
-        "differingDuplicates": 0
+        "differingDuplicates": 99018
       },
       "shardMaxRows": 75000,
       "sourceSupplement": {
@@ -6734,16 +6722,6 @@
         "localObservations": 99018,
         "crossCityIdsRetainedElsewhere": 0,
         "preservedOtherOwners": {}
-      },
-      "sourcePublicSubset": {
-        "reason": "User requested removal of all regular/time-machine metadata from cloud publication while keeping hidden records.",
-        "keptHidden": 0,
-        "removedNonHidden": 133284,
-        "originalCount": 133284
-      },
-      "sourceExclusions": {
-        "count": 133284,
-        "reason": "user-requested-hidden-only-cloud-publication"
       }
     },
     {
@@ -7914,19 +7892,31 @@
       "name": "香港特别行政区",
       "province": "香港特别行政区",
       "coordinateSystem": "BD-09",
-      "count": 0,
-      "bounds": null,
-      "files": [],
+      "count": 403873,
+      "bounds": [
+        113.90552041051166,
+        22.20848712933677,
+        114.37156220723978,
+        22.556935463662207
+      ],
+      "files": [
+        "baidu/810000/points-001.json",
+        "baidu/810000/points-002.json",
+        "baidu/810000/points-003.json",
+        "baidu/810000/points-004.json",
+        "baidu/810000/points-005.json",
+        "baidu/810000/points-006.json"
+      ],
       "sources": [
         "香港特别行政区（100000 个位置） .json",
         "data_810000.js"
       ],
       "summary": {
         "sourceFiles": 2,
-        "rawRecords": 0,
-        "uniquePanoids": 0,
+        "rawRecords": 500591,
+        "uniquePanoids": 403873,
         "exactDuplicates": 0,
-        "differingDuplicates": 0
+        "differingDuplicates": 96718
       },
       "shardMaxRows": 75000,
       "sourceSupplement": {
@@ -7941,16 +7931,6 @@
         "preservedOtherOwners": {
           "440300": 7
         }
-      },
-      "sourcePublicSubset": {
-        "reason": "User requested removal of all regular/time-machine metadata from cloud publication while keeping hidden records.",
-        "keptHidden": 0,
-        "removedNonHidden": 403873,
-        "originalCount": 403873
-      },
-      "sourceExclusions": {
-        "count": 403873,
-        "reason": "user-requested-hidden-only-cloud-publication"
       }
     },
     {
@@ -7959,35 +7939,38 @@
       "name": "澳门特别行政区",
       "province": "澳门特别行政区",
       "coordinateSystem": "BD-09",
-      "count": 0,
-      "bounds": null,
-      "files": [],
+      "count": 24796,
+      "bounds": [
+        113.54057741923452,
+        22.113298200403786,
+        113.60135209883092,
+        22.213699485244412
+      ],
+      "files": [
+        "baidu/820000/points-001.json"
+      ],
       "sources": [
         "data_820000.js"
       ],
       "summary": {
         "sourceFiles": 1,
-        "rawRecords": 0,
-        "uniquePanoids": 0,
+        "rawRecords": 24796,
+        "uniquePanoids": 24796,
         "exactDuplicates": 0,
         "differingDuplicates": 0
       },
       "sourceExclusions": {
-        "count": 24796,
-        "reason": "user-requested-hidden-only-cloud-publication"
-      },
-      "sourcePublicSubset": {
-        "reason": "User requested removal of all regular/time-machine metadata from cloud publication while keeping hidden records.",
-        "keptHidden": 0,
-        "removedNonHidden": 24796,
-        "originalCount": 24796
+        "count": 4107,
+        "originalSourceRecords": 28903,
+        "reason": "user-confirmed-withdrawal-of-Zhuhai-prefix-090063-records",
+        "restoredCollection": "440400"
       }
     }
   ],
   "importSummary": {
     "sourceFiles": 286,
-    "rawRecords": 18931653,
-    "uniquePanoids": 18714563,
+    "rawRecords": 19573697,
+    "uniquePanoids": 19356607,
     "exactDuplicates": 21276,
     "differingDuplicates": 195814,
     "invalidRecords": 0,
