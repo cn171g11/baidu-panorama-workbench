@@ -7,8 +7,9 @@ import { buildSite, PROJECT_ROOT } from './build_site.mjs';
 import { publishTimeShard } from './publish_time_shard.mjs';
 import { publishCountyCity } from './counties/publish.mjs';
 import { COUNTY_PARTITION, validateCountyCatalog } from '../city-viewer/js/county-data.js';
-import { newCaptureSummary, PANOID_TIME_ENCODING } from '../city-viewer/js/panoid-time.js';
-import { categoryFor } from '../city-viewer/js/classification.js';
+import {newCaptureSummary,PANOID_TIME_ENCODING,addCaptureSummary} from '../city-viewer/js/panoid-time.js';
+import {categoryFor} from '../city-viewer/js/classification.js';
+import { validateRows } from '../city-viewer/js/metadata.js';
 import { streamRows } from './stream_rows.mjs';
 
 function sum(items, key) { return items.reduce((total, item) => total + (Number(item[key]) || 0), 0); }
@@ -48,18 +49,27 @@ export async function publishPages({root=PROJECT_ROOT,output='dist/pages',commit
   const originalManifest=JSON.parse(await readFile(path.join(publicData,'asset-manifest.json'),'utf8'));
   const assets={};let compressedBytes=0;
   const sources={};
-   const hiddenOnly=config.hiddenOnly===true;
-   const rowFilter=hiddenOnly?((row)=>categoryFor(row)==='hidden'):null;
-   if(hiddenOnly){
-     for(const city of selected){
-       let count=0;
-       for(const logical of city.files) for await(const {row} of streamRows(path.join(root,'data',logical))) if(rowFilter(row)) count++;
-       city.count=count;city.bounds=null;city.files=Array.from({length:Math.ceil(count/25000)},(_,i)=>`baidu/${city.id}/points-${String(i+1).padStart(3,'0')}.json`);
-     }
-   }
-   for(const city of selected){
+  const hiddenOnly=config.hiddenOnly===true;
+  const rowFilter=hiddenOnly?(row=>categoryFor(row)==='hidden'):null;
+  const filteredStats=new Map();
+  if(hiddenOnly){
+    for(const city of selected){
+      const totals={count:0,bounds:null,displayCounts:{regular:0,hidden:0,timeMachine:0,unknown:0,total:0},captureSummary:newCaptureSummary()};
+      for(const logical of city.files){
+        for await(const {row:input} of streamRows(path.join(root,'data',logical))){
+          const row=validateRows([input])[0];if(!rowFilter(row))continue;
+          if(!totals.bounds)totals.bounds=[row[1],row[2],row[1],row[2]];else{totals.bounds[0]=Math.min(totals.bounds[0],row[1]);totals.bounds[1]=Math.min(totals.bounds[1],row[2]);totals.bounds[2]=Math.max(totals.bounds[2],row[1]);totals.bounds[3]=Math.max(totals.bounds[3],row[2]);}
+          const category=categoryFor(row);totals.displayCounts[category==='time-machine'?'timeMachine':category]++;totals.displayCounts.total++;addCaptureSummary(totals.captureSummary,row);totals.count++;
+        }
+      }
+      filteredStats.set(city.id,totals);city.count=totals.count;city.bounds=totals.bounds;city.displayCounts=totals.displayCounts;city.captureSummary=totals.captureSummary;
+      city.files=Array.from({length:Math.ceil(totals.count/25000)},(_,i)=>'baidu/'+city.id+'/points-'+String(i+1).padStart(3,'0')+'.json');
+    }
+  }
+  for(const city of selected){
      if(config.countyShards===true){
-      const folder=path.join(root,'config/osm-counties'),metaPath=path.join(folder,city.id+'.json'),geometryPath=path.join(folder,city.id+'.geojson');
+      if(hiddenOnly&&city.count===0){city.files=[];city.counties=[];city.partition=COUNTY_PARTITION;city.partitionSummary={matched:0,unmatched:0,ambiguous:0,total:0};city.boundaryInfo={source:'OpenStreetMap',parentUsable:false,hiddenOnlyEmpty:true};city.sourceFiles=[];city.displayCounts={regular:0,hidden:0,timeMachine:0,unknown:0,total:0};city.captureSummary=newCaptureSummary();continue;}
+             const folder=path.join(root,'config/osm-counties'),metaPath=path.join(folder,city.id+'.json'),geometryPath=path.join(folder,city.id+'.geojson');
       for(const file of [metaPath,geometryPath])if(await realpath(file)!==file||!(await lstat(file)).isFile())throw Error('Unsafe county boundary snapshot');
       const boundaryInfo=JSON.parse(await readFile(metaPath,'utf8')),geometryBytes=await readFile(geometryPath);
       const fingerprint={bytes:geometryBytes.length,sha256:createHash('sha256').update(geometryBytes).digest('hex')};
@@ -106,8 +116,10 @@ export async function publishPages({root=PROJECT_ROOT,output='dist/pages',commit
   }
   const files=(fullCatalog.importSummary?.files||[]).filter(file=>selectedIds.has(file.city));
   const total=sum(selected,'count');
-  const summary=fullCatalog.importSummary?{
-    ...fullCatalog.importSummary,sourceFiles:new Set(files.map(file=>`${file.name}\0${file.sha256}`)).size,rawRecords:sum(files,'rawRecords'),uniquePanoids:total,
+  const summary=hiddenOnly?{
+    schemaVersion:1,provider:'baidu',sourceFiles:selected.filter(city=>city.count>0).length,rawRecords:total,uniquePanoids:total,exactDuplicates:0,differingDuplicates:0,invalidRecords:0,archiveCoordinateSystem:'BD-09',selection:'hidden-only',files:selected.filter(city=>city.count>0).map(city=>({name:'hidden-only:'+city.id,city:city.id,rawRecords:city.count,uniquePanoids:city.count,exactDuplicates:0,differingDuplicates:0}))
+  }:fullCatalog.importSummary?{
+    ...fullCatalog.importSummary,sourceFiles:new Set(files.map(file=>file.name+'\0'+file.sha256)).size,rawRecords:sum(files,'rawRecords'),uniquePanoids:total,
     exactDuplicates:sum(files,'exactDuplicates'),differingDuplicates:sum(files,'differingDuplicates'),invalidRecords:0,files,
   }:undefined;
   const countyPublication=config.countyShards?{partition:COUNTY_PARTITION,maxShardRows:25000,counties:selected.reduce((n,city)=>n+city.counties.filter(county=>county.kind==='county').length,0),citiesWithCountyGeometry:selected.filter(city=>city.counties.some(county=>county.kind==='county')).length,matched:sum(selected.map(city=>city.partitionSummary),'matched'),unmatched:sum(selected.map(city=>city.partitionSummary),'unmatched'),ambiguous:sum(selected.map(city=>city.partitionSummary),'ambiguous')}:null;

@@ -127,7 +127,7 @@ function populateFilters() {
   elements.province.innerHTML = '<option value="">全部省份</option>';
   [...provinces].sort((a, b) => a.localeCompare(b, 'zh-CN')).forEach((name) => elements.province.add(new Option(name, name)));
   syncCities();
-  if (province) void loadBlueDotsForProvince(province).catch(error => announce(`小蓝点无法加载：${error.message}`));
+}
 function syncCities() {
   const province = elements.province.value;
   cancelBlueDotLoad();
@@ -162,57 +162,62 @@ function selectedRequest(city){
   return {files:city.files,count:city.count,county:null,part:'all'};
 }
 
-// --- 小蓝点（blue-dots）图层 -------------------------------------------------
-// 按省份按需加载 data/blue-dots/<adcode>/points-NNN.json；只渲染在地图上，
-// 不进入列表/导出；接口可取消，缓存按省份保留（不整国一次性加载）。
+// --- 小蓝点独立图层 ------------------------------------------------------------
+// 按选择省份从小蓝点全国目录加载文本JSON gzip子片；只显示在地图，不入普通列表。
 const BLUE_DOTS_URL = new URL('../data/blue-dots/', import.meta.url);
 const blueDotCache = new Map();
 let blueDotController = null;
 let blueDotManifestPromise = null;
-function normalizeBlueRow(row) {
-  if (!Array.isArray(row) || typeof row[0] !== 'string' || !Number.isFinite(row[4]) || !Number.isFinite(row[5])) return null;
-  const extras = { ...(row[6] && typeof row[6] === 'object' ? row[6] : {}), blueDot: true, source: 'blue-dots' };
-  return [row[0], row[4], row[5], row[3] ?? '', '', null, false, false, 'baidu', extras];
+function normalizeBlueRow(row, manifestPart) {
+  if (!Array.isArray(row) || row.length !== 6 || typeof row[0] !== 'string' || !Number.isFinite(row[1]) || !Number.isFinite(row[2]) || typeof row[3] !== 'string' || !Number.isFinite(row[4]) || !Number.isFinite(row[5])) return null;
+  const extras = { blueDot: true, source: 'blue-dots', sourceFile: manifestPart.source, sourceSha256: manifestPart.sha256, sourceCoordinateSystem: 'BD09MC / BD09LL', region: row[3], bd09mcX: row[1], bd09mcY: row[2] };
+  return [row[0], row[4], row[5], row[3], '', null, false, false, 'baidu', extras];
+}
+async function blueDotSha256(bytes) {
+  if(!globalThis.crypto?.subtle) throw new Error('小蓝点校验需要Web Crypto');
+  const digest=await crypto.subtle.digest('SHA-256',bytes);
+  return [...new Uint8Array(digest)].map(value=>value.toString(16).padStart(2,'0')).join('');
 }
 async function blueDotManifest(signal) {
-  if (!blueDotManifestPromise) blueDotManifestPromise = fetch(new URL('parts-manifest.json', BLUE_DOTS_URL), { signal }).then(async response => { if (!response.ok) throw new Error(`小蓝点清单加载失败 (${response.status})`); const data = await response.json(); if (data.schemaVersion !== 1 || data.coordinateSystem !== 'BD09MC / BD09LL' || !Array.isArray(data.parts)) throw new Error('小蓝点清单无效'); return data; });
+  if (!blueDotManifestPromise) blueDotManifestPromise = fetch(new URL('parts-manifest.json', BLUE_DOTS_URL), { signal }).then(async response => { if (!response.ok) throw new Error(`小蓝点清单加载失败 (${response.status})`); const data = await response.json(); if (data.schemaVersion !== 1 || data.coordinateSystem !== 'BD09MC / BD09LL' || !Array.isArray(data.parts)) throw new Error('小蓝点清单无效'); return data; }).catch(error => { blueDotManifestPromise = null; throw error; });
   return blueDotManifestPromise;
 }
-async function fetchBlueDots(collection, signal) {
-  const cacheKey = collection.province || collection.id;
+async function fetchBlueDots(province, signal) {
+  const cacheKey = province;
   if (blueDotCache.has(cacheKey)) return blueDotCache.get(cacheKey);
-  const manifest = await blueDotManifest(signal), province = collection.province;
-  const parts = manifest.parts.filter(part => part.province === province);
+  const manifest = await blueDotManifest(signal), parts = manifest.parts.filter(part => part.province === province);
   const rows = [];
   for (const part of parts) {
     if (signal.aborted) return null;
     const response = await fetch(new URL(part.file, BLUE_DOTS_URL), { signal });
     if (!response.ok) throw new Error(`小蓝点分片加载失败：${part.file} (${response.status})`);
-    const text = await response.text();
-    const rawRows = JSON.parse(text);
+    const compressed = new Uint8Array(await response.arrayBuffer());
+    if (compressed.length !== part.bytes || await blueDotSha256(compressed) !== part.sha256) throw new Error(`小蓝点分片SHA校验失败：${part.file}`);
+    const plainStream = new Blob([compressed]).stream().pipeThrough(new DecompressionStream('gzip'));
+    const rawRows = JSON.parse(await new Response(plainStream).text());
     if (!Array.isArray(rawRows) || rawRows.length !== part.rows) throw new Error(`小蓝点分片行数错误：${part.file}`);
-    for (const raw of rawRows) { const row = normalizeBlueRow(raw); if (row) rows.push(Object.assign(row, { __collectionId: collection.id, __city: collection.name, __province: collection.province, __blueDot: true })); }
+    for (const raw of rawRows) { const row = normalizeBlueRow(raw, part); if (row) rows.push(Object.assign(row, { __province: province, __blueDot: true })); }
   }
   blueDotCache.set(cacheKey, rows);
-  if (blueDotCache.size > 6) blueDotCache.delete(blueDotCache.keys().next().value);
+  if (blueDotCache.size > 1) blueDotCache.delete(blueDotCache.keys().next().value);
   return rows;
 }
 export async function loadBlueDotsForProvince(province) {
   if (!state.catalog) throw new Error('目录尚未加载');
+  if (window.__BAIDU_BLUE_DOTS_DISABLED__) { state.blueRows=[]; updateView(); return []; }
   blueDotController?.abort();
-  const controller = new AbortController();
-  blueDotController = controller;
-  const collections = state.catalog.collections.filter((c) => !province || c.province === province);
-  const next = [];
-  for (const collection of collections) {
-    const rows = await fetchBlueDots(collection, controller.signal);
+  const controller = new AbortController(); blueDotController = controller;
+  if (!province) { state.blueRows = []; updateView(); return []; }
+  try {
+    const next = await fetchBlueDots(province, controller.signal);
+    if (controller.signal.aborted || !next) return null;
+    state.blueRows = next; updateView(); return next;
+  } catch (error) {
     if (controller.signal.aborted) return null;
-    if (rows) next.push(...rows);
+    state.blueRows = []; updateView();
+    if (/404|清单/.test(error.message)) return [];
+    throw error;
   }
-  if (controller.signal.aborted) return null;
-  state.blueRows = next;
-  updateView();
-  return next;
 }
 function cancelBlueDotLoad() { blueDotController?.abort(); blueDotController = null; }
 
@@ -223,7 +228,7 @@ function filtered(rows) {
   if (elements.city.value) rows = rows.filter((r) => r.__collectionId === elements.city.value);
   if(elements.county.value&&elements.county.value!=='all')rows=rows.filter(r=>r.__countyId===elements.county.value);
   const kind=$('kind-filter').value;
-  if(kind!=='all') rows=rows.filter(row=>categoryFor(row)===kind);
+  if(kind!=='all') rows=rows.filter(row=>categoryFor(row)===kind && categoryFor(row)!=='blue');
   const seen = new Set();
   return rows.filter((row) => { if (seen.has(row[0])) return false; seen.add(row[0]); return true; });
 }
@@ -343,6 +348,7 @@ async function loadData() {
   state.catalog = await loadCatalog();
   state.collectionById.clear();
   state.catalog.collections.forEach((c) => state.collectionById.set(c.id, c));
+  try { const blueResponse=await fetch(new URL('../data/blue-dots/parts-manifest.json',import.meta.url));if(blueResponse.ok){const blueManifest=await blueResponse.json();if(blueManifest.schemaVersion===1&&Array.isArray(blueManifest.parts)){const blueProvinceCodes=new Set(blueManifest.parts.map(part=>String(part.provinceCode)));for(const city of state.catalog.collections)city.blueDots=blueProvinceCodes.has(city.id.slice(0,2)+'0000');}} } catch { /* Blue-dot overlay is optional; ordinary catalog loading stays available. */ }
   const summary = state.catalog.importSummary || {};
   elements.summaryCities.textContent = `${state.catalog.collections.length} 个城市`;
   elements.summaryRaw.textContent = Number.isFinite(summary.rawRecords) ? summary.rawRecords.toLocaleString() : '—';
@@ -427,7 +433,7 @@ $('empty-load').addEventListener('click',()=>$('load-city').click());
 $('page-prev').addEventListener('click', () => { state.page--; updateView(); });
 $('page-next').addEventListener('click', () => { state.page++; updateView(); });
 function clearPublishedSelection(){++collectionRequest;cancelActiveLoad();state.loading=false;cityCache.clear();state.publishedRows=[];state.loadedCollection=null;state.loadedSelection=null;state.page=0;}
-elements.province.addEventListener('change',()=>{clearPublishedSelection();syncCities();updateView();cancelBlueDotLoad();void loadBlueDotsForProvince(elements.province.value);});
+elements.province.addEventListener('change',()=>{clearPublishedSelection();syncCities();updateView();void loadBlueDotsForProvince(elements.province.value||'').catch(error=>announce(`小蓝点无法加载：${error.message}`));});
 elements.city.addEventListener('change',()=>{clearPublishedSelection();syncCounties();updateView();const collection=state.collectionById.get(elements.city.value);if(collection&&collection.partition!==COUNTY_PARTITION)void loadPublishedCollections([collection]);});
 elements.county.addEventListener('change',()=>{clearPublishedSelection();syncShards();updateView();const collection=state.collectionById.get(elements.city.value);if(collection&&elements.county.value)void loadPublishedCollections([collection]);});
 elements.shard.addEventListener('change',()=>{clearPublishedSelection();updateView();const collection=state.collectionById.get(elements.city.value);if(collection&&elements.county.value)void loadPublishedCollections([collection]);});
@@ -457,6 +463,7 @@ loadData().then(async()=>{
   const collection=state.collectionById.get(id);
   if(collection){
     elements.province.value=collection.province;syncCities();elements.city.value=collection.id;syncCounties();
+    void loadBlueDotsForProvince(collection.province).catch(error=>announce(`小蓝点无法加载：${error.message}`));
     if(collection.partition===COUNTY_PARTITION){
       const county=params.get('county');
       if(county&&[...elements.county.options].some(option=>option.value===county&&!option.disabled)){

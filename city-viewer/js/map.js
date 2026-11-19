@@ -85,6 +85,8 @@ export function createMap(container){
             if(cell.hidden){ctx.strokeStyle='#fff';ctx.lineWidth=1;ctx.strokeRect(cell.left+1,cell.top+1,GRID_SIZE-2,GRID_SIZE-2);ctx.fillStyle=POINT_COLORS.hidden;ctx.fillRect(cell.left+3,cell.top+3,6,6);}
             if(cell.timeMachine){ctx.fillStyle=POINT_COLORS['time-machine'];ctx.fillRect(cell.left+11,cell.top+3,6,6);}state.drawnSymbols++;
           }
+          for(const point of state.bluePoints){const p=pixelFor(point,frame);if(!inside(p,frame))continue;state.renderedCount++;bluePixels.push(p);}
+          for(const p of bluePixels){ctx.beginPath();ctx.arc(p.x,p.y,2.5,0,Math.PI*2);ctx.fillStyle=POINT_COLORS.blue;ctx.fill();ctx.strokeStyle='#fff';ctx.lineWidth=1;ctx.stroke();}state.drawnSymbols+=bluePixels.length;
         }
         if(state.activeRow){const p=pixelFor(pointFor(state.activeRow,map),frame);ctx.beginPath();ctx.arc(p.x,p.y,9,0,Math.PI*2);ctx.strokeStyle='#fff';ctx.lineWidth=2;ctx.stroke();}
         state.container.dispatchEvent(new CustomEvent('baidu:maprendered'));
@@ -134,7 +136,7 @@ export function bindMapInteractions(state){
   state.map.on('click',event=>{
     const frame=frameFor(state),clicked=event.containerPoint||state.map.latLngToContainerPoint(event.latlng);let nearest=null,best=Infinity;
     for(const point of state.points){const p=pixelFor(point,frame);if(!inside(p,frame))continue;const d=(p.x-clicked.x)**2+(p.y-clicked.y)**2;if(d<best){nearest=point;best=d;}}
-    for(const point of state.bluePoints){const p=pixelFor(point,frame);if(!inside(p,frame))continue;const d=(p.x-clicked.x)**2+(p.y-clicked.y)**2;if(d<best){nearest=point;best=d;}}
+    for(const point of state.bluePoints){const p=pixelFor(point,frame);if(!inside(p,frame))continue;const d=(p.x-clicked.x)**2+(p.y-clicked.y)**2;if(d<=best){nearest=point;best=d;}}
     if(nearest)document.dispatchEvent(new CustomEvent('baidu:select',{detail:nearest.row}));
   });
   if(typeof ResizeObserver==='function'){const observer=new ResizeObserver(()=>state.map.invalidateSize({debounceMoveend:true}));observer.observe(state.container);state.map.once('unload',()=>observer.disconnect());}
