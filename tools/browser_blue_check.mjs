@@ -15,7 +15,7 @@ const delay = ms => new Promise(r => setTimeout(r, ms));
 async function exists(f) { try { await access(f); return true; } catch { return false; } }
 function args() {
   const a = process.argv.slice(2), o = {};
-  for (let i = 0; i < a.length; i += 2) { assert(['--site-root', '--url', '--province', '--result-dir', '--browser'].includes(a[i]) && a[i + 1], 'Unknown argument: ' + a[i]); o[a[i]] = a[i + 1]; }
+  for (let i = 0; i < a.length; i += 2) { assert(['--site-root', '--url', '--province', '--city', '--county', '--result-dir', '--browser'].includes(a[i]) && a[i + 1], 'Unknown argument: ' + a[i]); o[a[i]] = a[i + 1]; }
   assert(Boolean(o['--site-root']) !== Boolean(o['--url']), 'Choose exactly one of --site-root or --url');
   return o;
 }
@@ -73,6 +73,8 @@ try {
   report.checks.homepage = { blueRequests: 0, blueCount: 0, visibleCount: home.visibleCount };
 
   const province = o['--province'] || '山东省';
+  const requestedCity = o['--city'] || '';
+  const requestedCounty = o['--county'] || '';
   const optionOK = await evaluate(`(()=>{const s=document.querySelector('#province-filter');return [...s.options].some(o=>o.value===${JSON.stringify(province)})})()`);
   assert(optionOK, 'Province option not present: ' + province);
   const manifest = await (await fetch(new URL('data/blue-dots/parts-manifest.json', url))).json();
@@ -86,6 +88,15 @@ try {
   await delay(800);
   const loaded = await evaluate('window.__BAIDU_WORKBENCH__.getState()');
   assert.equal(loaded.blueProvince, province, 'Blue layer province mismatch');
+  const cityOptions = await evaluate(`[...document.querySelectorAll('#city-filter option')].map(o=>o.textContent)`);
+  assert(cityOptions.length > 1, 'Province blue-dot city options were not populated');
+  if (requestedCity) {
+    const cityValue = `blue:${requestedCity}`;
+    assert(cityOptions.some(text => text.includes(requestedCity)), 'Requested blue city option missing: ' + requestedCity);
+    await evaluate(`(()=>{const s=document.querySelector('#city-filter');s.value=${JSON.stringify(cityValue)};s.dispatchEvent(new Event('change',{bubbles:true}));return true})()`);
+    await until(() => evaluate('window.__BAIDU_WORKBENCH__.getState().blueCount>0'), 30000, 'blue city filter');
+  }
+  const cityFiltered = await evaluate('window.__BAIDU_WORKBENCH__.getState()');
   assert.ok(loaded.blueRenderedCount > 0, 'Blue points did not reach the map');
   // Pixel-level proof: count canvas pixels close to #27A9FF (39,169,255).
   // This distinguishes "rows stored in state" from "dots actually painted".
@@ -98,6 +109,14 @@ try {
     return n;})()`);
   assert.ok(bluePixels > 500, 'Blue dots are not painted on the map canvas: ' + bluePixels + ' blue pixels');
   assert.equal(loaded.visibleCount, 0, 'Blue dots must not enter the ordinary list count');
+  if (requestedCounty) {
+    const countyOptions = await evaluate(`[...document.querySelectorAll('#county-filter option')].map(o=>o.textContent)`);
+    assert(countyOptions.some(text => text.includes(requestedCounty)), 'Requested blue county option missing: ' + requestedCounty);
+    await evaluate(`(()=>{const s=document.querySelector('#county-filter');const o=[...s.options].find(o=>o.textContent.includes(${JSON.stringify(requestedCounty)}));if(!o)return false;s.value=o.value;s.dispatchEvent(new Event('change',{bubbles:true}));return true})()`);
+  } else {
+    const countyState = await evaluate('({disabled:document.querySelector("#county-filter").disabled, options:[...document.querySelectorAll("#county-filter option")].map(o=>o.textContent)})');
+    assert(countyState.disabled || countyState.options.length > 1, 'City-level blue selection must expose real county data or state that none exists');
+  }
   const blueRequests = requests.filter(isBlue).map(u => decodeURIComponent(new URL(u).pathname.split('/').pop()));
   const foreign = [...new Set(blueRequests.filter(f => !expectedFiles.has(f)))];
   assert.deepEqual(foreign, [], 'Loaded blue shards from another province: ' + JSON.stringify(foreign));

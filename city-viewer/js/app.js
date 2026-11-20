@@ -137,16 +137,23 @@ function populateFilters() {
 }
 function syncCities() {
   const province = elements.province.value;
-  cancelBlueDotLoad();
-  state.blueRows = [];
   const cities = state.catalog.collections.filter((c) => !province || c.province === province);
-  elements.city.innerHTML = `<option value="">${province ? (cities.length ? '选择城市' : '该省暂未发布街景，仅显示小蓝点') : '选择省份后载入'}</option>`;
+  const blueCities = province && state.blueRows.length ? [...new Set(state.blueRows.map(row => row.__blueCity).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'zh-CN')) : [];
+  elements.city.innerHTML = `<option value="">${province ? (cities.length || blueCities.length ? '选择城市' : '该省暂未发布街景或蓝点') : '选择省份后载入'}</option>`;
   cities.forEach((c) => elements.city.add(new Option(c.name, c.id)));
-  elements.city.disabled = !province || !cities.length;
+  blueCities.filter(name => !cities.some(city => city.name === name)).forEach(name => elements.city.add(new Option(`${name}（小蓝点）`, `blue:${name}`)));
+  elements.city.disabled = !province || (!cities.length && !blueCities.length);
   syncCounties();
 }
 function syncCounties(){
   const city=state.collectionById.get(elements.city.value);
+  const blueCity=elements.city.value.startsWith('blue:') ? elements.city.value.slice(5) : '';
+  if(blueCity){
+    const counties=[...new Set(state.blueRows.filter(row=>row.__blueCity===blueCity).map(row=>row.__blueCounty).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'zh-CN'));
+    elements.county.replaceChildren(new Option(counties.length?'选择区 / 县（小蓝点）':'该市源数据未提供区县字段',''));
+    counties.forEach(name=>elements.county.add(new Option(`${name}（小蓝点）`, `blue:${name}`)));
+    elements.county.disabled=!counties.length; syncShards(); return;
+  }
   elements.county.replaceChildren(new Option(city?.partition===COUNTY_PARTITION?'选择县 / 区（按需载入）':'整市数据',''));
   elements.county.disabled=!city||city.partition!==COUNTY_PARTITION;
   if(city?.partition===COUNTY_PARTITION){
@@ -179,7 +186,10 @@ let blueDotManifestPromise = null;
 function normalizeBlueRow(row, manifestPart) {
   if (!Array.isArray(row) || row.length !== 6 || typeof row[0] !== 'string' || !Number.isFinite(row[1]) || !Number.isFinite(row[2]) || typeof row[3] !== 'string' || !Number.isFinite(row[4]) || !Number.isFinite(row[5])) return null;
   const extras = { blueDot: true, source: 'blue-dots', sourceFile: manifestPart.source, sourceSha256: manifestPart.sha256, sourceCoordinateSystem: 'BD09MC / BD09LL', region: row[3], bd09mcX: row[1], bd09mcY: row[2] };
-  return [row[0], row[4], row[5], row[3], '', null, false, false, 'baidu', extras];
+  const regionParts = row[3].split('|').map(part => part.trim()).filter(Boolean);
+  const normalized = [row[0], row[4], row[5], row[3], '', null, false, false, 'baidu', extras];
+  Object.assign(normalized, { __province: regionParts[0] || '', __blueCity: regionParts[1] || '', __blueCounty: regionParts[2] || '', __blueDot: true });
+  return normalized;
 }
 async function blueDotSha256(bytes) {
   if(!globalThis.crypto?.subtle) throw new Error('小蓝点校验需要Web Crypto');
@@ -220,7 +230,7 @@ export async function loadBlueDotsForProvince(province) {
   try {
     const next = await fetchBlueDots(province, controller.signal);
     if (controller.signal.aborted || !next) return null;
-    state.blueRows = next; updateView(); return next;
+    state.blueRows = next; syncCities(); updateView(); return next;
   } catch (error) {
     if (controller.signal.aborted) return null;
     state.blueRows = []; updateView();
@@ -234,8 +244,14 @@ function cancelBlueDotLoad() { blueDotController?.abort(); blueDotController = n
 function filtered(rows) {
   rows = filterRows(rows, { query: elements.search.value.trim(), road: elements.road.value.trim(), date: elements.date.value });
   if (elements.province.value) rows = rows.filter((r) => r.__province === elements.province.value || (r.__collectionId && state.collectionById.get(r.__collectionId)?.province === elements.province.value));
-  if (elements.city.value) rows = rows.filter((r) => r.__collectionId === elements.city.value);
-  if(elements.county.value&&elements.county.value!=='all')rows=rows.filter(r=>r.__countyId===elements.county.value);
+  if (elements.city.value) {
+    if (elements.city.value.startsWith('blue:')) rows = rows.filter(r => r.__blueDot && r.__blueCity === elements.city.value.slice(5));
+    else rows = rows.filter((r) => r.__collectionId === elements.city.value);
+  }
+  if(elements.county.value&&elements.county.value!=='all'){
+    if(elements.county.value.startsWith('blue:')) rows=rows.filter(r=>r.__blueDot&&r.__blueCounty===elements.county.value.slice(5));
+    else rows=rows.filter(r=>r.__countyId===elements.county.value);
+  }
   const kind=$('kind-filter').value;
   if(kind!=='all') rows=rows.filter(row=>categoryFor(row)===kind && categoryFor(row)!=='blue');
   const seen = new Set();
@@ -248,8 +264,16 @@ function updateMapButtons() {
     button.setAttribute('aria-pressed', String(active));
   });
 }
+function blueRowsForSelection() {
+  let rows = state.blueRows;
+  if (elements.province.value) rows = rows.filter(row => row.__province === elements.province.value);
+  if (elements.city.value.startsWith('blue:')) rows = rows.filter(row => row.__blueCity === elements.city.value.slice(5));
+  if (elements.county.value.startsWith('blue:')) rows = rows.filter(row => row.__blueCounty === elements.county.value.slice(5));
+  return rows;
+}
 function updateView() {
   const rows = allRows();
+  const blueVisibleRows = blueRowsForSelection();
   state.visibleRows = filtered(rows);
   state.page = Math.min(state.page, Math.max(0, Math.ceil(state.visibleRows.length / PAGE_SIZE) - 1));
   const count = state.visibleRows.length;
@@ -300,7 +324,7 @@ function updateView() {
   elements.prev.disabled = state.page === 0;
   elements.next.disabled = state.page >= totalPages - 1;
   const showContext=!elements.search.value.trim()&&(elements.road.value.trim()||elements.date.value||$('kind-filter').value!=='all');
-  renderMap(state.map, state.visibleRows, state.mode, showContext?rows:[], state.blueRows);
+  renderMap(state.map, state.visibleRows, state.mode, showContext?rows:[], blueVisibleRows);
   if (!state.visibleRows.includes(state.selected)) showDetail(null);
   updateStatus(); updateHud();
   refreshSnapshot();
