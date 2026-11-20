@@ -50,6 +50,12 @@ export async function buildSite({ root = PROJECT_ROOT, output = 'dist/pages', co
     for (const file of PUBLIC_MODULES) await copyFile(root, stage, 'city-viewer/js/' + file);
     const releasesSource = path.join(root, 'config/release-notes.json');
     if (await exists(releasesSource)) await copyFile(root, stage, 'config/release-notes.json');
+    const osmBlueManifest = path.join(root, 'data/blue-dots-osm/county-matched-manifest.json');
+    if (await exists(osmBlueManifest)) {
+      const blueOsmDir = path.join(stage, 'city-viewer/data/blue-dots-osm'); await mkdir(blueOsmDir, { recursive: true });
+      await copyFile(root, stage, 'data/blue-dots-osm/county-matched-manifest.json');
+      for (const entry of await readdir(path.join(root, 'data/blue-dots-osm'))) if (entry.endsWith('.json.gz')) await copyFile(root, stage, 'data/blue-dots-osm/' + entry);
+    }
     const cssDir = path.join(root, 'city-viewer/css');
     for (const entry of await readdir(cssDir, { withFileTypes: true })) {
       if (entry.isSymbolicLink()) throw new Error('Symlinked CSS denied.');

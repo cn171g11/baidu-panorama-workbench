@@ -149,9 +149,11 @@ function syncCounties(){
   const city=state.collectionById.get(elements.city.value);
   const blueCity=elements.city.value.startsWith('blue:') ? elements.city.value.slice(5) : '';
   if(blueCity){
-    const counties=[...new Set(state.blueRows.filter(row=>row.__blueCity===blueCity).map(row=>row.__blueCounty).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'zh-CN'));
-    elements.county.replaceChildren(new Option(counties.length?'选择区 / 县（小蓝点）':'该市源数据未提供区县字段',''));
-    counties.forEach(name=>elements.county.add(new Option(`${name}（小蓝点）`, `blue:${name}`)));
+    const counties=blueCountyOptions(blueCity);
+    const hasUnmatched=state.blueRows.some(row=>row.__blueCity===blueCity && ['unmatched','ambiguous','no-boundary'].includes(row[9]?.administrativeArea?.match));
+    elements.county.replaceChildren(new Option(counties.length?'选择区 / 县（OSM匹配）':(hasUnmatched?'该市存在未匹配点位':'该市暂无OSM县级覆盖'),'') );
+    counties.forEach(name=>elements.county.add(new Option(`${name}（OSM）`, `blue:${name}`)));
+    if(hasUnmatched) elements.county.add(new Option('未匹配 / 边界歧义（OSM）','blue:__unmatched__'));
     elements.county.disabled=!counties.length; syncShards(); return;
   }
   elements.county.replaceChildren(new Option(city?.partition===COUNTY_PARTITION?'选择县 / 区（按需载入）':'整市数据',''));
@@ -184,8 +186,8 @@ const blueDotCache = new Map();
 let blueDotController = null;
 let blueDotManifestPromise = null;
 function normalizeBlueRow(row, manifestPart) {
-  if (!Array.isArray(row) || row.length !== 6 || typeof row[0] !== 'string' || !Number.isFinite(row[1]) || !Number.isFinite(row[2]) || typeof row[3] !== 'string' || !Number.isFinite(row[4]) || !Number.isFinite(row[5])) return null;
-  const extras = { blueDot: true, source: 'blue-dots', sourceFile: manifestPart.source, sourceSha256: manifestPart.sha256, sourceCoordinateSystem: 'BD09MC / BD09LL', region: row[3], bd09mcX: row[1], bd09mcY: row[2] };
+  if (!Array.isArray(row) || (row.length !== 6 && row.length !== 7) || typeof row[0] !== 'string' || !Number.isFinite(row[1]) || !Number.isFinite(row[2]) || typeof row[3] !== 'string' || !Number.isFinite(row[4]) || !Number.isFinite(row[5])) return null;
+  const extras = { ...(row[6] && typeof row[6] === 'object' ? row[6] : {}), blueDot: true, source: 'blue-dots', sourceFile: manifestPart.source, sourceSha256: manifestPart.sha256, sourceCoordinateSystem: 'BD09MC / BD09LL', region: row[3], bd09mcX: row[1], bd09mcY: row[2] };
   const regionParts = row[3].split('|').map(part => part.trim()).filter(Boolean);
   const normalized = [row[0], row[4], row[5], row[3], '', null, false, false, 'baidu', extras];
   Object.assign(normalized, { __province: regionParts[0] || '', __blueCity: regionParts[1] || '', __blueCounty: regionParts[2] || '', __blueDot: true });
@@ -217,6 +219,25 @@ async function fetchBlueDots(province, signal) {
     if (!Array.isArray(rawRows) || rawRows.length !== part.rows) throw new Error(`小蓝点分片行数错误：${part.file}`);
     for (const raw of rawRows) { const row = normalizeBlueRow(raw, part); if (row) rows.push(Object.assign(row, { __province: province, __blueDot: true })); }
   }
+  // Enrich the province fallback with independently classified OSM county rows.
+  // Only unique polygon matches are published there; all other points remain in the base province shards.
+  try {
+    const osmResponse = await fetch(new URL('../blue-dots-osm/county-matched-manifest.json', import.meta.url), { signal });
+    if (osmResponse.ok) {
+      const osmManifest = await osmResponse.json();
+      const osmParts = osmManifest.parts.filter(part => part.key.startsWith(`${province}|`));
+      const enriched = new Map(rows.map(row => [row[0], row]));
+      for (const part of osmParts) {
+        const response = await fetch(new URL(`../data/blue-dots-osm/${part.file}`, import.meta.url), { signal });
+        if (!response.ok) continue;
+        const bytes = new Uint8Array(await response.arrayBuffer());
+        if (bytes.length !== part.bytes || await blueDotSha256(bytes) !== part.sha256) throw new Error(`OSM小蓝点分片SHA校验失败：${part.file}`);
+        const rawRows = JSON.parse(new TextDecoder().decode(bytes));
+        for (const raw of rawRows) { const normalized = normalizeBlueRow(raw, part); if (normalized) enriched.set(normalized[0], Object.assign(normalized, { __province: province, __blueDot: true })); }
+      }
+      rows.splice(0, rows.length, ...enriched.values());
+    }
+  } catch (error) { if (controller?.signal?.aborted) return null; }
   blueDotCache.set(cacheKey, rows);
   if (blueDotCache.size > 1) blueDotCache.delete(blueDotCache.keys().next().value);
   return rows;
@@ -249,7 +270,10 @@ function filtered(rows) {
     else rows = rows.filter((r) => r.__collectionId === elements.city.value);
   }
   if(elements.county.value&&elements.county.value!=='all'){
-    if(elements.county.value.startsWith('blue:')) rows=rows.filter(r=>r.__blueDot&&r.__blueCounty===elements.county.value.slice(5));
+    if(elements.county.value.startsWith('blue:')) {
+    const county=elements.county.value.slice(5);
+    rows=rows.filter(r=>r.__blueDot && (county==='__unmatched__' ? ['unmatched','ambiguous','no-boundary'].includes(r[9]?.administrativeArea?.match) : r[9]?.administrativeArea?.county===county));
+  }
     else rows=rows.filter(r=>r.__countyId===elements.county.value);
   }
   const kind=$('kind-filter').value;
@@ -270,6 +294,15 @@ function blueRowsForSelection() {
   if (elements.city.value.startsWith('blue:')) rows = rows.filter(row => row.__blueCity === elements.city.value.slice(5));
   if (elements.county.value.startsWith('blue:')) rows = rows.filter(row => row.__blueCounty === elements.county.value.slice(5));
   return rows;
+}
+function blueCountyOptions(city) {
+  const rows = state.blueRows.filter(row => row.__blueCity === city);
+  const matched = new Map();
+  for (const row of rows) {
+    const area = row[9]?.administrativeArea;
+    if (area?.source === 'OpenStreetMap' && area.match === 'matched' && area.county) matched.set(area.county, area);
+  }
+  return [...matched.keys()].sort((a,b)=>a.localeCompare(b,'zh-CN'));
 }
 function updateView() {
   const rows = allRows();
@@ -472,8 +505,8 @@ $('page-prev').addEventListener('click', () => { state.page--; updateView(); });
 $('page-next').addEventListener('click', () => { state.page++; updateView(); });
 function clearPublishedSelection(){++collectionRequest;cancelActiveLoad();state.loading=false;cityCache.clear();state.publishedRows=[];state.loadedCollection=null;state.loadedSelection=null;state.page=0;}
 elements.province.addEventListener('change',()=>{clearPublishedSelection();syncCities();updateView();void loadBlueDotsForProvince(elements.province.value||'').catch(error=>announce(`小蓝点无法加载：${error.message}`));});
-elements.city.addEventListener('change',()=>{clearPublishedSelection();syncCounties();updateView();const collection=state.collectionById.get(elements.city.value);if(collection&&collection.partition!==COUNTY_PARTITION)void loadPublishedCollections([collection]);});
-elements.county.addEventListener('change',()=>{clearPublishedSelection();syncShards();updateView();const collection=state.collectionById.get(elements.city.value);if(collection&&elements.county.value)void loadPublishedCollections([collection]);});
+elements.city.addEventListener('change',()=>{const blueCity=elements.city.value.startsWith('blue:');if(!blueCity)clearPublishedSelection();syncCounties();updateView();const collection=state.collectionById.get(elements.city.value);if(collection&&collection.partition!==COUNTY_PARTITION)void loadPublishedCollections([collection]);});
+elements.county.addEventListener('change',()=>{const blueCounty=elements.county.value.startsWith('blue:');if(!blueCounty)clearPublishedSelection();syncShards();updateView();const collection=state.collectionById.get(elements.city.value);if(collection&&elements.county.value&&!blueCounty)void loadPublishedCollections([collection]);});
 elements.shard.addEventListener('change',()=>{clearPublishedSelection();updateView();const collection=state.collectionById.get(elements.city.value);if(collection&&elements.county.value)void loadPublishedCollections([collection]);});
 $('load-city').addEventListener('click', async () => { const collection = state.catalog.collections.find((c) => c.id === elements.city.value); if (collection) await loadPublishedCollections([collection]); });
 let filterTimer;

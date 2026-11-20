@@ -18,7 +18,9 @@ test('blue dot rows keep blue color and draw above regular records', async () =>
   assert.match(source, /blueRows\.includes\(state\.activeRow\)/);
   // blue rows never merge into published/list rows
   const app = await readFile(path.join(root, 'city-viewer/js/app.js'), 'utf8');
-  assert.match(app, /renderMap\(state\.map, state\.visibleRows, state\.mode, showContext\?rows:\[\], state\.blueRows\)/);
+  assert.match(app, /renderMap\(state\.map, state\.visibleRows, state\.mode, showContext\?rows:\[\], blueVisibleRows\)/);
+  assert.match(app, /blueCountyOptions/);
+  assert.match(app, /administrativeArea/);
   assert.match(app, /__blueDotsBridge/);
 });
 

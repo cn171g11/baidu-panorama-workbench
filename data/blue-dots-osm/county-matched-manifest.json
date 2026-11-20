@@ -1,0 +1,2152 @@
+{
+  "schemaVersion": 1,
+  "provider": "baidu",
+  "displayLabel": "小蓝点 · OSM县级唯一匹配",
+  "coordinateSystem": "BD09MC / BD09LL",
+  "source": "OpenStreetMap WGS84 polygon match",
+  "total": 692485,
+  "parts": [
+    {
+      "key": "山西省|阳泉市|平定县",
+      "file": "山西省_阳泉市_平定县.json.gz",
+      "rows": 114,
+      "bytes": 3575,
+      "sha256": "ed23f9634fae756b2ff1a0b0584b93bb812305d30169e49a49031909c83bc63a"
+    },
+    {
+      "key": "山西省|阳泉市|郊区",
+      "file": "山西省_阳泉市_郊区.json.gz",
+      "rows": 161,
+      "bytes": 4874,
+      "sha256": "e442fa9d2dbece993744cb8fbb40688617e859ba00ec5f1fbafc1140ac1ec67f"
+    },
+    {
+      "key": "山西省|阳泉市|矿区",
+      "file": "山西省_阳泉市_矿区.json.gz",
+      "rows": 17,
+      "bytes": 770,
+      "sha256": "d4955c692c90ad9133969c2be9a30b74e4147849fdd44f49f0fe07492d2a155c"
+    },
+    {
+      "key": "山西省|阳泉市|盂县",
+      "file": "山西省_阳泉市_盂县.json.gz",
+      "rows": 139,
+      "bytes": 4189,
+      "sha256": "5b12cfe1b0b00b68ed91eff1dccf5ef1d93d0805c21c1f0c23f4116b01b1b116"
+    },
+    {
+      "key": "山西省|阳泉市|城区",
+      "file": "山西省_阳泉市_城区.json.gz",
+      "rows": 5,
+      "bytes": 414,
+      "sha256": "322d58ca1e4e05d91fe9e97e5fcca1cd5e8da0cb8026ce52e6d8eaf23ffb603d"
+    },
+    {
+      "key": "内蒙古自治区|阿拉善盟|阿拉善左旗",
+      "file": "内蒙古自治区_阿拉善盟_阿拉善左旗.json.gz",
+      "rows": 51,
+      "bytes": 1890,
+      "sha256": "340c9319d7e3059c13f682ddd912153f7caf17620cbac1c390f999dd8f22a3ff"
+    },
+    {
+      "key": "内蒙古自治区|阿拉善盟|阿拉善右旗",
+      "file": "内蒙古自治区_阿拉善盟_阿拉善右旗.json.gz",
+      "rows": 13,
+      "bytes": 637,
+      "sha256": "b4b3da4d7acd0fe654bfe4e6dff3c761802ee27fe6de7afce5601f6d99b9414f"
+    },
+    {
+      "key": "内蒙古自治区|阿拉善盟|额济纳旗",
+      "file": "内蒙古自治区_阿拉善盟_额济纳旗.json.gz",
+      "rows": 6,
+      "bytes": 457,
+      "sha256": "92e3ce0acdef690078d5533670b02c34dac17400c9480fd80fa0126e8eea0795"
+    },
+    {
+      "key": "江苏省|苏州市|常熟市",
+      "file": "江苏省_苏州市_常熟市.json.gz",
+      "rows": 26323,
+      "bytes": 665374,
+      "sha256": "c58b54d1e0278001774be39b3e6351a01d076a2dac314bab5382d24825a752e3"
+    },
+    {
+      "key": "江苏省|苏州市|张家港市",
+      "file": "江苏省_苏州市_张家港市.json.gz",
+      "rows": 24011,
+      "bytes": 600185,
+      "sha256": "8d33a78340a7a642e34a229f9e1bc2fcc8d2fdba57ab6c88d8bea32c614efd4b"
+    },
+    {
+      "key": "江苏省|苏州市|相城区",
+      "file": "江苏省_苏州市_相城区.json.gz",
+      "rows": 15109,
+      "bytes": 381236,
+      "sha256": "81be164797a8a84b69fcdf40affed077450578b7252348de0bfc4e2c65468ce7"
+    },
+    {
+      "key": "江苏省|南京市|江宁区",
+      "file": "江苏省_南京市_江宁区.json.gz",
+      "rows": 20691,
+      "bytes": 526491,
+      "sha256": "8470bacf3828a6f0ed0c31c61e9a37c0b2f985a1aabcb41b434ff7638ca7a419"
+    },
+    {
+      "key": "江苏省|南京市|玄武区",
+      "file": "江苏省_南京市_玄武区.json.gz",
+      "rows": 5299,
+      "bytes": 131282,
+      "sha256": "1c7cc5a4d6c948607cd2a1a95be5c7cc7c8eba1f6fed481f072e217b8ec3eaef"
+    },
+    {
+      "key": "江苏省|南京市|秦淮区",
+      "file": "江苏省_南京市_秦淮区.json.gz",
+      "rows": 6428,
+      "bytes": 158354,
+      "sha256": "159bad02f7c28fb0661f7b19369698c982460e837ec6634d7d686bfc2d0f566c"
+    },
+    {
+      "key": "江苏省|南京市|雨花台区",
+      "file": "江苏省_南京市_雨花台区.json.gz",
+      "rows": 5174,
+      "bytes": 133042,
+      "sha256": "7bb0a5af607a436a69e6855c5ea6fbff04dbc02a8b1776911a3e087c2f61af6f"
+    },
+    {
+      "key": "江苏省|南京市|栖霞区",
+      "file": "江苏省_南京市_栖霞区.json.gz",
+      "rows": 6998,
+      "bytes": 178140,
+      "sha256": "a5fcd2a3ad54b155b1ca0ebce72a63715ca2e0d6a18acf7c5dee32c7cb7714fd"
+    },
+    {
+      "key": "江苏省|南京市|建邺区",
+      "file": "江苏省_南京市_建邺区.json.gz",
+      "rows": 3982,
+      "bytes": 100419,
+      "sha256": "19a1a774c737cfe1bc16718b3a801291128b61331bd66949f30e42a67ae0cd88"
+    },
+    {
+      "key": "江苏省|南京市|溧水区",
+      "file": "江苏省_南京市_溧水区.json.gz",
+      "rows": 5315,
+      "bytes": 137105,
+      "sha256": "7f24f52caca2cc4468793e397bf5b421ad634465c2b2c8ecf362d2930c8d21a1"
+    },
+    {
+      "key": "江苏省|南京市|浦口区",
+      "file": "江苏省_南京市_浦口区.json.gz",
+      "rows": 9916,
+      "bytes": 253883,
+      "sha256": "8ad707409908e0b4dd48268d9a5a4ce32dbd57a29a388e0a371952947936066f"
+    },
+    {
+      "key": "江苏省|南京市|鼓楼区",
+      "file": "江苏省_南京市_鼓楼区.json.gz",
+      "rows": 5731,
+      "bytes": 140624,
+      "sha256": "88096763c3d16eba9671c429ece189ac5a37c5e6735a46d9346b494f502e1d6e"
+    },
+    {
+      "key": "江苏省|南京市|六合区",
+      "file": "江苏省_南京市_六合区.json.gz",
+      "rows": 14332,
+      "bytes": 362200,
+      "sha256": "e36e27a421283b290568b9d50a40b1d198f8417bbbbe4ed3d85eb6087de798c6"
+    },
+    {
+      "key": "江苏省|南京市|高淳区",
+      "file": "江苏省_南京市_高淳区.json.gz",
+      "rows": 2304,
+      "bytes": 60820,
+      "sha256": "47d9177466aabd6b560c9f9db3a4ea7f2b7ed308a02a3f9a17884bf364b7ead3"
+    },
+    {
+      "key": "江苏省|苏州市|昆山市",
+      "file": "江苏省_苏州市_昆山市.json.gz",
+      "rows": 22319,
+      "bytes": 572664,
+      "sha256": "1580ee065092d27983eb7c4679f16a7d8672164dc922d6d548bbc418e1952bb7"
+    },
+    {
+      "key": "江苏省|苏州市|吴中区",
+      "file": "江苏省_苏州市_吴中区.json.gz",
+      "rows": 18663,
+      "bytes": 471099,
+      "sha256": "fb006a6e433ec809bdca5952a436e6ed78683fecefcd30df4c408140c327af0f"
+    },
+    {
+      "key": "江苏省|苏州市|虎丘区",
+      "file": "江苏省_苏州市_虎丘区.json.gz",
+      "rows": 4594,
+      "bytes": 120832,
+      "sha256": "d696cca47b2db69eeaa7a9f0d67a63aa2b37900276713fb0744cefb11665ba84"
+    },
+    {
+      "key": "江苏省|苏州市|姑苏区",
+      "file": "江苏省_苏州市_姑苏区.json.gz",
+      "rows": 5432,
+      "bytes": 138059,
+      "sha256": "7229665d2f6621c5f69d80f6a001d2dcd3e6aa08299e7fa6060ce92dcd5c47de"
+    },
+    {
+      "key": "江苏省|苏州市|吴江区",
+      "file": "江苏省_苏州市_吴江区.json.gz",
+      "rows": 25266,
+      "bytes": 629574,
+      "sha256": "42e5b8a6affbbd7573629920dbcf02ce0dfba8fa4368c3ce9274be26d628c7ba"
+    },
+    {
+      "key": "江苏省|苏州市|太仓市",
+      "file": "江苏省_苏州市_太仓市.json.gz",
+      "rows": 13540,
+      "bytes": 345729,
+      "sha256": "6d0c75615480ce641c84219c58be0040ef35e96c722a01b762fc0956f7f6f91e"
+    },
+    {
+      "key": "江苏省|苏州市|苏州工业园区",
+      "file": "江苏省_苏州市_苏州工业园区.json.gz",
+      "rows": 7945,
+      "bytes": 203587,
+      "sha256": "9ef098b59545cb47c0a7a023d32766f8856dc60e476b033022f8fc63348d4a9f"
+    },
+    {
+      "key": "浙江省|杭州市|临安区",
+      "file": "浙江省_杭州市_临安区.json.gz",
+      "rows": 9474,
+      "bytes": 241866,
+      "sha256": "d117ab3030c7564dc3b9c52429a7a0d485bce6b5e499cd25722275aa330089ff"
+    },
+    {
+      "key": "浙江省|杭州市|临平区",
+      "file": "浙江省_杭州市_临平区.json.gz",
+      "rows": 17205,
+      "bytes": 432136,
+      "sha256": "5b24fdee5abd1264743c94dc1ddab39f6328a073dda886c74be750a9cd4bf981"
+    },
+    {
+      "key": "浙江省|杭州市|钱塘区",
+      "file": "浙江省_杭州市_钱塘区.json.gz",
+      "rows": 7935,
+      "bytes": 200254,
+      "sha256": "bf97f46b17acc63a231942d2204f278cc2bfbad55dfaec7b7ecd6829123919e6"
+    },
+    {
+      "key": "浙江省|杭州市|建德市",
+      "file": "浙江省_杭州市_建德市.json.gz",
+      "rows": 6013,
+      "bytes": 152653,
+      "sha256": "36c51fe6e6a4e7ecac2986c0809577a4af98672d2c1558283cb4e1a6a8d54575"
+    },
+    {
+      "key": "浙江省|杭州市|萧山区",
+      "file": "浙江省_杭州市_萧山区.json.gz",
+      "rows": 21806,
+      "bytes": 554856,
+      "sha256": "8b4f5586b25a538f0cc2b6eb37007a1d8d7337d35d90980eeca8b0f7e85cc768"
+    },
+    {
+      "key": "浙江省|杭州市|上城区",
+      "file": "浙江省_杭州市_上城区.json.gz",
+      "rows": 19049,
+      "bytes": 467624,
+      "sha256": "a965e2fa3760c178b2e3511d1ceab6e40ca8d9a011609828de8d9ecc6431d3c0"
+    },
+    {
+      "key": "浙江省|杭州市|拱墅区",
+      "file": "浙江省_杭州市_拱墅区.json.gz",
+      "rows": 15843,
+      "bytes": 389146,
+      "sha256": "7f587242d034061a24cdfed665bfc64433c48df8fde034dca713e8df7669078b"
+    },
+    {
+      "key": "浙江省|杭州市|余杭区",
+      "file": "浙江省_杭州市_余杭区.json.gz",
+      "rows": 15960,
+      "bytes": 403907,
+      "sha256": "34300e353a361a3162b46fda9b674f84db614d1c79def099e0b23735fe716f06"
+    },
+    {
+      "key": "浙江省|杭州市|西湖区",
+      "file": "浙江省_杭州市_西湖区.json.gz",
+      "rows": 15494,
+      "bytes": 383045,
+      "sha256": "7117ae24c92ebfcb43162b3740f225ba1ec33e0ee6f3a4825b13a1bf1df5452c"
+    },
+    {
+      "key": "浙江省|杭州市|富阳区",
+      "file": "浙江省_杭州市_富阳区.json.gz",
+      "rows": 9258,
+      "bytes": 237856,
+      "sha256": "9c7433d89c7782207288e0b4e37e84af6c8115a6355d5003261b7ce2b591a14b"
+    },
+    {
+      "key": "浙江省|杭州市|桐庐县",
+      "file": "浙江省_杭州市_桐庐县.json.gz",
+      "rows": 8705,
+      "bytes": 219795,
+      "sha256": "b933c151f2637ef9cf19bd966317651ef0efd7fa870e572a66b743d47f265065"
+    },
+    {
+      "key": "浙江省|杭州市|滨江区",
+      "file": "浙江省_杭州市_滨江区.json.gz",
+      "rows": 4335,
+      "bytes": 109006,
+      "sha256": "cc106550c4f3c22c715244c707eeb52eeb83055331d925bee3b8132405201d82"
+    },
+    {
+      "key": "浙江省|杭州市|淳安县",
+      "file": "浙江省_杭州市_淳安县.json.gz",
+      "rows": 2389,
+      "bytes": 63982,
+      "sha256": "5bd0e8c18d25f3e08cfe86e9f430870da616ed639b1937bd4354f4d920d750ba"
+    },
+    {
+      "key": "安徽省|淮北市|烈山区",
+      "file": "安徽省_淮北市_烈山区.json.gz",
+      "rows": 166,
+      "bytes": 4822,
+      "sha256": "8a850d8c5c955e0a74f0dec5d7cc48d8c781f6e144d406a924f1b1f11ba02cee"
+    },
+    {
+      "key": "安徽省|淮北市|濉溪县",
+      "file": "安徽省_淮北市_濉溪县.json.gz",
+      "rows": 1881,
+      "bytes": 48261,
+      "sha256": "4f6fd2d489132a1cc2577390b035b25a65a2591b633f28eb776a24659479e2e3"
+    },
+    {
+      "key": "安徽省|淮北市|相山区",
+      "file": "安徽省_淮北市_相山区.json.gz",
+      "rows": 376,
+      "bytes": 9764,
+      "sha256": "b7e7257d857e241c2839d5e978718215ded470df80ec1be0b6b39df53b5b69d6"
+    },
+    {
+      "key": "安徽省|淮北市|杜集区",
+      "file": "安徽省_淮北市_杜集区.json.gz",
+      "rows": 80,
+      "bytes": 2457,
+      "sha256": "5fd610c8be72bf96c0017b556b9a23f807265eb3200301e5757b6c4d3632a734"
+    },
+    {
+      "key": "山东省|滨州市|邹平市",
+      "file": "山东省_滨州市_邹平市.json.gz",
+      "rows": 2073,
+      "bytes": 54966,
+      "sha256": "3704fcaa890c20fef5f0db0a5c51f6a79429ccb4d16a676556c32a3e557794ad"
+    },
+    {
+      "key": "山东省|滨州市|滨城区",
+      "file": "山东省_滨州市_滨城区.json.gz",
+      "rows": 4204,
+      "bytes": 109839,
+      "sha256": "59d8e37270d9695228bfe7f39d751f486f9959fa53c3ecad588d49447363f8c2"
+    },
+    {
+      "key": "山东省|滨州市|惠民县",
+      "file": "山东省_滨州市_惠民县.json.gz",
+      "rows": 1179,
+      "bytes": 31751,
+      "sha256": "fe6f7d22b733bb8b716dd8f3a173da14b495fde27bb386bdbe11c90751c1d776"
+    },
+    {
+      "key": "山东省|滨州市|无棣县",
+      "file": "山东省_滨州市_无棣县.json.gz",
+      "rows": 1134,
+      "bytes": 30579,
+      "sha256": "95c2dacb532c57890fb2c3ddf84aef45d522db01b9edd9e2ebfd910a6341fe53"
+    },
+    {
+      "key": "山东省|滨州市|阳信县",
+      "file": "山东省_滨州市_阳信县.json.gz",
+      "rows": 739,
+      "bytes": 20203,
+      "sha256": "48ee660fa301cfd2a62c2ad72bf848eb7e8456f2b43d3dc60e482f415c515013"
+    },
+    {
+      "key": "山东省|滨州市|博兴县",
+      "file": "山东省_滨州市_博兴县.json.gz",
+      "rows": 1929,
+      "bytes": 50938,
+      "sha256": "b19f2d5e41be0dff5376eebdaab536566afe0108979d3c0aefd84cedb562fcd0"
+    },
+    {
+      "key": "山东省|滨州市|沾化区",
+      "file": "山东省_滨州市_沾化区.json.gz",
+      "rows": 796,
+      "bytes": 21863,
+      "sha256": "e9332e63449e76da639bb34e9004cb731231d725c294751c077930124659d03d"
+    },
+    {
+      "key": "河南省|济源市|济源市",
+      "file": "河南省_济源市_济源市.json.gz",
+      "rows": 99,
+      "bytes": 3200,
+      "sha256": "afa8c083c693757ec3b6e7c4bdc43c7a642ec5a2936197b340baf323e2d9f41e"
+    },
+    {
+      "key": "湖北省|神农架林区|神农架林区",
+      "file": "湖北省_神农架林区_神农架林区.json.gz",
+      "rows": 13,
+      "bytes": 619,
+      "sha256": "3589d0178bed3059279b4ec23362f5a71e182bf33ee7c1203b67acafafca5fb7"
+    },
+    {
+      "key": "湖南省|怀化市|沅陵县",
+      "file": "湖南省_怀化市_沅陵县.json.gz",
+      "rows": 101,
+      "bytes": 3154,
+      "sha256": "6609319ac997aca3a0c19867072a9788bcd6eacd957c0cf44843e0ecf4259630"
+    },
+    {
+      "key": "湖南省|怀化市|芷江侗族自治县",
+      "file": "湖南省_怀化市_芷江侗族自治县.json.gz",
+      "rows": 19,
+      "bytes": 865,
+      "sha256": "4f04b8e8e2ef3eeb4c76db0fb71e509384fc32565516dc5a366db0995aab0ddf"
+    },
+    {
+      "key": "湖南省|怀化市|中方县",
+      "file": "湖南省_怀化市_中方县.json.gz",
+      "rows": 18,
+      "bytes": 811,
+      "sha256": "6b7b3c92e7a2e7c32b1a60a6995bbac4ac8776425e4e9d413ad238178d2fbfca"
+    },
+    {
+      "key": "湖南省|怀化市|麻阳苗族自治县",
+      "file": "湖南省_怀化市_麻阳苗族自治县.json.gz",
+      "rows": 24,
+      "bytes": 992,
+      "sha256": "bcf13b061e7e524ce6fbaac0403f4bba499b0a1183b2b1b66b5da0110add25aa"
+    },
+    {
+      "key": "湖南省|怀化市|洪江市",
+      "file": "湖南省_怀化市_洪江市.json.gz",
+      "rows": 27,
+      "bytes": 1064,
+      "sha256": "6e4bcb80f5885f0217781726757139b7d6e60b786dd50368266519a279611bd3"
+    },
+    {
+      "key": "湖南省|怀化市|鹤城区",
+      "file": "湖南省_怀化市_鹤城区.json.gz",
+      "rows": 99,
+      "bytes": 3297,
+      "sha256": "106568503f4dff6ae70c317034a8569b3f699624f67f7845a4eb1a0a5d44eb26"
+    },
+    {
+      "key": "湖南省|怀化市|溆浦县",
+      "file": "湖南省_怀化市_溆浦县.json.gz",
+      "rows": 37,
+      "bytes": 1409,
+      "sha256": "92e07827e50417fad48d4aa9d4205ef9c8d9597323d14316b0fa3da73b5cf389"
+    },
+    {
+      "key": "湖南省|怀化市|辰溪县",
+      "file": "湖南省_怀化市_辰溪县.json.gz",
+      "rows": 7,
+      "bytes": 476,
+      "sha256": "933bf3aff70a22332fcbe6ac3773a7f03198c67c57088382e96313a1a2debc8c"
+    },
+    {
+      "key": "湖南省|怀化市|新晃侗族自治县",
+      "file": "湖南省_怀化市_新晃侗族自治县.json.gz",
+      "rows": 15,
+      "bytes": 733,
+      "sha256": "068a47b773e0274cacbb9e79e509af769ff0ab2633093ff1f5d6204f98319c76"
+    },
+    {
+      "key": "湖南省|怀化市|通道侗族自治县",
+      "file": "湖南省_怀化市_通道侗族自治县.json.gz",
+      "rows": 24,
+      "bytes": 979,
+      "sha256": "3d690e98acca12072b763aa70063a8ec79a1dff7c28620237fe63cd2d51ab2d4"
+    },
+    {
+      "key": "湖南省|怀化市|会同县",
+      "file": "湖南省_怀化市_会同县.json.gz",
+      "rows": 15,
+      "bytes": 716,
+      "sha256": "a4cc3e833bf94b5106ffb02fd2d9bb30533750bd4e3db8c969879487ac92eeee"
+    },
+    {
+      "key": "湖南省|怀化市|靖州苗族侗族自治县",
+      "file": "湖南省_怀化市_靖州苗族侗族自治县.json.gz",
+      "rows": 21,
+      "bytes": 902,
+      "sha256": "6a2cba90413c4322089525db24cbb1ed0d9cb3bee7e2f69ac0e688acfbe3170f"
+    },
+    {
+      "key": "广东省|广州市|番禺区",
+      "file": "广东省_广州市_番禺区.json.gz",
+      "rows": 20919,
+      "bytes": 528796,
+      "sha256": "3cdb1f134da653ee9b1921a8d25d2f3da0d24797b2492568274673464875bc55"
+    },
+    {
+      "key": "广东省|广州市|白云区",
+      "file": "广东省_广州市_白云区.json.gz",
+      "rows": 27911,
+      "bytes": 700378,
+      "sha256": "4709ea37039efa114f849266a0b343ef72e652b74d3d05b9524954b2d5eaaa47"
+    },
+    {
+      "key": "广东省|广州市|天河区",
+      "file": "广东省_广州市_天河区.json.gz",
+      "rows": 15524,
+      "bytes": 375305,
+      "sha256": "62ae9bf07a169792ee492691497a59e056bd1337d2fafe073239919b34119b20"
+    },
+    {
+      "key": "广东省|广州市|海珠区",
+      "file": "广东省_广州市_海珠区.json.gz",
+      "rows": 9566,
+      "bytes": 233315,
+      "sha256": "87bc25e494b468d9466c1a14caac669ae72b89565d24bb2e4d419365f3511d65"
+    },
+    {
+      "key": "广东省|广州市|花都区",
+      "file": "广东省_广州市_花都区.json.gz",
+      "rows": 21326,
+      "bytes": 533580,
+      "sha256": "683874cef7b4f28dcb94f2cecce8a66dc32f63501769dd8f055401dc8ac439e8"
+    },
+    {
+      "key": "广东省|广州市|黄埔区",
+      "file": "广东省_广州市_黄埔区.json.gz",
+      "rows": 6952,
+      "bytes": 179135,
+      "sha256": "8e59949ab88263c7e9084d025c7400c22a6333944b7183158a77a0652b1b75f3"
+    },
+    {
+      "key": "广东省|广州市|荔湾区",
+      "file": "广东省_广州市_荔湾区.json.gz",
+      "rows": 6134,
+      "bytes": 149904,
+      "sha256": "fc70c9cd39ee2df42e12f53c63d5d4fd4677a015e759c2d5454346466763183d"
+    },
+    {
+      "key": "广东省|广州市|越秀区",
+      "file": "广东省_广州市_越秀区.json.gz",
+      "rows": 8925,
+      "bytes": 218806,
+      "sha256": "3c5afa3b81cc71fac38ad4642f4af4371e0652700c667b0eafa6033a05819306"
+    },
+    {
+      "key": "广东省|广州市|增城区",
+      "file": "广东省_广州市_增城区.json.gz",
+      "rows": 19426,
+      "bytes": 487540,
+      "sha256": "20a106c9dc01bfffd6ac10f4c4b7f61d80e9bcd6a28db02f543ff380768299eb"
+    },
+    {
+      "key": "广东省|广州市|南沙区",
+      "file": "广东省_广州市_南沙区.json.gz",
+      "rows": 13508,
+      "bytes": 341573,
+      "sha256": "d486c844405727b7b0bc2ec9ceec98fe45c9e220d84a738313d1ab06f4c76aae"
+    },
+    {
+      "key": "广东省|广州市|从化区",
+      "file": "广东省_广州市_从化区.json.gz",
+      "rows": 7869,
+      "bytes": 202056,
+      "sha256": "8738d709e99348a354ff66167777b1ada1eefbb0fef095bc24d4df096348811c"
+    },
+    {
+      "key": "广东省|深圳市|南山区",
+      "file": "广东省_深圳市_南山区.json.gz",
+      "rows": 12518,
+      "bytes": 307729,
+      "sha256": "5ac52caa9473700494643005293b13a22f8fca09991a8b86a5c479f91d133b59"
+    },
+    {
+      "key": "广东省|深圳市|福田区",
+      "file": "广东省_深圳市_福田区.json.gz",
+      "rows": 3982,
+      "bytes": 105138,
+      "sha256": "d9e0bace5002f8d56838d1b7e54b9df192449353629097168713919def2da4fa"
+    },
+    {
+      "key": "广东省|深圳市|龙华区",
+      "file": "广东省_深圳市_龙华区.json.gz",
+      "rows": 8525,
+      "bytes": 217260,
+      "sha256": "610f7393a5f76e9673cf2bbefb8486e58cd8eab8c81fd231c53765901c959cd9"
+    },
+    {
+      "key": "广东省|深圳市|光明区",
+      "file": "广东省_深圳市_光明区.json.gz",
+      "rows": 7928,
+      "bytes": 197476,
+      "sha256": "38058fa3ef586e6a2b2b794c0ab832e9f56006816f283fe4a4a3c130e311b5ea"
+    },
+    {
+      "key": "广东省|深圳市|宝安区",
+      "file": "广东省_深圳市_宝安区.json.gz",
+      "rows": 28844,
+      "bytes": 715135,
+      "sha256": "053428d22bcafa802682d89b50c8b4b2549766b4f9e3788e9ba76ae445699323"
+    },
+    {
+      "key": "广东省|深圳市|坪山区",
+      "file": "广东省_深圳市_坪山区.json.gz",
+      "rows": 6999,
+      "bytes": 172242,
+      "sha256": "5b9b21fc83819b17d753a82f73cd744258bb11ea5a149352c06d1fd04f6c1ace"
+    },
+    {
+      "key": "广东省|深圳市|龙岗区",
+      "file": "广东省_深圳市_龙岗区.json.gz",
+      "rows": 16977,
+      "bytes": 428749,
+      "sha256": "cb833f96f2cb0a28c41346d969e645028f70e97ae6c89e59aad5a956c4d4ecd4"
+    },
+    {
+      "key": "广东省|深圳市|盐田区",
+      "file": "广东省_深圳市_盐田区.json.gz",
+      "rows": 1589,
+      "bytes": 39812,
+      "sha256": "0916fbc0bd64b3ec7ee9efffef2af60d0e30aa0beb77b6950386e92962dc823c"
+    },
+    {
+      "key": "广东省|深圳市|罗湖区",
+      "file": "广东省_深圳市_罗湖区.json.gz",
+      "rows": 5583,
+      "bytes": 137240,
+      "sha256": "d6f5530b94c59533830c98406a4a1cb0a7d0a4fa4a97197a0c6a83c097ceea20"
+    },
+    {
+      "key": "四川省|广元市|剑阁县",
+      "file": "四川省_广元市_剑阁县.json.gz",
+      "rows": 38,
+      "bytes": 1351,
+      "sha256": "1824e4cc6d5d33e552abac9143031e2f31390f2fa3d9e9d729ce1ed67c332e73"
+    },
+    {
+      "key": "四川省|广元市|利州区",
+      "file": "四川省_广元市_利州区.json.gz",
+      "rows": 131,
+      "bytes": 4187,
+      "sha256": "6006d83630f6ead5b394ae5941c174390341a0b07b8be352d34d7e2c60984d70"
+    },
+    {
+      "key": "四川省|广元市|朝天区",
+      "file": "四川省_广元市_朝天区.json.gz",
+      "rows": 13,
+      "bytes": 616,
+      "sha256": "ffbf802fab049ad9d8b25e0c82b74c8d0bf0a46dcb40a7ef4390a746e4477fd1"
+    },
+    {
+      "key": "四川省|广元市|青川县",
+      "file": "四川省_广元市_青川县.json.gz",
+      "rows": 12,
+      "bytes": 620,
+      "sha256": "e7629455223e73d0b17b2a318bc2637204a8450d9abbb9968870a79be6c6868a"
+    },
+    {
+      "key": "四川省|广元市|昭化区",
+      "file": "四川省_广元市_昭化区.json.gz",
+      "rows": 28,
+      "bytes": 1115,
+      "sha256": "98997b40739c7f20b9d04562556309d5999d4d66a1b7998f20402d41fa27c552"
+    },
+    {
+      "key": "四川省|广元市|旺苍县",
+      "file": "四川省_广元市_旺苍县.json.gz",
+      "rows": 25,
+      "bytes": 995,
+      "sha256": "5ab45527c31273d2e3aa787b34d85594adf1c70fb0f1f3402d23ffeffff44506"
+    },
+    {
+      "key": "四川省|广元市|苍溪县",
+      "file": "四川省_广元市_苍溪县.json.gz",
+      "rows": 35,
+      "bytes": 1345,
+      "sha256": "b4c734fc90cd0e5fad731dc744eb506677b20e36b9fc31573251fea99969240f"
+    },
+    {
+      "key": "四川省|甘孜藏族自治州|道孚县",
+      "file": "四川省_甘孜藏族自治州_道孚县.json.gz",
+      "rows": 4,
+      "bytes": 384,
+      "sha256": "da8f4f23868e5f57b9bf3fdd37c99049b23391866454e9371f3a9a7afe9cad4e"
+    },
+    {
+      "key": "四川省|甘孜藏族自治州|康定市",
+      "file": "四川省_甘孜藏族自治州_康定市.json.gz",
+      "rows": 38,
+      "bytes": 1457,
+      "sha256": "9065bff5796910c401dd77041f5f54b4ab047f7e29414b668765764f7b2ce20a"
+    },
+    {
+      "key": "四川省|甘孜藏族自治州|泸定县",
+      "file": "四川省_甘孜藏族自治州_泸定县.json.gz",
+      "rows": 15,
+      "bytes": 714,
+      "sha256": "cebf0b6fbda11042d10f2678c4758b97334f6fb329eeb9238166f14a95e31cec"
+    },
+    {
+      "key": "四川省|甘孜藏族自治州|雅江县",
+      "file": "四川省_甘孜藏族自治州_雅江县.json.gz",
+      "rows": 3,
+      "bytes": 354,
+      "sha256": "08f543cf461fc537d768ad9b2ec4140c7f4b95184b041de57d0f117f5d1b6dfd"
+    },
+    {
+      "key": "四川省|甘孜藏族自治州|稻城县",
+      "file": "四川省_甘孜藏族自治州_稻城县.json.gz",
+      "rows": 14,
+      "bytes": 708,
+      "sha256": "86a6294f8e6071b2c5efe53b36012c20e8d072f1b4a79eb1f56a4387835516f4"
+    },
+    {
+      "key": "四川省|甘孜藏族自治州|巴塘县",
+      "file": "四川省_甘孜藏族自治州_巴塘县.json.gz",
+      "rows": 7,
+      "bytes": 468,
+      "sha256": "e07189b88955cdfe7decdfcdf0e94e50e638ed3f5461e273717caaedd8653458"
+    },
+    {
+      "key": "四川省|甘孜藏族自治州|炉霍县",
+      "file": "四川省_甘孜藏族自治州_炉霍县.json.gz",
+      "rows": 2,
+      "bytes": 319,
+      "sha256": "3e6b359368934132db80ebdfd4a9bd30b9caceb647fea6476ae37ce2dbfa5f63"
+    },
+    {
+      "key": "四川省|甘孜藏族自治州|甘孜县",
+      "file": "四川省_甘孜藏族自治州_甘孜县.json.gz",
+      "rows": 2,
+      "bytes": 307,
+      "sha256": "979e2ea1a5a76fc1eeb39a3ed38f2793259c90e4494467980f1079ac440065a6"
+    },
+    {
+      "key": "四川省|甘孜藏族自治州|白玉县",
+      "file": "四川省_甘孜藏族自治州_白玉县.json.gz",
+      "rows": 1,
+      "bytes": 263,
+      "sha256": "835fbe24edb2a4cb8dfcadebb01d9767aaaed8c758d14e062fd37fefcc7b4430"
+    },
+    {
+      "key": "四川省|甘孜藏族自治州|德格县",
+      "file": "四川省_甘孜藏族自治州_德格县.json.gz",
+      "rows": 5,
+      "bytes": 427,
+      "sha256": "d03bbf247d080907a4eca25bd1a35a2f79d8268b7c431c7f6e632e9cb9a5275f"
+    },
+    {
+      "key": "四川省|甘孜藏族自治州|石渠县",
+      "file": "四川省_甘孜藏族自治州_石渠县.json.gz",
+      "rows": 4,
+      "bytes": 386,
+      "sha256": "c058926b1bfef2d00a39a891a4a8603811c379517a2f052a8785c12b43d19f66"
+    },
+    {
+      "key": "四川省|巴中市|平昌县",
+      "file": "四川省_巴中市_平昌县.json.gz",
+      "rows": 46,
+      "bytes": 1652,
+      "sha256": "c72b4564f56338ade791105a74e267ab674b8260e84839e8a65d2b830d77d540"
+    },
+    {
+      "key": "四川省|巴中市|巴州区",
+      "file": "四川省_巴中市_巴州区.json.gz",
+      "rows": 106,
+      "bytes": 3511,
+      "sha256": "b9d6642a7bc1d98c4b0ad6618a74e06367b30d2f2265470c664bb0e8aa004da4"
+    },
+    {
+      "key": "四川省|巴中市|恩阳区",
+      "file": "四川省_巴中市_恩阳区.json.gz",
+      "rows": 58,
+      "bytes": 1928,
+      "sha256": "e88059918716a6635cd1f39f1c1cc7e41b40df3257e1ce248a1f3fcf8cef3267"
+    },
+    {
+      "key": "四川省|巴中市|南江县",
+      "file": "四川省_巴中市_南江县.json.gz",
+      "rows": 61,
+      "bytes": 2135,
+      "sha256": "3448d19d20e3272d739b54d4a3b0b8d8935818120a43ed98d90637de8c8fcc42"
+    },
+    {
+      "key": "四川省|巴中市|通江县",
+      "file": "四川省_巴中市_通江县.json.gz",
+      "rows": 23,
+      "bytes": 976,
+      "sha256": "404303be64436d4f327b58133f6f2f5b9b65918deba75ab4ccff78707f6df2e3"
+    },
+    {
+      "key": "四川省|阿坝藏族羌族自治州|理县",
+      "file": "四川省_阿坝藏族羌族自治州_理县.json.gz",
+      "rows": 7,
+      "bytes": 503,
+      "sha256": "e8605451d65f504f772abe62c7e6c3cbd99b463c8ff2fcf7ec549f87b28cc687"
+    },
+    {
+      "key": "四川省|阿坝藏族羌族自治州|汶川县",
+      "file": "四川省_阿坝藏族羌族自治州_汶川县.json.gz",
+      "rows": 18,
+      "bytes": 833,
+      "sha256": "89c3bbace419746a94b347c714ea49095ea2a4bb29c14f79d2ddc6b572970b59"
+    },
+    {
+      "key": "四川省|阿坝藏族羌族自治州|红原县",
+      "file": "四川省_阿坝藏族羌族自治州_红原县.json.gz",
+      "rows": 10,
+      "bytes": 588,
+      "sha256": "ce115221f7a6472c331d653171c9da4afded7c86048290929ca25c02f5c64170"
+    },
+    {
+      "key": "四川省|阿坝藏族羌族自治州|九寨沟县",
+      "file": "四川省_阿坝藏族羌族自治州_九寨沟县.json.gz",
+      "rows": 8,
+      "bytes": 531,
+      "sha256": "fb4ab68e63efeda20cb603ddb3dc43bf5e9e9db00213a69c3f2ed91559e2fe8e"
+    },
+    {
+      "key": "四川省|阿坝藏族羌族自治州|茂县",
+      "file": "四川省_阿坝藏族羌族自治州_茂县.json.gz",
+      "rows": 12,
+      "bytes": 622,
+      "sha256": "99bb0953b3ed47ca3d300514304daccd913d36376e1351c3c58c0143991970c3"
+    },
+    {
+      "key": "四川省|阿坝藏族羌族自治州|小金县",
+      "file": "四川省_阿坝藏族羌族自治州_小金县.json.gz",
+      "rows": 14,
+      "bytes": 706,
+      "sha256": "3bded07f399c7c14a8cb6c0a47fea693d17fc8b8b0fa7cea41ea4294d72f6eff"
+    },
+    {
+      "key": "四川省|阿坝藏族羌族自治州|松潘县",
+      "file": "四川省_阿坝藏族羌族自治州_松潘县.json.gz",
+      "rows": 9,
+      "bytes": 554,
+      "sha256": "cb6eef0f2b94e59cdc5b11d0269819c5732064c0064fc18c1c395faf9afd28b4"
+    },
+    {
+      "key": "四川省|甘孜藏族自治州|理塘县",
+      "file": "四川省_甘孜藏族自治州_理塘县.json.gz",
+      "rows": 5,
+      "bytes": 405,
+      "sha256": "78e1f769f54eeb16706ed324a25a81d0a599229178b780cc2630622e2ce5aa85"
+    },
+    {
+      "key": "四川省|阿坝藏族羌族自治州|黑水县",
+      "file": "四川省_阿坝藏族羌族自治州_黑水县.json.gz",
+      "rows": 2,
+      "bytes": 317,
+      "sha256": "1f936060903b566599ce7cbd353211858d42af4dd5d1f57261e56e5aed806c3b"
+    },
+    {
+      "key": "四川省|甘孜藏族自治州|丹巴县",
+      "file": "四川省_甘孜藏族自治州_丹巴县.json.gz",
+      "rows": 3,
+      "bytes": 351,
+      "sha256": "c5369ab5a299ebd9f8839b624605318ef848a1788ede70f72975934260d20b6c"
+    },
+    {
+      "key": "四川省|阿坝藏族羌族自治州|若尔盖县",
+      "file": "四川省_阿坝藏族羌族自治州_若尔盖县.json.gz",
+      "rows": 4,
+      "bytes": 393,
+      "sha256": "9c929c305187b0ee5a864be4f099016c8d36b7a79d8d7437ac565c2bae5528fc"
+    },
+    {
+      "key": "四川省|甘孜藏族自治州|色达县",
+      "file": "四川省_甘孜藏族自治州_色达县.json.gz",
+      "rows": 2,
+      "bytes": 315,
+      "sha256": "2310b8a650c461853a53b076d4d54cc9e5a5903c0dd43fbe3b1dfc822c76ee1e"
+    },
+    {
+      "key": "四川省|阿坝藏族羌族自治州|马尔康市",
+      "file": "四川省_阿坝藏族羌族自治州_马尔康市.json.gz",
+      "rows": 2,
+      "bytes": 320,
+      "sha256": "432283cea1e1a386005c6e771e22900d4deaf772326c2c42c1178f8e748ed1bc"
+    },
+    {
+      "key": "四川省|阿坝藏族羌族自治州|阿坝县",
+      "file": "四川省_阿坝藏族羌族自治州_阿坝县.json.gz",
+      "rows": 1,
+      "bytes": 265,
+      "sha256": "1c295410d14377be2922047fed0cc3259461c11eb5c4affabdb8152a1e8034f9"
+    },
+    {
+      "key": "四川省|甘孜藏族自治州|九龙县",
+      "file": "四川省_甘孜藏族自治州_九龙县.json.gz",
+      "rows": 1,
+      "bytes": 268,
+      "sha256": "570e2e8c364e8bf4a5c3c3fe14e341b8cd32510076b43ee718100dc0dc9cd1b9"
+    },
+    {
+      "key": "四川省|甘孜藏族自治州|得荣县",
+      "file": "四川省_甘孜藏族自治州_得荣县.json.gz",
+      "rows": 1,
+      "bytes": 266,
+      "sha256": "33454e11583fb740f7a7977d19d031f52e70003413e8fd6a69d02723361cc7ec"
+    },
+    {
+      "key": "贵州省|黔南布依族苗族自治州|龙里县",
+      "file": "贵州省_黔南布依族苗族自治州_龙里县.json.gz",
+      "rows": 106,
+      "bytes": 3322,
+      "sha256": "ca71ee8b9986ace16d2d041ce6d01e4ffc21905b9452149f9783d5c546dc5933"
+    },
+    {
+      "key": "贵州省|黔南布依族苗族自治州|长顺县",
+      "file": "贵州省_黔南布依族苗族自治州_长顺县.json.gz",
+      "rows": 92,
+      "bytes": 2950,
+      "sha256": "8ba6f5e72ab26d3a95e257a52f5ae72c970cb0e16211940b1aa468346e24b1ed"
+    },
+    {
+      "key": "贵州省|黔南布依族苗族自治州|瓮安县",
+      "file": "贵州省_黔南布依族苗族自治州_瓮安县.json.gz",
+      "rows": 137,
+      "bytes": 4185,
+      "sha256": "f590a89dd619c017ce7cf0dadd4ce6a7d7394ef248881a7566abd425386b7b20"
+    },
+    {
+      "key": "贵州省|黔南布依族苗族自治州|贵定县",
+      "file": "贵州省_黔南布依族苗族自治州_贵定县.json.gz",
+      "rows": 81,
+      "bytes": 2614,
+      "sha256": "eb0a6238d934445a6baf855fb0893cb28f5f8c06408276835a75137a7242e5fd"
+    },
+    {
+      "key": "贵州省|黔南布依族苗族自治州|都匀市",
+      "file": "贵州省_黔南布依族苗族自治州_都匀市.json.gz",
+      "rows": 174,
+      "bytes": 5265,
+      "sha256": "8c5faf8181e5fa435bb9b6c982cdf0111885d49e8028faf3ff1185b23c3bb7f7"
+    },
+    {
+      "key": "贵州省|黔南布依族苗族自治州|平塘县",
+      "file": "贵州省_黔南布依族苗族自治州_平塘县.json.gz",
+      "rows": 36,
+      "bytes": 1305,
+      "sha256": "0d57afe514590bd6d75a8cfc52fd70ff4b17345f18d6cd55c222724802117377"
+    },
+    {
+      "key": "贵州省|黔南布依族苗族自治州|惠水县",
+      "file": "贵州省_黔南布依族苗族自治州_惠水县.json.gz",
+      "rows": 111,
+      "bytes": 3483,
+      "sha256": "8a60d1426a8bc248a3f69df7a863e3fcd38dffe1eb615c15199e8834bea5f4e8"
+    },
+    {
+      "key": "贵州省|黔南布依族苗族自治州|独山县",
+      "file": "贵州省_黔南布依族苗族自治州_独山县.json.gz",
+      "rows": 78,
+      "bytes": 2512,
+      "sha256": "88dc085e714804d2ad46ede343b16bf41ede4662d07442317fa1b430377d7201"
+    },
+    {
+      "key": "贵州省|黔南布依族苗族自治州|福泉市",
+      "file": "贵州省_黔南布依族苗族自治州_福泉市.json.gz",
+      "rows": 34,
+      "bytes": 1285,
+      "sha256": "9f19f3da407214b4236d69e3b9ba37145d4802038a9f9aab43786d7fb75f9dd5"
+    },
+    {
+      "key": "贵州省|黔南布依族苗族自治州|三都水族自治县",
+      "file": "贵州省_黔南布依族苗族自治州_三都水族自治县.json.gz",
+      "rows": 80,
+      "bytes": 2623,
+      "sha256": "733f54d35e2a6bb33bae14529e396dad37268c0ce66f56c303ecf5edc96921e5"
+    },
+    {
+      "key": "贵州省|黔南布依族苗族自治州|荔波县",
+      "file": "贵州省_黔南布依族苗族自治州_荔波县.json.gz",
+      "rows": 27,
+      "bytes": 1075,
+      "sha256": "26c20256f278337be34d5978d25f3c291cb2121cf552afe7fcb987c96cf55360"
+    },
+    {
+      "key": "贵州省|黔南布依族苗族自治州|罗甸县",
+      "file": "贵州省_黔南布依族苗族自治州_罗甸县.json.gz",
+      "rows": 107,
+      "bytes": 3316,
+      "sha256": "ccd3ece9fab80e424076640570cbd0611e831e03fa9a3d83521ee203055e0291"
+    },
+    {
+      "key": "贵州省|毕节市|织金县",
+      "file": "贵州省_毕节市_织金县.json.gz",
+      "rows": 211,
+      "bytes": 6173,
+      "sha256": "5ac93f25c9b7aa570901c71ba4855af8f55e6b0fd86f8c7f1fd2655e4d6ff6b7"
+    },
+    {
+      "key": "贵州省|毕节市|黔西市",
+      "file": "贵州省_毕节市_黔西市.json.gz",
+      "rows": 113,
+      "bytes": 3561,
+      "sha256": "fc08145ae647c60a54a910029e1a93317840cec61378dcc0b0410b68e4d6ea44"
+    },
+    {
+      "key": "贵州省|毕节市|大方县",
+      "file": "贵州省_毕节市_大方县.json.gz",
+      "rows": 271,
+      "bytes": 7841,
+      "sha256": "58c7f2edc2f089e2b85ffac9db682e1cb1c5a6969e1dfef5d8d07c930a5b7bae"
+    },
+    {
+      "key": "贵州省|毕节市|纳雍县",
+      "file": "贵州省_毕节市_纳雍县.json.gz",
+      "rows": 105,
+      "bytes": 3247,
+      "sha256": "59b3146c06e72192994e277a15e115c92eea2d536fa6a545db3c7ee95758601e"
+    },
+    {
+      "key": "贵州省|毕节市|金沙县",
+      "file": "贵州省_毕节市_金沙县.json.gz",
+      "rows": 68,
+      "bytes": 2225,
+      "sha256": "ebb9411d6aad00748b162a4e172b364e10147e5aa13728d3dba5217bad974c02"
+    },
+    {
+      "key": "贵州省|毕节市|七星关区",
+      "file": "贵州省_毕节市_七星关区.json.gz",
+      "rows": 459,
+      "bytes": 13115,
+      "sha256": "554d3ff6bae22593b76271806c68cd6226bdf66a9bded268d55a1de60bbfca93"
+    },
+    {
+      "key": "贵州省|毕节市|赫章县",
+      "file": "贵州省_毕节市_赫章县.json.gz",
+      "rows": 82,
+      "bytes": 2539,
+      "sha256": "1476b73a96abbf89f2d82ef9815b77e936c08d594c147b8fb1bc2f1b2fa46397"
+    },
+    {
+      "key": "贵州省|毕节市|威宁彝族回族苗族自治县",
+      "file": "贵州省_毕节市_威宁彝族回族苗族自治县.json.gz",
+      "rows": 514,
+      "bytes": 14665,
+      "sha256": "4d061fa2f917dd709104eca3e84aee1381c0a478b88f71754449ad33dcacf66e"
+    },
+    {
+      "key": "云南省|昭通市|昭阳区",
+      "file": "云南省_昭通市_昭阳区.json.gz",
+      "rows": 138,
+      "bytes": 4405,
+      "sha256": "8253051089e6dc421262dc59fe0800aa41899ae9445508d34eac7b560dbd1d2b"
+    },
+    {
+      "key": "云南省|昭通市|大关县",
+      "file": "云南省_昭通市_大关县.json.gz",
+      "rows": 58,
+      "bytes": 1910,
+      "sha256": "a9787f7701a3c03f94c1b7f61f51e929d822f9816d3f21684bc954446bf78c0b"
+    },
+    {
+      "key": "云南省|昭通市|盐津县",
+      "file": "云南省_昭通市_盐津县.json.gz",
+      "rows": 77,
+      "bytes": 2373,
+      "sha256": "fae80de14bc8b1a6afa526dfa906f5cbc20b038a3001a7ae14209af5979b3fbd"
+    },
+    {
+      "key": "云南省|昭通市|水富市",
+      "file": "云南省_昭通市_水富市.json.gz",
+      "rows": 72,
+      "bytes": 2199,
+      "sha256": "7b220255aa7900ab20cde9883c789f8284cbf992533719c982715b6fd0b71404"
+    },
+    {
+      "key": "云南省|昭通市|巧家县",
+      "file": "云南省_昭通市_巧家县.json.gz",
+      "rows": 83,
+      "bytes": 2626,
+      "sha256": "e1606cfea2706bdd02f3e8eb38355a22fd38239b676d2ab7a9ad4ed8a6fbb53d"
+    },
+    {
+      "key": "云南省|昭通市|威信县",
+      "file": "云南省_昭通市_威信县.json.gz",
+      "rows": 68,
+      "bytes": 2245,
+      "sha256": "7e7c0f357eb405da4d62c36cc1558f26f8ca9180b933a57eaba305cff3f97a99"
+    },
+    {
+      "key": "云南省|昭通市|镇雄县",
+      "file": "云南省_昭通市_镇雄县.json.gz",
+      "rows": 198,
+      "bytes": 6038,
+      "sha256": "e4f17d79c11929e95362161cfb4b543876d318f9350bfd1375b0a71caabeb257"
+    },
+    {
+      "key": "云南省|昭通市|鲁甸县",
+      "file": "云南省_昭通市_鲁甸县.json.gz",
+      "rows": 96,
+      "bytes": 2847,
+      "sha256": "a5fe90e83dc0c8fd3f84e3282b75625f7743c958b1230201bd471942184d508e"
+    },
+    {
+      "key": "云南省|昭通市|彝良县",
+      "file": "云南省_昭通市_彝良县.json.gz",
+      "rows": 12,
+      "bytes": 629,
+      "sha256": "6b1c7f96a9d37990f434378f3cac1c36d166c4a18fd0f82d405cfdc2235045ed"
+    },
+    {
+      "key": "云南省|昭通市|绥江县",
+      "file": "云南省_昭通市_绥江县.json.gz",
+      "rows": 14,
+      "bytes": 674,
+      "sha256": "b39e9075668b675a3daaf082f0a87f211529d7ac52b443cf39c40efd5d9c4a9b"
+    },
+    {
+      "key": "云南省|怒江傈僳族自治州|福贡县",
+      "file": "云南省_怒江傈僳族自治州_福贡县.json.gz",
+      "rows": 3,
+      "bytes": 355,
+      "sha256": "5763db274726c23913958633621d89d12aaadad034048d09ff595d390e8fe807"
+    },
+    {
+      "key": "云南省|怒江傈僳族自治州|贡山独龙族怒族自治县",
+      "file": "云南省_怒江傈僳族自治州_贡山独龙族怒族自治县.json.gz",
+      "rows": 7,
+      "bytes": 498,
+      "sha256": "19e781551d69b4d0b24658715db24eb53d1ab03b097d4aa6c881781c7c693b5c"
+    },
+    {
+      "key": "云南省|怒江傈僳族自治州|兰坪白族普米族自治县 ꓡꓽ-ꓒꓲꓽ ꓡꓽ-ꓐꓶꓽ ꓫꓵꓽ ꓒꓴ-ꓟꓲ ꓫꓵꓽ ꓚꓲꓸ ꓛꓬꓽ ꓗꓪꓼ ꓫꓵꓽ ꓫꓯꓹ",
+      "file": "云南省_怒江傈僳族自治州_兰坪白族普米族自治县 ꓡꓽ-ꓒꓲꓽ ꓡꓽ-ꓐꓶꓽ ꓫꓵꓽ ꓒꓴ-ꓟꓲ ꓫꓵꓽ ꓚꓲꓸ ꓛꓬꓽ ꓗꓪꓼ ꓫꓵꓽ ꓫꓯꓹ.json.gz",
+      "rows": 5,
+      "bytes": 524,
+      "sha256": "f045b1c7855f0d55ecd0868969161e0c66aab1f6c23f4223790c2c507c34e8d9"
+    },
+    {
+      "key": "云南省|怒江傈僳族自治州|泸水市",
+      "file": "云南省_怒江傈僳族自治州_泸水市.json.gz",
+      "rows": 11,
+      "bytes": 604,
+      "sha256": "f21a23be47d245d2793843db4f28339ab98f37fa27cbe62f00aef549bed84267"
+    },
+    {
+      "key": "云南省|昭通市|永善县",
+      "file": "云南省_昭通市_永善县.json.gz",
+      "rows": 3,
+      "bytes": 338,
+      "sha256": "eb7b6dc076f74f957ec6d7581ed5548b0f49aabc96adb574f6721004669efcb0"
+    },
+    {
+      "key": "西藏自治区|昌都市|江达县",
+      "file": "西藏自治区_昌都市_江达县.json.gz",
+      "rows": 13,
+      "bytes": 596,
+      "sha256": "7a8678c120c73a721fea21a1366b43f9fb957eea595d34a07bc78f6f2a9bfc90"
+    },
+    {
+      "key": "西藏自治区|昌都市|卡若区",
+      "file": "西藏自治区_昌都市_卡若区.json.gz",
+      "rows": 214,
+      "bytes": 5565,
+      "sha256": "e202b19ffcb6bac9a920219789e8ff9e892fa22c3f317b4eb02b8b5a7afbefb2"
+    },
+    {
+      "key": "西藏自治区|昌都市|芒康县",
+      "file": "西藏自治区_昌都市_芒康县.json.gz",
+      "rows": 11,
+      "bytes": 600,
+      "sha256": "e52031c7b13bc870293f77868086e3f86bc8ecf950431e3cfdcd1aafcd0afba4"
+    },
+    {
+      "key": "西藏自治区|昌都市|八宿县",
+      "file": "西藏自治区_昌都市_八宿县.json.gz",
+      "rows": 5,
+      "bytes": 427,
+      "sha256": "ef4db3936804d507ce20108a284243cdf91d0eca2c9b57208061082f5f1324ec"
+    },
+    {
+      "key": "西藏自治区|昌都市|左贡县",
+      "file": "西藏自治区_昌都市_左贡县.json.gz",
+      "rows": 6,
+      "bytes": 432,
+      "sha256": "56a709f962de503206b4809f33c911eefa8e3139ffbfd79d811c232a0f4b0a11"
+    },
+    {
+      "key": "西藏自治区|昌都市|丁青县",
+      "file": "西藏自治区_昌都市_丁青县.json.gz",
+      "rows": 64,
+      "bytes": 1948,
+      "sha256": "438c2776aa45f44461c408934f54afece1b96848e372693fa6d0b8d5a16bed7b"
+    },
+    {
+      "key": "西藏自治区|昌都市|边坝县",
+      "file": "西藏自治区_昌都市_边坝县.json.gz",
+      "rows": 16,
+      "bytes": 696,
+      "sha256": "2bee44072e37d52de625ef07856c678346ed0e7badb8c3a395dde11b6ccc596c"
+    },
+    {
+      "key": "西藏自治区|那曲市|双湖县",
+      "file": "西藏自治区_那曲市_双湖县.json.gz",
+      "rows": 23,
+      "bytes": 882,
+      "sha256": "4918d859d1618b370bed521b8d6b4ccbe1961d9969dd1de9178350774b359c09"
+    },
+    {
+      "key": "西藏自治区|那曲市|申扎县",
+      "file": "西藏自治区_那曲市_申扎县.json.gz",
+      "rows": 27,
+      "bytes": 1005,
+      "sha256": "ead21a6caa96d3e17f54eeae62637cdf13944ceaaf84acc097b43d8cbe23f8a3"
+    },
+    {
+      "key": "西藏自治区|那曲市|尼玛县",
+      "file": "西藏自治区_那曲市_尼玛县.json.gz",
+      "rows": 50,
+      "bytes": 1593,
+      "sha256": "b9531a0945dbe8022da7ed71fb9870228f0af266de40d8e0477e84db620742d9"
+    },
+    {
+      "key": "西藏自治区|那曲市|聂荣县",
+      "file": "西藏自治区_那曲市_聂荣县.json.gz",
+      "rows": 4,
+      "bytes": 378,
+      "sha256": "462f12f177d633a038b45c7b0babfe8b8ba00eeebbd6d8b4629aa8c3d66b91e3"
+    },
+    {
+      "key": "西藏自治区|那曲市|巴青县",
+      "file": "西藏自治区_那曲市_巴青县.json.gz",
+      "rows": 11,
+      "bytes": 577,
+      "sha256": "65d34106704c5e34404de60668cf94929e7c32866f81735a836977d33ad74888"
+    },
+    {
+      "key": "西藏自治区|那曲市|比如县",
+      "file": "西藏自治区_那曲市_比如县.json.gz",
+      "rows": 24,
+      "bytes": 901,
+      "sha256": "4ef84898c507b02a062693f8e7d3b435897816f0ac15d449707035265d3496e2"
+    },
+    {
+      "key": "西藏自治区|那曲市|班戈县",
+      "file": "西藏自治区_那曲市_班戈县.json.gz",
+      "rows": 31,
+      "bytes": 1118,
+      "sha256": "f687eb29fca50a0c9b8f275f076b4fe77641b879210a4cd782e4df9defae48e8"
+    },
+    {
+      "key": "西藏自治区|那曲市|安多县",
+      "file": "西藏自治区_那曲市_安多县.json.gz",
+      "rows": 36,
+      "bytes": 1206,
+      "sha256": "3784ece731a32ad1cb87463885dbaaabb235d844dd2dde5c5376044bd66f5c22"
+    },
+    {
+      "key": "西藏自治区|那曲市|色尼区",
+      "file": "西藏自治区_那曲市_色尼区.json.gz",
+      "rows": 22,
+      "bytes": 889,
+      "sha256": "e910966f7d84daa82b94ffeea0201fc5d90b59e0a71f1f4adbaa847e672f3310"
+    },
+    {
+      "key": "西藏自治区|拉萨市|当雄县",
+      "file": "西藏自治区_拉萨市_当雄县.json.gz",
+      "rows": 25,
+      "bytes": 1004,
+      "sha256": "f145d9276ac644b94510044be75e8c6e91f02c8c1a00ed67cca141fda9432a15"
+    },
+    {
+      "key": "西藏自治区|拉萨市|曲水县",
+      "file": "西藏自治区_拉萨市_曲水县.json.gz",
+      "rows": 2,
+      "bytes": 308,
+      "sha256": "e5bea73a063f6b7fc40b52648ffee667716f9ec504e64c695c1ece6591c40037"
+    },
+    {
+      "key": "西藏自治区|拉萨市|堆龙德庆区",
+      "file": "西藏自治区_拉萨市_堆龙德庆区.json.gz",
+      "rows": 62,
+      "bytes": 2072,
+      "sha256": "8b89aac20e495138d470a84bd0eee8fe0f7c913b2cbc20a1f169c1e29fb56f0b"
+    },
+    {
+      "key": "西藏自治区|拉萨市|城关区",
+      "file": "西藏自治区_拉萨市_城关区.json.gz",
+      "rows": 926,
+      "bytes": 23943,
+      "sha256": "95f74ed039b303888aa754a1257b4ff1b978c33fe48061c1ba4f37c0244582df"
+    },
+    {
+      "key": "西藏自治区|拉萨市|达孜区",
+      "file": "西藏自治区_拉萨市_达孜区.json.gz",
+      "rows": 236,
+      "bytes": 6455,
+      "sha256": "5e71a10badbdaf1c741d64d36b4360e232b6a6357110b07a3c4f85c65cef308c"
+    },
+    {
+      "key": "西藏自治区|拉萨市|林周县",
+      "file": "西藏自治区_拉萨市_林周县.json.gz",
+      "rows": 144,
+      "bytes": 4063,
+      "sha256": "902995c93e17ffb691105f8b963988e1965c638812d61a04fc4799a50a262540"
+    },
+    {
+      "key": "西藏自治区|拉萨市|墨竹工卡县",
+      "file": "西藏自治区_拉萨市_墨竹工卡县.json.gz",
+      "rows": 197,
+      "bytes": 5461,
+      "sha256": "4c48dff151b0cb1ab1b5fd9ef9771f735d0bb45fdad6b3f7611688ad36c9a4ca"
+    },
+    {
+      "key": "西藏自治区|阿里地区|改则县",
+      "file": "西藏自治区_阿里地区_改则县.json.gz",
+      "rows": 4,
+      "bytes": 373,
+      "sha256": "9a9cf14e682b191244795e27dfc2b44d85bf495a05c26d91f5a1dcdcde8c58da"
+    },
+    {
+      "key": "西藏自治区|阿里地区|日土县",
+      "file": "西藏自治区_阿里地区_日土县.json.gz",
+      "rows": 4,
+      "bytes": 371,
+      "sha256": "0b3377b298e207ab70f938a2671438435cea8771b5c2c97dae49c13f1353c330"
+    },
+    {
+      "key": "西藏自治区|阿里地区|革吉县",
+      "file": "西藏自治区_阿里地区_革吉县.json.gz",
+      "rows": 27,
+      "bytes": 975,
+      "sha256": "c2ecbcda7aae51493fa6a70ebc2eaf6b27a3340e333ef83bda978b199b46e244"
+    },
+    {
+      "key": "西藏自治区|阿里地区|札达县",
+      "file": "西藏自治区_阿里地区_札达县.json.gz",
+      "rows": 14,
+      "bytes": 689,
+      "sha256": "a0a90b051248f3c801dc0f2fe0918433af7c6b43c872ef7b8a834a7be2c9cdfe"
+    },
+    {
+      "key": "西藏自治区|阿里地区|噶尔县",
+      "file": "西藏自治区_阿里地区_噶尔县.json.gz",
+      "rows": 13,
+      "bytes": 659,
+      "sha256": "744a0a6ce0994079d6677444a9c32a035e0748bc4de8b68ef849dffb9ed205ff"
+    },
+    {
+      "key": "西藏自治区|阿里地区|普兰县",
+      "file": "西藏自治区_阿里地区_普兰县.json.gz",
+      "rows": 43,
+      "bytes": 1410,
+      "sha256": "48a0a533dd94565277af735d4d6e71710eb4351e3a3fa068656b66990b0ba58a"
+    },
+    {
+      "key": "西藏自治区|林芝市|巴宜区",
+      "file": "西藏自治区_林芝市_巴宜区.json.gz",
+      "rows": 242,
+      "bytes": 7038,
+      "sha256": "f3d70364378a26b203a5829089ee9b543407e3756e2858ce3aac6e551e2d3192"
+    },
+    {
+      "key": "西藏自治区|林芝市|工布江达县",
+      "file": "西藏自治区_林芝市_工布江达县.json.gz",
+      "rows": 271,
+      "bytes": 7535,
+      "sha256": "ccabf952dfd0e77daa3d348b41a3847c156d04da61d20556216e8158551d2fda"
+    },
+    {
+      "key": "西藏自治区|林芝市|米林市",
+      "file": "西藏自治区_林芝市_米林市.json.gz",
+      "rows": 171,
+      "bytes": 4920,
+      "sha256": "45e770fbfd2c3ca89752289324d494ecf3aa0f2697634f862098925d4e06992d"
+    },
+    {
+      "key": "西藏自治区|林芝市|波密县",
+      "file": "西藏自治区_林芝市_波密县.json.gz",
+      "rows": 256,
+      "bytes": 6968,
+      "sha256": "83109b9a0dc6f2a0c5a7578c452dcb2cc73063e94ae9f962a0da917c121eced0"
+    },
+    {
+      "key": "西藏自治区|林芝市|朗县",
+      "file": "西藏自治区_林芝市_朗县.json.gz",
+      "rows": 80,
+      "bytes": 2360,
+      "sha256": "b2e31fb75e56bd33f22706081e8dc736b506ee9dd012b2c110fd0e617633b83d"
+    },
+    {
+      "key": "西藏自治区|林芝市|察隅县",
+      "file": "西藏自治区_林芝市_察隅县.json.gz",
+      "rows": 76,
+      "bytes": 2244,
+      "sha256": "86cc0bbe21b855f7a8c42de8a48951e661faf031e74c136ba364e10f4a924f7c"
+    },
+    {
+      "key": "西藏自治区|山南市|贡嘎县",
+      "file": "西藏自治区_山南市_贡嘎县.json.gz",
+      "rows": 23,
+      "bytes": 856,
+      "sha256": "5ec74fc8dd4c4cb965ee9f6f939eb2f8d231e968c24bab8bd434d2896ac11656"
+    },
+    {
+      "key": "西藏自治区|山南市|浪卡子县",
+      "file": "西藏自治区_山南市_浪卡子县.json.gz",
+      "rows": 17,
+      "bytes": 772,
+      "sha256": "e7b9d1e74df9d5c8efdae254cf99253160ac0aee659faf56daa613fe03a50f8a"
+    },
+    {
+      "key": "西藏自治区|山南市|扎囊县",
+      "file": "西藏自治区_山南市_扎囊县.json.gz",
+      "rows": 9,
+      "bytes": 552,
+      "sha256": "3e6d542e91d022765dca940c839cfe1bb921214492fe78d72d2db63b54a3c23e"
+    },
+    {
+      "key": "西藏自治区|山南市|隆子县",
+      "file": "西藏自治区_山南市_隆子县.json.gz",
+      "rows": 47,
+      "bytes": 1462,
+      "sha256": "3a0c4ce430ac9b272392f17a5e352db2b7066ccd65e4714e01e25f5dc022886f"
+    },
+    {
+      "key": "西藏自治区|山南市|措美县",
+      "file": "西藏自治区_山南市_措美县.json.gz",
+      "rows": 15,
+      "bytes": 684,
+      "sha256": "501c76d5dc8cbc895f8afae197df947a4c2eaa71837daba8318750d8645806bc"
+    },
+    {
+      "key": "西藏自治区|山南市|洛扎县",
+      "file": "西藏自治区_山南市_洛扎县.json.gz",
+      "rows": 22,
+      "bytes": 832,
+      "sha256": "168c56c45ae856153dd6afd7aa522d9f4e5ba3e2a50d5c7413358fb711065611"
+    },
+    {
+      "key": "西藏自治区|林芝市|墨脱县",
+      "file": "西藏自治区_林芝市_墨脱县.json.gz",
+      "rows": 2,
+      "bytes": 303,
+      "sha256": "8e1910c89aaf33bb17afc12fd6a33d9acd5702c36a71f554d430b737876cb41d"
+    },
+    {
+      "key": "西藏自治区|山南市|乃东区",
+      "file": "西藏自治区_山南市_乃东区.json.gz",
+      "rows": 15,
+      "bytes": 707,
+      "sha256": "469440c32899e835b5ef4141d7d3759eb75c4efb4a6c6b514db10ed7565feaba"
+    },
+    {
+      "key": "西藏自治区|昌都市|类乌齐县",
+      "file": "西藏自治区_昌都市_类乌齐县.json.gz",
+      "rows": 1,
+      "bytes": 262,
+      "sha256": "b959fdf669cee7ccb6c59375c67be8cda186fa198d186abad9e0aa6dd067d401"
+    },
+    {
+      "key": "西藏自治区|昌都市|洛隆县",
+      "file": "西藏自治区_昌都市_洛隆县.json.gz",
+      "rows": 1,
+      "bytes": 259,
+      "sha256": "7405e897ccee9a9319e90581741b189c0ebdbbe6a5259942f36e5461a9c47dd8"
+    },
+    {
+      "key": "西藏自治区|山南市|琼结县",
+      "file": "西藏自治区_山南市_琼结县.json.gz",
+      "rows": 1,
+      "bytes": 258,
+      "sha256": "fac22286d36542a83e5c2639498b54a6f8f8af023cf7132e7ffad5ec69a9a7cf"
+    },
+    {
+      "key": "西藏自治区|昌都市|察雅县",
+      "file": "西藏自治区_昌都市_察雅县.json.gz",
+      "rows": 1,
+      "bytes": 261,
+      "sha256": "d71471fee719639bf17e1cd01b5e37bdd4b513fc5883a97c5c7db3401c5f2a4f"
+    },
+    {
+      "key": "西藏自治区|阿里地区|措勤县",
+      "file": "西藏自治区_阿里地区_措勤县.json.gz",
+      "rows": 2,
+      "bytes": 295,
+      "sha256": "ba0d71d43cb87cece7e53b4b832ff10584a29097cfe528b892c611b55e270c31"
+    },
+    {
+      "key": "西藏自治区|山南市|桑日县",
+      "file": "西藏自治区_山南市_桑日县.json.gz",
+      "rows": 3,
+      "bytes": 333,
+      "sha256": "a1d9d87e4c88eb214685f2dcb1e0e42b28485037b24ebb21cb68cc888a0acdd1"
+    },
+    {
+      "key": "西藏自治区|拉萨市|尼木县",
+      "file": "西藏自治区_拉萨市_尼木县.json.gz",
+      "rows": 1,
+      "bytes": 259,
+      "sha256": "28c404c49350a08c3a8b4aa47782830bbcd74e1b7e60df17f387ba1c891ad0e6"
+    },
+    {
+      "key": "甘肃省|金昌市|永昌县",
+      "file": "甘肃省_金昌市_永昌县.json.gz",
+      "rows": 24,
+      "bytes": 951,
+      "sha256": "960c5c53a9f92998a0d4d18c9fc4cba9c57a5afab707a3270cc3a04955c3b4b5"
+    },
+    {
+      "key": "甘肃省|金昌市|金川区",
+      "file": "甘肃省_金昌市_金川区.json.gz",
+      "rows": 35,
+      "bytes": 1278,
+      "sha256": "3d2164cd800550dfa49330040fdc6871ca428052bf0240d49b6b21491c43e1cb"
+    },
+    {
+      "key": "甘肃省|甘南藏族自治州|合作市",
+      "file": "甘肃省_甘南藏族自治州_合作市.json.gz",
+      "rows": 15,
+      "bytes": 747,
+      "sha256": "54a13ba7eb611f71f74325df9cbcaeb569fd9cb553af80b8203870ae9a50e29d"
+    },
+    {
+      "key": "甘肃省|甘南藏族自治州|夏河县",
+      "file": "甘肃省_甘南藏族自治州_夏河县.json.gz",
+      "rows": 7,
+      "bytes": 480,
+      "sha256": "1365ad98aeb13fb55faeffe334e179c20e6bd7c386a4576935da8107ac160f71"
+    },
+    {
+      "key": "甘肃省|甘南藏族自治州|碌曲县",
+      "file": "甘肃省_甘南藏族自治州_碌曲县.json.gz",
+      "rows": 8,
+      "bytes": 528,
+      "sha256": "f7ce33629e1dfe9dc6c7e7c397b4f05a4fdfe7b17451797effc17e0baf20894a"
+    },
+    {
+      "key": "甘肃省|甘南藏族自治州|临潭县",
+      "file": "甘肃省_甘南藏族自治州_临潭县.json.gz",
+      "rows": 20,
+      "bytes": 862,
+      "sha256": "afa04e3d9bfad5e9df3f069ca0894de8e2fdfa0da9861a75dcda680e078833f3"
+    },
+    {
+      "key": "甘肃省|甘南藏族自治州|卓尼县",
+      "file": "甘肃省_甘南藏族自治州_卓尼县.json.gz",
+      "rows": 11,
+      "bytes": 616,
+      "sha256": "e57ee3bdb3bc3852e50e9a63b2c3c3b441b71bdd416265ba555995dad67119d2"
+    },
+    {
+      "key": "甘肃省|甘南藏族自治州|迭部县",
+      "file": "甘肃省_甘南藏族自治州_迭部县.json.gz",
+      "rows": 12,
+      "bytes": 638,
+      "sha256": "98a01c9030dbee936462382b35a53a4f3b3ecf98e8d4bd1c17dbea2897923c9a"
+    },
+    {
+      "key": "甘肃省|甘南藏族自治州|舟曲县",
+      "file": "甘肃省_甘南藏族自治州_舟曲县.json.gz",
+      "rows": 6,
+      "bytes": 467,
+      "sha256": "c5b6e6cdbda7e574adf982558000b1d27eb685245cd3044c37fe8bfb2c24c19b"
+    },
+    {
+      "key": "甘肃省|定西市|安定区",
+      "file": "甘肃省_定西市_安定区.json.gz",
+      "rows": 144,
+      "bytes": 4344,
+      "sha256": "6e96ee7d755b113a399fe60811ee8f2d8bf51c74a8144df95ca4f3d23b5b6b3e"
+    },
+    {
+      "key": "甘肃省|定西市|渭源县",
+      "file": "甘肃省_定西市_渭源县.json.gz",
+      "rows": 89,
+      "bytes": 2697,
+      "sha256": "72e7ad1670966779758881787cd78b6ae0d52b989e573620152972aaf64e9877"
+    },
+    {
+      "key": "甘肃省|定西市|临洮县",
+      "file": "甘肃省_定西市_临洮县.json.gz",
+      "rows": 185,
+      "bytes": 5399,
+      "sha256": "cf18717c3b9fc727809471e40ff865bdaaaac1b480753b8f94e897ad67afd893"
+    },
+    {
+      "key": "甘肃省|定西市|陇西县",
+      "file": "甘肃省_定西市_陇西县.json.gz",
+      "rows": 120,
+      "bytes": 3586,
+      "sha256": "6ff7a2946d4c4a434eb7809e1b5123f70694087ed0b9482b8c838412d4036cce"
+    },
+    {
+      "key": "甘肃省|定西市|漳县",
+      "file": "甘肃省_定西市_漳县.json.gz",
+      "rows": 21,
+      "bytes": 857,
+      "sha256": "eb148438716735214897811f88d8ae67d7b590cf52c79a2a735c16cad0936a37"
+    },
+    {
+      "key": "甘肃省|定西市|岷县",
+      "file": "甘肃省_定西市_岷县.json.gz",
+      "rows": 38,
+      "bytes": 1315,
+      "sha256": "4f7bb38d36a76ae9ef5b3e934910d6a41932baeb5ed173e9ddb62f2759fe4ac2"
+    },
+    {
+      "key": "甘肃省|定西市|通渭县",
+      "file": "甘肃省_定西市_通渭县.json.gz",
+      "rows": 14,
+      "bytes": 705,
+      "sha256": "f8b0dda6681508773d625d2ddc0564bc02c451c0d2427eafb973320330bb92a3"
+    },
+    {
+      "key": "甘肃省|甘南藏族自治州|玛曲县",
+      "file": "甘肃省_甘南藏族自治州_玛曲县.json.gz",
+      "rows": 4,
+      "bytes": 374,
+      "sha256": "29f7c2226608ab40d73ab18cb042baf8d3e75470055cf27f6e655867dd368caa"
+    },
+    {
+      "key": "新疆维吾尔自治区|哈密市|伊州区",
+      "file": "新疆维吾尔自治区_哈密市_伊州区.json.gz",
+      "rows": 108,
+      "bytes": 3547,
+      "sha256": "1a8ccc0357be1c05c0ba1fa1def10d075d59afefa24c03f923f5cb6bbb36d371"
+    },
+    {
+      "key": "新疆维吾尔自治区|哈密市|伊吾县",
+      "file": "新疆维吾尔自治区_哈密市_伊吾县.json.gz",
+      "rows": 24,
+      "bytes": 990,
+      "sha256": "a3a22c1f093dbe33be698d60308319b3188c7821b1bea83a8062e105fb4aa4e0"
+    },
+    {
+      "key": "新疆维吾尔自治区|哈密市|巴里坤哈萨克自治县",
+      "file": "新疆维吾尔自治区_哈密市_巴里坤哈萨克自治县.json.gz",
+      "rows": 50,
+      "bytes": 1741,
+      "sha256": "ed5e5390c792b96f47bdf67a77c3b589243ef358db59e07c02dda2db51a83f55"
+    },
+    {
+      "key": "新疆维吾尔自治区|博尔塔拉蒙古自治州|精河县",
+      "file": "新疆维吾尔自治区_博尔塔拉蒙古自治州_精河县.json.gz",
+      "rows": 68,
+      "bytes": 2300,
+      "sha256": "159561113d855ff091d2248e388464348c8d56d46a83c87ff11815c0580d35a9"
+    },
+    {
+      "key": "新疆维吾尔自治区|昌吉回族自治州|昌吉市",
+      "file": "新疆维吾尔自治区_昌吉回族自治州_昌吉市.json.gz",
+      "rows": 576,
+      "bytes": 16717,
+      "sha256": "00b27e31436c8aee8c04e197c57e252828a8e6c64a4455b2b9ff9a06b496ba74"
+    },
+    {
+      "key": "新疆维吾尔自治区|昌吉回族自治州|吉木萨尔县",
+      "file": "新疆维吾尔自治区_昌吉回族自治州_吉木萨尔县.json.gz",
+      "rows": 90,
+      "bytes": 2870,
+      "sha256": "395ef99fc2728b4f46c84be1ebc12c259090d24ba1238e8b8363ba8df9c95dea"
+    },
+    {
+      "key": "新疆维吾尔自治区|昌吉回族自治州|阜康市",
+      "file": "新疆维吾尔自治区_昌吉回族自治州_阜康市.json.gz",
+      "rows": 72,
+      "bytes": 2397,
+      "sha256": "0eaee5a91b871dee66fb7ac98772d55a6c4f65e26294b1ef91aee7659465a0b4"
+    },
+    {
+      "key": "新疆维吾尔自治区|昌吉回族自治州|奇台县",
+      "file": "新疆维吾尔自治区_昌吉回族自治州_奇台县.json.gz",
+      "rows": 76,
+      "bytes": 2479,
+      "sha256": "6b167bf5277e99bb2ecccb91577c7db8e04c6a3d28033459a746be57f9612d1b"
+    },
+    {
+      "key": "新疆维吾尔自治区|昌吉回族自治州|木垒哈萨克自治县",
+      "file": "新疆维吾尔自治区_昌吉回族自治州_木垒哈萨克自治县.json.gz",
+      "rows": 24,
+      "bytes": 983,
+      "sha256": "52d78f23a74ea9b20e1ef978db281bed3f2bc09ad2dd75d1026160e032d16522"
+    },
+    {
+      "key": "新疆维吾尔自治区|昌吉回族自治州|呼图壁县",
+      "file": "新疆维吾尔自治区_昌吉回族自治州_呼图壁县.json.gz",
+      "rows": 38,
+      "bytes": 1383,
+      "sha256": "8b0d5f2b87b0c33ac142fb9e981ea551f611ff17149758268338ee7cbe17ccca"
+    },
+    {
+      "key": "新疆维吾尔自治区|昌吉回族自治州|玛纳斯县",
+      "file": "新疆维吾尔自治区_昌吉回族自治州_玛纳斯县.json.gz",
+      "rows": 124,
+      "bytes": 3919,
+      "sha256": "9d136fa6c0283aacff9183584662eaecc1c4d58ba6a3cbadb5cdf4a0ff676b59"
+    },
+    {
+      "key": "新疆维吾尔自治区|阿勒泰地区|富蕴县",
+      "file": "新疆维吾尔自治区_阿勒泰地区_富蕴县.json.gz",
+      "rows": 28,
+      "bytes": 1084,
+      "sha256": "7f06d71503508e69fd1a8245f653c88946159b086facc4c0307ddd8a8f17a2c6"
+    },
+    {
+      "key": "新疆维吾尔自治区|阿勒泰地区|福海县",
+      "file": "新疆维吾尔自治区_阿勒泰地区_福海县.json.gz",
+      "rows": 13,
+      "bytes": 691,
+      "sha256": "74df17408f783cec3171644324585d9cdd88f957cbf6c56552ee9e85da946f62"
+    },
+    {
+      "key": "新疆维吾尔自治区|乌鲁木齐市|新市区",
+      "file": "新疆维吾尔自治区_乌鲁木齐市_新市区.json.gz",
+      "rows": 3028,
+      "bytes": 79515,
+      "sha256": "892bb3e2d66f035426177119708f951655fa3beaadf9403ff7665ca7cfe390c9"
+    },
+    {
+      "key": "新疆维吾尔自治区|喀什地区|喀什市",
+      "file": "新疆维吾尔自治区_喀什地区_喀什市.json.gz",
+      "rows": 115,
+      "bytes": 3342,
+      "sha256": "c7fd30cc35bb2257059699edc9274978d439c9433176851740abaa8250b1010b"
+    },
+    {
+      "key": "新疆维吾尔自治区|喀什地区|麦盖提县",
+      "file": "新疆维吾尔自治区_喀什地区_麦盖提县.json.gz",
+      "rows": 18,
+      "bytes": 781,
+      "sha256": "db9d7480d7cb401d3ce21429ceb2747e4c4eeae2be45e0ffdc026ff91e8a625b"
+    },
+    {
+      "key": "新疆维吾尔自治区|喀什地区|塔什库尔干塔吉克自治县",
+      "file": "新疆维吾尔自治区_喀什地区_塔什库尔干塔吉克自治县.json.gz",
+      "rows": 4,
+      "bytes": 417,
+      "sha256": "6d0cc6611db81d9506e335c803597d8dcc5f74a0d4f7a8aecfa70395de1b17c2"
+    },
+    {
+      "key": "新疆维吾尔自治区|喀什地区|莎车县",
+      "file": "新疆维吾尔自治区_喀什地区_莎车县.json.gz",
+      "rows": 51,
+      "bytes": 1771,
+      "sha256": "38888afdde59560c26dc9ff630b348e60e1140f76f7fdccb326025776b162d72"
+    },
+    {
+      "key": "新疆维吾尔自治区|喀什地区|泽普县",
+      "file": "新疆维吾尔自治区_喀什地区_泽普县.json.gz",
+      "rows": 13,
+      "bytes": 650,
+      "sha256": "35d80cf0b24be9023c60778772f7738e80e6eed5b4e0de4b0a0b247f0ae2a8e7"
+    },
+    {
+      "key": "新疆维吾尔自治区|喀什地区|叶城县",
+      "file": "新疆维吾尔自治区_喀什地区_叶城县.json.gz",
+      "rows": 29,
+      "bytes": 1155,
+      "sha256": "4dfd18d378b164ead5a5f9ba2d73569746d24d45b102021f58abf46af58c2f93"
+    },
+    {
+      "key": "新疆维吾尔自治区|喀什地区|巴楚县",
+      "file": "新疆维吾尔自治区_喀什地区_巴楚县.json.gz",
+      "rows": 41,
+      "bytes": 1481,
+      "sha256": "803783ac71a4b407acc7f418930c3cbd685800cc97ed0e47600785c6e3a0a21e"
+    },
+    {
+      "key": "新疆维吾尔自治区|克拉玛依市|白碱滩区",
+      "file": "新疆维吾尔自治区_克拉玛依市_白碱滩区.json.gz",
+      "rows": 11,
+      "bytes": 602,
+      "sha256": "14f2b9aded5cce5598b418b11f27892db677fa290a6b6aca699adaafe06f5b61"
+    },
+    {
+      "key": "新疆维吾尔自治区|克拉玛依市|克拉玛依区",
+      "file": "新疆维吾尔自治区_克拉玛依市_克拉玛依区.json.gz",
+      "rows": 102,
+      "bytes": 3259,
+      "sha256": "c42750d246522ae9a704778356c8441e696be7dc13c865a48c1c487c3c386be7"
+    },
+    {
+      "key": "新疆维吾尔自治区|克拉玛依市|乌尔禾区",
+      "file": "新疆维吾尔自治区_克拉玛依市_乌尔禾区.json.gz",
+      "rows": 24,
+      "bytes": 982,
+      "sha256": "3abbe1a152a75e15323549de699bc8b198979c1f3500240e1bf7474bd5ad73c4"
+    },
+    {
+      "key": "新疆维吾尔自治区|阿克苏地区|温宿县",
+      "file": "新疆维吾尔自治区_阿克苏地区_温宿县.json.gz",
+      "rows": 20,
+      "bytes": 924,
+      "sha256": "850c09f951f5e473c6c205b2ff6cfeaf4272c930172c72d56e144beae79b0f0e"
+    },
+    {
+      "key": "新疆维吾尔自治区|阿克苏地区|阿克苏市",
+      "file": "新疆维吾尔自治区_阿克苏地区_阿克苏市.json.gz",
+      "rows": 74,
+      "bytes": 2532,
+      "sha256": "925361c27b30c351b3c6c096dc7e4293d5329bd56438e942e6d080af5b9bfb73"
+    },
+    {
+      "key": "新疆维吾尔自治区|阿克苏地区|库车市",
+      "file": "新疆维吾尔自治区_阿克苏地区_库车市.json.gz",
+      "rows": 56,
+      "bytes": 2000,
+      "sha256": "e301ea8849ec8e6af873c875b1c9027fd109a29ab6942b70da8fff47cb344b85"
+    },
+    {
+      "key": "新疆维吾尔自治区|阿克苏地区|新和县",
+      "file": "新疆维吾尔自治区_阿克苏地区_新和县.json.gz",
+      "rows": 10,
+      "bytes": 558,
+      "sha256": "4fdfdfa145f2c2ea9724b8bbfe981bb781905ab3b61ecf97da2d001abe1d8f76"
+    },
+    {
+      "key": "新疆维吾尔自治区|吐鲁番市|托克逊县",
+      "file": "新疆维吾尔自治区_吐鲁番市_托克逊县.json.gz",
+      "rows": 146,
+      "bytes": 4375,
+      "sha256": "3e86d573fd4989457ce733b935e4f86254330fb5cf58709a668b2fdf3dae40d7"
+    },
+    {
+      "key": "新疆维吾尔自治区|吐鲁番市|高昌区",
+      "file": "新疆维吾尔自治区_吐鲁番市_高昌区.json.gz",
+      "rows": 72,
+      "bytes": 2399,
+      "sha256": "49809203834579ede359264df1f137d65ca8a279379ded2d035c9110b4bdef74"
+    },
+    {
+      "key": "新疆维吾尔自治区|吐鲁番市|鄯善县",
+      "file": "新疆维吾尔自治区_吐鲁番市_鄯善县.json.gz",
+      "rows": 75,
+      "bytes": 2444,
+      "sha256": "017936410030f81a7a9709844554e52e9736d7b450cdf2c03bbf4a3642ae4b95"
+    },
+    {
+      "key": "新疆维吾尔自治区|巴音郭楞蒙古自治州|库尔勒市",
+      "file": "新疆维吾尔自治区_巴音郭楞蒙古自治州_库尔勒市.json.gz",
+      "rows": 131,
+      "bytes": 4198,
+      "sha256": "b80468e533e34fee26b967262f74069699eee379d42e25c7db73190ee64c61e6"
+    },
+    {
+      "key": "新疆维吾尔自治区|巴音郭楞蒙古自治州|轮台县",
+      "file": "新疆维吾尔自治区_巴音郭楞蒙古自治州_轮台县.json.gz",
+      "rows": 13,
+      "bytes": 665,
+      "sha256": "6dd37c31441c0d243d82e9504bd4056bd3e4d34bab5a7a24d68ae70a290e606e"
+    },
+    {
+      "key": "新疆维吾尔自治区|巴音郭楞蒙古自治州|和硕县",
+      "file": "新疆维吾尔自治区_巴音郭楞蒙古自治州_和硕县.json.gz",
+      "rows": 11,
+      "bytes": 602,
+      "sha256": "f33a5280f60a9e7f8212626babba4238226be021ad6dbe6807a3427980bde1d2"
+    },
+    {
+      "key": "新疆维吾尔自治区|巴音郭楞蒙古自治州|若羌县",
+      "file": "新疆维吾尔自治区_巴音郭楞蒙古自治州_若羌县.json.gz",
+      "rows": 17,
+      "bytes": 778,
+      "sha256": "fb046fbb2c58ee5a5adab9cb3a7a2b8d14e94a9dc30f0cb29f6179fed9d0dc24"
+    },
+    {
+      "key": "新疆维吾尔自治区|巴音郭楞蒙古自治州|且末县",
+      "file": "新疆维吾尔自治区_巴音郭楞蒙古自治州_且末县.json.gz",
+      "rows": 11,
+      "bytes": 610,
+      "sha256": "71ab9ced344306729bbda6573bebdbc20f626f4264f3c867e0f2a641d666dc9c"
+    },
+    {
+      "key": "新疆维吾尔自治区|乌鲁木齐市|水磨沟区",
+      "file": "新疆维吾尔自治区_乌鲁木齐市_水磨沟区.json.gz",
+      "rows": 1397,
+      "bytes": 36757,
+      "sha256": "7490cf1182ec075fd66f6b2f54c26c31a4d082815803abda9db522c1f555c214"
+    },
+    {
+      "key": "新疆维吾尔自治区|乌鲁木齐市|乌鲁木齐县",
+      "file": "新疆维吾尔自治区_乌鲁木齐市_乌鲁木齐县.json.gz",
+      "rows": 174,
+      "bytes": 5258,
+      "sha256": "d8b4ab1dbc144bce069298b2e408dd18ed8d24bab93be22b0773cb0fdbd0027f"
+    },
+    {
+      "key": "新疆维吾尔自治区|乌鲁木齐市|沙依巴克区",
+      "file": "新疆维吾尔自治区_乌鲁木齐市_沙依巴克区.json.gz",
+      "rows": 2364,
+      "bytes": 62287,
+      "sha256": "7733e18a415ddab4ef1955bc93842c2774faca32b61562022746cbc9a50f2967"
+    },
+    {
+      "key": "新疆维吾尔自治区|乌鲁木齐市|达坂城区",
+      "file": "新疆维吾尔自治区_乌鲁木齐市_达坂城区.json.gz",
+      "rows": 64,
+      "bytes": 2181,
+      "sha256": "a06e5a68ece3d473cb0c7f1e7e8468957287f242daceac26ad8fd51058611ada"
+    },
+    {
+      "key": "新疆维吾尔自治区|乌鲁木齐市|头屯河区",
+      "file": "新疆维吾尔自治区_乌鲁木齐市_头屯河区.json.gz",
+      "rows": 1805,
+      "bytes": 48674,
+      "sha256": "0c645a0a686c1aa9393343c26c5b3340f49790e3c48a3e4de65af9bf8a3680e8"
+    },
+    {
+      "key": "新疆维吾尔自治区|乌鲁木齐市|天山区",
+      "file": "新疆维吾尔自治区_乌鲁木齐市_天山区.json.gz",
+      "rows": 1560,
+      "bytes": 40469,
+      "sha256": "328d151dccc474f8be914035ddf84dad37b831d525116f21c272391044beae73"
+    },
+    {
+      "key": "新疆维吾尔自治区|乌鲁木齐市|米东区",
+      "file": "新疆维吾尔自治区_乌鲁木齐市_米东区.json.gz",
+      "rows": 1163,
+      "bytes": 31678,
+      "sha256": "161884b6186a8954631430add0d929b71e4ca4b40065c592a4a012b5db3f41b6"
+    },
+    {
+      "key": "新疆维吾尔自治区|伊犁哈萨克自治州|霍城县",
+      "file": "新疆维吾尔自治区_伊犁哈萨克自治州_霍城县.json.gz",
+      "rows": 25,
+      "bytes": 1065,
+      "sha256": "1bcad7fcad0747f2e105992e9b77ec5f8b53b2b6fecb3a9b3e99f74596ec5f1b"
+    },
+    {
+      "key": "新疆维吾尔自治区|伊犁哈萨克自治州|伊宁市",
+      "file": "新疆维吾尔自治区_伊犁哈萨克自治州_伊宁市.json.gz",
+      "rows": 102,
+      "bytes": 3477,
+      "sha256": "99c89d0a46d64b97ef205c08a41061eb50b40347d3ecbc0c15ed843f0d15c34e"
+    },
+    {
+      "key": "新疆维吾尔自治区|伊犁哈萨克自治州|新源县",
+      "file": "新疆维吾尔自治区_伊犁哈萨克自治州_新源县.json.gz",
+      "rows": 17,
+      "bytes": 826,
+      "sha256": "fcb03cf876b177465f71d3041bab3a01c6e79fa1a7c9544b45123ef95a865abb"
+    },
+    {
+      "key": "新疆维吾尔自治区|伊犁哈萨克自治州|奎屯市",
+      "file": "新疆维吾尔自治区_伊犁哈萨克自治州_奎屯市.json.gz",
+      "rows": 52,
+      "bytes": 1838,
+      "sha256": "fa57aab7db5ccf1b792cf1473fa308549fe443efbb7885275cf6d7c4266c5186"
+    },
+    {
+      "key": "新疆维吾尔自治区|克拉玛依市|独山子区",
+      "file": "新疆维吾尔自治区_克拉玛依市_独山子区.json.gz",
+      "rows": 9,
+      "bytes": 561,
+      "sha256": "5be8841f2bbc9ae2e6ad69dac33e4287bb440ab3eccd56f6eaecab9643ffa2ae"
+    },
+    {
+      "key": "新疆维吾尔自治区|伊犁哈萨克自治州|霍尔果斯市",
+      "file": "新疆维吾尔自治区_伊犁哈萨克自治州_霍尔果斯市.json.gz",
+      "rows": 9,
+      "bytes": 572,
+      "sha256": "4f146d2d9282a4299c8285c3ad9d3030c8bad0621818584706444e15cc4898d8"
+    },
+    {
+      "key": "新疆维吾尔自治区|伊犁哈萨克自治州|伊宁县",
+      "file": "新疆维吾尔自治区_伊犁哈萨克自治州_伊宁县.json.gz",
+      "rows": 7,
+      "bytes": 506,
+      "sha256": "f278c0ed6539c3975fac5feb5c2e70125a856da417e641b239af4670e85e0035"
+    },
+    {
+      "key": "新疆维吾尔自治区|博尔塔拉蒙古自治州|博乐市",
+      "file": "新疆维吾尔自治区_博尔塔拉蒙古自治州_博乐市.json.gz",
+      "rows": 13,
+      "bytes": 719,
+      "sha256": "ef97840cca8ea396b89cd8ee191e0d394a9fb7db63c4c0bcdd51d6c2f2944c47"
+    },
+    {
+      "key": "新疆维吾尔自治区|伊犁哈萨克自治州|特克斯县",
+      "file": "新疆维吾尔自治区_伊犁哈萨克自治州_特克斯县.json.gz",
+      "rows": 22,
+      "bytes": 976,
+      "sha256": "b16bd0cf9ee61fe13ed2abb2e59258abadaab89437b1b242eeb45224c47f301b"
+    },
+    {
+      "key": "新疆维吾尔自治区|阿克苏地区|拜城县",
+      "file": "新疆维吾尔自治区_阿克苏地区_拜城县.json.gz",
+      "rows": 6,
+      "bytes": 458,
+      "sha256": "503fae6e5b55e5c5c53c3a32b9cb7f3c847aeab54ef42144402661b0f44a6427"
+    },
+    {
+      "key": "新疆维吾尔自治区|喀什地区|英吉沙县",
+      "file": "新疆维吾尔自治区_喀什地区_英吉沙县.json.gz",
+      "rows": 11,
+      "bytes": 615,
+      "sha256": "be34310747247f9a64f08a4410b5e5535c996ceb33ff827a705671e6a9b9c27d"
+    },
+    {
+      "key": "新疆维吾尔自治区|喀什地区|伽师县",
+      "file": "新疆维吾尔自治区_喀什地区_伽师县.json.gz",
+      "rows": 12,
+      "bytes": 648,
+      "sha256": "46cb4c1827c8e4ad415e28265258f5bceed06dd4c0315652b3e0050baeed3fea"
+    },
+    {
+      "key": "新疆维吾尔自治区|阿克苏地区|沙雅县",
+      "file": "新疆维吾尔自治区_阿克苏地区_沙雅县.json.gz",
+      "rows": 9,
+      "bytes": 542,
+      "sha256": "4ec6bf773bf85fa34786f93d7f1f092cabdc15b724a7fef0352f7a8bf90d3038"
+    },
+    {
+      "key": "新疆维吾尔自治区|巴音郭楞蒙古自治州|和静县",
+      "file": "新疆维吾尔自治区_巴音郭楞蒙古自治州_和静县.json.gz",
+      "rows": 11,
+      "bytes": 645,
+      "sha256": "dfd3a5f7934784dd1bb68990a455ad32695dee37a31309b216977850ae50bb36"
+    },
+    {
+      "key": "新疆维吾尔自治区|伊犁哈萨克自治州|昭苏县",
+      "file": "新疆维吾尔自治区_伊犁哈萨克自治州_昭苏县.json.gz",
+      "rows": 7,
+      "bytes": 513,
+      "sha256": "8117fb6d960fddc3acef95b70b693f7a11217f2f62002440d8e069b598efafc2"
+    },
+    {
+      "key": "新疆维吾尔自治区|伊犁哈萨克自治州|察布查尔锡伯自治县",
+      "file": "新疆维吾尔自治区_伊犁哈萨克自治州_察布查尔锡伯自治县.json.gz",
+      "rows": 6,
+      "bytes": 481,
+      "sha256": "bc5b1c9b126de1eeebeb9ab5c6a0b0c8a5e967dac2577ab8c7375e1469728609"
+    },
+    {
+      "key": "新疆维吾尔自治区|克孜勒苏柯尔克孜自治州|阿合奇县",
+      "file": "新疆维吾尔自治区_克孜勒苏柯尔克孜自治州_阿合奇县.json.gz",
+      "rows": 2,
+      "bytes": 336,
+      "sha256": "91e5f43a01e2a8d4048312881e3addaed364e6321091120f2986db8018f90623"
+    },
+    {
+      "key": "新疆维吾尔自治区|阿克苏地区|乌什县",
+      "file": "新疆维吾尔自治区_阿克苏地区_乌什县.json.gz",
+      "rows": 2,
+      "bytes": 312,
+      "sha256": "5bf20b78fc1e343794e8aa0fc2dab52f293d78208fe48bf559bc2dca3f2e4ee0"
+    },
+    {
+      "key": "新疆维吾尔自治区|阿勒泰地区|布尔津县",
+      "file": "新疆维吾尔自治区_阿勒泰地区_布尔津县.json.gz",
+      "rows": 6,
+      "bytes": 448,
+      "sha256": "27c4845d9f6f162e74aaa1b1f7a3bddd176d7acc8134ac825dcdf2dc5b9b4bd0"
+    },
+    {
+      "key": "新疆维吾尔自治区|阿勒泰地区|阿勒泰市",
+      "file": "新疆维吾尔自治区_阿勒泰地区_阿勒泰市.json.gz",
+      "rows": 9,
+      "bytes": 535,
+      "sha256": "41686e326c0ad20aaedae91a20153834556ca2ef7441bb37c70feed4880ee0dd"
+    },
+    {
+      "key": "新疆维吾尔自治区|喀什地区|疏附县",
+      "file": "新疆维吾尔自治区_喀什地区_疏附县.json.gz",
+      "rows": 3,
+      "bytes": 356,
+      "sha256": "11305f30da695ca40912052b6322d3e7fb98ef11b48640aa78fa0bd8e9bf1e1e"
+    },
+    {
+      "key": "新疆维吾尔自治区|阿克苏地区|阿瓦提县",
+      "file": "新疆维吾尔自治区_阿克苏地区_阿瓦提县.json.gz",
+      "rows": 3,
+      "bytes": 356,
+      "sha256": "988f07756da209c58d0d3c918d1f4e49becf71d8ead4d8d09d1efef01d3e0464"
+    },
+    {
+      "key": "新疆维吾尔自治区|伊犁哈萨克自治州|巩留县",
+      "file": "新疆维吾尔自治区_伊犁哈萨克自治州_巩留县.json.gz",
+      "rows": 10,
+      "bytes": 595,
+      "sha256": "8f923cf616c105765ea78cd558427dc82fa63dbce05045ac719e5228b042c52a"
+    },
+    {
+      "key": "新疆维吾尔自治区|克孜勒苏柯尔克孜自治州|阿图什市",
+      "file": "新疆维吾尔自治区_克孜勒苏柯尔克孜自治州_阿图什市.json.gz",
+      "rows": 5,
+      "bytes": 450,
+      "sha256": "b149e0d7bb082792a14d601c4a726b210d566daf7b5dd71a6a0bcba4416aeb76"
+    },
+    {
+      "key": "新疆维吾尔自治区|克孜勒苏柯尔克孜自治州|乌恰县",
+      "file": "新疆维吾尔自治区_克孜勒苏柯尔克孜自治州_乌恰县.json.gz",
+      "rows": 3,
+      "bytes": 372,
+      "sha256": "1422509bd386bd29c3320620fc735a515f140bfc558ff4e02e647c37e504426a"
+    },
+    {
+      "key": "新疆维吾尔自治区|伊犁哈萨克自治州|尼勒克县",
+      "file": "新疆维吾尔自治区_伊犁哈萨克自治州_尼勒克县.json.gz",
+      "rows": 9,
+      "bytes": 544,
+      "sha256": "c16b95c98df0449fdb8da12a89699c0fce0be19060f8f54da82cc8f427fd6a86"
+    },
+    {
+      "key": "新疆维吾尔自治区|博尔塔拉蒙古自治州|温泉县",
+      "file": "新疆维吾尔自治区_博尔塔拉蒙古自治州_温泉县.json.gz",
+      "rows": 2,
+      "bytes": 328,
+      "sha256": "376a9298aa0ebee83858d5c17038258170d305bafb3f4a4acd047e1878533c70"
+    },
+    {
+      "key": "新疆维吾尔自治区|喀什地区|疏勒县",
+      "file": "新疆维吾尔自治区_喀什地区_疏勒县.json.gz",
+      "rows": 10,
+      "bytes": 578,
+      "sha256": "c09e2c39e4f25de1cc3dc6be3ba7c59e09a1ed33637c137077415f9e5dfc4f92"
+    },
+    {
+      "key": "新疆维吾尔自治区|巴音郭楞蒙古自治州|尉犁县",
+      "file": "新疆维吾尔自治区_巴音郭楞蒙古自治州_尉犁县.json.gz",
+      "rows": 6,
+      "bytes": 455,
+      "sha256": "121b530edf8a5077d54345324f5ef4535d80b00f32a95378558fccd7ed078b05"
+    },
+    {
+      "key": "新疆维吾尔自治区|巴音郭楞蒙古自治州|焉耆回族自治县",
+      "file": "新疆维吾尔自治区_巴音郭楞蒙古自治州_焉耆回族自治县.json.gz",
+      "rows": 3,
+      "bytes": 373,
+      "sha256": "cd6e328a6048e80d0ace4ea92892a0f43b297438e32aa0df8402f371bf0cc8b6"
+    },
+    {
+      "key": "新疆维吾尔自治区|克孜勒苏柯尔克孜自治州|阿克陶县",
+      "file": "新疆维吾尔自治区_克孜勒苏柯尔克孜自治州_阿克陶县.json.gz",
+      "rows": 4,
+      "bytes": 410,
+      "sha256": "49a0e5abbb83514175e9b0338cb4ab5026fbf8544171681aaca188bc5b3184e4"
+    },
+    {
+      "key": "新疆维吾尔自治区|阿勒泰地区|吉木乃县",
+      "file": "新疆维吾尔自治区_阿勒泰地区_吉木乃县.json.gz",
+      "rows": 2,
+      "bytes": 327,
+      "sha256": "694c211913643eb5a0495e37ac4faf2323a4d1250a406311193ae0d151398518"
+    },
+    {
+      "key": "新疆维吾尔自治区|喀什地区|岳普湖县",
+      "file": "新疆维吾尔自治区_喀什地区_岳普湖县.json.gz",
+      "rows": 3,
+      "bytes": 349,
+      "sha256": "782258d1aca2b4a848e294bfc1dac8bb57b34560df3aef685f1e2e70b3c5934f"
+    },
+    {
+      "key": "新疆维吾尔自治区|阿勒泰地区|青河县",
+      "file": "新疆维吾尔自治区_阿勒泰地区_青河县.json.gz",
+      "rows": 4,
+      "bytes": 397,
+      "sha256": "42577dc21dd77d2dd6eda1a885560c67857360f3f1bd8200381b7eb9c4ed2d59"
+    },
+    {
+      "key": "新疆维吾尔自治区|阿勒泰地区|哈巴河县",
+      "file": "新疆维吾尔自治区_阿勒泰地区_哈巴河县.json.gz",
+      "rows": 2,
+      "bytes": 317,
+      "sha256": "95b5a9bbc2423152b566f9af18107b812d13c8c7bf326b0d628d6c27c7b5dd6d"
+    }
+  ]
+}

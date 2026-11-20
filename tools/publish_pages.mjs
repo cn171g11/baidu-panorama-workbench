@@ -45,6 +45,7 @@ export async function publishPages({root=PROJECT_ROOT,output='dist/pages',commit
   const initial=await buildSite({root,output:stage,commit});
   const target=initial.output;
      const blueSource=path.join(root,'data/blue-dots');if(await access(path.join(blueSource,'parts-manifest.json')).then(()=>true,()=>false)){const blueData=path.join(target,'city-viewer/data/blue-dots');await mkdir(blueData,{recursive:true});await copyFile(path.join(blueSource,'parts-manifest.json'),path.join(blueData,'parts-manifest.json'));for(const entry of await readdir(blueSource)){if(entry.endsWith('.json.gz'))await copyFile(path.join(blueSource,entry),path.join(blueData,entry));}}
+      const osmBlueSource=path.join(root,'data/blue-dots-osm');if(await access(path.join(osmBlueSource,'county-matched-manifest.json')).then(()=>true,()=>false)){const osmBlueData=path.join(target,'city-viewer/data/blue-dots-osm');await mkdir(osmBlueData,{recursive:true});for(const entry of await readdir(osmBlueSource)){if(entry.endsWith('.json.gz')||entry==='county-matched-manifest.json')await copyFile(path.join(osmBlueSource,entry),path.join(osmBlueData,entry));}}
    const publicData=path.join(target,'city-viewer/data');
   const originalManifest=JSON.parse(await readFile(path.join(publicData,'asset-manifest.json'),'utf8'));
   const assets={};let compressedBytes=0;
