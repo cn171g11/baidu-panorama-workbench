@@ -67,8 +67,8 @@ try {
   report.checks = { banner, releases, summary, errors };
   const shot = await send('Page.captureScreenshot', { format: 'png' });
   await writeFile(path.join(results, 'report-version.png'), Buffer.from(shot.data, 'base64'));
-  await writeFile(path.join(results, 'report.json'), JSON.stringify(report, null, 2) + '\n');
   report.passed = true;
+  await writeFile(path.join(results, 'report.json'), JSON.stringify(report, null, 2) + '\n');
   console.log(JSON.stringify(report, null, 2));
 } catch (error) {
   report.error = error.message;
