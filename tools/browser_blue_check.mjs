@@ -87,12 +87,22 @@ try {
   const loaded = await evaluate('window.__BAIDU_WORKBENCH__.getState()');
   assert.equal(loaded.blueProvince, province, 'Blue layer province mismatch');
   assert.ok(loaded.blueRenderedCount > 0, 'Blue points did not reach the map');
+  // Pixel-level proof: count canvas pixels close to #27A9FF (39,169,255).
+  // This distinguishes "rows stored in state" from "dots actually painted".
+  const bluePixels = await evaluate(`(()=>{
+    const c=document.querySelector('.baidu-point-canvas');if(!c)return -1;
+    const ctx=c.getContext('2d');if(!ctx)return -1;
+    const d=ctx.getImageData(0,0,c.width,c.height).data;let n=0;
+    for(let i=0;i<d.length;i+=4){const r=d[i],g=d[i+1],b=d[i+2],a=d[i+3];
+      if(a>40&&b>190&&r<110&&g>120&&g<215&&b-r>90)n++;}
+    return n;})()`);
+  assert.ok(bluePixels > 500, 'Blue dots are not painted on the map canvas: ' + bluePixels + ' blue pixels');
   assert.equal(loaded.visibleCount, 0, 'Blue dots must not enter the ordinary list count');
   const blueRequests = requests.filter(isBlue).map(u => decodeURIComponent(new URL(u).pathname.split('/').pop()));
   const foreign = [...new Set(blueRequests.filter(f => !expectedFiles.has(f)))];
   assert.deepEqual(foreign, [], 'Loaded blue shards from another province: ' + JSON.stringify(foreign));
   assert(!requests.some(u => /blue-dots\/china-.*part-/.test(u) && !expectedFiles.has(decodeURIComponent(new URL(u).pathname.split('/').pop()))), 'Whole-country blue download detected');
-  report.checks.provinceLoad = { province, expectedShards: expected.length, expectedRows, requestedShards: [...new Set(blueRequests)].length, blueCount: loaded.blueCount, blueRenderedCount: loaded.blueRenderedCount, visibleCount: loaded.visibleCount };
+  report.checks.provinceLoad = { province, expectedShards: expected.length, expectedRows, requestedShards: [...new Set(blueRequests)].length, blueCount: loaded.blueCount, blueRenderedCount: loaded.blueRenderedCount, blueCanvasPixels: bluePixels, visibleCount: loaded.visibleCount };
   report.checks.errors = errors;
   const shot = await send('Page.captureScreenshot', { format: 'png' });
   await writeFile(path.join(results, 'blue-layer.png'), Buffer.from(shot.data, 'base64'));
