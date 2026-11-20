@@ -60,3 +60,20 @@
 .province-body th { color:#84909d; font-weight:500; }.province-body td { color:#ccd4dc; }.province-body a { color:#d8e1e8; text-decoration:none; }.province-body a:hover { color:#ff858d; text-decoration:underline; }
 .report-empty { padding:28px; color:#aeb8c4; text-align:center; }
 @media (max-width:700px) { .report-page { padding:20px 14px 44px; }.report-head { display:block; }.report-status { margin-top:12px; white-space:normal; overflow-wrap:anywhere; }.summary-cards { grid-template-columns:repeat(2,minmax(0,1fr)); }.summary-card:first-child { grid-column:1/-1; }.sort-controls { margin-left:0; flex-wrap:wrap; }.province-body { overflow-x:auto; }.province-card > summary{padding:12px 8px;}.province-total{white-space:normal;font-size:10px;}.report-controls .report-search{min-width:0;width:100%;} }
+
+
+.report-status-bar { display:flex; align-items:center; gap:14px; flex-wrap:wrap; margin:0 0 16px; }
+.report-version { color:#ffd400; font-size:12px; font-variant-numeric:tabular-nums; }
+.report-version a { color:#8ab4f8; }
+.release-notes { margin-top:32px; border-top:1px solid #303945; padding-top:20px; }
+.release-notes h2 { font-size:16px; color:#e6edf3; margin:0 0 10px; }
+.release-list { list-style:none; display:grid; gap:12px; margin:0; padding:0; }
+.release-item { border:1px solid #303945; border-radius:7px; background:#171d24; padding:13px 15px; }
+.release-item header { display:flex; gap:10px; align-items:baseline; flex-wrap:wrap; margin-bottom:6px; }
+.release-version { color:#ffd400; font-weight:600; font-variant-numeric:tabular-nums; }
+.release-date { color:#8b949e; font-size:11px; }
+.release-title { color:#e6edf3; font-size:13px; }
+.release-commit { color:#8b949e; font-size:10px; margin-left:auto; font-family:ui-monospace,monospace; }
+.release-changes { margin:6px 0 0; padding-left:18px; color:#b6c1cc; font-size:12px; line-height:1.7; }
+.release-empty { color:#8b949e; font-size:12px; }
+@media(max-width:700px){ .release-commit{margin-left:0;width:100%;} }

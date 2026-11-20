@@ -48,6 +48,8 @@ export async function buildSite({ root = PROJECT_ROOT, output = 'dist/pages', co
   try {
     for (const file of ['index.html','favicon.svg','city-viewer/index.html','city-viewer/report.html']) await copyFile(root, stage, file);
     for (const file of PUBLIC_MODULES) await copyFile(root, stage, 'city-viewer/js/' + file);
+    const releasesSource = path.join(root, 'config/release-notes.json');
+    if (await exists(releasesSource)) await copyFile(root, stage, 'config/release-notes.json');
     const cssDir = path.join(root, 'city-viewer/css');
     for (const entry of await readdir(cssDir, { withFileTypes: true })) {
       if (entry.isSymbolicLink()) throw new Error('Symlinked CSS denied.');

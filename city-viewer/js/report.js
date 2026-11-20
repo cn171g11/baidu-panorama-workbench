@@ -124,5 +124,26 @@ if(typeof document!=='undefined')try{
   const summary=catalog.importSummary||{},total=document.getElementById('report-total');total.textContent=`${number(summary.rawRecords??catalog.total)} 原始 · ${number(catalog.total)} 唯一 · ${number(summary.exactDuplicates)} 完全重复 · ${number(summary.differingDuplicates)} 差异版本`;total.dataset.ready = 'true';
   document.querySelector('#report-source span:last-child').textContent=`已发布 ${catalog.collections.length} 城 · ${groups.provinces.length} 省级行政区`;
   render();window.__BAIDU_WORKBENCH__=Object.freeze({provider:'baidu',ready:true,total:catalog.total,collections:catalog.collections.length,counts:groups.total,captureSummary:dates,source:'published-catalog-summary'});
+  try{
+    const base=new URL('../',location.href);
+    const [notesResponse,buildResponse]=await Promise.all([fetch(new URL('config/release-notes.json',base),{cache:'no-store'}),fetch(new URL('build.json',base),{cache:'no-store'})]);
+    if(!notesResponse.ok)throw Error('公告文件不可用（'+notesResponse.status+'）');
+    const notes=await notesResponse.json(),build=buildResponse.ok?await buildResponse.json():null;
+    if(notes?.schemaVersion!==1||!notes.current||!Array.isArray(notes.releases))throw Error('公告格式不符');
+    const label=document.getElementById('report-version');
+    label.innerHTML=`当前版本 v${text(notes.current.version)} · ${text(notes.current.date)}${build?.commit?` · 部署 ${text(String(build.commit).slice(0,7))}`:''}`;
+    label.dataset.ready='true';
+    const list=document.getElementById('release-list');
+    list.replaceChildren(...notes.releases.map(release=>{
+      const item=document.createElement('li');item.className='release-item';
+      item.innerHTML=`<header><span class="release-version">v${text(release.version)}</span><span class="release-date">${text(release.date)}</span><span class="release-title">${text(release.title||'更新')}</span>${release.commit?`<span class="release-commit">${text(String(release.commit).slice(0,12))}</span>`:''}</header><ul class="release-changes">${(Array.isArray(release.changes)?release.changes:[]).map(change=>`<li>${text(change)}</li>`).join('')}</ul>`;
+      return item;
+    }));
+    if(!notes.releases.length)list.innerHTML='<li class="release-empty">暂无已记录公告。</li>';
+  }catch(error){
+    document.getElementById('report-version').textContent='版本公告暂不可用';
+    document.getElementById('report-version').dataset.ready='false';
+    document.getElementById('release-list').innerHTML=`<li class="release-empty">${text(error.message)}</li>`;
+  }
 }catch(error){document.getElementById('report-total').textContent='目录暂不可用';document.getElementById('report-error').textContent=error.message;window.__BAIDU_WORKBENCH__=Object.freeze({provider:'baidu',ready:false,error:error.message});}
 export {aggregate,countFor,filterGroups,sumCapture,countySummary,countyHref,boundaryNote,countyTableMarkup};

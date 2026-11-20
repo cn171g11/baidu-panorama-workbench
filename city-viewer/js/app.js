@@ -68,6 +68,7 @@ function refreshSnapshot() {
       visibleCount: state.visibleRows.length, page: state.page + 1, pageSize: PAGE_SIZE,
       selectedPanoid: state.selected?.[0] || null, mapAvailable: Boolean(state.map), mapMode: state.mode,
       mapRenderedCount: state.map?.renderedCount || 0, mapGridCells: state.map?.grid.size || 0,
+      blueCount: state.blueRows.length, blueRenderedCount: state.map?.bluePoints?.length || 0, blueProvince: elements.province.value || null,
       basemap:state.map?.basemap, actualMapMode:state.map?.actualMode, drawnSymbols:state.map?.drawnSymbols||0, kind:$('kind-filter').value,
       collections: state.catalog?.collections.length || 0, layout:'fullscreen-map', popupOpen:!!state.map?.popup, listOpen:state.listOpen, loading:state.loading,
     }),
@@ -191,10 +192,11 @@ async function fetchBlueDots(province, signal) {
     if (signal.aborted) return null;
     const response = await fetch(new URL(part.file, BLUE_DOTS_URL), { signal });
     if (!response.ok) throw new Error(`小蓝点分片加载失败：${part.file} (${response.status})`);
-    const compressed = new Uint8Array(await response.arrayBuffer());
-    if (compressed.length !== part.bytes || await blueDotSha256(compressed) !== part.sha256) throw new Error(`小蓝点分片SHA校验失败：${part.file}`);
-    const plainStream = new Blob([compressed]).stream().pipeThrough(new DecompressionStream('gzip'));
-    const rawRows = JSON.parse(await new Response(plainStream).text());
+    const bytes = new Uint8Array(await response.arrayBuffer());
+    if (bytes.length !== part.bytes || await blueDotSha256(bytes) !== part.sha256) throw new Error(`小蓝点分片SHA校验失败：${part.file}`);
+    const isGzip = bytes.length > 1 && bytes[0] === 0x1f && bytes[1] === 0x8b;
+    const text = isGzip ? await new Response(new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'))).text() : new TextDecoder().decode(bytes);
+    const rawRows = JSON.parse(text);
     if (!Array.isArray(rawRows) || rawRows.length !== part.rows) throw new Error(`小蓝点分片行数错误：${part.file}`);
     for (const raw of rawRows) { const row = normalizeBlueRow(raw, part); if (row) rows.push(Object.assign(row, { __province: province, __blueDot: true })); }
   }
