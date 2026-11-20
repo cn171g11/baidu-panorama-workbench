@@ -123,19 +123,26 @@ async function loadPublishedCollectionsNow(collections) {
   updateView();
 }
 
+const BLUE_DOT_PROVINCES = ['北京市','天津市','河北省','山西省','内蒙古自治区','辽宁省','吉林省','黑龙江省','上海市','江苏省','浙江省','安徽省','福建省','江西省','山东省','河南省','湖北省','湖南省','广东省','广西壮族自治区','海南省','重庆市','四川省','贵州省','云南省','西藏自治区','陕西省','甘肃省','青海省','宁夏回族自治区','新疆维吾尔自治区'];
 function populateFilters() {
-  const provinces = new Set(state.catalog.collections.map((c) => c.province));
+  // 省份下拉必须同时包含“有已发布街景的省”和“有小蓝点数据的省”，
+  // 否则未发布城市的省份无法选中，其蓝点也就永远看不到。
+  const provinces = new Set([...state.catalog.collections.map((c) => c.province), ...BLUE_DOT_PROVINCES]);
   elements.province.innerHTML = '<option value="">全部省份</option>';
-  [...provinces].sort((a, b) => a.localeCompare(b, 'zh-CN')).forEach((name) => elements.province.add(new Option(name, name)));
+  [...provinces].filter(Boolean).sort((a, b) => a.localeCompare(b, 'zh-CN')).forEach((name) => {
+    const hasStreetView = state.catalog.collections.some((c) => c.province === name);
+    elements.province.add(new Option(hasStreetView ? name : `${name}（仅有小蓝点）`, name));
+  });
   syncCities();
 }
 function syncCities() {
   const province = elements.province.value;
   cancelBlueDotLoad();
   state.blueRows = [];
-  elements.city.innerHTML = `<option value="">${province ? '选择城市' : '选择省份后载入'}</option>`;
-  state.catalog.collections.filter((c) => !province || c.province === province).forEach((c) => elements.city.add(new Option(c.name, c.id)));
-  elements.city.disabled = !province;
+  const cities = state.catalog.collections.filter((c) => !province || c.province === province);
+  elements.city.innerHTML = `<option value="">${province ? (cities.length ? '选择城市' : '该省暂未发布街景，仅显示小蓝点') : '选择省份后载入'}</option>`;
+  cities.forEach((c) => elements.city.add(new Option(c.name, c.id)));
+  elements.city.disabled = !province || !cities.length;
   syncCounties();
 }
 function syncCounties(){
@@ -252,10 +259,15 @@ function updateView() {
   elements.mapCount.textContent = `${count} 条`;
   elements.export.disabled = count === 0;
   const localError = $('empty-title').dataset.localError;
+  const hasBlue = state.blueRows.length > 0;
   let title, description;
   if (localError && !rows.length) {
     title = '本地保存数据无法读取';
     description = `${localError}。原缓存未删除，可在导入窗口明确选择“删除本地导入”后重试。`;
+  } else if (hasBlue && !rows.length) {
+    // 该省暂无已发布街景，仅有小蓝点：不要用“请选择城市”的遮罩盖住蓝点。
+    title = `小蓝点 ${state.blueRows.length.toLocaleString()} 个`;
+    description = `${elements.province.value} 暂未发布普通街景分片，当前地图只显示该省小蓝点。选择其他已发布城市可查看街景点位。`;
   } else if (elements.city.value && state.loadedSelection!==selectedKey(state.collectionById.get(elements.city.value))) {
     title = elements.county.value ? '请载入所选县级分片' : '从目录选择一个县 / 区';
     description = '县级数据按需载入，每片最多25,000点；选择市不会自动下载整市。未匹配点保留在单独分片。';
@@ -273,7 +285,7 @@ function updateView() {
   }
   $('empty-title').textContent = title;
   $('empty-description').textContent = description;
-  elements.empty.hidden = count > 0;
+  elements.empty.hidden = count > 0 || hasBlue;
   elements.list.hidden = count === 0;
   $('list-empty').hidden=count>0;
   elements.mapEmpty.hidden = true;
