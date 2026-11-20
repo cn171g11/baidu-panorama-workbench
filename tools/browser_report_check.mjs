@@ -56,7 +56,8 @@ try {
   await until(() => evaluate(`document.getElementById('report-version')?.dataset.ready==='true'`), 30000, 'version banner');
   const banner = await evaluate(`document.getElementById('report-version').textContent`);
   const releases = await evaluate(`[...document.querySelectorAll('#release-list .release-item')].map(li=>({version:li.querySelector('.release-version')?.textContent,date:li.querySelector('.release-date')?.textContent,title:li.querySelector('.release-title')?.textContent,changes:[...li.querySelectorAll('.release-changes li')].length,commit:li.querySelector('.release-commit')?.textContent||null}))`);
-  const summary = await evaluate(`({total:document.getElementById('report-total').textContent,hidden:document.getElementById('summary-hidden').textContent,regular:document.getElementById('summary-regular').textContent})`);
+  await until(() => evaluate(`document.getElementById('blue-dot-total')?.textContent.includes('4,137,538')`), 30000, 'blue-dot report total');
+  const summary = await evaluate(`({total:document.getElementById('report-total').textContent,hidden:document.getElementById('summary-hidden').textContent,regular:document.getElementById('summary-regular').textContent,blue:document.getElementById('blue-dot-total').textContent,osm:document.getElementById('blue-dot-osm').textContent})`);
   assert.match(banner, /v\d+\.\d+\.\d+/);
   assert(releases.length >= 2, 'Expected at least two releases');
   assert(releases[0].version && /^v\d+\.\d+\.\d+$/.test(releases[0].version));

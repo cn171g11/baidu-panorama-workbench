@@ -5,6 +5,7 @@
   "coordinateSystem": "BD09MC / BD09LL",
   "source": "OpenStreetMap WGS84 polygon match",
   "total": 692485,
+  "stats": { "total":4137538,"matched":692485,"unmatched":307,"ambiguous":11,"noBoundary":3444735 },
   "parts": [
     {
       "key": "山西省|阳泉市|平定县",

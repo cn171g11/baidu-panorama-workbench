@@ -22,6 +22,11 @@ test('release notes are versioned, ordered, and shipped with the site', async ()
     assert(Array.isArray(release.changes) && release.changes.length > 0);
     assert(release.changes.every(change => typeof change === 'string' && change.trim()));
   }
+  assert(notes.current.highlights.some(item=>item.includes('3,444,735')));
+  assert(notes.current.highlights.some(item=>item.includes('692,485')));
+  const osm = JSON.parse(await readFile(path.join(root, 'data/blue-dots-osm/county-matched-manifest.json'), 'utf8'));
+  assert.deepEqual(osm.stats, { total:4137538, matched:692485, unmatched:307, ambiguous:11, noBoundary:3444735 });
+  assert.equal(osm.parts.reduce((n,part)=>n+part.rows,0), osm.total);
   const build = await readFile(path.join(root, 'tools/build_site.mjs'), 'utf8');
   assert.match(build, /config\/release-notes\.json/);
   const html = await readFile(path.join(root, 'city-viewer/report.html'), 'utf8');
@@ -31,6 +36,9 @@ test('release notes are versioned, ordered, and shipped with the site', async ()
   const script = await readFile(path.join(root, 'city-viewer/js/report.js'), 'utf8');
   assert.match(script, /config\/release-notes\.json/);
   assert.match(script, /report-version/);
+  assert.match(html, /id="blue-dot-summary"/);
+  assert.match(script, /blue-dots\/parts-manifest\.json/);
+  assert.match(script, /blue-dots-osm\/county-matched-manifest\.json/);
 });
 
 test('blue-dot loader detects plain JSON as well as gzip shards', async () => {

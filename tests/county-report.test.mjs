@@ -107,7 +107,8 @@ test('report is metadata-only and preserves stable controls/time cards with name
   const html=await readFile(new URL('../city-viewer/report.html',import.meta.url),'utf8');
   const css=await readFile(new URL('../city-viewer/css/report.css',import.meta.url),'utf8');
   assert.doesNotMatch(js,/loadCollection|\.files\.map\(/);
-  assert.doesNotMatch(js,/data\/baidu|points-\d+|blue-dots/);
+  assert.doesNotMatch(js,/data\/baidu|points-\d+/);
+  assert.match(js,/blue-dots\/parts-manifest\.json/);
   assert.match(js,/createElement\('details'\);countyDetails\.className='report-county-details'/);
   assert.match(js,/cell\.colSpan=10/);
   for(const id of ['report-total','summary-total','summary-regular','summary-hidden','summary-time-machine','summary-unknown','report-time-summary','report-county-summary','report-search','report-hidden-only'])assert.match(html,new RegExp(`id="${id}"`));

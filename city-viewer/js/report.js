@@ -122,6 +122,15 @@ if(typeof document!=='undefined')try{
   for(const city of countyReports){countyCount+=city.countyReport.countyCount;for(const key of Object.keys(partitionTotals))partitionTotals[key]+=city.countyReport.partition[key];}
   document.getElementById('report-county-summary').textContent=countyReports.length?`县级分区覆盖 ${countyReports.length} 城 · ${number(countyCount)} 个OSM县/区（不含非县区分区） · 单一匹配 ${number(partitionTotals.matched)} · 未匹配 ${number(partitionTotals.unmatched)} · 歧义 ${number(partitionTotals.ambiguous)} · 分区合计 ${number(partitionTotals.total)}。分区是城市点位子集，不额外计入顶部汇总；点击城市仅进入县/区选择。`:'本目录尚未发布县级分区；仅显示城市目录统计。';
   const summary=catalog.importSummary||{},total=document.getElementById('report-total');total.textContent=`${number(summary.rawRecords??catalog.total)} 原始 · ${number(catalog.total)} 唯一 · ${number(summary.exactDuplicates)} 完全重复 · ${number(summary.differingDuplicates)} 差异版本`;total.dataset.ready = 'true';
+  try{
+    const blueResponse=await fetch(new URL('city-viewer/data/blue-dots/parts-manifest.json',new URL('../',location.href)),{cache:'no-store'});
+    if(!blueResponse.ok)throw Error('蓝点目录不可用（'+blueResponse.status+'）');
+    const blue=await blueResponse.json();
+    document.getElementById('blue-dot-total').textContent=`全国已发布 ${number(blue.total)} 个小蓝点 · ${new Set(blue.parts.map(part=>part.provinceCode)).size} 个省级行政区 · ${blue.parts.length} 个分片`;
+    const osmResponse=await fetch(new URL('city-viewer/data/blue-dots-osm/county-matched-manifest.json',new URL('../',location.href)),{cache:'no-store'});
+    if(osmResponse.ok){const osm=await osmResponse.json();const stats=osm.stats||{};document.getElementById('blue-dot-osm').textContent=`OSM县/区唯一匹配 ${number(stats.matched??osm.total)} · 边界未覆盖 ${number(stats.noBoundary||0)} · 未匹配 ${number(stats.unmatched||0)} · 歧义 ${number(stats.ambiguous||0)}。仅对有快照的城市作空间分类，其余点位不猜归属。`;}
+    else document.getElementById('blue-dot-osm').textContent='OSM县/区分类清单未发布；蓝点仍可按省、市查看。';
+  }catch(error){document.getElementById('blue-dot-total').textContent='小蓝点目录暂不可用：'+error.message;document.getElementById('blue-dot-osm').textContent='';}
   document.querySelector('#report-source span:last-child').textContent=`已发布 ${catalog.collections.length} 城 · ${groups.provinces.length} 省级行政区`;
   render();window.__BAIDU_WORKBENCH__=Object.freeze({provider:'baidu',ready:true,total:catalog.total,collections:catalog.collections.length,counts:groups.total,captureSummary:dates,source:'published-catalog-summary'});
   try{
