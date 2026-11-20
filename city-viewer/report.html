@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#11151c">
-  <title>数据报告 · 百度街景工作台</title>
+  <title>数据报告 · 百度街景与小蓝点工作台</title>
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="./css/app.css">
   <link rel="stylesheet" href="./css/report.css">
@@ -12,9 +12,9 @@
 <body>
   <header class="topbar"><a class="brand" href="./" aria-label="返回百度街景工作台"><span class="brand-mark" aria-hidden="true">B</span><span>百度街景工作台</span></a><div class="source-state" id="report-source" role="status"><span class="state-dot"></span><span>百度元数据源：读取中</span></div><nav class="top-actions" aria-label="主导航"><a class="nav-link" href="./">地图工作台</a></nav></header>
   <main class="report-page">
-    <section class="report-head"><div><p class="eyebrow">数据概览</p><h1 class="report-title">数据报告 · 百度街景目录</h1><p class="report-subtitle">统计已发布的城市元数据；分类依据构建清单字段，不代表影像拓扑验证。</p></div><div class="report-status" id="report-total" data-ready="false">读取目录中…</div></section>
+    <section class="report-head"><div><p class="eyebrow">数据概览</p><h1 class="report-title">数据报告 · 百度街景与小蓝点</h1><p class="report-subtitle">总量包含已发布百度街景与独立小蓝点；普通街景分类卡片仍只统计街景目录，蓝点另列。</p></div><div class="report-status" id="report-total" data-ready="false">读取目录中…</div></section>
     <section class="report-status-bar" aria-label="版本信息"><span id="report-version" class="report-version" data-ready="false">版本读取中…</span><a class="nav-link" href="#release-notes">更新公告</a></section>
-    <section class="summary-cards" id="summary-cards" aria-label="分类汇总"><article class="summary-card"><span>总点位</span><strong id="summary-total">—</strong></article><article class="summary-card"><span>常规</span><strong id="summary-regular">—</strong></article><article class="summary-card"><span>隐藏</span><strong id="summary-hidden">—</strong></article><article class="summary-card"><span>时光机</span><strong id="summary-time-machine">—</strong></article><article class="summary-card"><span>未知</span><strong id="summary-unknown">—</strong></article></section>
+    <section class="summary-cards" id="summary-cards" aria-label="分类汇总"><article class="summary-card"><span>街景与小蓝点总计</span><strong id="summary-total">—</strong></article><article class="summary-card"><span>常规</span><strong id="summary-regular">—</strong></article><article class="summary-card"><span>隐藏</span><strong id="summary-hidden">—</strong></article><article class="summary-card"><span>时光机</span><strong id="summary-time-machine">—</strong></article><article class="summary-card"><span>未知</span><strong id="summary-unknown">—</strong></article></section>
     <div id="overall-bar"></div><p id="report-coverage" class="report-note"></p><p class="report-note">隐藏、时光机为源文件对主记录的标注，彼此互斥；不按时间线长度猜测，不把元数据标记当作官网影像可用证明。冲突观察版本不重复计入点位。本地导入不计入报告。</p>
     <p id="report-time-summary" class="report-note" aria-live="polite">读取时间补全摘要…</p>
     <p id="report-county-summary" class="report-note" aria-live="polite">读取县级分区摘要…</p>

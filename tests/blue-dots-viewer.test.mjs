@@ -25,6 +25,8 @@ test('blue dot rows keep blue color and draw above regular records', async () =>
   assert.match(app, /blue-dots-osm\/county-matched-manifest\.json/);
   assert.match(app, /DecompressionStream\('gzip'\)/);
   assert.match(app, /administrativeArea\?\.county/);
+  assert.match(app, /combinedTotal/);
+  assert.match(app, /小蓝点/);
 });
 
 test('blue dot legend and small-dot label exist in viewer chrome', async () => {

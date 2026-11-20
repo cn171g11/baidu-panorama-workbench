@@ -13,7 +13,7 @@ const elements = {
   count: $('result-count'), mapCount: $('map-result-count'), mapEmpty: $('map-empty'), empty: $('empty-state'), list: $('record-list'), rows: $('record-rows'), pageSummary: $('page-summary'), pageNumber: $('page-number'),
   prev: $('page-prev'), next: $('page-next'), detail: $('detail-panel'), export: $('export-data'), dialog: $('import-dialog'), importMessage: $('import-message'), importText: $('import-text'), importFile: $('import-file'), format: $('import-format'), coordinate: $('coordinate-system'), confirmBaidu: $('confirm-baidu'), live: $('live-message')
 };
-const state = { catalog: null, blueOsmManifest: null, publishedRows: [], localRows: [], visibleRows: [], blueRows: [], selected: null, page: 0, mode: 'points', mapModeManual: false, map: null, collectionById: new Map(), loadedCollection: null, totalPublished: 0, ready: false, listOpen: false, loading: false, loadedSelection:null };
+const state = { catalog: null, blueManifestTotal: 0, blueOsmManifest: null, publishedRows: [], localRows: [], visibleRows: [], blueRows: [], selected: null, page: 0, mode: 'points', mapModeManual: false, map: null, collectionById: new Map(), loadedCollection: null, totalPublished: 0, ready: false, listOpen: false, loading: false, loadedSelection:null };
 const cityCache = new Map();
 let activeLoad = null;
 let activeController=null;
@@ -44,7 +44,8 @@ function updateStatus() {
   const county=loaded?.counties?.find(item=>item.id===elements.county.value);
   const part=county&&elements.shard.value!=='all'?` · 第${Number(elements.shard.value)+1}/${county.files.length}片`:'';
   const name=loaded?loaded.name+(county?' / '+county.name:'')+part:null;
-  elements.source.querySelector('span:last-child').textContent=state.loading?'正在载入百度县级分片…':`Pages ${state.catalog.collections.length} 城 · ${state.totalPublished.toLocaleString()} 条${name?' · '+name+' '+state.visibleRows.length.toLocaleString()+' 点':''} · 仅百度`;
+  const blueTotal=state.blueManifestTotal||0;const combinedTotal=state.totalPublished+blueTotal;
+  elements.source.querySelector('span:last-child').textContent=state.loading?'正在载入百度县级分片…':`Pages ${state.catalog.collections.length} 城 · 街景 ${state.totalPublished.toLocaleString()} · 小蓝点 ${blueTotal.toLocaleString()} · 合计 ${combinedTotal.toLocaleString()} · 百度`;
   $('fit-city').disabled=state.visibleRows.length===0&&blueRowsForSelection().length===0;
   const counts=countCategories(state.visibleRows);
   $('map-hint').textContent=state.visibleRows.length?`${state.visibleRows.length.toLocaleString()} 个匹配点 · 常规 ${counts.regular.toLocaleString()} / 隐藏 ${counts.hidden.toLocaleString()} / 时光机 ${counts.timeMachine.toLocaleString()} · 点击地图查看最近点`:'请选择顶部省份、城市与县区；仅下载选定分片，不会自动下载整市';
@@ -70,7 +71,7 @@ function refreshSnapshot() {
       mapRenderedCount: state.map?.renderedCount || 0, mapGridCells: state.map?.grid.size || 0,
       blueCount: state.blueRows.length, blueVisibleCount: blueRowsForSelection().length, blueRenderedCount: state.map?.bluePoints?.length || 0, blueProvince: elements.province.value || null,
       basemap:state.map?.basemap, actualMapMode:state.map?.actualMode, drawnSymbols:state.map?.drawnSymbols||0, kind:$('kind-filter').value,
-      collections: state.catalog?.collections.length || 0, layout:'fullscreen-map', popupOpen:!!state.map?.popup, listOpen:state.listOpen, loading:state.loading,
+      collections: state.catalog?.collections.length || 0, blueTotal:state.blueManifestTotal, combinedTotal:state.totalPublished+state.blueManifestTotal, layout:'fullscreen-map', popupOpen:!!state.map?.popup, listOpen:state.listOpen, loading:state.loading,
     }),
   });
 }
@@ -459,6 +460,7 @@ async function loadData() {
   elements.source.querySelector('span:last-child').textContent = state.catalog.collections.length ? `百度目录：${state.catalog.collections.length} 个城市（统计集合）` : '百度元数据源：目录已连接，尚无已发布记录';
   elements.source.querySelector('.state-dot').style.background = state.catalog.collections.length ? '#5cc49d' : '#d4a850';
   state.totalPublished = Number(state.catalog.total) || 0;
+  try{const blueManifest=await blueDotManifest();state.blueManifestTotal=Number(blueManifest.total)||0;}catch{state.blueManifestTotal=0;}
   try{state.blueOsmManifest=await loadBlueOsmManifest();}catch{state.blueOsmManifest=null;}
   populateFilters();
   let local = null, localError = '';

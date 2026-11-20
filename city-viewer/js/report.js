@@ -121,7 +121,11 @@ if(typeof document!=='undefined')try{
   const countyReports=groups.provinces.flatMap(group=>group.cities).filter(city=>city.countyReport),partitionTotals={matched:0,unmatched:0,ambiguous:0,total:0};let countyCount=0;
   for(const city of countyReports){countyCount+=city.countyReport.countyCount;for(const key of Object.keys(partitionTotals))partitionTotals[key]+=city.countyReport.partition[key];}
   document.getElementById('report-county-summary').textContent=countyReports.length?`县级分区覆盖 ${countyReports.length} 城 · ${number(countyCount)} 个OSM县/区（不含非县区分区） · 单一匹配 ${number(partitionTotals.matched)} · 未匹配 ${number(partitionTotals.unmatched)} · 歧义 ${number(partitionTotals.ambiguous)} · 分区合计 ${number(partitionTotals.total)}。分区是城市点位子集，不额外计入顶部汇总；点击城市仅进入县/区选择。`:'本目录尚未发布县级分区；仅显示城市目录统计。';
-  const summary=catalog.importSummary||{},total=document.getElementById('report-total');total.textContent=`${number(summary.rawRecords??catalog.total)} 原始 · ${number(catalog.total)} 唯一 · ${number(summary.exactDuplicates)} 完全重复 · ${number(summary.differingDuplicates)} 差异版本`;total.dataset.ready = 'true';
+  const summary=catalog.importSummary||{},total=document.getElementById('report-total');
+  let blueReportTotal=0;
+  try{const blueHead=await fetch(new URL('city-viewer/data/blue-dots/parts-manifest.json',new URL('../',location.href)),{cache:'no-store'});if(blueHead.ok){const blueCatalog=await blueHead.json();blueReportTotal=Number(blueCatalog.total)||0;}}catch{}
+  const combinedReportTotal=catalog.total+blueReportTotal;
+  total.textContent=`街景 ${number(catalog.total)} + 小蓝点 ${number(blueReportTotal)} = 总计 ${number(combinedReportTotal)} · 原始街景 ${number(summary.rawRecords??catalog.total)} · 重复 ${number(summary.exactDuplicates)} · 差异版本 ${number(summary.differingDuplicates)}`;total.dataset.ready = 'true';
   try{
     const blueResponse=await fetch(new URL('city-viewer/data/blue-dots/parts-manifest.json',new URL('../',location.href)),{cache:'no-store'});
     if(!blueResponse.ok)throw Error('蓝点目录不可用（'+blueResponse.status+'）');
