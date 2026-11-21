@@ -13,7 +13,7 @@ const elements = {
   count: $('result-count'), mapCount: $('map-result-count'), mapEmpty: $('map-empty'), empty: $('empty-state'), list: $('record-list'), rows: $('record-rows'), pageSummary: $('page-summary'), pageNumber: $('page-number'),
   prev: $('page-prev'), next: $('page-next'), detail: $('detail-panel'), export: $('export-data'), dialog: $('import-dialog'), importMessage: $('import-message'), importText: $('import-text'), importFile: $('import-file'), format: $('import-format'), coordinate: $('coordinate-system'), confirmBaidu: $('confirm-baidu'), live: $('live-message')
 };
-const state = { catalog: null, blueManifestTotal: 0, blueOsmManifest: null, publishedRows: [], localRows: [], visibleRows: [], blueRows: [], selected: null, page: 0, mode: 'points', mapModeManual: false, map: null, collectionById: new Map(), loadedCollection: null, totalPublished: 0, ready: false, listOpen: false, loading: false, loadedSelection:null };
+const state = { catalog: null, blueManifestTotal: 0, blueOsmManifest: null, blueCountyDirectory: null, publishedRows: [], localRows: [], visibleRows: [], blueRows: [], selected: null, page: 0, mode: 'points', mapModeManual: false, map: null, collectionById: new Map(), loadedCollection: null, totalPublished: 0, ready: false, listOpen: false, loading: false, loadedSelection:null };
 const cityCache = new Map();
 let activeLoad = null;
 let activeController=null;
@@ -157,6 +157,7 @@ function syncCounties(){
     elements.county.replaceChildren(new Option(counties.length?'选择区 / 县（OSM匹配）':(hasUnmatched?'该市存在未匹配点位':'该市暂无OSM县级覆盖'),'') );
     counties.forEach(name=>elements.county.add(new Option(`${name}（OSM）`, `blue:${name}`)));
     if(hasUnmatched) elements.county.add(new Option('未匹配 / 边界歧义（OSM）','blue:__unmatched__'));
+    for(const name of counties){const verified=(state.blueCountyDirectory?.cities||[]).find(item=>item.province===elements.province.value&&item.name.replace(/市$/,'')===blueCity)?.counties?.find(item=>item.name===name)?.geometryVerified;if(!verified){const option=[...elements.county.options].find(item=>item.value===`blue:${name}`);if(option)option.textContent=`${name}（无已验证点位）`;}}
     elements.county.disabled=!counties.length && !hasOSMOverlay; syncShards(); return;
   }
   elements.county.replaceChildren(new Option(city?.partition===COUNTY_PARTITION?'选择县 / 区（按需载入）':'整市数据',''));
@@ -189,6 +190,8 @@ const blueDotCache = new Map();
 let blueDotController = null;
 let blueDotManifestPromise = null;
 let blueOsmManifestPromise = null;
+let blueNationalCountyPromise = null;
+function loadNationalCountyDirectory(){if(!blueNationalCountyPromise)blueNationalCountyPromise=fetch(new URL('../data/blue-dots-osm/national-county-directory.json',import.meta.url),{cache:'force-cache'}).then(async r=>{if(!r.ok)throw Error('全国县级目录不可用');return r.json();}).catch(e=>{blueNationalCountyPromise=null;throw e;});return blueNationalCountyPromise;}
 function loadBlueOsmManifest(){
   if(!blueOsmManifestPromise) blueOsmManifestPromise=fetch(new URL('../data/blue-dots-osm/county-matched-manifest.json',import.meta.url),{cache:'force-cache'}).then(async response=>{if(!response.ok)throw Error('OSM蓝点县级清单不可用');const data=await response.json();if(data.schemaVersion!==1||!Array.isArray(data.parts))throw Error('OSM蓝点县级清单格式错误');return data;}).catch(error=>{blueOsmManifestPromise=null;throw error;});
   return blueOsmManifestPromise;
@@ -334,7 +337,8 @@ function blueCountyOptions(city) {
     if (area?.source === 'OpenStreetMap' && area.match === 'matched' && area.county) matched.set(area.county, area);
   }
   const manifestNames=(state.blueOsmManifest?.parts||[]).filter(part=>part.key.startsWith(`${elements.province.value}|${city}|`)).map(part=>part.key.split('|')[2]).filter(Boolean);
-  return [...new Set([...matched.keys(),...manifestNames])].sort((a,b)=>a.localeCompare(b,'zh-CN'));
+  const directoryNames=(state.blueCountyDirectory?.cities||[]).find(item=>item.province===elements.province.value&&item.name.replace(/市$/,'')===city)?.counties?.map(item=>item.name)||[];
+  return [...new Set([...matched.keys(),...manifestNames,...directoryNames])].sort((a,b)=>a.localeCompare(b,'zh-CN'));
 }
 function updateView() {
   const rows = allRows();
@@ -462,6 +466,7 @@ async function loadData() {
   state.totalPublished = Number(state.catalog.total) || 0;
   try{const blueManifest=await blueDotManifest();state.blueManifestTotal=Number(blueManifest.total)||0;}catch{state.blueManifestTotal=0;}
   try{state.blueOsmManifest=await loadBlueOsmManifest();}catch{state.blueOsmManifest=null;}
+  try{state.blueCountyDirectory=await loadNationalCountyDirectory();}catch{state.blueCountyDirectory=null;}
   populateFilters();
   let local = null, localError = '';
   try { local = loadLocalRows('local'); }
