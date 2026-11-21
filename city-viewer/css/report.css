@@ -76,4 +76,9 @@
 .release-commit { color:#8b949e; font-size:10px; margin-left:auto; font-family:ui-monospace,monospace; }
 .release-changes { margin:6px 0 0; padding-left:18px; color:#b6c1cc; font-size:12px; line-height:1.7; }
 .release-empty { color:#8b949e; font-size:12px; }
+.merged-street-summary { margin-top:12px; color:#b6c1cc; font-size:12px; }
+.merged-street-scroll { max-height:360px; overflow:auto; border:1px solid #303945; }
+.merged-street-summary table { width:100%; border-collapse:collapse; font-variant-numeric:tabular-nums; }
+.merged-street-summary th,.merged-street-summary td { padding:6px 8px; border-bottom:1px solid #28313b; text-align:left; white-space:nowrap; }
+.merged-street-summary th { color:#e6edf3; position:sticky; top:0; background:#171d24; }
 @media(max-width:700px){ .release-commit{margin-left:0;width:100%;} }

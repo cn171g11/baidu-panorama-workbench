@@ -125,12 +125,18 @@ if(typeof document!=='undefined')try{
   let blueReportTotal=0;
   try{const blueHead=await fetch(new URL('city-viewer/data/blue-dots/parts-manifest.json',new URL('../',location.href)),{cache:'no-store'});if(blueHead.ok){const blueCatalog=await blueHead.json();blueReportTotal=Number(blueCatalog.total)||0;}}catch{}
   const combinedReportTotal=catalog.total+blueReportTotal;
+  const mergedSummary=await fetch(new URL('city-viewer/data/blue-dots-osm/city-county-summary.json',new URL('../',location.href)),{cache:'no-store'}).then(r=>r.ok?r.json():null).catch(()=>null);
   total.textContent=`街景总点位 ${number(combinedReportTotal)} · 原始街景记录 ${number(summary.rawRecords??catalog.total)} · 重复 ${number(summary.exactDuplicates)} · 差异版本 ${number(summary.differingDuplicates)}`;total.dataset.ready = 'true';
   try{
     const blueResponse=await fetch(new URL('city-viewer/data/blue-dots/parts-manifest.json',new URL('../',location.href)),{cache:'no-store'});
     if(!blueResponse.ok)throw Error('蓝点目录不可用（'+blueResponse.status+'）');
     const blue=await blueResponse.json();
-    document.getElementById('blue-dot-total').textContent=`全国已发布 ${number(blue.total)} 个小蓝点 · ${new Set(blue.parts.map(part=>part.provinceCode)).size} 个省级行政区 · ${blue.parts.length} 个分片`;
+    document.getElementById('blue-dot-total').textContent=`街景来源已合并计数 · ${number(blue.total)} 个补充街景点位 · ${blue.parts.length} 个分片`;
+    const mergedSummary=await fetch(new URL('city-viewer/data/blue-dots-osm/city-county-summary.json',new URL('../',location.href)),{cache:'no-store'}).then(r=>r.ok?r.json():null).catch(()=>null);
+    if(mergedSummary){
+      const mergedRows=mergedSummary.rows||[], mergedHost=document.getElementById('blue-dot-summary');
+      mergedHost.insertAdjacentHTML('beforeend',`<div class="merged-street-summary"><p>街景行政区明细：${number(mergedSummary.stats.total)} 条补充街景点位已按城市/县区合并；其中可靠匹配 ${number(mergedSummary.stats.verified)}，最近未验证归属 ${number(mergedSummary.stats.nearest)}，仍未分类 ${number(mergedSummary.stats.unclassified)}。</p><div class="merged-street-scroll"><table><thead><tr><th>省</th><th>城市</th><th>县/区</th><th>街景点位</th><th>可靠匹配</th><th>最近未验证</th><th>未分类</th></tr></thead><tbody>${mergedRows.map(row=>`<tr><td>${text(row.province)}</td><td>${text(row.city)}</td><td>${text(row.county)}</td><td>${number(row.total)}</td><td>${number(row.blueVerified)}</td><td>${number(row.blueNearest)}</td><td>${number(row.blueUnclassified)}</td></tr>`).join('')}</tbody></table></div></div>`);
+    }
     const osmResponse=await fetch(new URL('city-viewer/data/blue-dots-osm/county-matched-manifest.json',new URL('../',location.href)),{cache:'no-store'});
     if(osmResponse.ok){const osm=await osmResponse.json();const stats=osm.stats||{};document.getElementById('blue-dot-osm').textContent=`OSM县/区唯一匹配 ${number(stats.matched??osm.total)} · 边界未覆盖 ${number((stats.unclassified ?? stats.noBoundary ?? 0))} · 未匹配 ${number(stats.unmatched||0)} · 歧义 ${number(stats.ambiguous||0)}。仅对有真实几何的城市作空间分类，其余点位明确保持未分类，不猜行政归属。`;}
     else document.getElementById('blue-dot-osm').textContent='OSM县/区分类清单未发布；蓝点仍可按省、市查看。';
