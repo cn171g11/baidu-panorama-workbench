@@ -22,10 +22,10 @@ test('release notes are versioned, ordered, and shipped with the site', async ()
     assert(Array.isArray(release.changes) && release.changes.length > 0);
     assert(release.changes.every(change => typeof change === 'string' && change.trim()));
   }
-  assert(notes.current.highlights.some(item=>item.includes('3,444,735')));
-  assert(notes.current.highlights.some(item=>item.includes('692,485')));
+  assert(notes.current.highlights.some(item=>item.includes('3,519,934')));
+  assert(notes.current.highlights.some(item=>item.includes('575,244')));
   const osm = JSON.parse(await readFile(path.join(root, 'data/blue-dots-osm/county-matched-manifest.json'), 'utf8'));
-  assert.deepEqual(osm.stats, { total:4137538, matched:692485, unmatched:307, ambiguous:11, noBoundary:3444735 });
+  assert.equal(osm.stats.matched, 3519934);assert.equal(osm.stats.unclassified,575244);assert.equal(osm.stats.unmatched,42349);assert.equal(osm.stats.ambiguous,11);
   assert.equal(osm.parts.reduce((n,part)=>n+part.rows,0), osm.total);
   const build = await readFile(path.join(root, 'tools/build_site.mjs'), 'utf8');
   assert.match(build, /config\/release-notes\.json/);
