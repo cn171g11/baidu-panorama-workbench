@@ -44,6 +44,7 @@
   <main class="viewer-map" aria-label="百度街景全屏地图">
     <div id="map" role="region" aria-label="街景点位地图"></div>
     <div id="map-empty" class="map-empty" hidden></div>
+    <div id="loading-overlay" class="loading-overlay" hidden aria-live="polite"><strong id="loading-title">正在加载街景</strong><span id="loading-progress">准备中…</span><progress id="loading-bar" max="1" value="0"></progress></div>
     <section id="empty-state" class="empty-state viewer-gate" hidden aria-live="polite">
       <h1 id="empty-title">选择省份与城市</h1>
       <p id="empty-description">选择顶部城市后按需载入百度街景，不自动下载全国点位。</p>

@@ -99,7 +99,8 @@ async function loadPublishedCollectionsNow(collections) {
     updateView();
     return;
   }
-  state.loading=true; updateStatus();
+  state.loading=true; state.mapModeManual=true; state.mode='density'; updateStatus();
+  const loadingOverlay=$('loading-overlay');loadingOverlay.hidden=false;$('loading-title').textContent='正在加载街景点位';$('loading-progress').textContent=`准备读取 ${requests.length} 个分区`;$('loading-bar').value=0;
   const nextRows = [];
   try {
     for (const request of requests) {
@@ -107,17 +108,18 @@ async function loadPublishedCollectionsNow(collections) {
       let rows=cityCache.get(key);
       if(!rows){rows=await loadCollection(collection,options);if(requestId!==collectionRequest||controller.signal.aborted)return;cityCache.set(key,rows);while(cityCache.size>1)cityCache.delete(cityCache.keys().next().value);}
       if (requestId !== collectionRequest) return;
+      const completed=nextRows.length+rows.length;const totalRows=total||1;$('loading-progress').textContent=`已加载 ${completed.toLocaleString()} / ${totalRows.toLocaleString()} 条街景`;$('loading-bar').value=Math.min(1,completed/totalRows);
       for (const row of rows) nextRows.push(Object.assign(row, { __collectionId: collection.id, __city: collection.name, __province: collection.province, __countyId:selection.county?.id||row[9]?.administrativeArea?.countyId||'unmatched', __county:selection.county?.name||row[9]?.administrativeArea?.countyName||'未匹配' }));
     }
   } catch (error) {
     if (requestId !== collectionRequest) return;
-    state.loading=false;
+    state.loading=false; $('loading-overlay').hidden=true;
     announce(`城市数据无法完整读取：${error.message}。已保留先前记录。`);
     updateView();
     return;
   }
   if (requestId !== collectionRequest) return;
-  state.loading=false;
+  state.loading=false; $('loading-overlay').hidden=true;
   state.publishedRows = nextRows;
   state.loadedCollection = collections.length === 1 ? collections[0].id : null;
   state.loadedSelection=requests.length===1?requests[0].key:null;
