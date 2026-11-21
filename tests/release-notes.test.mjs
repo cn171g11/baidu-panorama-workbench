@@ -40,7 +40,7 @@ test('release notes are versioned, ordered, and shipped with the site', async ()
   assert.match(script, /blue-dots\/parts-manifest\.json/);
   assert.match(script, /blue-dots-osm\/county-matched-manifest\.json/);
   assert.match(script, /combinedReportTotal/);
-  assert.match(html, /街景与小蓝点总计/);
+  assert.match(html, /街景总点位/);
 });
 
 test('blue-dot loader detects plain JSON as well as gzip shards', async () => {

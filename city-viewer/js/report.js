@@ -125,7 +125,7 @@ if(typeof document!=='undefined')try{
   let blueReportTotal=0;
   try{const blueHead=await fetch(new URL('city-viewer/data/blue-dots/parts-manifest.json',new URL('../',location.href)),{cache:'no-store'});if(blueHead.ok){const blueCatalog=await blueHead.json();blueReportTotal=Number(blueCatalog.total)||0;}}catch{}
   const combinedReportTotal=catalog.total+blueReportTotal;
-  total.textContent=`街景 ${number(catalog.total)} + 小蓝点 ${number(blueReportTotal)} = 总计 ${number(combinedReportTotal)} · 原始街景 ${number(summary.rawRecords??catalog.total)} · 重复 ${number(summary.exactDuplicates)} · 差异版本 ${number(summary.differingDuplicates)}`;total.dataset.ready = 'true';
+  total.textContent=`街景总点位 ${number(combinedReportTotal)} · 原始街景记录 ${number(summary.rawRecords??catalog.total)} · 重复 ${number(summary.exactDuplicates)} · 差异版本 ${number(summary.differingDuplicates)}`;total.dataset.ready = 'true';
   try{
     const blueResponse=await fetch(new URL('city-viewer/data/blue-dots/parts-manifest.json',new URL('../',location.href)),{cache:'no-store'});
     if(!blueResponse.ok)throw Error('蓝点目录不可用（'+blueResponse.status+'）');

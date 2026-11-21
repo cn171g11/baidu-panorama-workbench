@@ -45,7 +45,7 @@ function updateStatus() {
   const part=county&&elements.shard.value!=='all'?` · 第${Number(elements.shard.value)+1}/${county.files.length}片`:'';
   const name=loaded?loaded.name+(county?' / '+county.name:'')+part:null;
   const blueTotal=state.blueManifestTotal||0;const combinedTotal=state.totalPublished+blueTotal;
-  elements.source.querySelector('span:last-child').textContent=state.loading?'正在载入百度县级分片…':`Pages ${state.catalog.collections.length} 城 · 街景 ${state.totalPublished.toLocaleString()} · 小蓝点 ${blueTotal.toLocaleString()} · 合计 ${combinedTotal.toLocaleString()} · 百度`;
+  elements.source.querySelector('span:last-child').textContent=state.loading?'正在载入百度县级分片…':`Pages ${state.catalog.collections.length} 城 · 街景 ${combinedTotal.toLocaleString()} · 百度`;
   $('fit-city').disabled=state.visibleRows.length===0&&blueRowsForSelection().length===0;
   const counts=countCategories(state.visibleRows);
   $('map-hint').textContent=state.visibleRows.length?`${state.visibleRows.length.toLocaleString()} 个匹配点 · 常规 ${counts.regular.toLocaleString()} / 隐藏 ${counts.hidden.toLocaleString()} / 时光机 ${counts.timeMachine.toLocaleString()} · 点击地图查看最近点`:'请选择顶部省份、城市与县区；仅下载选定分片，不会自动下载整市';
@@ -132,21 +132,24 @@ function populateFilters() {
   elements.province.innerHTML = '<option value="">全部省份</option>';
   [...provinces].filter(Boolean).sort((a, b) => a.localeCompare(b, 'zh-CN')).forEach((name) => {
     const hasStreetView = state.catalog.collections.some((c) => c.province === name);
-    elements.province.add(new Option(hasStreetView ? name : `${name}（仅有小蓝点）`, name));
+    elements.province.add(new Option(name, name));
   });
   syncCities();
 }
 function syncCities() {
+  const previousCity = elements.city.value;
   const province = elements.province.value;
   const cities = state.catalog.collections.filter((c) => !province || c.province === province);
-  const blueCities = province ? [...new Set([...(state.blueRows.map(row => row.__blueCity).filter(Boolean)), ...osmBlueCities(province)])].sort((a,b)=>a.localeCompare(b,'zh-CN')) : [];
+  const blueCities = province ? [...new Set([...(state.blueRows.filter(row => row.__province === province).map(row => row.__blueCity).filter(Boolean)), ...osmBlueCities(province)])].sort((a,b)=>a.localeCompare(b,'zh-CN')) : [];
   elements.city.innerHTML = `<option value="">${province ? (cities.length || blueCities.length ? '选择城市' : '该省暂未发布街景或蓝点') : '选择省份后载入'}</option>`;
   cities.forEach((c) => elements.city.add(new Option(c.name, c.id)));
-  blueCities.filter(name => !cities.some(city => city.name === name)).forEach(name => elements.city.add(new Option(`${name}（小蓝点）`, `blue:${name}`)));
+  blueCities.filter(name => !cities.some(city => city.name === name)).forEach(name => elements.city.add(new Option(name, `blue:${name}`)));
+  if ([...elements.city.options].some(option => option.value === previousCity)) elements.city.value = previousCity;
   elements.city.disabled = !province || (!cities.length && !blueCities.length);
   syncCounties();
 }
 function syncCounties(){
+  const previousCounty = elements.county.value;
   const city=state.collectionById.get(elements.city.value);
   const blueCity=elements.city.value.startsWith('blue:') ? elements.city.value.slice(5) : (city?.province===elements.province.value ? city.name.replace(/市$/,'') : '');
   if(blueCity && (state.blueRows.some(row=>row.__blueCity===blueCity) || osmBlueCities(elements.province.value).includes(blueCity))){
@@ -158,6 +161,7 @@ function syncCounties(){
     counties.forEach(name=>elements.county.add(new Option(`${name}（OSM）`, `blue:${name}`)));
     if(hasUnmatched) elements.county.add(new Option('未匹配 / 边界歧义（OSM）','blue:__unmatched__'));
     for(const name of counties){const verified=(state.blueCountyDirectory?.cities||[]).find(item=>item.province===elements.province.value&&item.name.replace(/市$/,'')===blueCity)?.counties?.find(item=>item.name===name)?.geometryVerified;if(!verified){const option=[...elements.county.options].find(item=>item.value===`blue:${name}`);if(option)option.textContent=`${name}（无已验证点位）`;}}
+    if ([...elements.county.options].some(option => option.value === previousCounty)) elements.county.value = previousCounty;
     elements.county.disabled=!counties.length && !hasOSMOverlay; syncShards(); return;
   }
   elements.county.replaceChildren(new Option(city?.partition===COUNTY_PARTITION?'选择县 / 区（按需载入）':'整市数据',''));
@@ -166,15 +170,18 @@ function syncCounties(){
     elements.county.add(new Option(`全部县区 · ${city.count.toLocaleString()}点（较大）`,'all'));
     for(const county of city.counties){const option=new Option(`${county.name} · ${county.count.toLocaleString()}点`,county.id);option.disabled=county.count===0;elements.county.add(option);}
   }
+  if ([...elements.county.options].some(option => option.value === previousCounty)) elements.county.value = previousCounty;
   syncShards();
 }
 function syncShards(){
+  const previousShard = elements.shard.value;
   const city=state.collectionById.get(elements.city.value),county=city?.counties?.find(item=>item.id===elements.county.value);
   elements.shard.replaceChildren();
   if(county&&county.files.length>1){
     county.files.forEach((file,index)=>elements.shard.add(new Option(`第${index+1}/${county.files.length}片 · ${Math.min(25000,county.count-index*25000).toLocaleString()}点`,String(index))));
     elements.shard.add(new Option(`全部${county.files.length}片（较大）`,'all'));elements.shard.disabled=false;
   }else{elements.shard.add(new Option('全部分片','all'));elements.shard.disabled=true;}
+  if ([...elements.shard.options].some(option => option.value === previousShard)) elements.shard.value = previousShard;
   $('load-city').disabled=!city||(city.partition===COUNTY_PARTITION&&!elements.county.value);
 }
 function selectedKey(city){return `${city.id}:${city.partition===COUNTY_PARTITION?elements.county.value||'': 'all'}:${elements.shard.value}`;}
@@ -258,7 +265,8 @@ async function fetchBlueDots(province, signal) {
         if (!Array.isArray(rawRows) || rawRows.length !== part.rows) throw new Error(`OSM小蓝点分片行数错误：${part.file}`);
         for (const raw of rawRows) { const normalized = normalizeBlueRow(raw, part); if (normalized) enriched.set(normalized[0], Object.assign(normalized, { __province: province, __blueDot: true })); }
       }
-      rows.splice(0, rows.length, ...enriched.values());
+      rows.length = 0;
+      for (const value of enriched.values()) rows.push(value);
     }
   } catch (error) {
     if (signal.aborted) return null;
@@ -543,7 +551,7 @@ $('empty-load').addEventListener('click',()=>$('load-city').click());
 $('page-prev').addEventListener('click', () => { state.page--; updateView(); });
 $('page-next').addEventListener('click', () => { state.page++; updateView(); });
 function clearPublishedSelection(){++collectionRequest;cancelActiveLoad();state.loading=false;cityCache.clear();state.publishedRows=[];state.loadedCollection=null;state.loadedSelection=null;state.page=0;}
-elements.province.addEventListener('change',()=>{clearPublishedSelection();syncCities();updateView();void loadBlueDotsForProvince(elements.province.value||'').catch(error=>announce(`小蓝点无法加载：${error.message}`));});
+elements.province.addEventListener('change',()=>{clearPublishedSelection();state.blueRows=[];syncCities();updateView();void loadBlueDotsForProvince(elements.province.value||'').catch(error=>announce(`小蓝点无法加载：${error.message}`));});
 elements.city.addEventListener('change',()=>{const blueCity=elements.city.value.startsWith('blue:');if(!blueCity)clearPublishedSelection();syncCounties();updateView();const collection=state.collectionById.get(elements.city.value);if(collection&&collection.partition!==COUNTY_PARTITION)void loadPublishedCollections([collection]);});
 elements.county.addEventListener('change',()=>{const blueCounty=elements.county.value.startsWith('blue:');if(!blueCounty)clearPublishedSelection();syncShards();updateView();const collection=state.collectionById.get(elements.city.value);if(collection&&elements.county.value&&!blueCounty)void loadPublishedCollections([collection]);});
 elements.shard.addEventListener('change',()=>{clearPublishedSelection();updateView();const collection=state.collectionById.get(elements.city.value);if(collection&&elements.county.value)void loadPublishedCollections([collection]);});
