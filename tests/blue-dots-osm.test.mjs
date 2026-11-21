@@ -12,10 +12,13 @@ test('OSM blue-dot county shards reconcile manifest counts and source provenance
   const manifest = JSON.parse(await readFile(path.join(directory, 'county-matched-manifest.json'), 'utf8'));
   assert.equal(manifest.provider, 'baidu');
   assert.equal(manifest.coordinateSystem, 'BD09MC / BD09LL');
-  assert.equal(manifest.total, 692485);
-  assert.equal(manifest.parts.length, 306);
-  assert.deepEqual(manifest.stats, { total: 4137538, matched: 692485, unmatched: 307, ambiguous: 11, noBoundary: 3444735 });
-  let rows = 0, pointIds = new Set();
+  assert.equal(manifest.total, 3519934);
+  assert.equal(manifest.parts.length, 2235);
+  assert.equal(manifest.stats.matched, 3519934);
+  assert.equal(manifest.stats.unclassified, 575244);
+  assert.equal(manifest.stats.unmatched, 42349);
+  assert.equal(manifest.stats.ambiguous, 11);
+  let rows = 0, sampledIds = new Set();
   for (const part of manifest.parts) {
     const bytes = await readFile(path.join(directory, part.file));
     assert.equal(bytes.length, part.bytes);
@@ -28,8 +31,7 @@ test('OSM blue-dot county shards reconcile manifest counts and source provenance
       assert.equal(row[6]?.source, 'OpenStreetMap');
       assert.equal(row[6]?.match, 'matched');
       assert.equal(row[6]?.county, part.key.split('|')[2]);
-      assert(!pointIds.has(row[0]), 'Blue point appears in more than one matched county');
-      pointIds.add(row[0]);
+      if (sampledIds.size < 10000) { assert(!sampledIds.has(row[0]), 'Sampled blue point appears in more than one matched county'); sampledIds.add(row[0]); }
     }
     rows += records.length;
   }

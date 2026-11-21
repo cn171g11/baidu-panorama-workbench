@@ -132,7 +132,7 @@ if(typeof document!=='undefined')try{
     const blue=await blueResponse.json();
     document.getElementById('blue-dot-total').textContent=`全国已发布 ${number(blue.total)} 个小蓝点 · ${new Set(blue.parts.map(part=>part.provinceCode)).size} 个省级行政区 · ${blue.parts.length} 个分片`;
     const osmResponse=await fetch(new URL('city-viewer/data/blue-dots-osm/county-matched-manifest.json',new URL('../',location.href)),{cache:'no-store'});
-    if(osmResponse.ok){const osm=await osmResponse.json();const stats=osm.stats||{};document.getElementById('blue-dot-osm').textContent=`OSM县/区唯一匹配 ${number(stats.matched??osm.total)} · 边界未覆盖 ${number(stats.noBoundary||0)} · 未匹配 ${number(stats.unmatched||0)} · 歧义 ${number(stats.ambiguous||0)}。仅对有快照的城市作空间分类，其余点位不猜归属。`;}
+    if(osmResponse.ok){const osm=await osmResponse.json();const stats=osm.stats||{};document.getElementById('blue-dot-osm').textContent=`OSM县/区唯一匹配 ${number(stats.matched??osm.total)} · 边界未覆盖 ${number((stats.unclassified ?? stats.noBoundary ?? 0))} · 未匹配 ${number(stats.unmatched||0)} · 歧义 ${number(stats.ambiguous||0)}。仅对有真实几何的城市作空间分类，其余点位明确保持未分类，不猜行政归属。`;}
     else document.getElementById('blue-dot-osm').textContent='OSM县/区分类清单未发布；蓝点仍可按省、市查看。';
   }catch(error){document.getElementById('blue-dot-total').textContent='小蓝点目录暂不可用：'+error.message;document.getElementById('blue-dot-osm').textContent='';}
   document.querySelector('#report-source span:last-child').textContent=`已发布 ${catalog.collections.length} 城 · ${groups.provinces.length} 省级行政区`;
