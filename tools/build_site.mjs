@@ -54,7 +54,12 @@ export async function buildSite({ root = PROJECT_ROOT, output = 'dist/pages', co
     if (await exists(osmBlueManifest)) {
       const blueOsmDir = path.join(stage, 'city-viewer/data/blue-dots-osm'); await mkdir(blueOsmDir, { recursive: true });
       await copyFile(root, stage, 'data/blue-dots-osm/county-matched-manifest.json');
-      for (const entry of await readdir(path.join(root, 'data/blue-dots-osm'))) if (entry.endsWith('.json.gz')) await copyFile(root, stage, 'data/blue-dots-osm/' + entry);
+      for (const entry of await readdir(path.join(root, 'data/blue-dots-osm'))) if (entry.endsWith('.json.gz') || entry.endsWith('.json')) await copyFile(root, stage, 'data/blue-dots-osm/' + entry);
+    }
+    const blueManifest = path.join(root, 'data/blue-dots/parts-manifest.json');
+    if (await exists(blueManifest)) {
+      const blueDir = path.join(stage, 'city-viewer/data/blue-dots'); await mkdir(blueDir, { recursive: true });
+      await copyFile(root, stage, 'data/blue-dots/parts-manifest.json');
     }
     const cssDir = path.join(root, 'city-viewer/css');
     for (const entry of await readdir(cssDir, { withFileTypes: true })) {

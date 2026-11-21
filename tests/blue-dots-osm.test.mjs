@@ -12,11 +12,11 @@ test('OSM blue-dot county shards reconcile manifest counts and source provenance
   const manifest = JSON.parse(await readFile(path.join(directory, 'county-matched-manifest.json'), 'utf8'));
   assert.equal(manifest.provider, 'baidu');
   assert.equal(manifest.coordinateSystem, 'BD09MC / BD09LL');
-  assert.equal(manifest.total, 3519934);
-  assert.equal(manifest.parts.length, 2235);
-  assert.equal(manifest.stats.matched, 3519934);
-  assert.equal(manifest.stats.unclassified, 575244);
-  assert.equal(manifest.stats.unmatched, 42349);
+  assert.equal(manifest.total, 3529091);
+  assert.equal(manifest.parts.length, 2279);
+  assert.equal(manifest.stats.matched, 3529091);
+  assert.equal(manifest.stats.noBoundary, 566081);
+  assert.equal(manifest.stats.unmatched, 42355);
   assert.equal(manifest.stats.ambiguous, 11);
   let rows = 0, sampledIds = new Set();
   for (const part of manifest.parts) {

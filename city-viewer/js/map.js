@@ -137,7 +137,10 @@ export function bindMapInteractions(state){
     const frame=frameFor(state),clicked=event.containerPoint||state.map.latLngToContainerPoint(event.latlng);let nearest=null,best=Infinity;
     for(const point of state.points){const p=pixelFor(point,frame);if(!inside(p,frame))continue;const d=(p.x-clicked.x)**2+(p.y-clicked.y)**2;if(d<best){nearest=point;best=d;}}
     for(const point of state.bluePoints){const p=pixelFor(point,frame);if(!inside(p,frame))continue;const d=(p.x-clicked.x)**2+(p.y-clicked.y)**2;if(d<=best){nearest=point;best=d;}}
-    if(nearest)document.dispatchEvent(new CustomEvent('baidu:select',{detail:nearest.row}));
+    // 点击远离任何可见点位时视为空白处点击：关闭详情弹窗，而不是选中距离最近的点。
+    const PICK_RADIUS=32;
+    if(nearest&&best<=PICK_RADIUS*PICK_RADIUS)document.dispatchEvent(new CustomEvent('baidu:select',{detail:nearest.row}));
+    else if(state.popup)closeRowPopup(state);
   });
   if(typeof ResizeObserver==='function'){const observer=new ResizeObserver(()=>state.map.invalidateSize({debounceMoveend:true}));observer.observe(state.container);state.map.once('unload',()=>observer.disconnect());}
 }

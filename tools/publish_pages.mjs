@@ -130,6 +130,8 @@ export async function publishPages({root=PROJECT_ROOT,output='dist/pages',commit
   if(summary)catalog.importSummary=summary;
   else delete catalog.importSummary;
   await writeFile(path.join(publicData,'catalog.json'),JSON.stringify(catalog,null,2)+'\n');
+  const nationalPublic={schemaVersion:1,provider:'baidu',coordinateSystem:fullCatalog.coordinateSystem,updatedAt:fullCatalog.updatedAt??null,total:fullCatalog.total,publication:{mode:'national-descriptor',hostedCities:selected.length,hostedPanoids:total,sourceCities:fullCatalog.collections.length,sourcePanoids:fullCatalog.total},collections:fullCatalog.collections.map(city=>({id:city.id,adcode:city.adcode,name:city.name,province:city.province,count:city.count,bounds:city.bounds??null,coordinateSystem:'BD-09',hosted:selectedIds.has(city.id)}))};
+  await writeFile(path.join(publicData,'national-catalog.json'),JSON.stringify(nationalPublic,null,2)+'\n');
   await writeFile(path.join(publicData,'asset-manifest.json'),JSON.stringify({schemaVersion:1,provider:'baidu',codec:'gzip',source:'github-pages',revision:initial.commit,sources,assets},null,2)+'\n');
   if(summary){await mkdir(path.join(publicData,'imports'),{recursive:true});await writeFile(path.join(publicData,'imports/source-summary.json'),JSON.stringify({schemaVersion:1,provider:'baidu',...summary},null,2)+'\n');}
   const hostedRaw=sum(Object.values(assets),'bytes');

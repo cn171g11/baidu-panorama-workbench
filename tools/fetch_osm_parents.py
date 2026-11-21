@@ -1,8 +1,11 @@
 #!/usr/bin/env python3
 """Fetch exact OSM parent relations, serially via configured Windows proxy."""
-import json,ssl,time,urllib.request,urllib.parse,urllib.error,winreg,hashlib
+import argparse,json,ssl,time,urllib.request,urllib.parse,urllib.error,winreg,hashlib,re
 from pathlib import Path
 root=Path(__file__).resolve().parents[1]
+parser=argparse.ArgumentParser()
+parser.add_argument('--extra-cities',default=None,help='Comma-separated id:name pairs for cities not listed in the catalog')
+a=parser.parse_args()
 key=winreg.OpenKey(winreg.HKEY_CURRENT_USER,r'Software\Microsoft\Windows\CurrentVersion\Internet Settings')
 if not winreg.QueryValueEx(key,'ProxyEnable')[0]:raise SystemExit('Configured proxy is required')
 server=winreg.QueryValueEx(key,'ProxyServer')[0]
@@ -13,8 +16,15 @@ opener=urllib.request.build_opener(urllib.request.ProxyHandler({'http':proxy,'ht
 folder=root/'dist/osm-county-raw'
 selected=json.loads((root/'config/pages-publication.json').read_text(encoding='utf8'))['cities']
 cities=[c for c in json.loads((root/'data/catalog.json').read_text(encoding='utf8'))['collections'] if c['id'] in selected]
+if a.extra_cities:
+    for pair in a.extra_cities.split(','):
+        city_id,_,city_name=pair.partition(':')
+        if not re.fullmatch(r'\d{6}',city_id) or not city_name.strip():raise SystemExit('Invalid --extra-cities pair: '+pair)
+        if any(c['id']==city_id for c in cities):continue
+        cities.append({'id':city_id,'name':city_name.strip()})
 endpoint='https://overpass-api.de/api/interpreter'
 for city in cities:
+    if not (folder/(city['id']+'.json')).exists():raise SystemExit('Missing county fetch for '+city['id']+'; run fetch_osm_counties first')
     raw=json.loads((folder/(city['id']+'.json')).read_text(encoding='utf8'))
     relations={str(e['id']):e for e in raw['elements'] if e['type']=='relation'}
     named=[e for e in relations.values() if e.get('tags',{}).get('name:zh',e.get('tags',{}).get('name'))==city['name'] or e.get('tags',{}).get('name')==city['name']]

@@ -6,7 +6,7 @@ import argparse,json,ssl,time,urllib.request,urllib.parse,winreg,sys,re,hashlib
 from pathlib import Path
 root=Path(__file__).resolve().parents[1]
 parser=argparse.ArgumentParser()
-parser.add_argument('--cities',default='all');parser.add_argument('--endpoint',default='https://overpass-api.de/api/interpreter');parser.add_argument('--refresh',action='store_true');parser.add_argument('--parents',default=None)
+parser.add_argument('--cities',default='all');parser.add_argument('--endpoint',default='https://overpass-api.de/api/interpreter');parser.add_argument('--refresh',action='store_true');parser.add_argument('--parents',default=None);parser.add_argument('--extra-cities',default=None,help='Comma-separated id:name pairs for cities not listed in the catalog (e.g. blue-dot-only cities)')
 a=parser.parse_args()
 allowed={'https://overpass-api.de/api/interpreter','https://overpass.kumi.systems/api/interpreter'}
 if a.endpoint not in allowed: raise SystemExit('Use an approved public Overpass endpoint')
@@ -21,6 +21,12 @@ catalog=json.loads((root/'data/catalog.json').read_text(encoding='utf8'))
 selected=json.loads((root/'config/pages-publication.json').read_text(encoding='utf8'))['cities']
 if a.cities!='all':selected=a.cities.split(',')
 cities=[c for c in catalog['collections'] if c['id'] in selected]
+if a.extra_cities:
+    for pair in a.extra_cities.split(','):
+        city_id,_,city_name=pair.partition(':')
+        if not re.fullmatch(r'\d{6}',city_id) or not city_name.strip():raise SystemExit('Invalid --extra-cities pair: '+pair)
+        if any(c['id']==city_id for c in cities):continue
+        cities.append({'id':city_id,'name':city_name.strip()})
 if len(cities)!=len(set(selected)):raise SystemExit('Unknown or duplicate selected cities')
 folder=root/'dist/osm-county-raw';folder.mkdir(parents=True,exist_ok=True)
 parentIds=json.loads((root/a.parents).read_text(encoding='utf8')) if a.parents else {}

@@ -35,6 +35,9 @@ function updateHud() {
   const coordinateSystem=state.map.basemap.startsWith('amap')?'GCJ-02':'WGS84';
   $('coordinate-label').textContent='元数据 BD-09 · 底图 '+coordinateSystem;
   elements.mapCount.textContent=`视野 ${state.map.renderedCount.toLocaleString()} / 匹配 ${state.visibleRows.length.toLocaleString()}`;
+  // 显示当前已加载的点位总数（街景 + 小蓝点）
+  const loadedTotal=allRows().length+state.blueRows.length;
+  $('hud-loaded-count').textContent=`已加载 ${loadedTotal.toLocaleString()} 条点位`;
   const center=state.map.map.getCenter();
   $('hud-coordinate').textContent=center.lat.toFixed(5)+', '+center.lng.toFixed(5);
 }

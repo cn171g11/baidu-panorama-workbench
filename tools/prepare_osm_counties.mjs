@@ -6,15 +6,28 @@ import { prepareBoundarySnapshot } from './counties/boundaries.mjs';
 import { writeSnapshotFiles } from './counties/snapshot-files.mjs';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const args=process.argv.slice(2);
-if(args.length&&(args.length!==2||args[0]!=='--cities'||!args[1]))throw Error('Usage: node tools/prepare_osm_counties.mjs [--cities id,id]');
+const extraIndex=args.indexOf('--extra-cities');
+let extraCities=[];
+if(extraIndex>=0){
+  if(args[extraIndex+1]===undefined)throw Error('--extra-cities requires a value');
+  const pairs=args[extraIndex+1].split(',');
+  for(const pair of pairs){
+    const [id,name]=pair.split(':');
+    if(!/^\d{6}$/.test(id||'')||!name)throw Error('Invalid --extra-cities pair: '+pair);
+    extraCities.push({id,name});
+  }
+  args.splice(extraIndex,2);
+}
+if(args.length&&(args.length!==2||args[0]!=='--cities'||!args[1]))throw Error('Usage: node tools/prepare_osm_counties.mjs [--cities id,id] [--extra-cities id:name,id:name]');
 const catalog=JSON.parse(await readFile(path.join(root,'data/catalog.json'),'utf8'));
 const selected=args.length?args[1].split(','):JSON.parse(await readFile(path.join(root,'config/pages-publication.json'),'utf8')).cities;
-if(new Set(selected).size!==selected.length||selected.some(id=>!catalog.collections.some(city=>city.id===id)))throw Error('Unknown or duplicate city');
+if(new Set(selected).size!==selected.length||selected.some(id=>!catalog.collections.some(city=>city.id===id)&&!extraCities.some(city=>city.id===id)))throw Error('Unknown or duplicate city');
 const folder=path.join(root,'config/osm-counties');await mkdir(folder,{recursive:true});if(await realpath(folder)!==folder)throw Error('Unsafe snapshot folder');
 const digest=bytes=>createHash('sha256').update(bytes).digest('hex');
 async function readResponse(file){if(await realpath(file)!==file||!(await lstat(file)).isFile())throw Error('Unsafe OSM response');const bytes=await readFile(file);if(bytes.length>16*1024*1024)throw Error('OSM response exceeds16MiB');return {bytes,response:JSON.parse(bytes.toString('utf8'))};}
 const results=[];
-for(const city of catalog.collections){
+const cities=[...catalog.collections,...extraCities];
+for(const city of cities){
  if(!selected.includes(city.id))continue;
  const raw=await readResponse(path.join(root,'dist/osm-county-raw',city.id+'.json'));
  const parent=await readResponse(path.join(root,'dist/osm-county-raw',city.id+'.parent.json'));

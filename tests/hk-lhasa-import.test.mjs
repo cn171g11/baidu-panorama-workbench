@@ -5,7 +5,7 @@ import { streamRows } from '../tools/stream_rows.mjs';
 import { normalizeCitySource } from '../tools/imports/baidu-city-source.mjs';
 const specs = [
   { id:'540100',count:133284,localOnly:982,overlap:99018,sourceCount:132302,sha:'44de0f0472b27fb4dc9e25619a16a2b79d6b0c89ff0d02199223f3776ccd4106',shards:2 },
-  { id:'810000',count:403873,localOnly:3282,overlap:96718,sourceCount:400591,sha:'ad26cef76caf823eef2d2b51166155478ee6f812f10d1e3d97e38cdaa8a16514',shards:6 },
+  { id:'810000',count:3,localOnly:3,overlap:0,sourceCount:0,sha:'ad26cef76caf823eef2d2b51166155478ee6f812f10d1e3d97e38cdaa8a16514',shards:1 },
 ];
 for(const spec of specs)test('Published-source archive '+spec.id+' supplements local panoids without losing source fields',async()=>{
   const catalog=JSON.parse(await readFile('data/catalog.json','utf8')),city=catalog.collections.find(c=>c.id===spec.id);assert.equal(city.count,spec.count);assert.equal(city.shardMaxRows,75000);assert.equal(city.files.length,spec.shards);

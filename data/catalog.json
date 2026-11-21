@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "provider": "baidu",
   "coordinateSystem": "BD-09",
-  "updatedAt": "2026-11-18T23:12:36.699Z",
-  "total": 19356607,
+  "updatedAt": "2026-11-21T17:56:28.375Z",
+  "total": 18325012,
   "collections": [
     {
       "id": "110000",
@@ -11,25 +11,26 @@
       "name": "北京市",
       "province": "北京市",
       "coordinateSystem": "BD-09",
-      "count": 100000,
+      "count": 5,
       "bounds": [
-        115.78400959376063,
-        39.56175214400471,
-        117.37664924272094,
-        40.67101349998787
+        116.03930269292519,
+        39.83825086563742,
+        116.54556072918346,
+        40.5363149552961
       ],
       "files": [
         "baidu/110000/points-001.json"
       ],
       "sources": [
-        "北京市（100000 个位置）.json"
+        "baidu-010-0000-5A-crawler-results (1).json"
       ],
       "summary": {
         "sourceFiles": 1,
-        "rawRecords": 100000,
-        "uniquePanoids": 100000,
+        "rawRecords": 5,
+        "uniquePanoids": 5,
         "exactDuplicates": 0,
-        "differingDuplicates": 0
+        "differingDuplicates": 0,
+        "note": "2026-11-22 user-directed shard replacement: prior archived rows voided, batch baidu-010-0000-5A-crawler-results (1).json retained only"
       }
     },
     {
@@ -38,25 +39,26 @@
       "name": "天津市",
       "province": "天津市",
       "coordinateSystem": "BD-09",
-      "count": 100000,
+      "count": 1,
       "bounds": [
-        116.91061492911699,
-        38.827345690542366,
-        117.86267353051653,
-        40.18995176952287
+        117.18593155604555,
+        39.10963566026708,
+        117.18593155604555,
+        39.10963566026708
       ],
       "files": [
         "baidu/120000/points-001.json"
       ],
       "sources": [
-        "天津市（100000 个位置）.json"
+        "baidu-010-0000-5A-crawler-results (1).json"
       ],
       "summary": {
         "sourceFiles": 1,
-        "rawRecords": 100000,
-        "uniquePanoids": 100000,
+        "rawRecords": 1,
+        "uniquePanoids": 1,
         "exactDuplicates": 0,
-        "differingDuplicates": 0
+        "differingDuplicates": 0,
+        "note": "2026-11-22 user-directed shard replacement: prior archived rows voided, batch baidu-010-0000-5A-crawler-results (1).json retained only"
       }
     },
     {
@@ -985,25 +987,26 @@
       "name": "上海市",
       "province": "上海市",
       "coordinateSystem": "BD-09",
-      "count": 99926,
+      "count": 56,
       "bounds": [
-        120.89415293191728,
-        30.706935232731052,
-        121.96816436117476,
-        31.853351990372186
+        121.06071281568012,
+        30.77906145884855,
+        121.58100570773465,
+        31.234605896360186
       ],
       "files": [
         "baidu/310000/points-001.json"
       ],
       "sources": [
-        "上海市（100000 个位置）.json"
+        "baidu-010-0000-5A-crawler-results (1).json"
       ],
       "summary": {
         "sourceFiles": 1,
-        "rawRecords": 100000,
-        "uniquePanoids": 99926,
-        "exactDuplicates": 74,
-        "differingDuplicates": 0
+        "rawRecords": 56,
+        "uniquePanoids": 56,
+        "exactDuplicates": 0,
+        "differingDuplicates": 0,
+        "note": "2026-11-22 user-directed shard replacement: prior archived rows voided, batch baidu-010-0000-5A-crawler-results (1).json retained only"
       }
     },
     {
@@ -1039,25 +1042,26 @@
       "name": "无锡市",
       "province": "江苏省",
       "coordinateSystem": "BD-09",
-      "count": 100000,
+      "count": 5,
       "bounds": [
-        119.67218653494751,
-        31.177325994482935,
-        120.6046337402072,
-        31.95763337869541
+        120.3439481119774,
+        31.531302433598075,
+        120.3852855264606,
+        31.625828534769976
       ],
       "files": [
         "baidu/320200/points-001.json"
       ],
       "sources": [
-        "无锡市（100000 个位置）.json"
+        "baidu-010-0000-5A-crawler-results (1).json"
       ],
       "summary": {
         "sourceFiles": 1,
-        "rawRecords": 100000,
-        "uniquePanoids": 100000,
+        "rawRecords": 5,
+        "uniquePanoids": 5,
         "exactDuplicates": 0,
-        "differingDuplicates": 0
+        "differingDuplicates": 0,
+        "note": "2026-11-22 user-directed shard replacement: prior archived rows voided, batch baidu-010-0000-5A-crawler-results (1).json retained only"
       }
     },
     {
@@ -3065,25 +3069,26 @@
       "name": "郑州市",
       "province": "河南省",
       "coordinateSystem": "BD-09",
-      "count": 100000,
+      "count": 112,
       "bounds": [
-        112.92815403354447,
-        34.34208707516273,
-        114.21223452947929,
-        34.95072430650938
+        113.59668882988183,
+        34.71617954976359,
+        113.68383075248826,
+        34.885948331201995
       ],
       "files": [
         "baidu/410100/points-001.json"
       ],
       "sources": [
-        "郑州市（100000 个位置）.json"
+        "baidu-010-0000-5A-crawler-results (1).json"
       ],
       "summary": {
         "sourceFiles": 1,
-        "rawRecords": 100000,
-        "uniquePanoids": 100000,
+        "rawRecords": 112,
+        "uniquePanoids": 112,
         "exactDuplicates": 0,
-        "differingDuplicates": 0
+        "differingDuplicates": 0,
+        "note": "2026-11-22 user-directed shard replacement: prior archived rows voided, batch baidu-010-0000-5A-crawler-results (1).json retained only"
       }
     },
     {
@@ -3227,25 +3232,26 @@
       "name": "新乡市",
       "province": "河南省",
       "coordinateSystem": "BD-09",
-      "count": 100000,
+      "count": 1241,
       "bounds": [
-        113.57551397423782,
-        34.906755718489684,
-        114.72915793230035,
-        35.564110582611576
+        113.65398176717216,
+        34.88373924147865,
+        113.9589707708673,
+        35.445629709253105
       ],
       "files": [
         "baidu/410700/points-001.json"
       ],
       "sources": [
-        "新乡市（100000 个位置）.json"
+        "baidu-010-0000-5A-crawler-results (1).json"
       ],
       "summary": {
         "sourceFiles": 1,
-        "rawRecords": 100000,
-        "uniquePanoids": 100000,
+        "rawRecords": 1241,
+        "uniquePanoids": 1241,
         "exactDuplicates": 0,
-        "differingDuplicates": 0
+        "differingDuplicates": 0,
+        "note": "2026-11-22 user-directed shard replacement: prior archived rows voided, batch baidu-010-0000-5A-crawler-results (1).json retained only"
       }
     },
     {
@@ -4361,25 +4367,26 @@
       "name": "湘西土家族苗族自治州",
       "province": "湖南省",
       "coordinateSystem": "BD-09",
-      "count": 30000,
+      "count": 781,
       "bounds": [
-        109.41951303149558,
-        27.94708397430605,
-        109.9730043099033,
-        29.48764364833043
+        109.33628323721014,
+        27.913774244630883,
+        109.62667315932228,
+        28.04915663090855
       ],
       "files": [
         "baidu/433100/points-001.json"
       ],
       "sources": [
-        "湘西土家族苗族自治州（30000 个位置）.json"
+        "baidu-010-0000-5A-crawler-results (1).json"
       ],
       "summary": {
         "sourceFiles": 1,
-        "rawRecords": 30000,
-        "uniquePanoids": 30000,
+        "rawRecords": 781,
+        "uniquePanoids": 781,
         "exactDuplicates": 0,
-        "differingDuplicates": 0
+        "differingDuplicates": 0,
+        "note": "2026-11-22 user-directed shard replacement: prior archived rows voided, batch baidu-010-0000-5A-crawler-results (1).json retained only"
       }
     },
     {
@@ -7892,31 +7899,26 @@
       "name": "香港特别行政区",
       "province": "香港特别行政区",
       "coordinateSystem": "BD-09",
-      "count": 403873,
+      "count": 3,
       "bounds": [
-        113.90552041051166,
-        22.20848712933677,
-        114.37156220723978,
-        22.556935463662207
+        114.08743850504096,
+        22.285406915869128,
+        114.18937551936305,
+        22.504689588458593
       ],
       "files": [
-        "baidu/810000/points-001.json",
-        "baidu/810000/points-002.json",
-        "baidu/810000/points-003.json",
-        "baidu/810000/points-004.json",
-        "baidu/810000/points-005.json",
-        "baidu/810000/points-006.json"
+        "baidu/810000/points-001.json"
       ],
       "sources": [
-        "香港特别行政区（100000 个位置） .json",
-        "data_810000.js"
+        "baidu-010-0000-5A-crawler-results (1).json"
       ],
       "summary": {
-        "sourceFiles": 2,
-        "rawRecords": 500591,
-        "uniquePanoids": 403873,
+        "sourceFiles": 1,
+        "rawRecords": 3,
+        "uniquePanoids": 3,
         "exactDuplicates": 0,
-        "differingDuplicates": 96718
+        "differingDuplicates": 0,
+        "note": "2026-11-22 user-directed shard replacement: prior archived rows voided, batch baidu-010-0000-5A-crawler-results (1).json retained only"
       },
       "shardMaxRows": 75000,
       "sourceSupplement": {
@@ -7968,11 +7970,11 @@
     }
   ],
   "importSummary": {
-    "sourceFiles": 286,
-    "rawRecords": 19573697,
-    "uniquePanoids": 19356607,
-    "exactDuplicates": 21276,
-    "differingDuplicates": 195814,
+    "sourceFiles": 290,
+    "rawRecords": 18445310,
+    "uniquePanoids": 18325012,
+    "exactDuplicates": 21202,
+    "differingDuplicates": 99096,
     "invalidRecords": 0,
     "inputCoordinateSystem": "mixed",
     "archiveCoordinateSystem": "BD-09",
@@ -8132,16 +8134,6 @@
         "city": "450500",
         "bytes": 27632956,
         "sha256": "1bdc27df5510580da4649200ffcad97ef949a1b90d16215090aea780464807ef",
-        "rawRecords": 100000,
-        "uniquePanoids": 100000,
-        "exactDuplicates": 0,
-        "differingDuplicates": 0
-      },
-      {
-        "name": "北京市（100000 个位置）.json",
-        "city": "110000",
-        "bytes": 26618902,
-        "sha256": "c78b2a5a920d46c3f29286390507a7b6644820c7a050289f37fe329a8ed15fe9",
         "rawRecords": 100000,
         "uniquePanoids": 100000,
         "exactDuplicates": 0,
@@ -9748,16 +9740,6 @@
         "differingDuplicates": 0
       },
       {
-        "name": "上海市（100000 个位置）.json",
-        "city": "310000",
-        "bytes": 26776326,
-        "sha256": "10e2118a2c20549af9fa5b0b89d3debb0ef088ca36b463c99fc93ea009857e4c",
-        "rawRecords": 100000,
-        "uniquePanoids": 99926,
-        "exactDuplicates": 74,
-        "differingDuplicates": 0
-      },
-      {
         "name": "上饶市（100000 个位置）.json",
         "city": "361100",
         "bytes": 25651391,
@@ -9958,16 +9940,6 @@
         "differingDuplicates": 0
       },
       {
-        "name": "天津市（100000 个位置）.json",
-        "city": "120000",
-        "bytes": 28414256,
-        "sha256": "7449961a2942e15336cf967c7a6ee8b0b015fd4b1b352a0786e3846914bc8a95",
-        "rawRecords": 100000,
-        "uniquePanoids": 100000,
-        "exactDuplicates": 0,
-        "differingDuplicates": 0
-      },
-      {
         "name": "天门市（25000 个位置）.json",
         "city": "429006",
         "bytes": 6398817,
@@ -10098,16 +10070,6 @@
         "differingDuplicates": 0
       },
       {
-        "name": "无锡市（100000 个位置）.json",
-        "city": "320200",
-        "bytes": 27360912,
-        "sha256": "13aea326ec60c920d8bafcfef5121952de210fe28b502c169817382dcdb52230",
-        "rawRecords": 100000,
-        "uniquePanoids": 100000,
-        "exactDuplicates": 0,
-        "differingDuplicates": 0
-      },
-      {
         "name": "吴忠市（50000 个位置）.json",
         "city": "640300",
         "bytes": 12689901,
@@ -10228,32 +10190,12 @@
         "differingDuplicates": 1
       },
       {
-        "name": "香港特别行政区（100000 个位置） .json",
-        "city": "810000",
-        "bytes": 28348836,
-        "sha256": "836d1b59621eaf8b0ff6d022fa63190f7518fdd853a68dfdb1d532e5332c849a",
-        "rawRecords": 100000,
-        "uniquePanoids": 100000,
-        "exactDuplicates": 0,
-        "differingDuplicates": 0
-      },
-      {
         "name": "湘潭市（100000 个位置）.json",
         "city": "430300",
         "bytes": 26840837,
         "sha256": "4d58e18e8fc8952c52eafbaa3e29528c1911ac6ba0b37190ccc56a9a46fd709d",
         "rawRecords": 100000,
         "uniquePanoids": 100000,
-        "exactDuplicates": 0,
-        "differingDuplicates": 0
-      },
-      {
-        "name": "湘西土家族苗族自治州（30000 个位置）.json",
-        "city": "433100",
-        "bytes": 7795159,
-        "sha256": "f4df35ff35f9580be938d864a15aec91733d20a4604d4b0d7997c10ccd1abf67",
-        "rawRecords": 30000,
-        "uniquePanoids": 30000,
         "exactDuplicates": 0,
         "differingDuplicates": 0
       },
@@ -10284,16 +10226,6 @@
         "sha256": "7b6433893ba2df237c24eb7b4250226d77b71633d30cb926ffacf8f23f1d3d51",
         "rawRecords": 50000,
         "uniquePanoids": 50000,
-        "exactDuplicates": 0,
-        "differingDuplicates": 0
-      },
-      {
-        "name": "新乡市（100000 个位置）.json",
-        "city": "410700",
-        "bytes": 26199787,
-        "sha256": "b9480c7cd35abb3befe491161320dbb630421031cdd0336dc6b4c4457448c4b2",
-        "rawRecords": 100000,
-        "uniquePanoids": 100000,
         "exactDuplicates": 0,
         "differingDuplicates": 0
       },
@@ -10658,16 +10590,6 @@
         "differingDuplicates": 0
       },
       {
-        "name": "郑州市（100000 个位置）.json",
-        "city": "410100",
-        "bytes": 26808030,
-        "sha256": "86d2327410931a25934402e15268f12db3bd4297001c55381f3fba363702376e",
-        "rawRecords": 100000,
-        "uniquePanoids": 100000,
-        "exactDuplicates": 0,
-        "differingDuplicates": 0
-      },
-      {
         "name": "中山市（100000 个位置）.json",
         "city": "442000",
         "bytes": 26807093,
@@ -10991,23 +10913,21 @@
         }
       },
       {
-        "name": "data_810000.js",
-        "city": "810000",
-        "bytes": 45793255,
-        "sha256": "ad26cef76caf823eef2d2b51166155478ee6f812f10d1e3d97e38cdaa8a16514",
-        "rawRecords": 400591,
-        "uniquePanoids": 303873,
+        "name": "baidu-010-0000-5A-crawler-results (1).json",
+        "city": "multi:110000,120000,310000,320200,410100,410700,433100,810000",
+        "bytes": 1021799,
+        "sha256": "71355a7775d302a0da94fb4c3e8648d6ee4daf6f28c3b43036e0384e966315e4",
+        "rawRecords": 2204,
+        "uniquePanoids": 2204,
         "exactDuplicates": 0,
-        "differingDuplicates": 96718,
+        "differingDuplicates": 0,
         "inputCoordinateSystem": "BD-09",
-        "sourceFormat": "PANO_CITY-json-array",
-        "sourceRawRecords": 400598,
-        "sourceRecordSubset": true,
-        "excludedAlreadyOwnedIds": 7,
+        "sourceFormat": "crawler-hidden-json-array",
         "providerBreakdown": {
-          "baidu_pano": 400569,
-          "baidu_road_member": 29
-        }
+          "crawler_hidden": 2153,
+          "crawler_time_machine": 51
+        },
+        "note": "2026-11-22 user-directed shard replacement for 8 cities"
       }
     ],
     "inputCoordinateSystems": [

@@ -1,0 +1,196 @@
+{
+  "schemaVersion": 1,
+  "source": "OpenStreetMap",
+  "license": "ODbL-1.0",
+  "attribution": "© OpenStreetMap contributors",
+  "cityId": "230700",
+  "cityName": "伊春市",
+  "coordinateSystem": "WGS84",
+  "timestamp": "2026-11-21T17:09:51Z",
+  "parentTimestamp": "2026-11-21T17:11:51Z",
+  "endpoint": "https://overpass-api.de/api/interpreter",
+  "rawSha256": "e84fc7b59d52a53848ce977e079e5187edb96ebab8e62e6a81763f4a7e49b938",
+  "parentRawSha256": "4ce85966d6ab5a5ea6232436ddf2b188bcc107252625a75b509c1c886d602213",
+  "sha256": "1f413f6007feb9448e050814a0ec8896782b28a42d429f0f813eddb77a5b26ff",
+  "bytes": 175008,
+  "parentBytes": 127924,
+  "parentSha256": "e9ff6eae9314e95652e154aae9202f11bb6d84d818f9513c8014ef0709c6e317",
+  "countyRelations": [
+    {
+      "id": "230722",
+      "name": "嘉荫县",
+      "osmRelationId": "2759275",
+      "adcode": "230722"
+    },
+    {
+      "id": "230781",
+      "name": "铁力市",
+      "osmRelationId": "2759276",
+      "adcode": "230781"
+    },
+    {
+      "id": "230718",
+      "name": "乌翠区",
+      "osmRelationId": "5647180",
+      "adcode": "230718"
+    },
+    {
+      "id": "230725",
+      "name": "大箐山县",
+      "osmRelationId": "5647181",
+      "adcode": "230725"
+    },
+    {
+      "id": "230751",
+      "name": "金林区",
+      "osmRelationId": "5647183",
+      "adcode": "230751"
+    },
+    {
+      "id": "230717",
+      "name": "伊美区",
+      "osmRelationId": "5647184",
+      "adcode": "230717"
+    },
+    {
+      "id": "230726",
+      "name": "南岔县",
+      "osmRelationId": "5647185",
+      "adcode": "230726"
+    },
+    {
+      "id": "230723",
+      "name": "汤旺县",
+      "osmRelationId": "5647187",
+      "adcode": "230723"
+    },
+    {
+      "id": "230724",
+      "name": "丰林县",
+      "osmRelationId": "5647192",
+      "adcode": "230724"
+    },
+    {
+      "id": "230719",
+      "name": "友好区",
+      "osmRelationId": "5647194",
+      "adcode": "230719"
+    }
+  ],
+  "parentRelationId": "2755605",
+  "parentAdminLevel": 5,
+  "parentDivisionCode": null,
+  "parentUsable": true,
+  "parentSelectionBasis": "name-lowest-admin-level",
+  "parentFenceRequired": true,
+  "rejected": [],
+  "idConflicts": [],
+  "excluded": [],
+  "associationBasis": "osm-admin-centre-point-in-parent",
+  "associations": [
+    {
+      "id": "230722",
+      "osmRelationId": "2759275",
+      "name": "嘉荫县",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "5079801273"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "230781",
+      "osmRelationId": "2759276",
+      "name": "铁力市",
+      "status": "associated",
+      "basis": "osm-admin-centre-point-in-parent",
+      "adminCentreRefs": [
+        "244082064"
+      ],
+      "unresolvedAdminCentres": 0
+    },
+    {
+      "id": "230718",
+      "osmRelationId": "5647180",
+      "name": "乌翠区",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    },
+    {
+      "id": "230725",
+      "osmRelationId": "5647181",
+      "name": "大箐山县",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    },
+    {
+      "id": "230751",
+      "osmRelationId": "5647183",
+      "name": "金林区",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    },
+    {
+      "id": "230717",
+      "osmRelationId": "5647184",
+      "name": "伊美区",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    },
+    {
+      "id": "230726",
+      "osmRelationId": "5647185",
+      "name": "南岔县",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    },
+    {
+      "id": "230723",
+      "osmRelationId": "5647187",
+      "name": "汤旺县",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    },
+    {
+      "id": "230724",
+      "osmRelationId": "5647192",
+      "name": "丰林县",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    },
+    {
+      "id": "230719",
+      "osmRelationId": "5647194",
+      "name": "友好区",
+      "status": "candidate",
+      "basis": "no-osm-admin-centre-parent-fence-required",
+      "adminCentreRefs": [],
+      "unresolvedAdminCentres": 0,
+      "reason": "Unverified county candidate retained; publisher must apply native parent geometry fence"
+    }
+  ],
+  "associationCaveat": "OSM node admin_centre association is boundary-inclusive, not full county-polygon intersection or an official registry. Missing centres are unverified candidates; publication requires the independent native WGS84 parent fence.",
+  "matchBasis": "OSM county admin-centre association + exact county and parent geometry matching WGS84. Historical OSM codes are retained, not official administrative certification."
+}
