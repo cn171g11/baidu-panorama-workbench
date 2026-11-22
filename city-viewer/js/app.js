@@ -157,8 +157,18 @@ function syncCounties(){
   const previousCounty = elements.county.value;
   const city=state.collectionById.get(elements.city.value);
   const blueCity=elements.city.value.startsWith('blue:') ? elements.city.value.slice(5) : (city?.province===elements.province.value ? city.name.replace(/市$/,'') : '');
+  const streetCounties=city?.partition===COUNTY_PARTITION&&city.count>0;
   if(blueCity && (state.blueRows.some(row=>row.__blueCity===blueCity) || osmBlueCities(elements.province.value).includes(blueCity))){
-    if(!state.blueRows.length){elements.county.replaceChildren(new Option('选择省份后加载蓝点县区',''));elements.county.disabled=true;syncShards();return;}
+    if(!state.blueRows.length){
+      // 蓝点尚未加载时也要保留街景县级选项，否则深链/程序化选择会在竞态中丢失入口。
+      elements.county.replaceChildren(new Option('选择省份后加载蓝点县区',''));
+      if(streetCounties){
+        const allOption=new Option(`全部县区 · ${city.count.toLocaleString()}点（较大）`,'all');allOption.disabled=city.count===0;elements.county.add(allOption);
+        for(const county of city.counties){const option=new Option(`${county.name} · ${county.count.toLocaleString()}点`,county.id);option.disabled=county.count===0;elements.county.add(option);}
+        if ([...elements.county.options].some(option => option.value === previousCounty)) elements.county.value = previousCounty;
+      }
+      elements.county.disabled=!streetCounties;syncShards();return;
+    }
     const counties=blueCountyOptions(blueCity);
     const hasUnmatched=state.blueRows.some(row=>row.__blueCity===blueCity && ['unmatched','ambiguous','no-boundary'].includes(row[9]?.administrativeArea?.match));
     const hasOSMOverlay=state.blueRows.some(row=>row.__blueCity===blueCity && row[9]?.administrativeArea?.source==='OpenStreetMap');
@@ -166,8 +176,13 @@ function syncCounties(){
     counties.forEach(name=>elements.county.add(new Option(`${name}（OSM）`, `blue:${name}`)));
     if(hasUnmatched) elements.county.add(new Option('未匹配 / 边界歧义（OSM）','blue:__unmatched__'));
     for(const name of counties){const verified=(state.blueCountyDirectory?.cities||[]).find(item=>item.province===elements.province.value&&item.name.replace(/市$/,'')===blueCity)?.counties?.find(item=>item.name===name)?.geometryVerified;if(!verified){const option=[...elements.county.options].find(item=>item.value===`blue:${name}`);if(option)option.textContent=`${name}（无已验证点位）`;}}
+    // 县级分片城市即便有OSM蓝点覆盖，也必须保留街景县级载入入口，否则无法加载已发布街景。
+    if(streetCounties){
+      const allOption=new Option(`全部县区 · ${city.count.toLocaleString()}点（较大）`,'all');allOption.disabled=city.count===0;elements.county.add(allOption);
+      for(const county of city.counties){const option=new Option(`${county.name} · ${county.count.toLocaleString()}点`,county.id);option.disabled=county.count===0;elements.county.add(option);}
+    }
     if ([...elements.county.options].some(option => option.value === previousCounty)) elements.county.value = previousCounty;
-    elements.county.disabled=!counties.length && !hasOSMOverlay; syncShards(); return;
+    elements.county.disabled=!counties.length&&!hasOSMOverlay&&!streetCounties; syncShards(); return;
   }
   elements.county.replaceChildren(new Option(city?.partition===COUNTY_PARTITION?'选择县 / 区（按需载入）':'整市数据',''));
   elements.county.disabled=!city||city.partition!==COUNTY_PARTITION;

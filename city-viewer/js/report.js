@@ -77,23 +77,23 @@ function countyTableMarkup(item,report=countySummary(item)){
   return `<p class="report-county-note">${text(boundaryNote(item))}</p><p class="report-county-note">单一匹配 ${number(p.matched)} · 未匹配 ${number(p.unmatched)} · 歧义 ${number(p.ambiguous)} · 合计 ${number(p.total)}。三项互斥；未匹配与歧义均保留在非县区分区，不重复计入总点位。展开仅展示目录；点击县/区后才按所选分区加载点位。</p><div class="report-county-scroll"><table class="report-county-table"><caption>${text(item.name)}的 ${number(report.countyCount)} 个县/区及非县区分区（完整城市分类统计）</caption><thead><tr><th>县 / 区 / 非县区分区</th><th>常规</th><th>隐藏</th><th>时光机</th><th>未知</th><th>合计</th><th>目录分片</th><th>时间：源日期 / 编码 / 未知</th><th>日期范围</th></tr></thead><tbody>${rows}</tbody></table></div>`;
 }
 if(typeof document!=='undefined')try{
-  const catalog=await loadCatalog(),groups=aggregate(catalog.collections),container=document.getElementById('province-groups');
+  const catalog=await loadCatalog();let groups=aggregate(catalog.collections);const container=document.getElementById('province-groups');
   if(groups.total.total!==catalog.total || (catalog.importSummary?.uniquePanoids!==undefined && catalog.importSummary.uniquePanoids!==catalog.total))throw Error('已发布分类与唯一点位总数不符');
   const national=await fetch(new URL('city-viewer/data/national-catalog.json',new URL('../',location.href)),{cache:'no-store'}).then(r=>r.ok?r.json():null).catch(()=>null);
   if(national&&Array.isArray(national.collections)&&national.publication?.mode==='national-descriptor'){
     const hosted=new Map(catalog.collections.map(item=>[item.id,item]));
     const merged=national.collections.map(desc=>{
       const item=hosted.get(desc.id);
-      if(item)return item;
+      if(item){if(item.count>desc.count)throw Error('全国目录点位总数不符');return item;}
       if(!Number.isInteger(desc.count)||desc.count<0)throw Error('全国目录城市点位数不符');
       return {...desc,files:[],descriptorOnly:true};
     });
+    const descriptorTotal=national.collections.reduce((n,desc)=>n+desc.count,0);
+    if(descriptorTotal!==national.total)throw Error('全国目录点位总数不符');
     const mergedTotal=merged.reduce((n,item)=>n+(item.count||0),0);
-    if(mergedTotal!==national.total)throw Error('全国目录点位总数不符');
     catalog.collections=merged;catalog.total=mergedTotal;
     catalog.publication={sourceCities:national.publication.sourceCities,hostedCities:national.publication.hostedCities,remainingCities:national.publication.sourceCities-national.publication.hostedCities};
-    groups.provinces=aggregate(catalog.collections).provinces;
-    for(const group of groups.provinces)for(const key of Object.keys(groups.total))groups.total[key]+=group.counts[key];
+    groups=aggregate(catalog.collections);
   }
   const search=document.getElementById('report-search'),hiddenOnly=document.getElementById('report-hidden-only'),open=new Set(),countyOpen=new Set();let sortKey='total',descending=true;
   const compare=(a,b)=>{const result=sortKey==='province'?a.name.localeCompare(b.name,'zh-CN'):a.counts[sortKey]-b.counts[sortKey];return descending?-result:result;};

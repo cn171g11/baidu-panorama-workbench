@@ -88,7 +88,15 @@ async function main() {
   const target = code ? catalog.collections.find(city => city.id === code) : catalog.collections.find(city => city.id === '542500' && city.count > 0) || catalog.collections.find(city => city.count > 0 && city.count <= 5000) || catalog.collections[0];
   assert(target, 'No real collection found');
   async function loadCity(city) {
-    await fill('#search-input', ''); await fill('#province-filter', city.province); await fill('#city-filter', city.id); await click('#load-city');
+    await fill('#search-input', ''); await fill('#province-filter', city.province); await fill('#city-filter', city.id);
+    const countyValues = await evaluate(`[...document.querySelectorAll('#county-filter option')].map(option=>option.value)`);
+    if (city.count > 0 && !countyValues.includes('all')) {
+      // 蓝点OSM清单返回前，县级分片城市的街景 all 选项可能尚未渲染；等待后选择。
+      await until(() => evaluate(`[...document.querySelectorAll('#county-filter option')].some(option=>option.value==='all')`));
+    }
+    if (city.count > 0) await fill('#county-filter', 'all');
+    await until(() => evaluate(`!document.querySelector('#load-city').disabled`));
+    await click('#load-city');
     await until(() => evaluate(`window.__BAIDU_WORKBENCH__.getState().loadedCollection===${JSON.stringify(city.id)}&&window.__BAIDU_WORKBENCH__.getState().visibleCount===${city.count}`));
     await until(() => evaluate('window.__BAIDU_WORKBENCH__.getState().mapRenderedCount>0'));
     const rows = await evaluate(`await(await import(new URL('js/data-store.js',location.href))).loadCollection(${JSON.stringify(city)})`);
@@ -150,8 +158,28 @@ async function main() {
   assert(!requests.some(request => /qq\.com|gtimg\.com|tencent-panorama-workbench/i.test(request)), 'Tencent request detected');
   await send('Page.navigate', { url: new URL('report.html', url).href });
   await until(() => evaluate(`document.querySelector('#report-total')?.dataset.ready==='true'`));
-  assert(await evaluate(`document.querySelector('#report-total').textContent.replaceAll(',','').includes(${JSON.stringify(String(catalog.total))})`), 'Published report total mismatch');
-  if(catalog.captureSummary){
+  const reportText = await evaluate(`document.querySelector('#report-total').textContent.replaceAll(',','')`);
+  const national = await evaluate(`await(await fetch(new URL('data/national-catalog.json',location.href))).json()`).catch(() => null);
+  const blueManifest = await evaluate(`await(await fetch(new URL('data/blue-dots/parts-manifest.json',location.href))).json()`).catch(() => null);
+  const reportState = await evaluate('window.__BAIDU_WORKBENCH__');
+  const blueTotal = Number(blueManifest?.total || 0);
+  const expectedTotal = Number(reportState?.total ?? catalog.total);
+  assert(Number.isSafeInteger(expectedTotal) && expectedTotal > 0, 'Report window state total invalid');
+  // 顶部汇总为 街景合并总数 + 蓝点补充数；去千分位后必须包含该组合值
+  assert(reportText.includes(String(expectedTotal + blueTotal)), 'Published report total mismatch');
+  if (national && national.publication?.mode === 'national-descriptor') {
+    assert.equal(reportState.collections, national.collections.length, 'National report city count mismatch');
+    const descriptorTotal = national.collections.reduce((sum, desc) => sum + desc.count, 0);
+    assert.equal(descriptorTotal, national.total, 'National descriptor total mismatch');
+    assert(Number(reportState.total) <= national.total, 'Report total exceeds national source total');
+    const hosted = catalog.collections.reduce((sum, city) => sum + city.count, 0);
+    const mergedTotal = national.collections.reduce((sum, desc) => {
+      const item = catalog.collections.find(city => city.id === desc.id);
+      return sum + (item ? item.count : desc.count);
+    }, 0);
+    assert.equal(expectedTotal, mergedTotal, 'Merged report total mismatch');
+  }
+  if(catalog.captureSummary && reportState.captureSummary){
     assert.deepEqual(await evaluate('window.__BAIDU_WORKBENCH__.captureSummary'),catalog.captureSummary,'Published time report mismatch');
     report.checks.captureSummary=catalog.captureSummary;
   }

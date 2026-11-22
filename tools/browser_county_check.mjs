@@ -175,6 +175,8 @@ async function main() {
   const unselected = await evaluate('window.__BAIDU_WORKBENCH__.getState()');
   assert.equal(unselected.visibleCount, 0); assert.equal(unselected.loadedSelection, null); assert.equal(unselected.county, null);
   start = requests.length;
+  // 蓝点OSM清单异步加载后，县级分片城市的 #county-filter 才会出现街景县区选项；等待后再选择。
+  await until(() => evaluate(`[...document.querySelectorAll('#county-filter option')].some(option=>option.value===${JSON.stringify(county.id)})&&!document.querySelector('#county-filter').disabled`));
   await fill('#county-filter', county.id); // county CHANGE loads, no load-city click
   report.checks.initialSelection = await waitSelection(city, county);
   assertOnlyFile(start, county.files[0], url, 'county change/default first part');
@@ -263,7 +265,12 @@ async function main() {
   await fill('#report-search', county.kind === 'unmatched' ? county.id : county.name); await delay(300);
   const reportCounty = await evaluate(`(()=>{const city=document.querySelector('tr[data-city=${JSON.stringify(city.id)}]'),county=document.querySelector('.report-county-details[data-city=${JSON.stringify(city.id)}] .report-county-row[data-county=${JSON.stringify(county.id)}]');return {cityFound:!!city,countyFound:!!county,countyText:county?.textContent,href:county?.querySelector('th a')?.href,cityHref:city?.querySelector('a')?.href,total:document.querySelector('#summary-total').textContent,summary:document.querySelector('#report-county-summary').textContent};})()`);
   assert(reportCounty.cityFound && reportCounty.countyFound && reportCounty.countyText.includes(county.kind === 'unmatched' ? '未归属' : county.name), 'County report search did not find enclosing city');
-  assert.equal(Number(reportCounty.total.replaceAll(',', '')), catalog.total, 'Report double-counted county subsets');
+  // 全国目录合并模式下，顶部汇总 = 描述符城市合计（托管城市取已发布数）；否则等于 catalog.total。
+  const national = await evaluate(`await(await fetch(new URL('data/national-catalog.json',location.href))).json()`).catch(() => null);
+  const mergedTotal = national && national.publication?.mode === 'national-descriptor'
+    ? national.collections.reduce((sum, desc) => { const item = catalog.collections.find(city => city.id === desc.id); return sum + (item ? item.count : desc.count); }, 0)
+    : catalog.total;
+  assert.equal(Number(reportCounty.total.replaceAll(',', '')), mergedTotal, 'Report double-counted county subsets');
   const deepLink = new URL(reportCounty.href), cityLink = new URL(reportCounty.cityHref);
   assert.equal(deepLink.origin, new URL(url).origin); assert.equal(deepLink.searchParams.get('city'), city.id); assert.equal(deepLink.searchParams.get('county'), county.id);
   assert.equal(cityLink.searchParams.get('city'), city.id); assert.equal(cityLink.searchParams.get('county'), null);
