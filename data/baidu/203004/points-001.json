@@ -1,0 +1,26 @@
+[
+  [
+    "22444400131911181749260945XX",
+    14.441594,
+    49.051124,
+    "赫卢博卡城堡",
+    "2019-11-18",
+    null,
+    false,
+    true,
+    "baidu",
+    {
+      "extra": {
+        "country": "捷克",
+        "poiName": "赫卢博卡城堡",
+        "poiAddr": "捷克共和国赫卢博卡伏尔塔瓦Zamek 142",
+        "panoName": "鸟瞰",
+        "collectDate": "2019.11.18",
+        "author": "boneysun",
+        "likeNum": 2,
+        "coordinateSource": "POI墨卡托换算",
+        "feedUrl": "https://scenes.map.baidu.com/static/h5-project/pano-feed/pano-feed.html?pid=22444400131911181749260945XX"
+      }
+    }
+  ]
+]

@@ -1,0 +1,26 @@
+[
+  [
+    "22444400131910121023350022XX",
+    15.220971,
+    44.116394,
+    "海浪风琴广场",
+    "2019-10-12",
+    null,
+    false,
+    true,
+    "baidu",
+    {
+      "extra": {
+        "country": "克罗地亚",
+        "poiName": "海浪风琴广场",
+        "poiAddr": "ObalakraljaPetraKrešimiraIV,23000,Zadar",
+        "panoName": "向太阳致敬",
+        "collectDate": "2019.10.12",
+        "author": "boneysun",
+        "likeNum": 62,
+        "coordinateSource": "POI墨卡托换算",
+        "feedUrl": "https://scenes.map.baidu.com/static/h5-project/pano-feed/pano-feed.html?pid=22444400131910121023350022XX"
+      }
+    }
+  ]
+]

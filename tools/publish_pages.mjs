@@ -12,7 +12,7 @@ import {categoryFor} from '../city-viewer/js/classification.js';
 import { validateRows } from '../city-viewer/js/metadata.js';
 import { streamRows } from './stream_rows.mjs';
 
-function sum(items, key) { return items.reduce((total, item) => total + (Number(item[key]) || 0), 0); }
+function sum(items, key) { return items.reduce((total, item) => total + (Number(item && item[key]) || 0), 0); }
 async function cleanupPublication(dist,directory){
   const rel=path.relative(dist,directory);
   if(!rel||rel.startsWith('..')||path.isAbsolute(rel)||!/^pages-publication-(?:backup-)?[0-9a-f-]+$/.test(rel))throw Error('Unsafe publication cleanup target');
@@ -29,6 +29,7 @@ export async function publishPages({root=PROJECT_ROOT,output='dist/pages',commit
   if(new Set(config.cities).size!==config.cities.length)throw Error('Repeated city ID in Pages publication');
   const all=config.cities.length===1&&config.cities[0]==='all';
   if(!all&&config.cities.some(city=>typeof city!=='string'||!/^\d{6}$/.test(city)))throw Error('Pages city IDs must be six-digit strings');
+  if(config.hiddenOnlyCities!==undefined&&(!Array.isArray(config.hiddenOnlyCities)||config.hiddenOnlyCities.some(city=>typeof city!=='string'||!/^\d{6}$/.test(city))))throw Error('hiddenOnlyCities must be an array of six-digit city IDs');
   const fullCatalog=JSON.parse(await readFile(path.join(root,'data/catalog.json'),'utf8'));
   const known=new Set(fullCatalog.collections.map(city=>city.id));
   if(!all)for(const id of config.cities)if(!known.has(id))throw Error('Unknown Pages city: '+id);
@@ -52,14 +53,21 @@ export async function publishPages({root=PROJECT_ROOT,output='dist/pages',commit
   const assets={};let compressedBytes=0;
   const sources={};
   const hiddenOnly=config.hiddenOnly===true;
-  const rowFilter=hiddenOnly?(row=>categoryFor(row)==='hidden'):null;
+  // Per-city exemption: cities listed in hiddenOnlyCities publish all rows even when
+  // the global hiddenOnly flag is on (e.g. overseas collections without hidden markers).
+  const hiddenOnlyCities=new Set(Array.isArray(config.hiddenOnlyCities)?config.hiddenOnlyCities:[]);
+  if(all)hiddenOnlyCities.clear();
+  const cityHiddenOnly=id=>hiddenOnly&&!hiddenOnlyCities.has(id);
+  const rowFilterFor=id=>cityHiddenOnly(id)?(row=>categoryFor(row)==='hidden'):null;
   const filteredStats=new Map();
   if(hiddenOnly){
     for(const city of selected){
+      const cityFilter=rowFilterFor(city.id);
+      if(!cityFilter){filteredStats.set(city.id,null);continue;}
       const totals={count:0,bounds:null,displayCounts:{regular:0,hidden:0,timeMachine:0,unknown:0,total:0},captureSummary:newCaptureSummary()};
       for(const logical of city.files){
         for await(const {row:input} of streamRows(path.join(root,'data',logical))){
-          const row=validateRows([input])[0];if(!rowFilter(row))continue;
+          const row=validateRows([input])[0];if(!cityFilter(row))continue;
           if(!totals.bounds)totals.bounds=[row[1],row[2],row[1],row[2]];else{totals.bounds[0]=Math.min(totals.bounds[0],row[1]);totals.bounds[1]=Math.min(totals.bounds[1],row[2]);totals.bounds[2]=Math.max(totals.bounds[2],row[1]);totals.bounds[3]=Math.max(totals.bounds[3],row[2]);}
           const category=categoryFor(row);totals.displayCounts[category==='time-machine'?'timeMachine':category]++;totals.displayCounts.total++;addCaptureSummary(totals.captureSummary,row);totals.count++;
         }
@@ -69,8 +77,12 @@ export async function publishPages({root=PROJECT_ROOT,output='dist/pages',commit
     }
   }
   for(const city of selected){
-     if(config.countyShards===true){
-      if(hiddenOnly&&city.count===0){city.files=[];city.counties=[];city.partition=COUNTY_PARTITION;city.partitionSummary={matched:0,unmatched:0,ambiguous:0,total:0};city.boundaryInfo={source:'OpenStreetMap',parentUsable:false,hiddenOnlyEmpty:true};city.sourceFiles=[];city.displayCounts={regular:0,hidden:0,timeMachine:0,unknown:0,total:0};city.captureSummary=newCaptureSummary();continue;}
+     // County shards require an OSM boundary snapshot; overseas cities (no snapshots,
+     // exempted from hiddenOnly under the global hidden flag) fall back to regular
+     // time shards. Cities with hiddenOnly=false entirely use the county path as before.
+     const cityRowFilter=rowFilterFor(city.id);
+     if(config.countyShards===true&&(!hiddenOnly||hiddenOnlyCities.has(city.id))){
+      if(cityRowFilter&&city.count===0){city.files=[];city.counties=[];city.partition=COUNTY_PARTITION;city.partitionSummary={matched:0,unmatched:0,ambiguous:0,total:0};city.boundaryInfo={source:'OpenStreetMap',parentUsable:false,hiddenOnlyEmpty:true};city.sourceFiles=[];city.displayCounts={regular:0,hidden:0,timeMachine:0,unknown:0,total:0};city.captureSummary=newCaptureSummary();continue;}
              const folder=path.join(root,'config/osm-counties'),metaPath=path.join(folder,city.id+'.json'),geometryPath=path.join(folder,city.id+'.geojson');
       for(const file of [metaPath,geometryPath])if(await realpath(file)!==file||!(await lstat(file)).isFile())throw Error('Unsafe county boundary snapshot');
       const boundaryInfo=JSON.parse(await readFile(metaPath,'utf8')),geometryBytes=await readFile(geometryPath);
@@ -87,7 +99,7 @@ export async function publishPages({root=PROJECT_ROOT,output='dist/pages',commit
       }
       const sourceFiles=city.files.map(file=>({path:file,...originalManifest.assets[file]}));
       for(const source of sourceFiles)if(!source.sha256)throw Error('Unverified county source');
-      const published=await publishCountyCity({root,city,verifiedFiles:new Map(sourceFiles.map(source=>[source.path,source])),geometry,parentGeometry,requireParent:true,publicData,workRoot:path.join(dist,'county-work'),sourceInfo:boundaryInfo,rowFilter});
+      const published=await publishCountyCity({root,city,verifiedFiles:new Map(sourceFiles.map(source=>[source.path,source])),geometry,parentGeometry,requireParent:true,publicData,workRoot:path.join(dist,'county-work'),sourceInfo:boundaryInfo,rowFilter:cityRowFilter});
       city.sourceFiles=sourceFiles.map(source=>({path:source.path,bytes:source.bytes,sha256:source.sha256,count:source.count}));
       for(const source of city.sourceFiles)sources[source.path]=source;
       Object.assign(city,{partition:COUNTY_PARTITION,files:published.files,counties:published.counties,partitionSummary:published.partitionSummary,boundaryInfo,displayCounts:published.displayCounts,captureSummary:published.captureSummary});
@@ -98,7 +110,7 @@ export async function publishPages({root=PROJECT_ROOT,output='dist/pages',commit
       const verified=originalManifest.assets[logical];
       if(!verified||!/^baidu\/\d{6}\/points-\d{3,}\.json$/.test(logical))throw Error('Unverified or unsafe Pages shard');
       const url=logical+'.gz',destination=path.join(publicData,url);
-      const published=await publishTimeShard({source:path.join(root,'data',logical),destination,verified,rowFilter});
+      const published=await publishTimeShard({source:path.join(root,'data',logical),destination,verified,rowFilter:cityRowFilter});
       for(const key of Object.keys(city.displayCounts))city.displayCounts[key]+=published.displayCounts[key];
       for(const key of ['source','panoid','unknown','total'])city.captureSummary[key]+=published.captureSummary[key];
       const {earliest,latest}=published.captureSummary;
@@ -124,7 +136,7 @@ export async function publishPages({root=PROJECT_ROOT,output='dist/pages',commit
     ...fullCatalog.importSummary,sourceFiles:new Set(files.map(file=>file.name+'\0'+file.sha256)).size,rawRecords:sum(files,'rawRecords'),uniquePanoids:total,
     exactDuplicates:sum(files,'exactDuplicates'),differingDuplicates:sum(files,'differingDuplicates'),invalidRecords:0,files,
   }:undefined;
-  const countyPublication=config.countyShards?{partition:COUNTY_PARTITION,maxShardRows:25000,counties:selected.reduce((n,city)=>n+city.counties.filter(county=>county.kind==='county').length,0),citiesWithCountyGeometry:selected.filter(city=>city.counties.some(county=>county.kind==='county')).length,matched:sum(selected.map(city=>city.partitionSummary),'matched'),unmatched:sum(selected.map(city=>city.partitionSummary),'unmatched'),ambiguous:sum(selected.map(city=>city.partitionSummary),'ambiguous')}:null;
+  const countyPublication=config.countyShards?{partition:COUNTY_PARTITION,maxShardRows:25000,counties:selected.reduce((n,city)=>n+(city.counties||[]).filter(county=>county.kind==='county').length,0),citiesWithCountyGeometry:selected.filter(city=>(city.counties||[]).some(county=>county.kind==='county')).length,matched:sum(selected.map(city=>city.partitionSummary),'matched'),unmatched:sum(selected.map(city=>city.partitionSummary),'unmatched'),ambiguous:sum(selected.map(city=>city.partitionSummary),'ambiguous')}:null;
   const publication={mode:'pages-gzip',hostedCities:selected.length,hostedPanoids:total,sourceCities:fullCatalog.collections.length,sourcePanoids:fullCatalog.total,remainingCities:fullCatalog.collections.length-selected.length,cityIds:selected.map(city=>city.id),...(countyPublication?{county:countyPublication}:{})};
   const catalog={...fullCatalog,total,collections:selected,publication,captureSummary};
   if(summary)catalog.importSummary=summary;

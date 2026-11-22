@@ -1,0 +1,26 @@
+[
+  [
+    "22444400131911131744118280XX",
+    16.5227,
+    43.55981,
+    "克利斯要塞",
+    "2019-11-13",
+    null,
+    false,
+    true,
+    "baidu",
+    {
+      "extra": {
+        "country": "克罗地亚",
+        "poiName": "克利斯要塞",
+        "poiAddr": "Trg Mejdan 10, 21231, Klis,克罗地亚",
+        "panoName": "鸟瞰城堡",
+        "collectDate": "2019.11.13",
+        "author": "boneysun",
+        "likeNum": 122,
+        "coordinateSource": "POI墨卡托换算",
+        "feedUrl": "https://scenes.map.baidu.com/static/h5-project/pano-feed/pano-feed.html?pid=22444400131911131744118280XX"
+      }
+    }
+  ]
+]

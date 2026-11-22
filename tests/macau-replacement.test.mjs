@@ -45,7 +45,7 @@ test('090063 records moved to Zhuhai keep coordinates and unique global ownershi
   }
   assert.equal(zhuhaiCount, 102720); assert.equal(moved, 2720); assert.equal(verified, 2720); assert.equal(untouched, 99724);
   const catalog = JSON.parse(await readFile('data/catalog.json', 'utf8'));
-  assert.equal(catalog.total, 18325012); assert.equal(catalog.collections.length, 293);
+  assert.equal(catalog.total, 18325109); assert.equal(catalog.collections.length, 321);
   const macau = catalog.collections.find(c => c.id === '820000');
   assert.equal(macau.count, 24796); assert.equal(catalog.collections.find(c => c.id === '440400').count, 102720);
   assert.equal(macau.sourceExclusions.count, 4107); assert.equal(macau.sourceExclusions.restoredCollection, '440400');

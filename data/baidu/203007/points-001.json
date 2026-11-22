@@ -1,0 +1,50 @@
+[
+  [
+    "22444400131911211007146154XX",
+    16.755581,
+    48.739504,
+    "The Valtice Palace",
+    "2019-11-21",
+    null,
+    false,
+    true,
+    "baidu",
+    {
+      "extra": {
+        "country": "捷克",
+        "poiName": "The Valtice Palace",
+        "poiAddr": "Zamek 1, Valtice 691 42, Czech Republic",
+        "panoName": "城堡内",
+        "collectDate": "2019.11.21",
+        "author": "boneysun",
+        "likeNum": 0,
+        "coordinateSource": "POI墨卡托换算",
+        "feedUrl": "https://scenes.map.baidu.com/static/h5-project/pano-feed/pano-feed.html?pid=22444400131911211007146154XX"
+      }
+    }
+  ],
+  [
+    "22444400131911211014590453XX",
+    16.81205,
+    48.807978,
+    "莱德尼采-瓦尔季采文化景观区",
+    "2019-11-21",
+    null,
+    false,
+    true,
+    "baidu",
+    {
+      "extra": {
+        "country": "捷克",
+        "poiName": "莱德尼采-瓦尔季采文化景观区",
+        "poiAddr": "Lednice–Valtice Cultural Landscape, 691 44 Lednice, 捷克",
+        "panoName": "城堡教堂",
+        "collectDate": "2019.11.21",
+        "author": "boneysun",
+        "likeNum": 920,
+        "coordinateSource": "POI墨卡托换算",
+        "feedUrl": "https://scenes.map.baidu.com/static/h5-project/pano-feed/pano-feed.html?pid=22444400131911211014590453XX"
+      }
+    }
+  ]
+]

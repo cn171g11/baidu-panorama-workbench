@@ -1,0 +1,50 @@
+[
+  [
+    "22444400131910091907416218XX",
+    130.554098,
+    31.537008,
+    "海洋鹿儿岛港",
+    "2019-10-09",
+    null,
+    false,
+    true,
+    "baidu",
+    {
+      "extra": {
+        "country": "日本",
+        "poiName": "海洋鹿儿岛港",
+        "poiAddr": "日本 鹿儿岛县 鹿儿岛市",
+        "panoName": "港口",
+        "collectDate": "2019.10.09",
+        "author": "boneysun",
+        "likeNum": 91664,
+        "coordinateSource": "POI墨卡托换算",
+        "feedUrl": "https://scenes.map.baidu.com/static/h5-project/pano-feed/pano-feed.html?pid=22444400131910091907416218XX"
+      }
+    }
+  ],
+  [
+    "22444400131910091917251685XX",
+    130.592895,
+    31.631842,
+    "鹿儿岛县立吉野公园",
+    "2019-10-09",
+    null,
+    false,
+    true,
+    "baidu",
+    {
+      "extra": {
+        "country": "日本",
+        "poiName": "鹿儿岛县立吉野公园",
+        "poiAddr": "日本 鹿儿岛县 鹿儿岛市",
+        "panoName": "公园中心",
+        "collectDate": "2019.10.09",
+        "author": "boneysun",
+        "likeNum": 6,
+        "coordinateSource": "POI墨卡托换算",
+        "feedUrl": "https://scenes.map.baidu.com/static/h5-project/pano-feed/pano-feed.html?pid=22444400131910091917251685XX"
+      }
+    }
+  ]
+]

@@ -1,0 +1,50 @@
+[
+  [
+    "22444400131911251025596288XX",
+    16.312906,
+    49.873546,
+    "利托米什尔城堡",
+    "2019-11-25",
+    null,
+    false,
+    true,
+    "baidu",
+    {
+      "extra": {
+        "country": "捷克",
+        "poiName": "利托米什尔城堡",
+        "poiAddr": "Jiráskova 93, 570 01 Litomyšl,捷克",
+        "panoName": "喷泉",
+        "collectDate": "2019.11.25",
+        "author": "boneysun",
+        "likeNum": 1,
+        "coordinateSource": "POI墨卡托换算",
+        "feedUrl": "https://scenes.map.baidu.com/static/h5-project/pano-feed/pano-feed.html?pid=22444400131911251025596288XX"
+      }
+    }
+  ],
+  [
+    "22444400131911251034000984XX",
+    16.312477,
+    49.871918,
+    "Piarist教堂",
+    "2019-11-25",
+    null,
+    false,
+    true,
+    "baidu",
+    {
+      "extra": {
+        "country": "捷克",
+        "poiName": "Piarist教堂",
+        "poiAddr": "Jiráskova, 570 01 Litomyšl,捷克",
+        "panoName": "教堂",
+        "collectDate": "2019.11.25",
+        "author": "boneysun",
+        "likeNum": 199,
+        "coordinateSource": "POI墨卡托换算",
+        "feedUrl": "https://scenes.map.baidu.com/static/h5-project/pano-feed/pano-feed.html?pid=22444400131911251034000984XX"
+      }
+    }
+  ]
+]

@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "provider": "baidu",
   "coordinateSystem": "BD-09",
-  "updatedAt": "2026-11-21T17:56:28.375Z",
-  "total": 18325012,
+  "updatedAt": "2026-11-22T10:33:11.675Z",
+  "total": 18325109,
   "collections": [
     {
       "id": "110000",
@@ -980,6 +980,312 @@
         "exactDuplicates": 0,
         "differingDuplicates": 0
       }
+    },
+    {
+      "id": "191001",
+      "adcode": "191001",
+      "name": "杜布罗夫尼克",
+      "province": "克罗地亚 · 杜布罗夫尼克",
+      "coordinateSystem": "BD-09",
+      "count": 5,
+      "bounds": [
+        17.694463,
+        42.643127,
+        18.11173,
+        42.839013
+      ],
+      "files": [
+        "baidu/191001/points-001.json"
+      ]
+    },
+    {
+      "id": "191002",
+      "adcode": "191002",
+      "name": "伊斯特拉",
+      "province": "克罗地亚 · 伊斯特拉",
+      "coordinateSystem": "BD-09",
+      "count": 2,
+      "bounds": [
+        13.635689,
+        44.87323,
+        13.850246,
+        45.081453
+      ],
+      "files": [
+        "baidu/191002/points-001.json"
+      ]
+    },
+    {
+      "id": "191003",
+      "adcode": "191003",
+      "name": "奥米什",
+      "province": "克罗地亚 · 奥米什",
+      "coordinateSystem": "BD-09",
+      "count": 1,
+      "bounds": [
+        16.687372,
+        43.444032,
+        16.687372,
+        43.444032
+      ],
+      "files": [
+        "baidu/191003/points-001.json"
+      ]
+    },
+    {
+      "id": "191004",
+      "adcode": "191004",
+      "name": "扎达尔",
+      "province": "克罗地亚 · 扎达尔",
+      "coordinateSystem": "BD-09",
+      "count": 1,
+      "bounds": [
+        15.220971,
+        44.116394,
+        15.220971,
+        44.116394
+      ],
+      "files": [
+        "baidu/191004/points-001.json"
+      ]
+    },
+    {
+      "id": "191005",
+      "adcode": "191005",
+      "name": "希贝尼克克宁斯卡",
+      "province": "克罗地亚 · 希贝尼克克宁斯卡",
+      "coordinateSystem": "BD-09",
+      "count": 1,
+      "bounds": [
+        15.973283,
+        43.866986,
+        15.973283,
+        43.866986
+      ],
+      "files": [
+        "baidu/191005/points-001.json"
+      ]
+    },
+    {
+      "id": "191006",
+      "adcode": "191006",
+      "name": "斯普利特",
+      "province": "克罗地亚 · 斯普利特",
+      "coordinateSystem": "BD-09",
+      "count": 1,
+      "bounds": [
+        16.5227,
+        43.55981,
+        16.5227,
+        43.55981
+      ],
+      "files": [
+        "baidu/191006/points-001.json"
+      ]
+    },
+    {
+      "id": "203001",
+      "adcode": "203001",
+      "name": "卡罗维发利",
+      "province": "捷克 · 卡罗维发利",
+      "coordinateSystem": "BD-09",
+      "count": 2,
+      "bounds": [
+        12.871962,
+        50.220237,
+        12.879481,
+        50.231852
+      ],
+      "files": [
+        "baidu/203001/points-001.json"
+      ]
+    },
+    {
+      "id": "203002",
+      "adcode": "203002",
+      "name": "索科洛夫",
+      "province": "捷克 · 索科洛夫",
+      "coordinateSystem": "BD-09",
+      "count": 1,
+      "bounds": [
+        12.754356,
+        50.186996,
+        12.754356,
+        50.186996
+      ],
+      "files": [
+        "baidu/203002/points-001.json"
+      ]
+    },
+    {
+      "id": "203003",
+      "adcode": "203003",
+      "name": "切布",
+      "province": "捷克 · 切布",
+      "coordinateSystem": "BD-09",
+      "count": 1,
+      "bounds": [
+        12.706161,
+        49.976589,
+        12.706161,
+        49.976589
+      ],
+      "files": [
+        "baidu/203003/points-001.json"
+      ]
+    },
+    {
+      "id": "203004",
+      "adcode": "203004",
+      "name": "捷克布杰约维采",
+      "province": "捷克 · 捷克布杰约维采",
+      "coordinateSystem": "BD-09",
+      "count": 1,
+      "bounds": [
+        14.441594,
+        49.051124,
+        14.441594,
+        49.051124
+      ],
+      "files": [
+        "baidu/203004/points-001.json"
+      ]
+    },
+    {
+      "id": "203005",
+      "adcode": "203005",
+      "name": "克鲁姆洛夫",
+      "province": "捷克 · 克鲁姆洛夫",
+      "coordinateSystem": "BD-09",
+      "count": 2,
+      "bounds": [
+        14.291749,
+        48.776941,
+        14.315396,
+        48.81283
+      ],
+      "files": [
+        "baidu/203005/points-001.json"
+      ]
+    },
+    {
+      "id": "203006",
+      "adcode": "203006",
+      "name": "伊希拉瓦",
+      "province": "捷克 · 伊希拉瓦",
+      "coordinateSystem": "BD-09",
+      "count": 1,
+      "bounds": [
+        15.451718,
+        49.184607,
+        15.451718,
+        49.184607
+      ],
+      "files": [
+        "baidu/203006/points-001.json"
+      ]
+    },
+    {
+      "id": "203007",
+      "adcode": "203007",
+      "name": "布热茨拉夫",
+      "province": "捷克 · 布热茨拉夫",
+      "coordinateSystem": "BD-09",
+      "count": 2,
+      "bounds": [
+        16.755581,
+        48.739504,
+        16.81205,
+        48.807978
+      ],
+      "files": [
+        "baidu/203007/points-001.json"
+      ]
+    },
+    {
+      "id": "203008",
+      "adcode": "203008",
+      "name": "奥洛穆茨",
+      "province": "捷克 · 奥洛穆茨",
+      "coordinateSystem": "BD-09",
+      "count": 1,
+      "bounds": [
+        17.24449,
+        49.596506,
+        17.24449,
+        49.596506
+      ],
+      "files": [
+        "baidu/203008/points-001.json"
+      ]
+    },
+    {
+      "id": "203009",
+      "adcode": "203009",
+      "name": "布拉格",
+      "province": "捷克 · 布拉格",
+      "coordinateSystem": "BD-09",
+      "count": 18,
+      "bounds": [
+        14.396494,
+        50.083027,
+        14.435926,
+        50.089957
+      ],
+      "files": [
+        "baidu/203009/points-001.json"
+      ]
+    },
+    {
+      "id": "203010",
+      "adcode": "203010",
+      "name": "库特纳霍拉区",
+      "province": "捷克 · 库特纳霍拉区",
+      "coordinateSystem": "BD-09",
+      "count": 2,
+      "bounds": [
+        15.211762,
+        49.865235,
+        15.263063,
+        49.944896
+      ],
+      "files": [
+        "baidu/203010/points-001.json"
+      ]
+    },
+    {
+      "id": "203011",
+      "adcode": "203011",
+      "name": "斯维塔维",
+      "province": "捷克 · 斯维塔维",
+      "coordinateSystem": "BD-09",
+      "count": 2,
+      "bounds": [
+        16.312477,
+        49.871918,
+        16.312906,
+        49.873546
+      ],
+      "files": [
+        "baidu/203011/points-001.json"
+      ]
+    },
+    {
+      "id": "203012",
+      "adcode": "203012",
+      "name": "特热比奇",
+      "province": "捷克 · 特热比奇",
+      "coordinateSystem": "BD-09",
+      "count": 1,
+      "bounds": [
+        16.227605,
+        49.225859,
+        16.227605,
+        49.225859
+      ],
+      "files": [
+        "baidu/203012/points-001.json"
+      ]
     },
     {
       "id": "310000",
@@ -3062,6 +3368,40 @@
         "exactDuplicates": 0,
         "differingDuplicates": 0
       }
+    },
+    {
+      "id": "380001",
+      "adcode": "380001",
+      "name": "比萨",
+      "province": "意大利 · 比萨",
+      "coordinateSystem": "BD-09",
+      "count": 4,
+      "bounds": [
+        10.396482,
+        43.723003,
+        10.396482,
+        43.723003
+      ],
+      "files": [
+        "baidu/380001/points-001.json"
+      ]
+    },
+    {
+      "id": "392001",
+      "adcode": "392001",
+      "name": "鹿儿岛",
+      "province": "日本 · 鹿儿岛",
+      "coordinateSystem": "BD-09",
+      "count": 2,
+      "bounds": [
+        130.554098,
+        31.537008,
+        130.592895,
+        31.631842
+      ],
+      "files": [
+        "baidu/392001/points-001.json"
+      ]
     },
     {
       "id": "410100",
@@ -7894,6 +8234,125 @@
       }
     },
     {
+      "id": "702001",
+      "adcode": "702001",
+      "name": "新加坡",
+      "province": "新加坡",
+      "coordinateSystem": "BD-09",
+      "count": 3,
+      "bounds": [
+        103.816,
+        1.286769,
+        103.854212,
+        1.31384
+      ],
+      "files": [
+        "baidu/702001/points-001.json"
+      ]
+    },
+    {
+      "id": "724001",
+      "adcode": "724001",
+      "name": "格拉纳达",
+      "province": "西班牙 · 格拉纳达",
+      "coordinateSystem": "BD-09",
+      "count": 2,
+      "bounds": [
+        -3.602888,
+        37.176078,
+        -3.588141,
+        37.180526
+      ],
+      "files": [
+        "baidu/724001/points-001.json"
+      ]
+    },
+    {
+      "id": "724002",
+      "adcode": "724002",
+      "name": "托莱多",
+      "province": "西班牙 · 托莱多",
+      "coordinateSystem": "BD-09",
+      "count": 2,
+      "bounds": [
+        -4.027323,
+        39.449181,
+        -3.60705,
+        39.862832
+      ],
+      "files": [
+        "baidu/724002/points-001.json"
+      ]
+    },
+    {
+      "id": "724003",
+      "adcode": "724003",
+      "name": "科尔多巴",
+      "province": "西班牙 · 科尔多巴",
+      "coordinateSystem": "BD-09",
+      "count": 2,
+      "bounds": [
+        -4.77963,
+        37.877164,
+        -4.778604,
+        37.88034
+      ],
+      "files": [
+        "baidu/724003/points-001.json"
+      ]
+    },
+    {
+      "id": "724004",
+      "adcode": "724004",
+      "name": "塞哥维亚",
+      "province": "西班牙 · 塞哥维亚",
+      "coordinateSystem": "BD-09",
+      "count": 1,
+      "bounds": [
+        -4.132601,
+        40.952511,
+        -4.132601,
+        40.952511
+      ],
+      "files": [
+        "baidu/724004/points-001.json"
+      ]
+    },
+    {
+      "id": "724005",
+      "adcode": "724005",
+      "name": "塞维利亚",
+      "province": "西班牙 · 塞维利亚",
+      "coordinateSystem": "BD-09",
+      "count": 6,
+      "bounds": [
+        -5.998453,
+        37.377196,
+        -5.984459,
+        37.389092
+      ],
+      "files": [
+        "baidu/724005/points-001.json"
+      ]
+    },
+    {
+      "id": "764001",
+      "adcode": "764001",
+      "name": "普吉岛",
+      "province": "泰国 · 普吉岛",
+      "coordinateSystem": "BD-09",
+      "count": 1,
+      "bounds": [
+        98.312833,
+        7.827708,
+        98.312833,
+        7.827708
+      ],
+      "files": [
+        "baidu/764001/points-001.json"
+      ]
+    },
+    {
       "id": "810000",
       "adcode": "810000",
       "name": "香港特别行政区",
@@ -7967,12 +8426,29 @@
         "reason": "user-confirmed-withdrawal-of-Zhuhai-prefix-090063-records",
         "restoredCollection": "440400"
       }
+    },
+    {
+      "id": "826001",
+      "adcode": "826001",
+      "name": "伦敦",
+      "province": "英国 · 伦敦",
+      "coordinateSystem": "BD-09",
+      "count": 29,
+      "bounds": [
+        -0.126949,
+        51.519412,
+        -0.125983,
+        51.521686
+      ],
+      "files": [
+        "baidu/826001/points-001.json"
+      ]
     }
   ],
   "importSummary": {
-    "sourceFiles": 290,
-    "rawRecords": 18445310,
-    "uniquePanoids": 18325012,
+    "sourceFiles": 318,
+    "rawRecords": 18445407,
+    "uniquePanoids": 18325109,
     "exactDuplicates": 21202,
     "differingDuplicates": 99096,
     "invalidRecords": 0,
@@ -10928,6 +11404,48 @@
           "crawler_time_machine": 51
         },
         "note": "2026-11-22 user-directed shard replacement for 8 cities"
+      },
+      {
+        "name": "191001.json",
+        "bytes": 4072,
+        "sha256": "4c9e226b310d20f2e717e2d26c6c2bf24082b5939e15829bd300a4613bf2c109",
+        "rawRecords": 5,
+        "uniquePanoids": 5
+      },
+      {
+        "name": "191002.json",
+        "bytes": 1630,
+        "sha256": "ab77f843671106adbaa275606e7fa74b75b20a6f87e0fc92c1b40d566e4195e0",
+        "rawRecords": 2,
+        "uniquePanoids": 2
+      },
+      {
+        "name": "191003.json",
+        "bytes": 807,
+        "sha256": "846db7c0662b5f9182feadbaecf3ca59a8f86928f53fc2947fb6fe4942c70d14",
+        "rawRecords": 1,
+        "uniquePanoids": 1
+      },
+      {
+        "name": "191004.json",
+        "bytes": 853,
+        "sha256": "ab847d5c78d96bcf133649adda0f3d64885ef69907c23c79d6906ef0499a754d",
+        "rawRecords": 1,
+        "uniquePanoids": 1
+      },
+      {
+        "name": "191005.json",
+        "bytes": 835,
+        "sha256": "33d5603fcca2b7912b426ff472654e8985ba46410c41a928d409439cde7002a4",
+        "rawRecords": 1,
+        "uniquePanoids": 1
+      },
+      {
+        "name": "191006.json",
+        "bytes": 841,
+        "sha256": "25ff01f37dfb3b9c0f307ed709fe6588f33662998f386b2acb6d2762f7e1f3dc",
+        "rawRecords": 1,
+        "uniquePanoids": 1
       }
     ],
     "inputCoordinateSystems": [

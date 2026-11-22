@@ -1,0 +1,26 @@
+[
+  [
+    "22444400131911131510017678XX",
+    15.973283,
+    43.866986,
+    "克尔卡国家公园",
+    "2019-11-13",
+    null,
+    false,
+    true,
+    "baidu",
+    {
+      "extra": {
+        "country": "克罗地亚",
+        "poiName": "克尔卡国家公园",
+        "poiAddr": "Lozovac,克罗地亚",
+        "panoName": "威索瓦岛",
+        "collectDate": "2019.11.13",
+        "author": "boneysun",
+        "likeNum": 3,
+        "coordinateSource": "POI墨卡托换算",
+        "feedUrl": "https://scenes.map.baidu.com/static/h5-project/pano-feed/pano-feed.html?pid=22444400131911131510017678XX"
+      }
+    }
+  ]
+]

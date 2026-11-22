@@ -1,0 +1,50 @@
+[
+  [
+    "22444400132002142029229864XX",
+    -4.77963,
+    37.88034,
+    "百花巷",
+    "2020-02-14",
+    null,
+    false,
+    true,
+    "baidu",
+    {
+      "extra": {
+        "country": "西班牙",
+        "poiName": "百花巷",
+        "poiAddr": "西班牙科尔多巴",
+        "panoName": "科尔多巴百花巷",
+        "collectDate": "2020.02.14",
+        "author": "boneysun",
+        "likeNum": 1182,
+        "coordinateSource": "POI墨卡托换算",
+        "feedUrl": "https://scenes.map.baidu.com/static/h5-project/pano-feed/pano-feed.html?pid=22444400132002142029229864XX"
+      }
+    }
+  ],
+  [
+    "22444400132002142230515424XX",
+    -4.778604,
+    37.877164,
+    "罗马桥",
+    "2020-02-14",
+    null,
+    false,
+    true,
+    "baidu",
+    {
+      "extra": {
+        "country": "西班牙",
+        "poiName": "罗马桥",
+        "poiAddr": "西班牙瓦安达鲁西亚科尔多Ronda de Isasa",
+        "panoName": "观景台",
+        "collectDate": "2020.02.14",
+        "author": "boneysun",
+        "likeNum": 2,
+        "coordinateSource": "POI墨卡托换算",
+        "feedUrl": "https://scenes.map.baidu.com/static/h5-project/pano-feed/pano-feed.html?pid=22444400132002142230515424XX"
+      }
+    }
+  ]
+]

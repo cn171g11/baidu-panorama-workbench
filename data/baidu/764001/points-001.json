@@ -1,0 +1,26 @@
+[
+  [
+    "22444400131911131942437428XX",
+    98.312833,
+    7.827708,
+    "普吉大佛",
+    "2019-11-13",
+    null,
+    false,
+    true,
+    "baidu",
+    {
+      "extra": {
+        "country": "泰国",
+        "poiName": "普吉大佛",
+        "poiAddr": "泰国 普吉府",
+        "panoName": "普吉大佛BigBuddha",
+        "collectDate": "2019.11.13",
+        "author": "boneysun",
+        "likeNum": 238,
+        "coordinateSource": "POI墨卡托换算",
+        "feedUrl": "https://scenes.map.baidu.com/static/h5-project/pano-feed/pano-feed.html?pid=22444400131911131942437428XX"
+      }
+    }
+  ]
+]

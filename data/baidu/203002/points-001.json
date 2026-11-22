@@ -1,0 +1,26 @@
+[
+  [
+    "22444400131911181554469498XX",
+    12.754356,
+    50.186996,
+    "洛克特城堡",
+    "2019-11-18",
+    null,
+    false,
+    true,
+    "baidu",
+    {
+      "extra": {
+        "country": "捷克",
+        "poiName": "洛克特城堡",
+        "poiAddr": "Zamecka 67/10, Loket 35733, Czech Republic",
+        "panoName": "鸟瞰",
+        "collectDate": "2019.11.18",
+        "author": "boneysun",
+        "likeNum": 1,
+        "coordinateSource": "POI墨卡托换算",
+        "feedUrl": "https://scenes.map.baidu.com/static/h5-project/pano-feed/pano-feed.html?pid=22444400131911181554469498XX"
+      }
+    }
+  ]
+]

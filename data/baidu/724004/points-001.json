@@ -1,0 +1,26 @@
+[
+  [
+    "22444400132002190941538290XX",
+    -4.132601,
+    40.952511,
+    "塞哥维亚城堡",
+    "2020-02-19",
+    null,
+    false,
+    true,
+    "baidu",
+    {
+      "extra": {
+        "country": "西班牙",
+        "poiName": "塞哥维亚城堡",
+        "poiAddr": "西班牙安达卢西亚自治区和塞维利亚省塞维利亚Patio de Banderas, s/n",
+        "panoName": "城堡鸟瞰",
+        "collectDate": "2020.02.19",
+        "author": "boneysun",
+        "likeNum": 1022,
+        "coordinateSource": "POI墨卡托换算",
+        "feedUrl": "https://scenes.map.baidu.com/static/h5-project/pano-feed/pano-feed.html?pid=22444400132002190941538290XX"
+      }
+    }
+  ]
+]

@@ -1,0 +1,26 @@
+[
+  [
+    "22444400132106251001061456XX",
+    16.227605,
+    49.225859,
+    "胡波卡城堡",
+    "2021-06-25",
+    null,
+    false,
+    true,
+    "baidu",
+    {
+      "extra": {
+        "country": "捷克",
+        "poiName": "胡波卡城堡",
+        "poiAddr": "",
+        "panoName": "大门",
+        "collectDate": "2021.06.25",
+        "author": "boneysun",
+        "likeNum": 14,
+        "coordinateSource": "POI墨卡托换算",
+        "feedUrl": "https://scenes.map.baidu.com/static/h5-project/pano-feed/pano-feed.html?pid=22444400132106251001061456XX"
+      }
+    }
+  ]
+]

@@ -1,0 +1,50 @@
+[
+  [
+    "22444400131911210830077513XX",
+    14.315396,
+    48.81283,
+    "捷克克鲁姆洛夫城堡",
+    "2019-11-21",
+    null,
+    false,
+    true,
+    "baidu",
+    {
+      "extra": {
+        "country": "捷克",
+        "poiName": "捷克克鲁姆洛夫城堡",
+        "poiAddr": "Zamek cp. 59, Cesky Krumlov 381 01, Czech Republic",
+        "panoName": "城堡观景",
+        "collectDate": "2019.11.21",
+        "author": "boneysun",
+        "likeNum": 5,
+        "coordinateSource": "POI墨卡托换算",
+        "feedUrl": "https://scenes.map.baidu.com/static/h5-project/pano-feed/pano-feed.html?pid=22444400131911210830077513XX"
+      }
+    }
+  ],
+  [
+    "22444400132106250921561942XX",
+    14.291749,
+    48.776941,
+    "克鲁姆洛夫",
+    "2021-06-25",
+    null,
+    false,
+    true,
+    "baidu",
+    {
+      "extra": {
+        "country": "捷克",
+        "poiName": "克鲁姆洛夫",
+        "poiAddr": "捷克共和国-南波希米亚州",
+        "panoName": "CK全景观景点",
+        "collectDate": "2021.06.25",
+        "author": "boneysun",
+        "likeNum": 32,
+        "coordinateSource": "POI墨卡托换算",
+        "feedUrl": "https://scenes.map.baidu.com/static/h5-project/pano-feed/pano-feed.html?pid=22444400132106250921561942XX"
+      }
+    }
+  ]
+]

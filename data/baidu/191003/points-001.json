@@ -1,0 +1,26 @@
+[
+  [
+    "22444400131910120911313232XX",
+    16.687372,
+    43.444032,
+    "圣彼得教堂",
+    "2019-10-12",
+    null,
+    false,
+    true,
+    "baidu",
+    {
+      "extra": {
+        "country": "克罗地亚",
+        "poiName": "圣彼得教堂",
+        "poiAddr": "",
+        "panoName": "奥米什小镇",
+        "collectDate": "2019.10.12",
+        "author": "boneysun",
+        "likeNum": 95,
+        "coordinateSource": "POI墨卡托换算",
+        "feedUrl": "https://scenes.map.baidu.com/static/h5-project/pano-feed/pano-feed.html?pid=22444400131910120911313232XX"
+      }
+    }
+  ]
+]

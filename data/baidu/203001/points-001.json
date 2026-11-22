@@ -1,0 +1,50 @@
+[
+  [
+    "22444400131911181512457818XX",
+    12.879481,
+    50.220237,
+    "卡罗维发利博物馆",
+    "2019-11-18",
+    null,
+    false,
+    true,
+    "baidu",
+    {
+      "extra": {
+        "country": "捷克",
+        "poiName": "卡罗维发利博物馆",
+        "poiAddr": "Nova louka 578/23, Karlovy Vary 360 01, Czech Republic",
+        "panoName": "博物馆门口",
+        "collectDate": "2019.11.18",
+        "author": "boneysun",
+        "likeNum": 2,
+        "coordinateSource": "POI墨卡托换算",
+        "feedUrl": "https://scenes.map.baidu.com/static/h5-project/pano-feed/pano-feed.html?pid=22444400131911181512457818XX"
+      }
+    }
+  ],
+  [
+    "22444400132106251012309580XX",
+    12.871962,
+    50.231852,
+    "卡罗维发利",
+    "2021-06-25",
+    null,
+    false,
+    true,
+    "baidu",
+    {
+      "extra": {
+        "country": "捷克",
+        "poiName": "卡罗维发利",
+        "poiAddr": "捷克",
+        "panoName": "博物馆顶",
+        "collectDate": "2021.06.25",
+        "author": "boneysun",
+        "likeNum": 29,
+        "coordinateSource": "POI墨卡托换算",
+        "feedUrl": "https://scenes.map.baidu.com/static/h5-project/pano-feed/pano-feed.html?pid=22444400132106251012309580XX"
+      }
+    }
+  ]
+]

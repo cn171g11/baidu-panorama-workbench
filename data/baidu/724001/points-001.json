@@ -1,0 +1,50 @@
+[
+  [
+    "22444400132002121713077423XX",
+    -3.602888,
+    37.180526,
+    "圣胡安德迪奥斯大教堂",
+    "2020-02-12",
+    null,
+    false,
+    true,
+    "baidu",
+    {
+      "extra": {
+        "country": "西班牙",
+        "poiName": "圣胡安德迪奥斯大教堂",
+        "poiAddr": "西班牙安达卢西亚格拉纳达省格拉纳达Calle San Juan de Dios, 23",
+        "panoName": "主教台",
+        "collectDate": "2020.02.12",
+        "author": "boneysun",
+        "likeNum": 973,
+        "coordinateSource": "POI墨卡托换算",
+        "feedUrl": "https://scenes.map.baidu.com/static/h5-project/pano-feed/pano-feed.html?pid=22444400132002121713077423XX"
+      }
+    }
+  ],
+  [
+    "22444400132002192140441089XX",
+    -3.588141,
+    37.176078,
+    "阿尔罕布拉宫",
+    "2020-02-19",
+    null,
+    false,
+    true,
+    "baidu",
+    {
+      "extra": {
+        "country": "西班牙",
+        "poiName": "阿尔罕布拉宫",
+        "poiAddr": "西班牙南部格拉纳达",
+        "panoName": "高空鸟瞰",
+        "collectDate": "2020.02.19",
+        "author": "boneysun",
+        "likeNum": 145,
+        "coordinateSource": "POI墨卡托换算",
+        "feedUrl": "https://scenes.map.baidu.com/static/h5-project/pano-feed/pano-feed.html?pid=22444400132002192140441089XX"
+      }
+    }
+  ]
+]

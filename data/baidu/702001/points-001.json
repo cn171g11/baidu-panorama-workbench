@@ -1,0 +1,74 @@
+[
+  [
+    "22200010131812151544880684XX",
+    103.854212,
+    1.286769,
+    "鱼尾狮公园",
+    "2018-12-15",
+    null,
+    false,
+    true,
+    "baidu",
+    {
+      "extra": {
+        "country": "新加坡",
+        "poiName": "鱼尾狮公园",
+        "poiAddr": "1 Fullerton Road One Fullerton, Merlion Park, Singapore, 049213, Singapore",
+        "panoName": "新加坡鱼尾狮",
+        "collectDate": "2018.12.15",
+        "author": "百度地图全景",
+        "likeNum": 2014,
+        "coordinateSource": "POI墨卡托换算",
+        "feedUrl": "https://scenes.map.baidu.com/static/h5-project/pano-feed/pano-feed.html?pid=22200010131812151544880684XX"
+      }
+    }
+  ],
+  [
+    "22444400131902211550734931XX",
+    103.816,
+    1.31384,
+    "新加坡植物园",
+    "2019-02-21",
+    null,
+    false,
+    true,
+    "baidu",
+    {
+      "extra": {
+        "country": "新加坡",
+        "poiName": "新加坡植物园",
+        "poiAddr": "新加坡古鲁尼路1",
+        "panoName": "新加坡植物园",
+        "collectDate": "2019.02.21",
+        "author": "百度地图全景",
+        "likeNum": 540,
+        "coordinateSource": "POI墨卡托换算",
+        "feedUrl": "https://scenes.map.baidu.com/static/h5-project/pano-feed/pano-feed.html?pid=22444400131902211550734931XX"
+      }
+    }
+  ],
+  [
+    "22444400131902211550734932XX",
+    103.816,
+    1.31384,
+    "新加坡植物园",
+    "2019-02-21",
+    null,
+    false,
+    true,
+    "baidu",
+    {
+      "extra": {
+        "country": "新加坡",
+        "poiName": "新加坡植物园",
+        "poiAddr": "新加坡古鲁尼路1",
+        "panoName": "新加坡植物园",
+        "collectDate": "2019.02.21",
+        "author": "百度地图全景",
+        "likeNum": 170,
+        "coordinateSource": "POI墨卡托换算",
+        "feedUrl": "https://scenes.map.baidu.com/static/h5-project/pano-feed/pano-feed.html?pid=22444400131902211550734932XX"
+      }
+    }
+  ]
+]

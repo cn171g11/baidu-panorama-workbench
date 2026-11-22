@@ -1,0 +1,98 @@
+[
+  [
+    "22444400132103181030409781XX",
+    10.396482,
+    43.723003,
+    "比萨斜塔",
+    "2021-03-18",
+    null,
+    false,
+    true,
+    "baidu",
+    {
+      "extra": {
+        "country": "意大利",
+        "poiName": "比萨斜塔",
+        "poiAddr": "意大利托斯卡纳省比萨城北面奇迹广场上",
+        "panoName": "比萨斜塔3",
+        "collectDate": "2021.03.18",
+        "author": "全景网",
+        "likeNum": 181,
+        "coordinateSource": "POI墨卡托换算",
+        "feedUrl": "https://scenes.map.baidu.com/static/h5-project/pano-feed/pano-feed.html?pid=22444400132103181030409781XX"
+      }
+    }
+  ],
+  [
+    "22444400132103181030442455XX",
+    10.396482,
+    43.723003,
+    "比萨斜塔",
+    "2021-03-18",
+    null,
+    false,
+    true,
+    "baidu",
+    {
+      "extra": {
+        "country": "意大利",
+        "poiName": "比萨斜塔",
+        "poiAddr": "意大利托斯卡纳省比萨城北面奇迹广场上",
+        "panoName": "比萨斜塔2",
+        "collectDate": "2021.03.18",
+        "author": "全景网",
+        "likeNum": 17416,
+        "coordinateSource": "POI墨卡托换算",
+        "feedUrl": "https://scenes.map.baidu.com/static/h5-project/pano-feed/pano-feed.html?pid=22444400132103181030442455XX"
+      }
+    }
+  ],
+  [
+    "22444400132103181030481561XX",
+    10.396482,
+    43.723003,
+    "比萨斜塔",
+    "2021-03-18",
+    null,
+    false,
+    true,
+    "baidu",
+    {
+      "extra": {
+        "country": "意大利",
+        "poiName": "比萨斜塔",
+        "poiAddr": "意大利托斯卡纳省比萨城北面奇迹广场上",
+        "panoName": "比萨斜塔",
+        "collectDate": "2021.03.18",
+        "author": "全景网",
+        "likeNum": 480,
+        "coordinateSource": "POI墨卡托换算",
+        "feedUrl": "https://scenes.map.baidu.com/static/h5-project/pano-feed/pano-feed.html?pid=22444400132103181030481561XX"
+      }
+    }
+  ],
+  [
+    "22444400132103181030482906XX",
+    10.396482,
+    43.723003,
+    "比萨斜塔",
+    "2021-03-18",
+    null,
+    false,
+    true,
+    "baidu",
+    {
+      "extra": {
+        "country": "意大利",
+        "poiName": "比萨斜塔",
+        "poiAddr": "意大利托斯卡纳省比萨城北面奇迹广场上",
+        "panoName": "比萨斜塔1",
+        "collectDate": "2021.03.18",
+        "author": "全景网",
+        "likeNum": 101,
+        "coordinateSource": "POI墨卡托换算",
+        "feedUrl": "https://scenes.map.baidu.com/static/h5-project/pano-feed/pano-feed.html?pid=22444400132103181030482906XX"
+      }
+    }
+  ]
+]

@@ -1,0 +1,26 @@
+[
+  [
+    "22444400131911211022428262XX",
+    17.24449,
+    49.596506,
+    "奥洛穆茨",
+    "2019-11-21",
+    null,
+    false,
+    true,
+    "baidu",
+    {
+      "extra": {
+        "country": "捷克",
+        "poiName": "奥洛穆茨",
+        "poiAddr": "Olomouc City Hall, Hynaisova 34/10, 779 00 Olomouc, 捷克",
+        "panoName": "广场夜景",
+        "collectDate": "2019.11.21",
+        "author": "boneysun",
+        "likeNum": 0,
+        "coordinateSource": "POI墨卡托换算",
+        "feedUrl": "https://scenes.map.baidu.com/static/h5-project/pano-feed/pano-feed.html?pid=22444400131911211022428262XX"
+      }
+    }
+  ]
+]

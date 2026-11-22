@@ -1,0 +1,50 @@
+[
+  [
+    "22444400131910111324153775XX",
+    13.850246,
+    44.87323,
+    "普拉竞技场",
+    "2019-10-11",
+    null,
+    false,
+    true,
+    "baidu",
+    {
+      "extra": {
+        "country": "克罗地亚",
+        "poiName": "普拉竞技场",
+        "poiAddr": "克罗埃西亚普拉Flavijevska ul.",
+        "panoName": "门口",
+        "collectDate": "2019.10.11",
+        "author": "boneysun",
+        "likeNum": 0,
+        "coordinateSource": "POI墨卡托换算",
+        "feedUrl": "https://scenes.map.baidu.com/static/h5-project/pano-feed/pano-feed.html?pid=22444400131910111324153775XX"
+      }
+    }
+  ],
+  [
+    "22444400131910121126153174XX",
+    13.635689,
+    45.081453,
+    "罗维尼港",
+    "2019-10-12",
+    null,
+    false,
+    true,
+    "baidu",
+    {
+      "extra": {
+        "country": "克罗地亚",
+        "poiName": "罗维尼港",
+        "poiAddr": "ul. Joakima Rakovca 6, 52210, Rovinj,克罗地亚",
+        "panoName": "码头航拍",
+        "collectDate": "2019.10.12",
+        "author": "boneysun",
+        "likeNum": 209,
+        "coordinateSource": "POI墨卡托换算",
+        "feedUrl": "https://scenes.map.baidu.com/static/h5-project/pano-feed/pano-feed.html?pid=22444400131910121126153174XX"
+      }
+    }
+  ]
+]

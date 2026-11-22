@@ -1,0 +1,26 @@
+[
+  [
+    "22444400131911210920314965XX",
+    15.451718,
+    49.184607,
+    "撒迦利亚广场",
+    "2019-11-21",
+    null,
+    false,
+    true,
+    "baidu",
+    {
+      "extra": {
+        "country": "捷克",
+        "poiName": "撒迦利亚广场",
+        "poiAddr": "捷克维索基纳州泰尔奇",
+        "panoName": "泰尔奇桥上",
+        "collectDate": "2019.11.21",
+        "author": "boneysun",
+        "likeNum": 0,
+        "coordinateSource": "POI墨卡托换算",
+        "feedUrl": "https://scenes.map.baidu.com/static/h5-project/pano-feed/pano-feed.html?pid=22444400131911210920314965XX"
+      }
+    }
+  ]
+]

@@ -1,0 +1,26 @@
+[
+  [
+    "22444400131911181739590319XX",
+    12.706161,
+    49.976589,
+    "吟唱喷泉",
+    "2019-11-18",
+    null,
+    false,
+    true,
+    "baidu",
+    {
+      "extra": {
+        "country": "捷克",
+        "poiName": "吟唱喷泉",
+        "poiAddr": "Hlavni Kolonada 47, Marianske Lazne, Czech Republic",
+        "panoName": "鸟瞰",
+        "collectDate": "2019.11.18",
+        "author": "boneysun",
+        "likeNum": 0,
+        "coordinateSource": "POI墨卡托换算",
+        "feedUrl": "https://scenes.map.baidu.com/static/h5-project/pano-feed/pano-feed.html?pid=22444400131911181739590319XX"
+      }
+    }
+  ]
+]

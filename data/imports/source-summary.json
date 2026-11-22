@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
   "provider": "baidu",
-  "sourceFiles": 290,
-  "rawRecords": 18445310,
-  "uniquePanoids": 18325012,
+  "sourceFiles": 318,
+  "rawRecords": 18445407,
+  "uniquePanoids": 18325109,
   "exactDuplicates": 21202,
   "differingDuplicates": 99096,
   "invalidRecords": 0,
@@ -2959,6 +2959,48 @@
         "crawler_time_machine": 51
       },
       "note": "2026-11-22 user-directed shard replacement for 8 cities"
+    },
+    {
+      "name": "191001.json",
+      "bytes": 4072,
+      "sha256": "4c9e226b310d20f2e717e2d26c6c2bf24082b5939e15829bd300a4613bf2c109",
+      "rawRecords": 5,
+      "uniquePanoids": 5
+    },
+    {
+      "name": "191002.json",
+      "bytes": 1630,
+      "sha256": "ab77f843671106adbaa275606e7fa74b75b20a6f87e0fc92c1b40d566e4195e0",
+      "rawRecords": 2,
+      "uniquePanoids": 2
+    },
+    {
+      "name": "191003.json",
+      "bytes": 807,
+      "sha256": "846db7c0662b5f9182feadbaecf3ca59a8f86928f53fc2947fb6fe4942c70d14",
+      "rawRecords": 1,
+      "uniquePanoids": 1
+    },
+    {
+      "name": "191004.json",
+      "bytes": 853,
+      "sha256": "ab847d5c78d96bcf133649adda0f3d64885ef69907c23c79d6906ef0499a754d",
+      "rawRecords": 1,
+      "uniquePanoids": 1
+    },
+    {
+      "name": "191005.json",
+      "bytes": 835,
+      "sha256": "33d5603fcca2b7912b426ff472654e8985ba46410c41a928d409439cde7002a4",
+      "rawRecords": 1,
+      "uniquePanoids": 1
+    },
+    {
+      "name": "191006.json",
+      "bytes": 841,
+      "sha256": "25ff01f37dfb3b9c0f307ed709fe6588f33662998f386b2acb6d2762f7e1f3dc",
+      "rawRecords": 1,
+      "uniquePanoids": 1
     }
   ],
   "inputCoordinateSystems": [

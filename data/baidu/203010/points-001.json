@@ -1,0 +1,50 @@
+[
+  [
+    "22444400131911251006035027XX",
+    15.263063,
+    49.944896,
+    "圣巴巴拉教堂",
+    "2019-11-25",
+    null,
+    false,
+    true,
+    "baidu",
+    {
+      "extra": {
+        "country": "捷克",
+        "poiName": "圣巴巴拉教堂",
+        "poiAddr": "Barborská, 284 01 Kutná Hora, Česko",
+        "panoName": "教堂后院",
+        "collectDate": "2019.11.25",
+        "author": "boneysun",
+        "likeNum": 1,
+        "coordinateSource": "POI墨卡托换算",
+        "feedUrl": "https://scenes.map.baidu.com/static/h5-project/pano-feed/pano-feed.html?pid=22444400131911251006035027XX"
+      }
+    }
+  ],
+  [
+    "22444400132106291154428292XX",
+    15.211762,
+    49.865235,
+    "库特纳霍拉",
+    "2021-06-29",
+    null,
+    false,
+    true,
+    "baidu",
+    {
+      "extra": {
+        "country": "捷克",
+        "poiName": "库特纳霍拉",
+        "poiAddr": "捷克",
+        "panoName": "售票处",
+        "collectDate": "2021.06.29",
+        "author": "boneysun",
+        "likeNum": 882,
+        "coordinateSource": "POI墨卡托换算",
+        "feedUrl": "https://scenes.map.baidu.com/static/h5-project/pano-feed/pano-feed.html?pid=22444400132106291154428292XX"
+      }
+    }
+  ]
+]

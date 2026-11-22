@@ -1,0 +1,50 @@
+[
+  [
+    "22444400132002141658410532XX",
+    -3.60705,
+    39.449181,
+    "孔苏埃格拉风车群",
+    "2020-02-14",
+    null,
+    false,
+    true,
+    "baidu",
+    {
+      "extra": {
+        "country": "西班牙",
+        "poiName": "孔苏埃格拉风车群",
+        "poiAddr": "Molino Rucio Cerro Calderico, s/n, 45700 Consuegra, Toledo,西班牙",
+        "panoName": "空中鸟瞰",
+        "collectDate": "2020.02.14",
+        "author": "boneysun",
+        "likeNum": 474,
+        "coordinateSource": "POI墨卡托换算",
+        "feedUrl": "https://scenes.map.baidu.com/static/h5-project/pano-feed/pano-feed.html?pid=22444400132002141658410532XX"
+      }
+    }
+  ],
+  [
+    "22444400132102012018520386XX",
+    -4.027323,
+    39.862832,
+    "托莱多",
+    "2021-02-01",
+    null,
+    false,
+    true,
+    "baidu",
+    {
+      "extra": {
+        "country": "西班牙",
+        "poiName": "托莱多",
+        "poiAddr": "西班牙",
+        "panoName": "托莱多南面",
+        "collectDate": "2021.02.01",
+        "author": "boneysun",
+        "likeNum": 146,
+        "coordinateSource": "POI墨卡托换算",
+        "feedUrl": "https://scenes.map.baidu.com/static/h5-project/pano-feed/pano-feed.html?pid=22444400132102012018520386XX"
+      }
+    }
+  ]
+]
