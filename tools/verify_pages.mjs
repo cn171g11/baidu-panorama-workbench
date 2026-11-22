@@ -19,7 +19,7 @@ export async function verifyPages({url='https://cn171g11.github.io/baidu-panoram
  for(const city of catalog.collections){
   let cityRows=0;
   for(const logical of city.files){
-   if(!/^baidu\/\d{6}\/points-\d{3,}\.json$/.test(logical))throw Error('Invalid logical data path');
+   if(!/^baidu\/\d{6}(\/counties\/[A-Za-z0-9_-]+)?\/points-\d{3,}\.json$/.test(logical))throw Error('Invalid logical data path');
    const asset=manifest.assets[logical];if(!asset||asset.url!==logical+'.gz')throw Error('Unexpected asset URL');
    if(limit&&checks.length>=limit)continue;
    const address=new URL('city-viewer/data/'+asset.url,base);
