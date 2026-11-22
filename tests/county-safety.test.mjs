@@ -23,6 +23,6 @@ test('nested forbidden provider markers cannot bypass Baidu isolation',()=>{
 });
 test('successful local import cancels in-flight county requests and clears loaded selection',async()=>{
  const source=await readSource(new URL('../city-viewer/js/app.js',import.meta.url),'utf8');
- assert.match(source,/\+\+collectionRequest;cancelActiveLoad\(\);state\.loading=false;\s*if \(additions\.length\)/);
+ assert.match(source,/\+\+collectionRequest;cancelActiveLoad\(\);cancelBlueDotLoad\(\);\s*if \(additions\.length\)/);
  assert.match(source,/cityCache\.clear\(\);state\.publishedRows = \[\]; state\.loadedCollection = null; state\.loadedSelection=null;/);
 });

@@ -1,4 +1,5 @@
 import { validateRows } from "./metadata.js";
+import { fetchBytes, fetchJson, nextPaint } from './transfer.js';
 import { COUNTY_PARTITION, validateCountyCatalog, selectCountyFiles } from './county-data.js';
 
 const LOCAL_STORAGE_PREFIX = "baidu-panorama-workbench:v1:";
@@ -53,13 +54,11 @@ function validateSummary(summary, label) {
   if (summary.sourceCities !== undefined && !Number.isSafeInteger(summary.sourceCities)) throw new Error(`Invalid ${label}.sourceCities`);
 }
 
-async function loadCatalog() {
-  const response = await fetch(CATALOG_URL);
-  if (!response.ok) throw new Error(`Unable to load catalog (${response.status})`);
-  return assertCatalog(await response.json());
+async function loadCatalog({ signal } = {}) {
+  return assertCatalog(await fetchJson(CATALOG_URL, { signal }));
 }
 
-async function loadCollection(collection, {county='all',part='all',signal}={}) {
+async function loadCollection(collection, {county='all',part='all',signal,onProgress}={}) {
   signal?.throwIfAborted();
   if (!collection || !ID_PATTERN.test(collection.id) || !ID_PATTERN.test(collection.adcode) || collection.coordinateSystem !== "BD-09" || !Number.isSafeInteger(collection.count) || collection.count < 0 || !Array.isArray(collection.files)) throw new Error("Invalid Baidu collection identity");
   const maxRows = collectionShardMaxRows(collection);
@@ -75,9 +74,9 @@ async function loadCollection(collection, {county='all',part='all',signal}={}) {
     selection={files:collection.files,count:collection.count,maxRows};
   }
   if(!selection.files.length)return [];
-  const manifestResponse = await fetch(MANIFEST_URL,{signal});
-  if (!manifestResponse.ok) throw new Error(`Unable to load asset manifest (${manifestResponse.status})`);
-  const manifest = await manifestResponse.json();
+  const notify = detail => { signal?.throwIfAborted(); onProgress?.({ filesTotal: selection.files.length, totalRows: selection.count, ...detail }); };
+  notify({ phase: 'manifest', filesDone: 0, verifiedRows: 0 });
+  const manifest = await fetchJson(MANIFEST_URL, { signal });
   if (manifest.schemaVersion !== 1 || manifest.provider !== "baidu" || !["gzip", "identity"].includes(manifest.codec) || !manifest.assets || typeof manifest.assets !== "object") throw new Error("Invalid Baidu asset manifest");
   if (manifest.codec === 'identity' && (manifest.source !== 'github-raw' || !/^[a-f0-9]{40}$/i.test(manifest.revision || ''))) throw new Error('Invalid pinned Baidu raw source');
   if(collection.partition===COUNTY_PARTITION&&(manifest.codec!=='gzip'||manifest.source!=='github-pages'))throw Error('County shards must use same-origin Pages gzip');
@@ -93,27 +92,48 @@ async function loadCollection(collection, {county='all',part='all',signal}={}) {
       const expected = `https://raw.githubusercontent.com/cn171g11/baidu-panorama-workbench/${manifest.revision}/data/${path}`;
       if (manifest.source !== 'github-raw' || !/^[a-f0-9]{40}$/.test(manifest.revision || '') || asset.storage !== 'github-raw' || asset.url !== expected) throw new Error(`Untrusted raw asset URL: ${path}`);
     }
-    const response = await fetch(new URL(asset.url, MANIFEST_URL), { referrerPolicy: 'no-referrer', signal });
-    if (!response.ok) throw new Error(`Unable to load shard ${path} (${response.status})`);
-    const bytes = new Uint8Array(await response.arrayBuffer());
+    const filesDone = allRows.length === 0 ? 0 : shardPaths.indexOf(path);
+    const progress = detail => notify({ path, filesDone, verifiedRows: allRows.length, ...detail });
+    progress({ phase: 'download', receivedBytes: 0, totalBytes: isGzip ? asset.compressedBytes : asset.bytes });
+    const bytes = await fetchBytes(new URL(asset.url, MANIFEST_URL), {
+      signal, expectedBytes: isGzip ? asset.compressedBytes : asset.bytes,
+      fetchOptions: { referrerPolicy: 'no-referrer' },
+      onProgress: detail => progress({ phase: 'download', ...detail }),
+    });
+    progress({ phase: 'verify' });
+    await nextPaint(); signal?.throwIfAborted();
     if (isGzip) {
       if (bytes.byteLength !== asset.compressedBytes) throw new Error(`Compressed size mismatch: ${path}`);
       if (await sha256(bytes) !== asset.compressedSha256.toLowerCase()) throw new Error(`Compressed SHA-256 mismatch: ${path}`);
     } else if (bytes.byteLength !== asset.bytes) throw new Error(`Source size mismatch: ${path}`);
     signal?.throwIfAborted();
+    progress({ phase: 'decompress' });
+    await nextPaint(); signal?.throwIfAborted();
     const plain = isGzip ? await decompressGzip(bytes) : bytes;
     signal?.throwIfAborted();
     if (plain.byteLength !== asset.bytes) throw new Error(`Uncompressed size mismatch: ${path}`);
     if (isGzip && await sha256(plain) !== asset.sha256.toLowerCase()) throw new Error(`Uncompressed SHA-256 mismatch: ${path}`);
     if (!isGzip && await sha256(plain) !== asset.sha256.toLowerCase()) throw new Error(`Source SHA-256 mismatch: ${path}`);
-    const rows = validateRows(JSON.parse(new TextDecoder().decode(plain)));
+    progress({ phase: 'validate' });
+    await nextPaint(); signal?.throwIfAborted();
+    const rawRows = JSON.parse(new TextDecoder('utf-8', { fatal: true }).decode(plain));
+    if (!Array.isArray(rawRows)) throw new Error(`Invalid shard rows: ${path}`);
+    const rows = [];
+    for (let offset = 0; offset < rawRows.length; offset += 2000) {
+      signal?.throwIfAborted();
+      rows.push(...validateRows(rawRows.slice(offset, offset + 2000)));
+      if (rawRows.length > 2000) await nextPaint();
+    }
+    signal?.throwIfAborted();
     if (rows.length === 0 || rows.length > selection.maxRows || (asset.count!==undefined&&asset.count!==rows.length)) throw new Error(`Invalid shard row count: ${path}`);
     for (const row of rows) {
       if (ids.has(row[0])) throw new Error(`Duplicate panoid across shards: ${row[0]}`);
       ids.add(row[0]);
     }
     for (const row of rows) allRows.push(row);
+    notify({ phase: 'validated', path, filesDone: filesDone + 1, verifiedRows: allRows.length });
   }
+  signal?.throwIfAborted();
   if (allRows.length !== selection.count) throw new Error(`Collection count mismatch: ${collection.id}`);
   return allRows;
 }

@@ -46,7 +46,7 @@ test('release notes are versioned, ordered, and shipped with the site', async ()
 test('blue-dot loader detects plain JSON as well as gzip shards', async () => {
   const app = await readFile(path.join(root, 'city-viewer/js/app.js'), 'utf8');
   assert.match(app, /bytes\[0\] === 0x1f && bytes\[1\] === 0x8b/);
-  assert.match(app, /new TextDecoder\(\)\.decode\(bytes\)/);
+  assert.match(app, /new TextDecoder\('utf-8',\{fatal:true\}\)\.decode\(bytes\)/);
   assert.match(app, /DecompressionStream\('gzip'\)/);
   assert.match(app, /blueDotSha256/);
   const manifest = JSON.parse(await readFile(path.join(root, 'data/blue-dots/parts-manifest.json'), 'utf8'));

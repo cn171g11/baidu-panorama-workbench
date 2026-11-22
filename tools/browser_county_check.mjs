@@ -76,7 +76,7 @@ function expectedCount(county, part) { return part === 'all' ? county.count : Ma
 async function waitSelection(city, county, part = defaultPart(county)) {
   const key = `${city.id}:${county.id}:${part}`, count = expectedCount(county, part);
   assert(count > 0 && count <= 25000, 'Test must never load an entire multi-part county');
-  await until(() => evaluate(`(()=>{const s=window.__BAIDU_WORKBENCH__?.getState();return s?.loadedSelection===${JSON.stringify(key)}&&s.loadedCollection===${JSON.stringify(city.id)}&&s.county===${JSON.stringify(county.id)}&&s.shard===${JSON.stringify(part)}&&s.visibleCount===${count}&&!s.loading;})()`));
+  await until(() => evaluate(`(()=>{const s=window.__BAIDU_WORKBENCH__?.getState();return s?.loadedSelection===${JSON.stringify(key)}&&s.loadedCollection===${JSON.stringify(city.id)}&&s.county===${JSON.stringify(county.id)}&&s.shard===${JSON.stringify(part)}&&s.visibleCount===${count}&&!s.streetLoading;})()`));
   await until(() => evaluate('window.__BAIDU_WORKBENCH__.getState().mapRenderedCount>0'));
   return { key, county: county.id, shard: part, visibleCount: count };
 }
@@ -175,7 +175,7 @@ async function main() {
   const unselected = await evaluate('window.__BAIDU_WORKBENCH__.getState()');
   assert.equal(unselected.visibleCount, 0); assert.equal(unselected.loadedSelection, null); assert.equal(unselected.county, null);
   start = requests.length;
-  // 蓝点OSM清单异步加载后，县级分片城市的 #county-filter 才会出现街景县区选项；等待后再选择。
+  // 街景县区来自已发布目录，不依赖省蓝点下载完成；等待选择控件就绪即可。
   await until(() => evaluate(`[...document.querySelectorAll('#county-filter option')].some(option=>option.value===${JSON.stringify(county.id)})&&!document.querySelector('#county-filter').disabled`));
   await fill('#county-filter', county.id); // county CHANGE loads, no load-city click
   report.checks.initialSelection = await waitSelection(city, county);

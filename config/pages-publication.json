@@ -47,5 +47,5 @@
     "810000",
     "820000"
   ],
-  "note": "Cloud publication keeps only hidden source-marked records for selected domestic cities; overseas collections (hiddenOnlyCities exemption) publish all rows as regular time shards. Blue-dot resources are published separately."
+  "note": "hiddenOnlyCities lists domestic collections that publish only source-marked hidden rows as county shards. Other selected collections publish all rows as regular time shards (28 overseas collections / 97 rows). Blue-dot resources are published separately."
 }

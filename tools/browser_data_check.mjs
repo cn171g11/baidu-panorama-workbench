@@ -89,12 +89,10 @@ async function main() {
   assert(target, 'No real collection found');
   async function loadCity(city) {
     await fill('#search-input', ''); await fill('#province-filter', city.province); await fill('#city-filter', city.id);
-    const countyValues = await evaluate(`[...document.querySelectorAll('#county-filter option')].map(option=>option.value)`);
-    if (city.count > 0 && !countyValues.includes('all')) {
-      // 蓝点OSM清单返回前，县级分片城市的街景 all 选项可能尚未渲染；等待后选择。
+    if (city.partition === 'osm-county-wgs84-v1') {
       await until(() => evaluate(`[...document.querySelectorAll('#county-filter option')].some(option=>option.value==='all')`));
+      await fill('#county-filter', 'all');
     }
-    if (city.count > 0) await fill('#county-filter', 'all');
     await until(() => evaluate(`!document.querySelector('#load-city').disabled`));
     await click('#load-city');
     await until(() => evaluate(`window.__BAIDU_WORKBENCH__.getState().loadedCollection===${JSON.stringify(city.id)}&&window.__BAIDU_WORKBENCH__.getState().visibleCount===${city.count}`));
@@ -110,8 +108,18 @@ async function main() {
      await fill('#date-filter','');await until(()=>evaluate(`window.__BAIDU_WORKBENCH__.getState().visibleCount===${target.count}`));
      report.checks.dateFilter={day,matched:expected,source:sample[9]?.captureTime?.source||'source'};
    }
-  assert.equal(typeof sample[0], 'string'); assert(['baidu','baidu_pano'].includes(sample[9].source));
-  assert(Array.isArray(sample[9].links)); assert(sample[9].sourceType==='hidden'||sample[9].sourceType==='time-machine'||(typeof sample[9].pitch==='number'&&typeof sample[9].zoom==='number'));
+  assert.equal(typeof sample[0], 'string');
+  const overseasSource=sample[9]?.extra?.feedUrl;
+  if (overseasSource) {
+    assert.equal(new URL(overseasSource).hostname,'scenes.map.baidu.com');
+    assert.equal(new URL(overseasSource).searchParams.get('pid'),sample[0]);
+    assert.equal(typeof sample[9].extra.country,'string');
+    assert.equal(sample[9].extra.coordinateSource,'POI墨卡托换算');
+  } else {
+    assert(['baidu','baidu_pano'].includes(sample[9]?.source));
+    assert(Array.isArray(sample[9].links));
+    assert(sample[9].sourceType==='hidden'||sample[9].sourceType==='time-machine'||(typeof sample[9].pitch==='number'&&typeof sample[9].zoom==='number'));
+  }
   await fill('#search-input', sample[0]);
   await until(() => evaluate('window.__BAIDU_WORKBENCH__.getState().visibleCount===1'));
   await click('#record-rows > :first-child');
@@ -128,7 +136,7 @@ async function main() {
   const exported = await evaluate('await window.__DATA_EXPORT__');
   const exportedRows = await evaluate(`(await import(new URL('js/metadata.js',location.href))).parseImport(${JSON.stringify(exported)},{format:'json',confirmedBaidu:true,coordinateSystem:'BD-09'})`);
   assert.deepEqual(exportedRows[0], sample);
-  report.checks.city = { id: target.id, name: target.name, count: target.count, samplePanoid: sample[0], links: sample[9].links.length, gzipIntegrityValidated: true, exportMetadataExact: true, officialURL: href };
+  report.checks.city = { id: target.id, name: target.name, count: target.count, samplePanoid: sample[0], links: sample[9]?.links?.length ?? null, gzipIntegrityValidated: true, exportMetadataExact: true, officialURL: href };
   for (const width of [390,768,1440]) {
     await send('Emulation.setDeviceMetricsOverride', { width, height: 900, deviceScaleFactor: 1, mobile: width === 390 }); await delay(250);
     const layout = await evaluate('({width:innerWidth,scrollWidth:document.documentElement.scrollWidth})');
