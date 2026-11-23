@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "provider": "baidu",
   "coordinateSystem": "BD-09",
-  "updatedAt": "2026-11-22T16:11:43.394Z",
-  "total": 18363409,
+  "updatedAt": "2026-11-23T13:58:56.819Z",
+  "total": 18640707,
   "collections": [
     {
       "id": "110000",
@@ -1322,12 +1322,12 @@
       "name": "白城市",
       "province": "吉林省",
       "coordinateSystem": "BD-09",
-      "count": 4212,
+      "count": 4217,
       "bounds": [
-        122.37548353002717,
+        122.36865829459286,
         45.40154188342424,
-        123.37061730110133,
-        46.2310190423905
+        123.3715284523801,
+        46.23327912120778
       ],
       "files": [
         "baidu/220800/points-001.json"
@@ -5875,18 +5875,19 @@
       "name": "五指山市",
       "province": "海南省",
       "coordinateSystem": "BD-09",
-      "count": 510,
+      "count": 4355,
       "bounds": [
         109.37426700772039,
-        18.81594853642724,
-        109.5110698639592,
+        18.766695817229056,
+        109.54648385224185,
         18.941886508059657
       ],
       "files": [
         "baidu/469001/points-001.json"
       ],
       "sources": [
-        "baidu-010-0000-5D-crawler-results.json"
+        "baidu-010-0000-5D-crawler-results.json",
+        "baidu-supplement-20261123"
       ]
     },
     {
@@ -5895,18 +5896,19 @@
       "name": "琼海市",
       "province": "海南省",
       "coordinateSystem": "BD-09",
-      "count": 93,
+      "count": 34663,
       "bounds": [
-        110.4731859665373,
-        19.25326934166854,
-        110.54833326479694,
+        110.44103224305572,
+        19.16234697057645,
+        110.60709468925297,
         19.310165333907307
       ],
       "files": [
         "baidu/469002/points-001.json"
       ],
       "sources": [
-        "baidu-010-0000-5D-crawler-results.json"
+        "baidu-010-0000-5D-crawler-results.json",
+        "baidu-supplement-20261123"
       ]
     },
     {
@@ -5915,18 +5917,19 @@
       "name": "文昌市",
       "province": "海南省",
       "coordinateSystem": "BD-09",
-      "count": 185,
+      "count": 16848,
       "bounds": [
         110.674380170185,
-        19.634308172713208,
-        110.74073090157164,
+        19.521811471309757,
+        110.83887323925292,
         19.812775971627
       ],
       "files": [
         "baidu/469005/points-001.json"
       ],
       "sources": [
-        "baidu-010-0000-5B-crawler-results.json"
+        "baidu-010-0000-5B-crawler-results.json",
+        "baidu-supplement-20261123"
       ]
     },
     {
@@ -5935,7 +5938,7 @@
       "name": "万宁市",
       "province": "海南省",
       "coordinateSystem": "BD-09",
-      "count": 288,
+      "count": 23611,
       "bounds": [
         110.18565633899854,
         18.597788319044277,
@@ -5946,7 +5949,8 @@
         "baidu/469006/points-001.json"
       ],
       "sources": [
-        "baidu-010-0000-5B-crawler-results.json"
+        "baidu-010-0000-5B-crawler-results.json",
+        "baidu-supplement-20261123"
       ]
     },
     {
@@ -5955,18 +5959,19 @@
       "name": "东方市",
       "province": "海南省",
       "coordinateSystem": "BD-09",
-      "count": 1265,
+      "count": 33944,
       "bounds": [
-        108.653231041217,
+        108.6254730477091,
         18.732731186866612,
         109.0775731368635,
-        19.163919692581867
+        19.164245453372732
       ],
       "files": [
         "baidu/469007/points-001.json"
       ],
       "sources": [
-        "baidu-010-0000-5B-crawler-results.json"
+        "baidu-010-0000-5B-crawler-results.json",
+        "baidu-supplement-20261123"
       ]
     },
     {
@@ -5975,18 +5980,19 @@
       "name": "定安县",
       "province": "海南省",
       "coordinateSystem": "BD-09",
-      "count": 108,
+      "count": 11949,
       "bounds": [
         110.18441119773158,
         19.596191412828958,
-        110.3597987908666,
-        19.698292629814755
+        110.36640793428754,
+        19.714823537611647
       ],
       "files": [
         "baidu/469021/points-001.json"
       ],
       "sources": [
-        "baidu-010-0000-5D-crawler-results.json"
+        "baidu-010-0000-5D-crawler-results.json",
+        "baidu-supplement-20261123"
       ]
     },
     {
@@ -5995,10 +6001,10 @@
       "name": "屯昌县",
       "province": "海南省",
       "coordinateSystem": "BD-09",
-      "count": 301,
+      "count": 14298,
       "bounds": [
-        110.10490208723914,
-        19.36168397976911,
+        110.08863416890264,
+        19.34792713077488,
         110.19072053630936,
         19.51063970998736
       ],
@@ -6006,7 +6012,8 @@
         "baidu/469022/points-001.json"
       ],
       "sources": [
-        "baidu-010-0000-5D-crawler-results.json"
+        "baidu-010-0000-5D-crawler-results.json",
+        "baidu-supplement-20261123"
       ]
     },
     {
@@ -6015,18 +6022,19 @@
       "name": "澄迈县",
       "province": "海南省",
       "coordinateSystem": "BD-09",
-      "count": 204,
+      "count": 15925,
       "bounds": [
         109.85615536279204,
-        19.87191656731011,
-        110.15716244755366,
-        19.944202794494718
+        19.721417175008504,
+        110.16027943315892,
+        19.996253015035467
       ],
       "files": [
         "baidu/469023/points-001.json"
       ],
       "sources": [
-        "baidu-010-0000-5B-crawler-results.json"
+        "baidu-010-0000-5B-crawler-results.json",
+        "baidu-supplement-20261123"
       ]
     },
     {
@@ -6035,19 +6043,20 @@
       "name": "临高县",
       "province": "海南省",
       "coordinateSystem": "BD-09",
-      "count": 519,
+      "count": 7123,
       "bounds": [
         109.58192928052947,
         19.587952941950864,
         109.8547169061794,
-        19.87687026152166
+        19.928108466567828
       ],
       "files": [
         "baidu/469024/points-001.json"
       ],
       "sources": [
         "baidu-010-0000-5B-crawler-results.json",
-        "baidu-010-0000-5D-crawler-results.json"
+        "baidu-010-0000-5D-crawler-results.json",
+        "baidu-supplement-20261123"
       ]
     },
     {
@@ -6056,7 +6065,7 @@
       "name": "白沙黎族自治县",
       "province": "海南省",
       "coordinateSystem": "BD-09",
-      "count": 1684,
+      "count": 7357,
       "bounds": [
         109.0518609382599,
         19.0773811934316,
@@ -6068,7 +6077,8 @@
       ],
       "sources": [
         "baidu-010-0000-5B-crawler-results.json",
-        "baidu-010-0000-5D-crawler-results.json"
+        "baidu-010-0000-5D-crawler-results.json",
+        "baidu-supplement-20261123"
       ]
     },
     {
@@ -6077,18 +6087,19 @@
       "name": "昌江黎族自治县",
       "province": "海南省",
       "coordinateSystem": "BD-09",
-      "count": 11,
+      "count": 9098,
       "bounds": [
         108.99555478959088,
-        19.324058969592866,
-        109.05011714760451,
+        19.249307499296197,
+        109.07335567722247,
         19.39321663088911
       ],
       "files": [
         "baidu/469026/points-001.json"
       ],
       "sources": [
-        "baidu-010-0000-5B-crawler-results.json"
+        "baidu-010-0000-5B-crawler-results.json",
+        "baidu-supplement-20261123"
       ]
     },
     {
@@ -6097,7 +6108,7 @@
       "name": "乐东黎族自治县",
       "province": "海南省",
       "coordinateSystem": "BD-09",
-      "count": 974,
+      "count": 3317,
       "bounds": [
         108.71392208857043,
         18.421011697220425,
@@ -6110,7 +6121,8 @@
       "sources": [
         "baidu-010-0000-5B-crawler-results.json",
         "baidu-010-0000-5C-crawler-results.json",
-        "baidu-010-0000-5D-crawler-results.json"
+        "baidu-010-0000-5D-crawler-results.json",
+        "baidu-supplement-20261123"
       ]
     },
     {
@@ -6119,10 +6131,10 @@
       "name": "陵水黎族自治县",
       "province": "海南省",
       "coordinateSystem": "BD-09",
-      "count": 591,
+      "count": 12168,
       "bounds": [
-        109.79685120931502,
-        18.418564618638985,
+        109.79401716099729,
+        18.405700400857928,
         110.18659569707002,
         18.5964769318413
       ],
@@ -6131,7 +6143,28 @@
       ],
       "sources": [
         "baidu-010-0000-5B-crawler-results.json",
-        "baidu-010-0000-5D-crawler-results.json"
+        "baidu-010-0000-5D-crawler-results.json",
+        "baidu-supplement-20261123"
+      ]
+    },
+    {
+      "id": "469029",
+      "adcode": "469029",
+      "name": "保亭黎族苗族自治县",
+      "province": "海南省",
+      "coordinateSystem": "BD-09",
+      "count": 6046,
+      "bounds": [
+        109.66859594215485,
+        18.631315026801218,
+        109.71937174501915,
+        18.71284383123075
+      ],
+      "files": [
+        "baidu/469029/points-001.json"
+      ],
+      "sources": [
+        "baidu-supplement-20261123"
       ]
     },
     {
@@ -6140,18 +6173,19 @@
       "name": "琼中黎族苗族自治县",
       "province": "海南省",
       "coordinateSystem": "BD-09",
-      "count": 163,
+      "count": 2092,
       "bounds": [
         109.5653380269184,
         18.998478196438278,
-        109.61625146795171,
+        109.86012206697622,
         19.07602900471438
       ],
       "files": [
         "baidu/469030/points-001.json"
       ],
       "sources": [
-        "baidu-010-0000-5D-crawler-results.json"
+        "baidu-010-0000-5D-crawler-results.json",
+        "baidu-supplement-20261123"
       ]
     },
     {
@@ -8604,12 +8638,132 @@
       }
     },
     {
+      "id": "659001",
+      "adcode": "659001",
+      "name": "石河子市",
+      "province": "新疆维吾尔自治区",
+      "coordinateSystem": "BD-09",
+      "count": 52874,
+      "bounds": [
+        85.98332562031854,
+        44.27471106435484,
+        86.1300742788573,
+        44.369383456850294
+      ],
+      "files": [
+        "baidu/659001/points-001.json"
+      ],
+      "sources": [
+        "baidu-supplement-20261123"
+      ]
+    },
+    {
+      "id": "659002",
+      "adcode": "659002",
+      "name": "阿拉尔市",
+      "province": "新疆维吾尔自治区",
+      "coordinateSystem": "BD-09",
+      "count": 10487,
+      "bounds": [
+        81.24382402819705,
+        40.501451760990086,
+        81.32823279084747,
+        40.56851598817705
+      ],
+      "files": [
+        "baidu/659002/points-001.json"
+      ],
+      "sources": [
+        "baidu-supplement-20261123"
+      ]
+    },
+    {
+      "id": "659003",
+      "adcode": "659003",
+      "name": "图木舒克市",
+      "province": "新疆维吾尔自治区",
+      "coordinateSystem": "BD-09",
+      "count": 11796,
+      "bounds": [
+        79.02390535690446,
+        39.84266829444683,
+        79.11420856064552,
+        39.8905166024525
+      ],
+      "files": [
+        "baidu/659003/points-001.json"
+      ],
+      "sources": [
+        "baidu-supplement-20261123"
+      ]
+    },
+    {
+      "id": "659004",
+      "adcode": "659004",
+      "name": "五家渠市",
+      "province": "新疆维吾尔自治区",
+      "coordinateSystem": "BD-09",
+      "count": 5760,
+      "bounds": [
+        87.51853429780266,
+        44.13139643554325,
+        87.56946056843891,
+        44.18770998914088
+      ],
+      "files": [
+        "baidu/659004/points-001.json"
+      ],
+      "sources": [
+        "baidu-supplement-20261123"
+      ]
+    },
+    {
+      "id": "659007",
+      "adcode": "659007",
+      "name": "双河市",
+      "province": "新疆维吾尔自治区",
+      "coordinateSystem": "BD-09",
+      "count": 443,
+      "bounds": [
+        82.08744607002836,
+        44.841527125203896,
+        82.16168845144924,
+        44.901308565905794
+      ],
+      "files": [
+        "baidu/659007/points-001.json"
+      ],
+      "sources": [
+        "baidu-supplement-20261123"
+      ]
+    },
+    {
+      "id": "659012",
+      "adcode": "659012",
+      "name": "白杨市",
+      "province": "新疆维吾尔自治区",
+      "coordinateSystem": "BD-09",
+      "count": 44,
+      "bounds": [
+        82.90445167356559,
+        46.728990400505246,
+        82.9258711632112,
+        46.75746316832902
+      ],
+      "files": [
+        "baidu/659012/points-001.json"
+      ],
+      "sources": [
+        "baidu-supplement-20261123"
+      ]
+    },
+    {
       "id": "659900",
       "adcode": "659900",
       "name": "新疆未匹配（源导出）",
       "province": "新疆维吾尔自治区",
       "coordinateSystem": "BD-09",
-      "count": 3123,
+      "count": 3119,
       "bounds": [
         79.02616994504376,
         37.061145236508835,
@@ -8842,35 +8996,14 @@
       "files": [
         "baidu/826001/points-001.json"
       ]
-    },
-    {
-      "id": "990001",
-      "adcode": "990001",
-      "name": "行政区待确认",
-      "province": "行政区待确认",
-      "coordinateSystem": "BD-09",
-      "count": 5,
-      "bounds": [
-        122.36865829459286,
-        45.88818847620304,
-        123.3715284523801,
-        46.23327912120778
-      ],
-      "files": [
-        "baidu/990001/points-001.json"
-      ],
-      "sources": [
-        "baidu-010-0000-5B-crawler-results.json",
-        "baidu-010-0000-5C-crawler-results.json"
-      ]
     }
   ],
   "importSummary": {
-    "sourceFiles": 322,
-    "rawRecords": 18485909,
-    "uniquePanoids": 18363409,
+    "sourceFiles": 323,
+    "rawRecords": 18764426,
+    "uniquePanoids": 18640707,
     "exactDuplicates": 21202,
-    "differingDuplicates": 101298,
+    "differingDuplicates": 102517,
     "invalidRecords": 0,
     "inputCoordinateSystem": "mixed",
     "archiveCoordinateSystem": "BD-09",
@@ -12322,6 +12455,19 @@
           "469028": 54,
           "469030": 163
         }
+      },
+      {
+        "name": "baidu-supplement-20261123.zip",
+        "bytes": 22886141,
+        "sha256": "838b229ed9ce2d54e3659edede934d9bf7b3b4547700e9f48f2582683dac769b",
+        "rawRecords": 278517,
+        "uniquePanoids": 277302,
+        "exactDuplicates": 0,
+        "differingDuplicates": 1215,
+        "invalidRecords": 0,
+        "inputCoordinateSystem": "GCJ-02",
+        "sourceFormat": "baidu-admin-supplement-zip",
+        "version": "20261123-admin-supplement"
       }
     ],
     "inputCoordinateSystems": [

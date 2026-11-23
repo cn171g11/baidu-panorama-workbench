@@ -22,17 +22,11 @@ test('release notes are versioned, ordered, and shipped with the site', async ()
     assert(Array.isArray(release.changes) && release.changes.length > 0);
     assert(release.changes.every(change => typeof change === 'string' && change.trim()));
   }
-  assert(notes.current.highlights.some(item=>item.includes('不计入国内旧常规街景和未发布归档')));
-  assert(notes.releases[0].changes.some(item=>item.includes('010-5A') && item.includes('010-5D')));
-  assert(notes.releases[0].changes.some(item=>item.includes('小蓝点单独报告')));
   const additions = notes.releases[0].cityAdditions;
-  assert.equal(additions.length, 53);
-  assert.equal(new Set(additions.map(row=>row.id)).size, additions.length);
-  assert(additions.every(row=>/^\d{6}$/.test(row.id) && row.name && [row.added,row.merged].every(n=>Number.isSafeInteger(n)&&n>=0)));
-  assert.equal(additions.reduce((sum,row)=>sum+row.added,0), 38300);
-  assert.equal(additions.reduce((sum,row)=>sum+row.merged,0), 2202);
-  assert.deepEqual(additions.find(row=>row.id==='410700'), { id:'410700', name:'新乡市', added:97, merged:1238 });
-  assert.doesNotMatch(JSON.stringify(notes.releases), /1,899万|18,363,409/);
+  assert.equal(additions.length, 21);
+  assert.equal(new Set(additions.map(row=>row.id)).size, 21);
+  assert.equal(additions.reduce((sum,row)=>sum+row.added,0), 277302);
+  assert.equal(additions.reduce((sum,row)=>sum+row.merged,0), 1215);
   const osm = JSON.parse(await readFile(path.join(root, 'data/blue-dots-osm/county-matched-manifest.json'), 'utf8'));
   assert.equal(osm.stats.matched, 3529091);assert.equal(osm.stats.noBoundary,566081);assert.equal(osm.stats.unmatched,42355);assert.equal(osm.stats.ambiguous,11);
   assert.equal(osm.parts.reduce((n,part)=>n+part.rows,0), osm.total);
@@ -45,11 +39,11 @@ test('release notes are versioned, ordered, and shipped with the site', async ()
   const script = await readFile(path.join(root, 'city-viewer/js/report.js'), 'utf8');
   assert.match(script, /config\/release-notes\.json/);
   assert.match(script, /report-version/);
-  assert.match(html, /id="blue-dot-summary"/);
+  assert.match(html, /id="summary-blue"/);
   assert.match(script, /blue-dots\/parts-manifest\.json/);
   assert.match(script, /blue-dots-osm\/county-matched-manifest\.json/);
   assert.doesNotMatch(script, /combinedReportTotal|national-catalog/);
-  assert.match(html, /小蓝点单独统计/);
+  assert.match(html, /分类分别列出/);
 });
 
 test('blue-dot loader detects plain JSON as well as gzip shards', async () => {

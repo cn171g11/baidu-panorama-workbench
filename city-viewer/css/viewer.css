@@ -2,7 +2,12 @@
 .viewer-legend { position:absolute; z-index:500; left:12px; bottom:25px; display:flex; flex-wrap:wrap; gap:10px; max-width:calc(100% - 170px); padding:7px 10px; background:#0f141ce8; border:1px solid #2c3540; border-radius:6px; font-size:11px; pointer-events:none; }
 .viewer-legend small { width:100%; color:#8b98a5; font-size:10px; }
 .legend-regular { color:#FFD400; }.legend-hidden { color:#ff5555; }.legend-time { color:#b47af0; }.legend-unknown { color:#00e5ff; }.legend-blue { color:#27A9FF; }
+/* Filtered-out legend items fade so the active type filter is visible on the map itself. */
+.viewer-legend [data-kind] { transition:opacity .12s linear; }
+.viewer-legend [data-kind].legend-muted { opacity:.32; }
+.viewer-legend [data-kind][aria-current="true"] { font-weight:600; text-decoration:underline; text-underline-offset:2px; }
 .kind-field { max-width:145px; }.official-note { color:#96a4b6; font-size:10px; line-height:1.5; }
+.kind-field select.blue-kind { border-color:#27A9FF; color:#8fd0ff; }
 @media(max-width:680px){.kind-field {order:6;max-width:130px;}.viewer-legend{bottom:22px;left:7px;gap:6px;padding:5px;max-width:calc(100% - 145px);font-size:10px;}.viewer-legend small{display:none;}}
 
 .loading-overlay { position:absolute; z-index:900; top:50%; left:50%; transform:translate(-50%,-50%); width:min(420px,calc(100% - 32px)); padding:18px 20px; background:#111923f5; border:1px solid #5b6d80; border-radius:8px; box-shadow:0 10px 35px #0009; display:grid; gap:8px; color:#e6edf3; }

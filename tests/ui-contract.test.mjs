@@ -88,7 +88,10 @@ test('report counts only the published catalog and uses child-path assets', asyn
   assert.doesNotMatch(js, /loadLocalRows|localStorage/i);
   assert.match(html, /尚无已发布点位/);
   assert.match(html, /id="report-total" data-ready="false"/);
-  assert.match(js, /total\.dataset\.ready = 'true'/);
+  // The combined street + blue total is published once the blue city manifest is verified.
+  assert.match(js, /total\.dataset\.ready\s*=\s*'true'/);
+  assert.match(js, /已发布总点位/);
+  assert.match(js, /小蓝点/);
 });
 
 test('responsive styles cover narrow devices without viewport-scaled type', async () => {

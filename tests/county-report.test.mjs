@@ -110,7 +110,7 @@ test('report is metadata-only and preserves stable controls/time cards with name
   assert.doesNotMatch(js,/data\/baidu|points-\d+|national-catalog|descriptorOnly|combinedReportTotal/);
   assert.match(js,/blue-dots\/parts-manifest\.json/);
   assert.match(js,/createElement\('details'\);countyDetails\.className='report-county-details'/);
-  assert.match(js,/cell\.colSpan=10/);
+  assert.match(js,/cell\.colSpan=11/);
   for(const id of ['report-total','summary-total','summary-regular','summary-hidden','summary-time-machine','summary-unknown','report-time-summary','report-county-summary','report-search','report-hidden-only'])assert.match(html,new RegExp(`id="${id}"`));
   assert.match(html,/省份、城市或县\/区/);
   assert.match(html,/完整分类/);

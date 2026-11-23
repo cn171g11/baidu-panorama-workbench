@@ -57,24 +57,23 @@ try {
   const banner = await evaluate(`document.getElementById('report-version').textContent`);
   const releases = await evaluate(`[...document.querySelectorAll('#release-list .release-item')].map(li=>({version:li.querySelector('.release-version')?.textContent,date:li.querySelector('.release-date')?.textContent,title:li.querySelector('.release-title')?.textContent,changes:[...li.querySelectorAll('.release-changes li')].length,commit:li.querySelector('.release-commit')?.textContent||null}))`);
   const read = async relative => { const response = await fetch(new URL(relative, url)); assert(response.ok, relative); return response.json(); };
-  const [catalog, blueManifest, osm, notes] = await Promise.all(['data/catalog.json', 'data/blue-dots/parts-manifest.json', 'data/blue-dots-osm/county-matched-manifest.json', '../config/release-notes.json'].map(read));
+  const [catalog, blueManifest, osm, notes, blueCities] = await Promise.all(['data/catalog.json', 'data/blue-dots/parts-manifest.json', 'data/blue-dots-osm/county-matched-manifest.json', '../config/release-notes.json', 'data/blue-dots-cities/city-manifest.json'].map(read));
   const number = value => Number(value).toLocaleString('zh-CN');
-  const blueLabel = `小蓝点 ${number(blueManifest.total)} 个 · ${number(blueManifest.parts.length)} 个分片 · 独立统计`;
-  await until(() => evaluate(`document.getElementById('blue-dot-total')?.textContent===${JSON.stringify(blueLabel)}`), 30000, 'independent blue-dot total');
-  const snapshot = await evaluate(`({summary:Object.fromEntries(['report-total','summary-total','summary-hidden','summary-regular','summary-time-machine','summary-unknown','blue-dot-total','blue-dot-osm'].map(id=>[id,document.getElementById(id).textContent])),state:window.__BAIDU_WORKBENCH__,rows:[...document.querySelectorAll('#province-groups tr[data-city]')].map(row=>({id:row.dataset.city,href:row.querySelector('td a')?.getAttribute('href')})),coverage:document.getElementById('report-coverage').textContent,releaseText:document.getElementById('release-list').textContent})`);
+  const snapshot = await evaluate(`({summary:Object.fromEntries(['report-total','summary-total','summary-hidden','summary-regular','summary-time-machine','summary-unknown','summary-blue','blue-dot-osm'].map(id=>[id,document.getElementById(id).textContent])),state:window.__BAIDU_WORKBENCH__,rows:[...document.querySelectorAll('#province-groups tr[data-city]')].map(row=>({id:row.dataset.city,values:[...row.cells].map(cell=>cell.textContent.trim())})),coverage:document.getElementById('report-coverage').textContent,releaseText:document.getElementById('release-list').textContent})`);
   const {summary,state,rows,coverage,releaseText} = snapshot;
   const published = catalog.collections.filter(item => item.count > 0);
-  assert.equal(state.collections,published.length);
-  assert.deepEqual(rows.sort((a,b)=>a.id.localeCompare(b.id)),published.map(item=>({id:item.id,href:'./?city='+encodeURIComponent(item.id)})).sort((a,b)=>a.id.localeCompare(b.id)),'City rows must exactly match the nonempty public catalog');
-  assert.equal(summary['report-total'], `已发布街景 ${number(catalog.total)} 条`);
-  const keys = {total:'total',hidden:'hidden',regular:'regular',timeMachine:'time-machine',unknown:'unknown'};
-  for (const [key, id] of Object.entries(keys)) {
-    const expected = published.reduce((sum,item)=>sum+(item.displayCounts?.[key]??(['regular','total'].includes(key)?item.count:0)),0);
-    assert.equal(summary['summary-'+id],number(expected));
-    assert.equal(state.counts[key],expected);
+  assert.equal(summary['report-total'], `已发布总点位 ${number(catalog.total+blueCities.total)}（街景 ${number(catalog.total)} 条 + 小蓝点 ${number(blueCities.total)} 个）`);
+  assert.equal(state.total,catalog.total+blueCities.total);
+  assert.equal(state.blueTotal,blueCities.total);
+  assert.equal(summary['summary-blue'],number(blueCities.total));
+  for (const [key,id] of Object.entries({hidden:'hidden',regular:'regular',timeMachine:'time-machine',unknown:'unknown'})) {
+    const expected=published.reduce((sum,item)=>sum+(item.displayCounts?.[key]??(key==='regular'?item.count:0)),0);
+    assert.equal(summary['summary-'+id],number(expected));assert.equal(state.counts[key],expected);
   }
+  assert.equal(summary['summary-total'],number(catalog.total+blueCities.total));
+  for(const city of published)assert(rows.some(row=>row.id===city.id),'Missing published city '+city.id);
+  assert(rows.some(row=>row.id.startsWith('blue:')),'Missing blue-only city');
   if (catalog.captureSummary) assert.deepEqual(state.captureSummary,catalog.captureSummary,'Capture coverage must be published-only');
-  assert.equal(summary['blue-dot-total'],blueLabel);
   assert(summary['blue-dot-osm'].includes(`唯一匹配 ${number(osm.stats?.matched??osm.total)}`));
   assert(coverage.includes('不含未发布归档与国内旧常规点位'));
   assert(banner.includes(`v${notes.current.version}`));

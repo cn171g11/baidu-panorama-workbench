@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { categoryFor, countCategories } from '../city-viewer/js/classification.js';
-import { aggregate, countFor } from '../city-viewer/js/report.js';
+import { aggregate, countFor, mergeBlueCities } from '../city-viewer/js/report.js';
 
 test('classification prioritizes source type and explicit visibility evidence', () => {
   assert.equal(categoryFor(["id", 1, 2, "", "", null, false, true, "baidu", { sourceType: 'time-machine', isHidden: true }]), 'time-machine');
@@ -19,4 +19,13 @@ test('report structure contains cards, collapsible groups, ratio bars, filter an
   const css = await (await import('node:fs/promises')).readFile(new URL('../city-viewer/css/report.css', import.meta.url), 'utf8');
   assert.match(html, /summary-cards/); assert.match(html, /province-groups/); assert.match(html, /report-hidden-only/); assert.match(html, /data-sort="timeMachine"/);
   assert.match(css, /province-card/); assert.match(css, /ratio-bar/); assert.match(css, /details/);
+});
+
+test('blue city totals merge by normalized city and preserve blue-only groups',()=>{
+ const g=aggregate([{id:'371600',name:'滨州市',province:'山东省',count:5,displayCounts:{regular:0,hidden:5,timeMachine:0,unknown:0,total:5}}]);
+ mergeBlueCities(g,{total:7,collections:[{key:'a',province:'山东省',name:'滨州',count:3},{key:'b',province:'山东省',name:'德州',count:4}]});
+ assert.deepEqual(g.total,{regular:0,hidden:5,timeMachine:0,unknown:0,total:12,blue:7});
+ assert.equal(g.provinces[0].cities[0].counts.total,8);
+ assert.equal(g.provinces[0].cities[1].item.blueOnly,true);
+ assert.throws(()=>mergeBlueCities(aggregate([]),{total:2,collections:[{province:'X',name:'Y',count:1}]}),/合计/);
 });

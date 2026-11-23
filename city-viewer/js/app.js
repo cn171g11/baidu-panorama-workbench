@@ -11,6 +11,11 @@ import { createMap, renderMap, bindMapInteractions, highlightRow, fitRows, setBa
 const PAGE_SIZE = 50;
 const GLOBAL_COLLECTION_ID = '191001';
 const isOverseasCollection = city => city.province === '海外';
+// The type filter drives two independent layers: street rows (source labels) and the
+// separate 小蓝点 layer. `blue` is a layer scope, never a street category.
+const KIND_LABELS = Object.freeze({ all: '全部类型', regular: '常规', hidden: '隐藏 · 源标注', 'time-machine': '时光机 · 源标注', unknown: '未知', blue: '小蓝点' });
+const STREET_KINDS = Object.freeze(['regular', 'hidden', 'time-machine', 'unknown']);
+const KIND_VALUES = Object.freeze(['all', ...STREET_KINDS, 'blue']);
 const $ = (id) => document.getElementById(id);
 const elements = {
   summaryCities: $('summary-cities'), summaryRaw: $('summary-raw'), summaryUnique: $('summary-unique'), summaryDuplicates: $('summary-duplicates'),
@@ -41,12 +46,23 @@ function resizeToolbar() {
   document.body.style.setProperty('--toolbar-height',height+'px');
   state.map?.map.invalidateSize({debounceMoveend:true});
 }
-function updateHud() {
+// One owner for the 匹配点 counter so it always reflects the filtered layers.
+function mapMatchText(){
+  const kind=currentKind(), blue=blueRowsVisible().length;
+  if(kind==='blue')return `${blue.toLocaleString()} 条小蓝点`;
+  const parts=[`街景 ${state.visibleRows.length.toLocaleString()}`];
+  if(kind==='all')parts.push(`小蓝点 ${blue.toLocaleString()}`);
+  return parts.join(' · ');
+}
+function updateMapCount(){
+  const rendered=state.map?.renderedCount||0;
+  elements.mapCount.textContent=`视野 ${rendered.toLocaleString()} / 匹配 ${mapMatchText()}`;
+}function updateHud() {
   if(!state.map)return;
   $('hud-zoom').textContent='Z '+state.map.map.getZoom()+' · '+(state.map.actualMode==='density-grid'?'密度网格':'散点');
   const coordinateSystem=state.map.basemap.startsWith('amap')?'GCJ-02':'WGS84';
   $('coordinate-label').textContent='元数据 BD-09 · 底图 '+coordinateSystem;
-  elements.mapCount.textContent=`视野 ${state.map.renderedCount.toLocaleString()} / 匹配 ${state.visibleRows.length.toLocaleString()}`;
+  updateMapCount();
   // 显示当前已加载的点位总数（街景 + 小蓝点）
   const loadedTotal=allRows().length+state.blueRows.length;
   $('hud-loaded-count').textContent=`已加载 ${loadedTotal.toLocaleString()} 条点位`;
@@ -61,10 +77,24 @@ function updateStatus() {
   const name=loaded?loaded.name+(county?' / '+county.name:'')+part:null;
   const blueTotal=state.blueManifestTotal||0;const combinedTotal=state.totalPublished+blueTotal;
   const waiting = state.loadFeedback?.pending.map(job => job.label).join('、');
-  elements.source.querySelector('span:last-child').textContent=waiting?`加载中：${waiting}`:`Pages ${state.catalog.collections.length} 集合 · 街景 ${state.totalPublished.toLocaleString()} · 小蓝点 ${blueTotal.toLocaleString()} · 百度`;
-  $('fit-city').disabled=state.visibleRows.length===0&&blueRowsForSelection().length===0;
-  const counts=countCategories(state.visibleRows);
-  $('map-hint').textContent=state.visibleRows.length?`${state.visibleRows.length.toLocaleString()} 个匹配点 · 常规 ${counts.regular.toLocaleString()} / 隐藏 ${counts.hidden.toLocaleString()} / 时光机 ${counts.timeMachine.toLocaleString()} · 点击地图查看最近点`:'选择省份、城市或全球集合；选县区可缩小街景范围';
+  const kindFilter=currentKind()==='all'?'':` · 筛选 ${kindLabel()}`;
+  elements.source.querySelector('span:last-child').textContent=waiting?`加载中：${waiting}`:`Pages ${state.catalog.collections.length} 集合 · 街景 ${state.totalPublished.toLocaleString()} · 小蓝点 ${blueTotal.toLocaleString()} · 百度${kindFilter}`;
+  $('fit-city').disabled=state.visibleRows.length===0&&blueRowsVisible().length===0;
+  const counts=countCategories(state.visibleRows), blueVisible=blueRowsVisible().length, hints=[];
+  if(state.visibleRows.length)hints.push(`${state.visibleRows.length.toLocaleString()} 个匹配街景点 · 常规 ${counts.regular.toLocaleString()} / 隐藏 ${counts.hidden.toLocaleString()} / 时光机 ${counts.timeMachine.toLocaleString()}`);
+  if(blueVisible)hints.push(`小蓝点 ${blueVisible.toLocaleString()} 个`);
+  $('map-hint').textContent=hints.length?`${hints.join(' · ')} · 点击地图查看最近点`:`选择省份、城市或全球集合；选县区可缩小街景范围`;
+}
+// Keep the legend and its note explicit about which layers the current type filter shows.
+function updateKindChrome(){
+  const kind=currentKind(), note=$('legend-note'), select=$('kind-filter');
+  select?.classList?.toggle?.('blue-kind',kind==='blue');
+  if(note)note.textContent=kind==='all'?'类型按源标注 · 同时显示街景与小蓝点':kind==='blue'?'仅显示小蓝点图层 · 街景已隐藏':`仅显示${kindLabel()}街景 · 小蓝点已隐藏`;
+  document.querySelectorAll?.('.viewer-legend [data-kind]').forEach(node=>{
+    const active=kind==='all'||node.dataset.kind===kind;
+    node.classList?.toggle('legend-muted',!active);
+    node.setAttribute?.('aria-current',active&&kind!=='all'?'true':'false');
+  });
 }
 let noticeTimer;
 function announce(message) {
@@ -86,7 +116,8 @@ function refreshSnapshot() {
       selectedPanoid: state.selected?.[0] || null, mapAvailable: Boolean(state.map), mapMode: state.mode,
       mapRenderedCount: state.map?.renderedCount || 0, mapGridCells: state.map?.grid.size || 0, mapBlueGridCells: state.map?.blueGrid?.size || 0,
       blueCount: state.blueRows.length, blueVisibleCount: blueRowsForSelection().length, blueRenderedCount: state.map?.bluePoints?.length || 0, blueProvince: elements.province.value || null,
-      basemap:state.map?.basemap, actualMapMode:state.map?.actualMode, drawnSymbols:state.map?.drawnSymbols||0, kind:$('kind-filter').value,
+      basemap:state.map?.basemap, actualMapMode:state.map?.actualMode, drawnSymbols:state.map?.drawnSymbols||0, kind:currentKind(), kindLabel:kindLabel(),
+      blueLayerVisible: blueLayerShown(), blueMapCount: blueRowsVisible().length,
       collections: state.catalog?.collections.length || 0, blueTotal:state.blueManifestTotal, combinedTotal:state.totalPublished+state.blueManifestTotal, layout:'fullscreen-map', popupOpen:!!state.map?.popup, listOpen:state.listOpen, loading:state.loading,
       streetLoading: Boolean(state.streetLoading), blueLoading: Boolean(state.blueLoading), blueScope:state.blueScope||null, blueCity:state.blueCity||null, loadFeedback: state.loadFeedback || { pending: [], error: null },
     }),
@@ -407,11 +438,22 @@ function filtered(rows) {
   if (elements.province.value) rows = rows.filter(row=>row.__province===elements.province.value);
   if (elements.city.value) rows = rows.filter(row=>row.__collectionId===elements.city.value);
   if(elements.county.value&&elements.county.value!=='all')rows=rows.filter(row=>row.__countyId===elements.county.value);
-  const kind=$('kind-filter').value;
-  if(kind!=='all') rows=rows.filter(row=>categoryFor(row)===kind && categoryFor(row)!=='blue');
+  // The 小蓝点 option is a layer scope: it shows the separate blue layer and hides street rows.
+  const kind=currentKind();
+  if(kind==='blue')return [];
+  // Street rows are classified only by categoryFor(); blue rows never become a street category.
+  rows=rows.filter(row=>categoryFor(row)!=='blue');
+  if(kind!=='all')rows=rows.filter(row=>categoryFor(row)===kind);
   const seen = new Set();
   return rows.filter((row) => { if (seen.has(row[0])) return false; seen.add(row[0]); return true; });
 }
+function currentKind(){
+  const value=$('kind-filter')?.value||'all';
+  return KIND_VALUES.includes(value)?value:'all';
+}
+function kindLabel(kind=currentKind()){return KIND_LABELS[kind]||KIND_LABELS.all;}
+// 全部类型 shows both layers; a street type hides the blue layer; 小蓝点 shows only blue.
+function blueLayerShown(){const kind=currentKind();return kind==='all'||kind==='blue';}
 function updateMapButtons() {
   document.querySelectorAll('[data-map-mode]').forEach(button => {
     const active = button.dataset.mapMode === state.mode;
@@ -434,6 +476,8 @@ function blueRowsForSelection() {
   }
   return rows;
 }
+// Rows that actually reach the map/匹配点 counter: the layer scope must be enabled first.
+function blueRowsVisible(){return blueLayerShown()?blueRowsForSelection():[];}
 function blueCountyOptions(city) {
   const normalizedCity=name=>String(name||'').replace(/市$/,'');
   const rows = state.blueRows.filter(row => normalizedCity(row.__blueCity) === normalizedCity(city));
@@ -448,7 +492,9 @@ function blueCountyOptions(city) {
 }
 function updateView() {
   const rows = allRows();
-  const blueVisibleRows = blueRowsForSelection();
+  const kind=currentKind(), blueScopedRows=blueRowsForSelection(), blueVisibleRows=blueRowsVisible();
+  state.blueVisibleCount=blueScopedRows.length;
+  state.blueMapCount=blueVisibleRows.length;
   state.visibleRows = filtered(rows);
   state.page = Math.min(state.page, Math.max(0, Math.ceil(state.visibleRows.length / PAGE_SIZE) - 1));
   const count = state.visibleRows.length;
@@ -456,18 +502,22 @@ function updateView() {
   $('load-global').setAttribute('aria-pressed',String(Boolean(state.globalSelected)));
   updateMapButtons();
   elements.count.textContent = String(count);
-  elements.mapCount.textContent = `${count} 条`;
   elements.export.disabled = count === 0;
   const localError = $('empty-title').dataset.localError;
-  const hasBlue = state.blueRows.length > 0;
+  const hasBlueLoaded = state.blueRows.length > 0;
+  const hasBlueVisible = blueVisibleRows.length > 0;
+  const blueHiddenByKind = hasBlueLoaded && !blueLayerShown();
   let title, description;
   if (localError && !rows.length) {
     title = '本地保存数据无法读取';
     description = `${localError}。原缓存未删除，可在导入窗口明确选择“删除本地导入”后重试。`;
-  } else if (hasBlue && !rows.length) {
-    // 该省暂无已发布街景，仅有小蓝点：不要用“请选择城市”的遮罩盖住蓝点。
-    title = `小蓝点 ${state.blueRows.length.toLocaleString()} 个`;
+  } else if (hasBlueVisible && !count) {
+    // 仅有小蓝点（或筛选为小蓝点）：不要用“请选择城市”的遮罩盖住蓝点。
+    title = kind==='blue' ? `小蓝点 ${blueVisibleRows.length.toLocaleString()} 个（仅小蓝点图层）` : `小蓝点 ${blueVisibleRows.length.toLocaleString()} 个`;
     description = `${elements.province.value}${state.blueCity?' / '+state.blueCity:''} 当前显示小蓝点。选市会停止省级加载，只下载所选市的完整蓝点分片；街景与蓝点独立显示。`;
+  } else if (blueHiddenByKind && !count) {
+    title = `当前筛选（${kindLabel()}）隐藏了小蓝点`;
+    description = '要查看小蓝点请选择“全部类型”或“小蓝点”。街景类型筛选只作用于街景图层，不影响已加载的蓝点数据。';
   } else if (!rows.length && selectedStreetCollections().length) {
     title = '载入当前范围的街景';
     description = '选择省份或城市后自动载入全部已发布街景分片。选择城市会取消省级加载，选择县区可进一步缩小范围。';
@@ -479,16 +529,17 @@ function updateView() {
     description = `网站已发布 ${state.totalPublished.toLocaleString()} 条百度街景元数据。选择范围后自动载入对应分片，不自动下载全国点位。`;
   } else if (rows.length) {
     title = '没有符合条件的记录';
-    description = '调整搜索词、省市或日期筛选，或清除条件查看其他记录。';
+    description = '调整搜索词、省市、日期或类型筛选，或清除条件查看其他记录。';
   } else {
     title = '尚无已发布的百度街景元数据';
     description = '等待用户提供百度元数据。当前真实点位数为 0，不使用示例或其他来源点位填充。';
   }
   $('empty-title').textContent = title;
   $('empty-description').textContent = description;
-  elements.empty.hidden = count > 0 || hasBlue || state.loading || Boolean(state.loadFeedback?.error);
+  elements.empty.hidden = count > 0 || hasBlueVisible || state.loading || Boolean(state.loadFeedback?.error);
   elements.list.hidden = count === 0;
   $('list-empty').hidden=count>0;
+  $('list-empty').textContent = kind==='blue' ? '小蓝点只显示在地图上，不进入街景列表；切回“全部类型”或其他类型查看街景记录。' : '没有匹配点位。请选择城市或调整筛选。';
   elements.mapEmpty.hidden = true;
   $('empty-load').hidden=!selectedStreetCollections().length||count>0;
   $('empty-load').disabled=$('load-city').disabled;
@@ -501,10 +552,12 @@ function updateView() {
   elements.pageNumber.textContent = `${state.page + 1} / ${totalPages}`;
   elements.prev.disabled = state.page === 0;
   elements.next.disabled = state.page >= totalPages - 1;
-  const showContext=!elements.search.value.trim()&&(elements.road.value.trim()||elements.date.value||$('kind-filter').value!=='all');
+  // Street context dots stay off the 小蓝点-only view so that layer really is blue-only.
+  const showContext=kind!=='blue'&&!elements.search.value.trim()&&(elements.road.value.trim()||elements.date.value||kind!=='all');
   renderMap(state.map, state.visibleRows, state.mode, showContext?rows:[], blueVisibleRows);
   if (!state.visibleRows.includes(state.selected)) showDetail(null);
-  updateStatus(); updateHud();
+  updateStatus(); updateMapCount(); updateHud();
+  updateKindChrome();
   refreshSnapshot();
 }
 function makeTableRow(row) {
@@ -652,7 +705,8 @@ $('close-list').addEventListener('click',()=>{setListOpen(false);refreshSnapshot
 $('toggle-filters').addEventListener('click',()=>{const open=$('extra-filters').hidden;$('extra-filters').hidden=!open;$('toggle-filters').setAttribute('aria-expanded',String(open));resizeToolbar();});
 $('kind-filter').addEventListener('change',()=>{state.page=0;updateView();});
 $('clear-filters').addEventListener('click',()=>{elements.search.value='';elements.road.value='';elements.date.value='';$('kind-filter').value='all';state.page=0;updateView();});
-$('fit-city').addEventListener('click',()=>fitRows(state.map,state.visibleRows.length?state.visibleRows:blueRowsForSelection()));
+// 全览 should frame whatever the current filter actually shows on the map.
+$('fit-city').addEventListener('click',()=>{const rows=state.visibleRows.length?state.visibleRows:blueRowsVisible();fitRows(state.map,rows);});
 $('basemap-select').addEventListener('change',()=>setBasemap(state.map,$('basemap-select').value));
 $('empty-load').addEventListener('click',()=>$('load-city').click());
 $('loading-cancel').addEventListener('click',()=>{loadFeedback.cancel();updateView();});
@@ -723,12 +777,14 @@ if(typeof ResizeObserver==='function')new ResizeObserver(resizeToolbar).observe(
 window.addEventListener('resize',resizeToolbar);
 resizeToolbar();updateHud();
 loadData().then(async()=>{
-  const params=new URLSearchParams(location.search),id=params.get('city'),kind=params.get('kind')||'all';
-  if(['all','regular','hidden','time-machine','unknown'].includes(kind))$('kind-filter').value=kind;
+  const params=new URLSearchParams(location.search),id=params.get('city'),requested=params.get('kind');
+  // `?kind=` accepts street source types plus the 小蓝点 layer scope; absent/unknown stays 全部类型.
+  const kind=KIND_VALUES.includes(requested)?requested:'all';
+  if(KIND_VALUES.includes(requested))$('kind-filter').value=kind;
   const collection=state.collectionById.get(id);
   if(collection && collection===globalCollection()){
     openGlobalCollection();
-    if(['all','regular','hidden','time-machine','unknown'].includes(kind))$('kind-filter').value=kind;
+    if(KIND_VALUES.includes(requested))$('kind-filter').value=kind;
   } else if(collection && !isOverseasCollection(collection)){
     elements.province.value=collection.province;syncCities();elements.city.value=collection.id;syncCounties();
     if(collection.partition===COUNTY_PARTITION&&collection.count>0){
@@ -738,6 +794,9 @@ loadData().then(async()=>{
       const shard=params.get('part');if(shard&&[...elements.shard.options].some(option=>option.value===shard))elements.shard.value=shard;
     }
     loadCurrentScope();
+  } else if(KIND_VALUES.includes(kind)) {
+    // Deep link asked for a type scope only: apply it to the current catalogue view.
+    updateView();
   }
 }).catch((error) => { elements.source.querySelector('span:last-child').textContent = '百度元数据源：加载失败'; setMessage(error.message, 'error'); elements.empty.hidden = false; });
 

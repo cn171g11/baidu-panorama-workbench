@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
   "provider": "baidu",
-  "sourceFiles": 322,
-  "rawRecords": 18485909,
-  "uniquePanoids": 18363409,
+  "sourceFiles": 323,
+  "rawRecords": 18764426,
+  "uniquePanoids": 18640707,
   "exactDuplicates": 21202,
-  "differingDuplicates": 101298,
+  "differingDuplicates": 102517,
   "invalidRecords": 0,
   "inputCoordinateSystem": "mixed",
   "archiveCoordinateSystem": "BD-09",
@@ -3457,6 +3457,19 @@
         "469028": 54,
         "469030": 163
       }
+    },
+    {
+      "name": "baidu-supplement-20261123.zip",
+      "bytes": 22886141,
+      "sha256": "838b229ed9ce2d54e3659edede934d9bf7b3b4547700e9f48f2582683dac769b",
+      "rawRecords": 278517,
+      "uniquePanoids": 277302,
+      "exactDuplicates": 0,
+      "differingDuplicates": 1215,
+      "invalidRecords": 0,
+      "inputCoordinateSystem": "GCJ-02",
+      "sourceFormat": "baidu-admin-supplement-zip",
+      "version": "20261123-admin-supplement"
     }
   ],
   "inputCoordinateSystems": [

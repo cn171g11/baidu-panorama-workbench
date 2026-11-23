@@ -30,7 +30,7 @@
 .report-head { display:flex; justify-content:space-between; gap:24px; align-items:flex-end; margin-bottom:22px; }
 .report-subtitle { color:#9da8b5; font-size:12px; }
 .report-status { color:#cbd4dd; font-size:13px; white-space:nowrap; }
-.summary-cards { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:12px; margin-bottom:18px; }
+.summary-cards { display:grid; grid-template-columns:repeat(6,minmax(0,1fr)); gap:12px; margin-bottom:18px; }
 .summary-card { padding:16px; border:1px solid #303945; border-radius:7px; background:#171d24; }
 .summary-card span { display:block; color:#8995a3; font-size:11px; }
 .summary-card strong { display:block; margin-top:7px; color:#f0f3f6; font-size:22px; font-variant-numeric:tabular-nums; }
@@ -82,3 +82,5 @@
 .merged-street-summary th,.merged-street-summary td { padding:6px 8px; border-bottom:1px solid #28313b; text-align:left; white-space:nowrap; }
 .merged-street-summary th { color:#e6edf3; position:sticky; top:0; background:#171d24; }
 @media(max-width:700px){ .release-commit{margin-left:0;width:100%;} }
+
+.report-page .ratio-bar .blue { background:#27a9ff; }
