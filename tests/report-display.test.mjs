@@ -29,3 +29,12 @@ test('blue city totals merge by normalized city and preserve blue-only groups',(
  assert.equal(g.provinces[0].cities[1].item.blueOnly,true);
  assert.throws(()=>mergeBlueCities(aggregate([]),{total:2,collections:[{province:'X',name:'Y',count:1}]}),/合计/);
 });
+
+test('report still renders when no blue-dot resources are published', async () => {
+  const js = await (await import('node:fs/promises')).readFile(new URL('../city-viewer/js/report.js', import.meta.url), 'utf8');
+  // Optional manifests: a 404 falls back to street-only reporting instead of failing the page.
+  assert.match(js, /status===404\)return null/);
+  assert.match(js, /loadBlueCityManifest\(\)\.catch\(\(\)=>null\)/);
+  assert.match(js, /已发布街景 \$\{number\(catalog\.total\)\} 条/);
+  assert.match(js, /本站尚未发布小蓝点目录/);
+});

@@ -108,13 +108,16 @@ function releaseCityTable(rows){
 }
 if(typeof document!=='undefined')try{
   const base=new URL('../',location.href);
-  const readManifest=async file=>{const response=await fetch(new URL(file,base),{cache:'no-store'});if(!response.ok)throw Error('目录不可用：'+file);return response.json();};
-  const [catalog,blue,osm,blueCities]=await Promise.all([loadCatalog(),readManifest('city-viewer/data/blue-dots/parts-manifest.json'),readManifest('city-viewer/data/blue-dots-osm/county-matched-manifest.json'),loadBlueCityManifest()]);
+  // Blue-dot resources are optional: an empty or not-yet-published site reports street
+  // rows only. A manifest that exists but is malformed still fails closed below.
+  const optionalManifest=async file=>{const response=await fetch(new URL(file,base),{cache:'no-store'});if(response.status===404)return null;if(!response.ok)throw Error('目录不可用：'+file);return response.json();};
+  const [catalog,blue,osm,blueCities]=await Promise.all([loadCatalog(),optionalManifest('city-viewer/data/blue-dots/parts-manifest.json'),optionalManifest('city-viewer/data/blue-dots-osm/county-matched-manifest.json'),loadBlueCityManifest().catch(()=>null)]);
   const published=catalog.collections.filter(item=>item.count>0);
   const groups=aggregate(published), container=document.getElementById('province-groups');
   if(groups.total.total!==catalog.total || (catalog.importSummary?.uniquePanoids!==undefined && catalog.importSummary.uniquePanoids!==catalog.total))throw Error('已发布分类与唯一点位总数不符');
-  if(!Number.isSafeInteger(blue.total)||blue.total<0||!Array.isArray(blue.parts)||blueCities.baseTotal!==undefined&&blueCities.baseTotal!==blue.total)throw Error('小蓝点来源目录总数不符');
-  mergeBlueCities(groups,blueCities);
+  const blueTotal=blueCities?.total??0;
+  if(blue){if(!Number.isSafeInteger(blue.total)||blue.total<0||!Array.isArray(blue.parts)||blueCities&&blueCities.baseTotal!==undefined&&blueCities.baseTotal!==blue.total)throw Error('小蓝点来源目录总数不符');}
+  if(blueCities)mergeBlueCities(groups,blueCities);
   const search=document.getElementById('report-search'),hiddenOnly=document.getElementById('report-hidden-only'),open=new Set(),countyOpen=new Set();let sortKey='total',descending=true;
   const compare=(a,b)=>{const result=sortKey==='province'?a.name.localeCompare(b.name,'zh-CN'):a.counts[sortKey]-b.counts[sortKey];return descending?-result:result;};
   function render(){
@@ -158,11 +161,12 @@ if(typeof document!=='undefined')try{
   for(const city of countyReports){countyCount+=city.countyReport.countyCount;for(const key of Object.keys(partitionTotals))partitionTotals[key]+=city.countyReport.partition[key];}
   document.getElementById('report-county-summary').textContent=countyReports.length?`县级分区覆盖 ${countyReports.length} 城 · ${number(countyCount)} 个OSM县/区（不含非县区分区） · 单一匹配 ${number(partitionTotals.matched)} · 未匹配 ${number(partitionTotals.unmatched)} · 歧义 ${number(partitionTotals.ambiguous)} · 分区合计 ${number(partitionTotals.total)}。分区是城市点位子集，不额外计入顶部汇总；点击城市加载全城已发布点位，可继续按县/区筛选。`:'本目录尚未发布县级分区；仅显示城市目录统计。';
   const total=document.getElementById('report-total');
-  total.textContent=`已发布总点位 ${number(groups.total.total)}（街景 ${number(catalog.total)} 条 + 小蓝点 ${number(blueCities.total)} 个）`;total.dataset.ready='true';
-  const stats=osm.stats||{};
-  document.getElementById('blue-dot-osm').textContent=`小蓝点 OSM县/区唯一匹配 ${number(stats.matched??osm.total)} · 边界未覆盖 ${number(stats.unclassified??stats.noBoundary??0)} · 未匹配 ${number(stats.unmatched||0)} · 歧义 ${number(stats.ambiguous||0)}。`;
+  total.textContent=blueTotal?`已发布总点位 ${number(groups.total.total)}（街景 ${number(catalog.total)} 条 + 小蓝点 ${number(blueTotal)} 个）`:`已发布街景 ${number(catalog.total)} 条`;
+  total.dataset.ready='true';
+  const stats=blue?osm?.stats||{}:null;
+  document.getElementById('blue-dot-osm').textContent=stats?`小蓝点 OSM县/区唯一匹配 ${number(stats.matched??osm.total)} · 边界未覆盖 ${number(stats.unclassified??stats.noBoundary??0)} · 未匹配 ${number(stats.unmatched||0)} · 歧义 ${number(stats.ambiguous||0)}。`:'本站尚未发布小蓝点目录。';
   document.querySelector('#report-source span:last-child').textContent=`已发布 ${number(published.length)} 个集合 · 百度街景`;
-  render();window.__BAIDU_WORKBENCH__=Object.freeze({provider:'baidu',ready:true,total:groups.total.total,streetTotal:catalog.total,blueTotal:blueCities.total,collections:groups.provinces.reduce((n,g)=>n+g.cities.length,0),counts:groups.total,captureSummary:dates,source:'published-catalog-summary'});
+  render();window.__BAIDU_WORKBENCH__=Object.freeze({provider:'baidu',ready:true,total:groups.total.total,streetTotal:catalog.total,blueTotal,collections:groups.provinces.reduce((n,g)=>n+g.cities.length,0),counts:groups.total,captureSummary:dates,source:'published-catalog-summary'});
   try{
     const base=new URL('../',location.href);
     const [notesResponse,buildResponse]=await Promise.all([fetch(new URL('config/release-notes.json',base),{cache:'no-store'}),fetch(new URL('build.json',base),{cache:'no-store'})]);
