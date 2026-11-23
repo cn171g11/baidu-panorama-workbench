@@ -274,7 +274,12 @@ async function main() {
   await fill('#report-search', county.kind === 'unmatched' ? county.id : county.name); await delay(300);
   const reportCounty = await evaluate(`(()=>{const city=document.querySelector('tr[data-city=${JSON.stringify(city.id)}]'),county=document.querySelector('.report-county-details[data-city=${JSON.stringify(city.id)}] .report-county-row[data-county=${JSON.stringify(county.id)}]');return {cityFound:!!city,countyFound:!!county,countyText:county?.textContent,href:county?.querySelector('th a')?.href,cityHref:city?.querySelector('a')?.href,total:document.querySelector('#summary-total').textContent,summary:document.querySelector('#report-county-summary').textContent};})()`);
   assert(reportCounty.cityFound && reportCounty.countyFound && reportCounty.countyText.includes(county.kind === 'unmatched' ? '未归属' : county.name), 'County report search did not find enclosing city');
-  assert.equal(Number(reportCounty.total.replaceAll(',', '')), catalog.total, 'Report counted unpublished points or double-counted county subsets');
+  // 报告合计已包含小蓝点；县级分区仍是街景子集，不能重复计入。
+  const reportState = await evaluate('window.__BAIDU_WORKBENCH__');
+  assert.equal(reportState.streetTotal, catalog.total, 'Report street total counted unpublished points');
+  assert.equal(reportState.total, reportState.streetTotal + reportState.blueTotal, 'Report combined total does not equal street + blue');
+  assert.equal(Number(reportCounty.total.replaceAll(',', '')), reportState.total, 'Report summary card disagrees with window state');
+  assert.equal(catalog.collections.find(item => item.id === city.id).partitionSummary.total, city.count, 'County partition is not a strict city subset');
   assert(!requests.slice(start).some(item => /\/national-catalog\.json(?:\?|$)/.test(item)), 'Report requested archive statistics');
   const deepLink = new URL(reportCounty.href), cityLink = new URL(reportCounty.cityHref);
   assert.equal(deepLink.origin, new URL(url).origin); assert.equal(deepLink.searchParams.get('city'), city.id); assert.equal(deepLink.searchParams.get('county'), county.id);

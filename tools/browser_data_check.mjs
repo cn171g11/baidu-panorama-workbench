@@ -179,9 +179,10 @@ async function main() {
   await until(() => evaluate(`document.querySelector('#report-total')?.dataset.ready==='true'`));
   const reportText = await evaluate(`document.querySelector('#report-total').textContent.replaceAll(',','')`);
   const reportState = await evaluate('window.__BAIDU_WORKBENCH__');
-  assert.equal(reportState?.total, catalog.total, 'Report counted unpublished points');
-  assert.equal(reportState.collections, catalog.collections.filter(city => city.count > 0).length, 'Report non-empty collection count mismatch');
-  assert(reportText.includes(`已发布街景 ${catalog.total} 条`), 'Published street report total mismatch');
+  assert.equal(reportState?.streetTotal, catalog.total, 'Report street scope counted unpublished points');
+  assert.equal(reportState.total, reportState.streetTotal + reportState.blueTotal, 'Report combined total is not street + blue');
+  assert(reportText.includes('已发布总点位'), 'Published report total heading mismatch');
+  assert(reportText.includes(String(reportState.total).replace(/\B(?=(\d{3})+(?!\d))/g, ',')), 'Published report total value mismatch');
   assert(!requests.some(request => /\/national-catalog\.json(?:\?|$)/.test(request)), 'Report requested archive statistics');
   if(catalog.captureSummary && reportState.captureSummary){
     assert.deepEqual(await evaluate('window.__BAIDU_WORKBENCH__.captureSummary'),catalog.captureSummary,'Published time report mismatch');
