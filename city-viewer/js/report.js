@@ -163,7 +163,7 @@ if(typeof document!=='undefined')try{
   const total=document.getElementById('report-total');
   total.textContent=blueTotal?`已发布总点位 ${number(groups.total.total)}（街景 ${number(catalog.total)} 条 + 小蓝点 ${number(blueTotal)} 个）`:`已发布街景 ${number(catalog.total)} 条`;
   total.dataset.ready='true';
-  const stats=blue?osm?.stats||{}:null;
+  const stats=osm ? osm.stats || {} : null;
   document.getElementById('blue-dot-osm').textContent=stats?`小蓝点 OSM县/区唯一匹配 ${number(stats.matched??osm.total)} · 边界未覆盖 ${number(stats.unclassified??stats.noBoundary??0)} · 未匹配 ${number(stats.unmatched||0)} · 歧义 ${number(stats.ambiguous||0)}。`:'本站尚未发布小蓝点目录。';
   document.querySelector('#report-source span:last-child').textContent=`已发布 ${number(published.length)} 个集合 · 百度街景`;
   render();window.__BAIDU_WORKBENCH__=Object.freeze({provider:'baidu',ready:true,total:groups.total.total,streetTotal:catalog.total,blueTotal,collections:groups.provinces.reduce((n,g)=>n+g.cities.length,0),counts:groups.total,captureSummary:dates,source:'published-catalog-summary'});

@@ -25,8 +25,8 @@ test('release notes are versioned, ordered, and shipped with the site', async ()
   const additions = notes.releases[0].cityAdditions;
   assert.equal(additions.length, 21);
   assert.equal(new Set(additions.map(row=>row.id)).size, 21);
-  assert.equal(additions.reduce((sum,row)=>sum+row.added,0), 277302);
-  assert.equal(additions.reduce((sum,row)=>sum+row.merged,0), 1215);
+  assert.equal(additions.reduce((sum,row)=>sum+row.added,0), 277298);
+  assert.equal(additions.reduce((sum,row)=>sum+row.merged,0), 1219);
   const osm = JSON.parse(await readFile(path.join(root, 'data/blue-dots-osm/county-matched-manifest.json'), 'utf8'));
   assert.equal(osm.stats.matched, 3529091);assert.equal(osm.stats.noBoundary,566081);assert.equal(osm.stats.unmatched,42355);assert.equal(osm.stats.ambiguous,11);
   assert.equal(osm.parts.reduce((n,part)=>n+part.rows,0), osm.total);

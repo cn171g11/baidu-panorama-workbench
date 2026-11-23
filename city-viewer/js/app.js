@@ -586,7 +586,10 @@ function showDetail(row, focusMap = true) {
   const extras = row[9] || {};
   const url = baiduPanoramaUrl(row[0], {...extras,heading:row[5]});
   const time=captureInfo(row),imageDate=time.value||'日期未知';
-  const tags = Array.isArray(extras.tags) ? extras.tags : [];
+  const tags = Array.isArray(extras.tags) ? [...extras.tags] : [];
+  if (extras.extra?.manualReview) tags.push('人工检查');
+  if (extras.extra?.inheritedCoordinate) tags.push('坐标继承自父全景');
+  if (extras.extra?.mobilityReview?.result === 'movement-reported') tags.push('源元数据报告可移动');
   const links = Array.isArray(extras.links) ? extras.links : [];
   const source = extras.source || 'baidu';
   const history = row[9]?.history;
