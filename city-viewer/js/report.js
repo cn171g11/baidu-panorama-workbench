@@ -138,7 +138,7 @@ if(typeof document!=='undefined')try{
   document.getElementById('report-county-summary').textContent=countyReports.length?`县级分区覆盖 ${countyReports.length} 城 · ${number(countyCount)} 个OSM县/区（不含非县区分区） · 单一匹配 ${number(partitionTotals.matched)} · 未匹配 ${number(partitionTotals.unmatched)} · 歧义 ${number(partitionTotals.ambiguous)} · 分区合计 ${number(partitionTotals.total)}。分区是城市点位子集，不额外计入顶部汇总；点击城市加载全城已发布点位，可继续按县/区筛选。`:'本目录尚未发布县级分区；仅显示城市目录统计。';
   const mergedSummary=await fetch(new URL('city-viewer/data/blue-dots-osm/city-county-summary.json',new URL('../',location.href)),{cache:'no-store'}).then(r=>r.ok?r.json():null).catch(()=>null);
   const total=document.getElementById('report-total');
-  total.textContent=`已发布街景 ${number(catalog.total)} 条`;total.dataset.ready = 'true';
+  total.textContent=`已发布街景 ${number(catalog.total)} 条 · uniquePanoids ${number(catalog.total)}`;total.dataset.ready = 'true';
   try{
     const blueResponse=await fetch(new URL('city-viewer/data/blue-dots/parts-manifest.json',new URL('../',location.href)),{cache:'no-store'});
     if(!blueResponse.ok)throw Error('蓝点目录不可用（'+blueResponse.status+'）');
