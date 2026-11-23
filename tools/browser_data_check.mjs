@@ -180,7 +180,7 @@ async function main() {
   const reportText = await evaluate(`document.querySelector('#report-total').textContent.replaceAll(',','')`);
   const reportState = await evaluate('window.__BAIDU_WORKBENCH__');
   assert.equal(reportState?.total, catalog.total, 'Report counted unpublished points');
-  assert.equal(reportState.collections, catalog.collections.length, 'Report collection count mismatch');
+  assert.equal(reportState.collections, catalog.collections.filter(city => city.count > 0).length, 'Report non-empty collection count mismatch');
   assert(reportText.includes(`已发布街景 ${catalog.total} 条`), 'Published street report total mismatch');
   assert(!requests.some(request => /\/national-catalog\.json(?:\?|$)/.test(request)), 'Report requested archive statistics');
   if(catalog.captureSummary && reportState.captureSummary){
