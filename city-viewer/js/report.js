@@ -76,25 +76,24 @@ function countyTableMarkup(item,report=countySummary(item)){
   }).join('');
   return `<p class="report-county-note">${text(boundaryNote(item))}</p><p class="report-county-note">单一匹配 ${number(p.matched)} · 未匹配 ${number(p.unmatched)} · 歧义 ${number(p.ambiguous)} · 合计 ${number(p.total)}。三项互斥；未匹配与歧义均保留在非县区分区，不重复计入总点位。展开仅展示目录；点击县/区后才按所选分区加载点位。</p><div class="report-county-scroll"><table class="report-county-table"><caption>${text(item.name)}的 ${number(report.countyCount)} 个县/区及非县区分区（完整城市分类统计）</caption><thead><tr><th>县 / 区 / 非县区分区</th><th>常规</th><th>隐藏</th><th>时光机</th><th>未知</th><th>合计</th><th>目录分片</th><th>时间：源日期 / 编码 / 未知</th><th>日期范围</th></tr></thead><tbody>${rows}</tbody></table></div>`;
 }
-if(typeof document!=='undefined')try{
-  const catalog=await loadCatalog();let groups=aggregate(catalog.collections);const container=document.getElementById('province-groups');
-  if(groups.total.total!==catalog.total || (catalog.importSummary?.uniquePanoids!==undefined && catalog.importSummary.uniquePanoids!==catalog.total))throw Error('已发布分类与唯一点位总数不符');
-  const national=await fetch(new URL('city-viewer/data/national-catalog.json',new URL('../',location.href)),{cache:'no-store'}).then(r=>r.ok?r.json():null).catch(()=>null);
-  if(national&&Array.isArray(national.collections)&&national.publication?.mode==='national-descriptor'){
-    const hosted=new Map(catalog.collections.map(item=>[item.id,item]));
-    const merged=national.collections.map(desc=>{
-      const item=hosted.get(desc.id);
-      if(item){if(item.count>desc.count)throw Error('全国目录点位总数不符');return item;}
-      if(!Number.isInteger(desc.count)||desc.count<0)throw Error('全国目录城市点位数不符');
-      return {...desc,files:[],descriptorOnly:true};
-    });
-    const descriptorTotal=national.collections.reduce((n,desc)=>n+desc.count,0);
-    if(descriptorTotal!==national.total)throw Error('全国目录点位总数不符');
-    const mergedTotal=merged.reduce((n,item)=>n+(item.count||0),0);
-    catalog.collections=merged;catalog.total=mergedTotal;
-    catalog.publication={sourceCities:national.publication.sourceCities,hostedCities:national.publication.hostedCities,remainingCities:national.publication.sourceCities-national.publication.hostedCities};
-    groups=aggregate(catalog.collections);
+function releaseCityTable(rows){
+  if(rows===undefined)return '<p class="report-note">该历史版本未记录逐地区新增数量。</p>';
+  if(!Array.isArray(rows))throw Error('公告地区新增数据不符');
+  if(!rows.length)return '<p class="report-note">本版未新增街景点位。</p>';
+  const ids=new Set();let added=0,merged=0;
+  for(const row of rows){
+    if(!row||!/^\d{6}$/.test(row.id)||ids.has(row.id)||typeof row.name!=='string'||!row.name.trim()||[row.added,row.merged].some(n=>!Number.isSafeInteger(n)||n<0))throw Error('公告地区新增数据不符');
+    ids.add(row.id);added+=row.added;merged+=row.merged;
   }
+  if(!Number.isSafeInteger(added)||!Number.isSafeInteger(merged))throw Error('公告地区新增总数超出安全范围');
+  const body=[...rows].sort((a,b)=>b.added-a.added||b.merged-a.merged||a.id.localeCompare(b.id)).map(row=>`<tr data-release-city="${text(row.id)}"><th scope="row">${text(row.name)}</th><td>${number(row.added)}</td><td>${number(row.merged)}</td></tr>`).join('');
+  return `<details class="report-county-details release-city-additions"><summary>按地区查看：新增 ${number(added)} 条，匹配已有 ${number(merged)} 条（${number(rows.length)} 个地区）</summary><p class="report-note">按本批街景导入结果统计。匹配已有点位只补充元数据，不计作新增；新增指归档内新收录，不是与上次线上点位总量的差值。</p><div class="report-county-scroll"><table class="report-county-table"><caption>本版各地区街景导入明细</caption><thead><tr><th scope="col">地区</th><th scope="col">新增点位</th><th scope="col">匹配已有点位</th></tr></thead><tbody>${body}</tbody></table></div></details>`;
+}
+if(typeof document!=='undefined')try{
+  const catalog=await loadCatalog();
+  const published=catalog.collections.filter(item=>item.count>0);
+  const groups=aggregate(published), container=document.getElementById('province-groups');
+  if(groups.total.total!==catalog.total)throw Error('已发布分类与唯一点位总数不符');
   const search=document.getElementById('report-search'),hiddenOnly=document.getElementById('report-hidden-only'),open=new Set(),countyOpen=new Set();let sortKey='total',descending=true;
   const compare=(a,b)=>{const result=sortKey==='province'?a.name.localeCompare(b.name,'zh-CN'):a.counts[sortKey]-b.counts[sortKey];return descending?-result:result;};
   function render(){
@@ -107,8 +106,8 @@ if(typeof document!=='undefined')try{
       const table=document.createElement('table');table.innerHTML='<thead><tr><th>地级行政区</th><th>常规</th><th>隐藏</th><th>时光机</th><th>未知</th><th>合计</th><th>隐藏占比</th><th>原始 / 完全重复 / 差异</th><th>时间：源日期 / 编码 / 未知</th><th>日期范围</th></tr></thead>';
       const tbody=document.createElement('tbody');
       for(const city of [...group.cities].sort((a,b)=>compare({name:a.item.name,counts:a.counts},{name:b.item.name,counts:b.counts}))){
-        const {item,counts,countyReport}=city,summary=item.summary||{},cityHref=item.descriptorOnly?'':`./?city=${encodeURIComponent(item.id)}`,nameHtml=cityHref?`<a href="${cityHref}">${text(item.name)}</a>`:text(item.name),base=cityHref,tr=document.createElement('tr');tr.dataset.city=item.id;if(item.descriptorOnly)tr.title='该城市点位尚未发布，仅显示目录统计';
-        tr.innerHTML=`<td>${nameHtml} <small>${text(item.adcode)}${item.descriptorOnly?' · 未发布':''}</small>${countyReport?'<small class="report-city-select-note">选择县/区，不自动加载全城</small>':''}</td><td>${number(counts.regular)}</td><td class="legend-hidden">${counts.hidden?`<a href="${base}&kind=hidden">${number(counts.hidden)}</a>`:'0'}</td><td>${counts.timeMachine?`<a href="${base}&kind=time-machine">${number(counts.timeMachine)}</a>`:'0'}</td><td>${number(counts.unknown)}</td><td>${number(counts.total)}</td><td>${(100*counts.hidden/(counts.total||1)).toFixed(2)}%</td><td>${number(summary.rawRecords??counts.total)} / ${number(summary.exactDuplicates)} / ${number(summary.differingDuplicates)}</td><td>${number(item.captureSummary?.source)} / ${number(item.captureSummary?.panoid)} / ${number(item.captureSummary?.unknown)}</td><td>${text(item.captureSummary?.earliest||'—')} – ${text(item.captureSummary?.latest||'—')}</td>`;tbody.append(tr);
+        const {item,counts,countyReport}=city,summary=item.summary?.scope==='published-rows'?item.summary:{},base=`./?city=${encodeURIComponent(item.id)}`,tr=document.createElement('tr');tr.dataset.city=item.id;
+        tr.innerHTML=`<td><a href="${base}">${text(item.name)}</a> <small>${text(item.adcode)}</small>${countyReport?'<small class="report-city-select-note">可查看全城或选择县/区</small>':''}</td><td>${number(counts.regular)}</td><td class="legend-hidden">${counts.hidden?`<a href="${base}&kind=hidden">${number(counts.hidden)}</a>`:'0'}</td><td>${counts.timeMachine?`<a href="${base}&kind=time-machine">${number(counts.timeMachine)}</a>`:'0'}</td><td>${number(counts.unknown)}</td><td>${number(counts.total)}</td><td>${(100*counts.hidden/(counts.total||1)).toFixed(2)}%</td><td>${number(summary.rawRecords??counts.total)} / ${number(summary.exactDuplicates)} / ${number(summary.differingDuplicates)}</td><td>${number(item.captureSummary?.source)} / ${number(item.captureSummary?.panoid)} / ${number(item.captureSummary?.unknown)}</td><td>${text(item.captureSummary?.earliest||'—')} – ${text(item.captureSummary?.latest||'—')}</td>`;tbody.append(tr);
         if(countyReport){
           const row=document.createElement('tr');row.className='report-county-container';
           const cell=document.createElement('td');cell.colSpan=10;
@@ -130,34 +129,31 @@ if(typeof document!=='undefined')try{
   document.getElementById('report-expand').addEventListener('click',()=>{for(const group of groups.provinces){open.add(group.name);for(const city of group.cities)if(city.countyReport)countyOpen.add(city.item.id);}render();});
   document.getElementById('report-collapse').addEventListener('click',()=>{open.clear();countyOpen.clear();search.value='';hiddenOnly.checked=false;render();});
   for(const key of ['total','regular','hidden','timeMachine','unknown'])document.getElementById(`summary-${key==='timeMachine'?'time-machine':key}`).textContent=number(groups.total[key]);
-  const dates=sumCapture(catalog.collections);
+  const dates=sumCapture(published);
   document.getElementById('report-time-summary').textContent=`时间覆盖：源文件明确 ${number(dates.source)} · panoid 编码解析 ${number(dates.panoid)} · 未知 ${number(dates.unknown)} · ${dates.earliest||'—'} 至 ${dates.latest||'—'}。编码包含时分秒/毫秒字段但不包含时区；不是逐条官网认证。`;
   document.getElementById('overall-bar').innerHTML=bar(groups.total);
-  document.getElementById('report-coverage').textContent=catalog.publication&&catalog.publication.sourceCities!==undefined?`全国源目录 ${catalog.publication.sourceCities} 城已全部纳入统计；其中Pages已发布 ${catalog.publication.hostedCities} 城可点击查看点位，其余 ${catalog.publication.remainingCities} 城仅显示目录统计（标注"未发布"）。`:`本报告仅统计目录内 ${catalog.collections.length} 城。`;
+  document.getElementById('report-coverage').textContent=`本报告仅统计 ${number(published.length)} 个有已发布街景的集合；不含未发布归档与国内旧常规点位。小蓝点单独统计。`;
   const countyReports=groups.provinces.flatMap(group=>group.cities).filter(city=>city.countyReport),partitionTotals={matched:0,unmatched:0,ambiguous:0,total:0};let countyCount=0;
   for(const city of countyReports){countyCount+=city.countyReport.countyCount;for(const key of Object.keys(partitionTotals))partitionTotals[key]+=city.countyReport.partition[key];}
-  document.getElementById('report-county-summary').textContent=countyReports.length?`县级分区覆盖 ${countyReports.length} 城 · ${number(countyCount)} 个OSM县/区（不含非县区分区） · 单一匹配 ${number(partitionTotals.matched)} · 未匹配 ${number(partitionTotals.unmatched)} · 歧义 ${number(partitionTotals.ambiguous)} · 分区合计 ${number(partitionTotals.total)}。分区是城市点位子集，不额外计入顶部汇总；点击城市仅进入县/区选择。`:'本目录尚未发布县级分区；仅显示城市目录统计。';
+  document.getElementById('report-county-summary').textContent=countyReports.length?`县级分区覆盖 ${countyReports.length} 城 · ${number(countyCount)} 个OSM县/区（不含非县区分区） · 单一匹配 ${number(partitionTotals.matched)} · 未匹配 ${number(partitionTotals.unmatched)} · 歧义 ${number(partitionTotals.ambiguous)} · 分区合计 ${number(partitionTotals.total)}。分区是城市点位子集，不额外计入顶部汇总；点击城市加载全城已发布点位，可继续按县/区筛选。`:'本目录尚未发布县级分区；仅显示城市目录统计。';
   const mergedSummary=await fetch(new URL('city-viewer/data/blue-dots-osm/city-county-summary.json',new URL('../',location.href)),{cache:'no-store'}).then(r=>r.ok?r.json():null).catch(()=>null);
-  const summary=catalog.importSummary||{},total=document.getElementById('report-total');
-  let blueReportTotal=0;
-  try{const blueHead=await fetch(new URL('city-viewer/data/blue-dots/parts-manifest.json',new URL('../',location.href)),{cache:'no-store'});if(blueHead.ok){const blueCatalog=await blueHead.json();blueReportTotal=Number(blueCatalog.total)||0;}}catch{}
-  const combinedReportTotal=catalog.total+blueReportTotal;
-  total.textContent=`街景总点位 ${number(combinedReportTotal)} · 原始街景记录 ${number(summary.rawRecords??catalog.total)} · 重复 ${number(summary.exactDuplicates)} · 差异版本 ${number(summary.differingDuplicates)}`;total.dataset.ready = 'true';
+  const total=document.getElementById('report-total');
+  total.textContent=`已发布街景 ${number(catalog.total)} 条`;total.dataset.ready = 'true';
   try{
     const blueResponse=await fetch(new URL('city-viewer/data/blue-dots/parts-manifest.json',new URL('../',location.href)),{cache:'no-store'});
     if(!blueResponse.ok)throw Error('蓝点目录不可用（'+blueResponse.status+'）');
     const blue=await blueResponse.json();
-    document.getElementById('blue-dot-total').textContent=`街景来源已合并计数 · ${number(blue.total)} 个补充街景点位 · ${blue.parts.length} 个分片`;
+    document.getElementById('blue-dot-total').textContent=`小蓝点 ${number(blue.total)} 个 · ${number(blue.parts.length)} 个分片 · 独立统计`;
     if(mergedSummary){
       const mergedRows=mergedSummary.rows||[], mergedHost=document.getElementById('blue-dot-summary');
-      mergedHost.insertAdjacentHTML('beforeend',`<div class="merged-street-summary"><p>街景行政区明细：${number(mergedSummary.stats.total)} 条补充街景点位已按城市/县区合并；其中可靠匹配 ${number(mergedSummary.stats.verified)}，最近未验证归属 ${number(mergedSummary.stats.nearest)}，仍未分类 ${number(mergedSummary.stats.unclassified)}。</p><div class="merged-street-scroll"><table><thead><tr><th>省</th><th>城市</th><th>县/区</th><th>街景点位</th><th>可靠匹配</th><th>最近未验证</th><th>未分类</th></tr></thead><tbody>${mergedRows.map(row=>`<tr><td>${text(row.province)}</td><td>${text(row.city)}</td><td>${text(row.county)}</td><td>${number(row.total)}</td><td>${number(row.blueVerified)}</td><td>${number(row.blueNearest)}</td><td>${number(row.blueUnclassified)}</td></tr>`).join('')}</tbody></table></div></div>`);
+      mergedHost.insertAdjacentHTML('beforeend',`<div class="merged-street-summary"><p>小蓝点行政区明细：${number(mergedSummary.stats.total)} 个小蓝点；其中可靠匹配 ${number(mergedSummary.stats.verified)}，最近未验证归属 ${number(mergedSummary.stats.nearest)}，仍未分类 ${number(mergedSummary.stats.unclassified)}。</p><div class="merged-street-scroll"><table><thead><tr><th>省</th><th>城市</th><th>县/区</th><th>街景点位</th><th>可靠匹配</th><th>最近未验证</th><th>未分类</th></tr></thead><tbody>${mergedRows.map(row=>`<tr><td>${text(row.province)}</td><td>${text(row.city)}</td><td>${text(row.county)}</td><td>${number(row.total)}</td><td>${number(row.blueVerified)}</td><td>${number(row.blueNearest)}</td><td>${number(row.blueUnclassified)}</td></tr>`).join('')}</tbody></table></div></div>`);
     }
     const osmResponse=await fetch(new URL('city-viewer/data/blue-dots-osm/county-matched-manifest.json',new URL('../',location.href)),{cache:'no-store'});
     if(osmResponse.ok){const osm=await osmResponse.json();const stats=osm.stats||{};document.getElementById('blue-dot-osm').textContent=`OSM县/区唯一匹配 ${number(stats.matched??osm.total)} · 边界未覆盖 ${number((stats.unclassified ?? stats.noBoundary ?? 0))} · 未匹配 ${number(stats.unmatched||0)} · 歧义 ${number(stats.ambiguous||0)}。仅对有真实几何的城市作空间分类，其余点位明确保持未分类，不猜行政归属。`;}
     else document.getElementById('blue-dot-osm').textContent='OSM县/区分类清单未发布；蓝点仍可按省、市查看。';
   }catch(error){document.getElementById('blue-dot-total').textContent='小蓝点目录暂不可用：'+error.message;document.getElementById('blue-dot-osm').textContent='';}
-  document.querySelector('#report-source span:last-child').textContent=`全国目录 ${catalog.collections.length} 城 · ${groups.provinces.length} 省级行政区 · 已发布 ${catalog.publication?.hostedCities??catalog.collections.length} 城`;
-  render();window.__BAIDU_WORKBENCH__=Object.freeze({provider:'baidu',ready:true,total:catalog.total,collections:catalog.collections.length,counts:groups.total,captureSummary:dates,source:'published-catalog-summary'});
+  document.querySelector('#report-source span:last-child').textContent=`已发布 ${number(published.length)} 个集合 · 百度街景`;
+  render();window.__BAIDU_WORKBENCH__=Object.freeze({provider:'baidu',ready:true,total:catalog.total,collections:published.length,counts:groups.total,captureSummary:dates,source:'published-catalog-summary'});
   try{
     const base=new URL('../',location.href);
     const [notesResponse,buildResponse]=await Promise.all([fetch(new URL('config/release-notes.json',base),{cache:'no-store'}),fetch(new URL('build.json',base),{cache:'no-store'})]);
@@ -170,7 +166,7 @@ if(typeof document!=='undefined')try{
     const list=document.getElementById('release-list');
     list.replaceChildren(...notes.releases.map(release=>{
       const item=document.createElement('li');item.className='release-item';
-      item.innerHTML=`<header><span class="release-version">v${text(release.version)}</span><span class="release-date">${text(release.date)}</span><span class="release-title">${text(release.title||'更新')}</span>${release.commit?`<span class="release-commit">${text(String(release.commit).slice(0,12))}</span>`:''}</header><ul class="release-changes">${(Array.isArray(release.changes)?release.changes:[]).map(change=>`<li>${text(change)}</li>`).join('')}</ul>`;
+      item.innerHTML=`<header><span class="release-version">v${text(release.version)}</span><span class="release-date">${text(release.date)}</span><span class="release-title">${text(release.title||'更新')}</span>${release.commit?`<span class="release-commit">${text(String(release.commit).slice(0,12))}</span>`:''}</header><ul class="release-changes">${(Array.isArray(release.changes)?release.changes:[]).map(change=>`<li>${text(change)}</li>`).join('')}</ul>${releaseCityTable(release.cityAdditions)}`;
       return item;
     }));
     if(!notes.releases.length)list.innerHTML='<li class="release-empty">暂无已记录公告。</li>';

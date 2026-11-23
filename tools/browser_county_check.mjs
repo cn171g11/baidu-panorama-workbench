@@ -53,7 +53,7 @@ async function fill(selector, value) {
 async function click(selector) {
   assert(await evaluate(`(()=>{const e=document.querySelector(${JSON.stringify(selector)});if(!e||e.disabled)return false;e.click();return true;})()`), 'Control unavailable: ' + selector);
 }
-const isPoints = url => /\/points-\d+\.json(?:\.gz)?$/.test(new URL(url).pathname);
+const isPoints = url => /\/data\/baidu\/\d{6}\/(?:counties\/[A-Za-z0-9_-]+\/)?points-\d+\.json(?:\.gz)?$/.test(new URL(url).pathname);
 const pointsSince = start => requests.slice(start).filter(isPoints);
 function assertNoPoints(start, label) {
   assert.deepEqual(pointsSince(start), [], label + ' unexpectedly downloaded panorama points');
@@ -167,13 +167,22 @@ async function main() {
   report.checks.catalog = { cities: catalog.collections.length, total: catalog.total, city: city.id, cityCount: city.count, counties: city.counties.length, county: county.id, countyCount: county.count, source: manifest.source, codec: manifest.codec };
   assertNoPoints(0, 'homepage plus catalog/manifest inspection');
   let start = requests.length;
-  await fill('#province-filter', city.province); await delay(400);
-  assertNoPoints(start, 'province selection');
+  const provinceCities=catalog.collections.filter(item=>item.province===city.province&&item.count>0&&item.scope!=='overseas');
+  const provinceCount=provinceCities.reduce((total,item)=>total+item.count,0);
+  const provinceFiles=new Set(provinceCities.flatMap(item=>item.files.map(file=>new URL('data/'+file+'.gz',url).href)));
+  await fill('#province-filter', city.province);
+  await until(()=>evaluate(`(()=>{const s=window.__BAIDU_WORKBENCH__.getState();return s.currentCollection===${JSON.stringify(city.province)}&&s.visibleCount===${provinceCount}&&!s.streetLoading;})()`));
+  const provinceRequests=requests.slice(start).filter(isPoints);
+  assert.equal(provinceRequests.length,provinceFiles.size,'Province must request every eligible street shard');
+  assert.deepEqual(new Set(provinceRequests),provinceFiles,'Province requested street shards outside its eligible scope');
+  report.checks.provinceSelection={loadedAll:true,rows:provinceCount,shards:provinceRequests.length};
   start = requests.length;
-  await fill('#city-filter', city.id); await delay(400);
-  assertNoPoints(start, 'city selection');
-  const unselected = await evaluate('window.__BAIDU_WORKBENCH__.getState()');
-  assert.equal(unselected.visibleCount, 0); assert.equal(unselected.loadedSelection, null); assert.equal(unselected.county, null);
+  await fill('#city-filter', city.id);
+  await until(()=>evaluate(`(()=>{const s=window.__BAIDU_WORKBENCH__.getState();return s.loadedSelection===${JSON.stringify(city.id+':all:all')}&&s.visibleCount===${city.count}&&!s.streetLoading;})()`));
+  const cityFiles=new Set(city.files.map(file=>new URL('data/'+file+'.gz',url).href));
+  const cityRequests=requests.slice(start).filter(isPoints);
+  assert(cityRequests.length===city.files.length&&cityRequests.every(request=>cityFiles.has(request)),'City selection must load only its own complete street shards');
+  report.checks.citySelection={loadedAll:true,rows:city.count,shards:cityRequests.length};
   start = requests.length;
   // 街景县区来自已发布目录，不依赖省蓝点下载完成；等待选择控件就绪即可。
   await until(() => evaluate(`[...document.querySelectorAll('#county-filter option')].some(option=>option.value===${JSON.stringify(county.id)})&&!document.querySelector('#county-filter').disabled`));
@@ -265,12 +274,8 @@ async function main() {
   await fill('#report-search', county.kind === 'unmatched' ? county.id : county.name); await delay(300);
   const reportCounty = await evaluate(`(()=>{const city=document.querySelector('tr[data-city=${JSON.stringify(city.id)}]'),county=document.querySelector('.report-county-details[data-city=${JSON.stringify(city.id)}] .report-county-row[data-county=${JSON.stringify(county.id)}]');return {cityFound:!!city,countyFound:!!county,countyText:county?.textContent,href:county?.querySelector('th a')?.href,cityHref:city?.querySelector('a')?.href,total:document.querySelector('#summary-total').textContent,summary:document.querySelector('#report-county-summary').textContent};})()`);
   assert(reportCounty.cityFound && reportCounty.countyFound && reportCounty.countyText.includes(county.kind === 'unmatched' ? '未归属' : county.name), 'County report search did not find enclosing city');
-  // 全国目录合并模式下，顶部汇总 = 描述符城市合计（托管城市取已发布数）；否则等于 catalog.total。
-  const national = await evaluate(`await(await fetch(new URL('data/national-catalog.json',location.href))).json()`).catch(() => null);
-  const mergedTotal = national && national.publication?.mode === 'national-descriptor'
-    ? national.collections.reduce((sum, desc) => { const item = catalog.collections.find(city => city.id === desc.id); return sum + (item ? item.count : desc.count); }, 0)
-    : catalog.total;
-  assert.equal(Number(reportCounty.total.replaceAll(',', '')), mergedTotal, 'Report double-counted county subsets');
+  assert.equal(Number(reportCounty.total.replaceAll(',', '')), catalog.total, 'Report counted unpublished points or double-counted county subsets');
+  assert(!requests.slice(start).some(item => /\/national-catalog\.json(?:\?|$)/.test(item)), 'Report requested archive statistics');
   const deepLink = new URL(reportCounty.href), cityLink = new URL(reportCounty.cityHref);
   assert.equal(deepLink.origin, new URL(url).origin); assert.equal(deepLink.searchParams.get('city'), city.id); assert.equal(deepLink.searchParams.get('county'), county.id);
   assert.equal(cityLink.searchParams.get('city'), city.id); assert.equal(cityLink.searchParams.get('county'), null);
@@ -282,8 +287,10 @@ async function main() {
   report.checks.report = { ...reportCounty, metadataOnly: true, nameAndIdSearch: true, countyDeepLink: deepLink.href };
   start = requests.length; await send('Page.navigate', { url: cityLink.href });
   await until(() => evaluate(`window.__BAIDU_WORKBENCH__?.getState?.().ready&&document.querySelector('#city-filter')?.value===${JSON.stringify(city.id)}`));
-  await delay(500); assertNoPoints(start, 'report city-only deep link');
-  assert.equal(await evaluate('window.__BAIDU_WORKBENCH__.getState().visibleCount'), 0);
+  await until(()=>evaluate(`(()=>{const s=window.__BAIDU_WORKBENCH__?.getState?.();return s?.loadedSelection===${JSON.stringify(city.id+':all:all')}&&s.visibleCount===${city.count}&&!s.streetLoading;})()`));
+  const deepCityFiles=new Set(city.files.map(file=>new URL('data/'+file+'.gz',url).href));
+  const deepCityRequests=requests.slice(start).filter(isPoints);
+  assert(deepCityRequests.length===city.files.length&&deepCityRequests.every(request=>deepCityFiles.has(request)),'Report city-only link must load its complete city only');
   start = requests.length; await send('Page.navigate', { url: deepLink.href });
   report.checks.countyDeepLink = await waitSelection(city, county);
   assertOnlyFile(start, county.files[0], url, 'report county deep link/default first part');

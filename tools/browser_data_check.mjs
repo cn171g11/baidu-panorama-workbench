@@ -87,14 +87,25 @@ async function main() {
   const code = arg('--city', null);
   const target = code ? catalog.collections.find(city => city.id === code) : catalog.collections.find(city => city.id === '542500' && city.count > 0) || catalog.collections.find(city => city.count > 0 && city.count <= 5000) || catalog.collections[0];
   assert(target, 'No real collection found');
+  if (target.scope === 'overseas') {
+    assert.deepEqual(catalog.collections.filter(city=>city.scope==='overseas').map(city=>city.id),['191001']);
+    assert.equal(target.count,97);assert.equal(target.files.length,28);
+    assert(catalog.collections.filter(city=>city.scope!=='overseas').every(city=>city.displayCounts.regular===0&&city.displayCounts.unknown===0),'Conventional domestic records must not be hosted');
+  }
   async function loadCity(city) {
-    await fill('#search-input', ''); await fill('#province-filter', city.province); await fill('#city-filter', city.id);
-    if (city.partition === 'osm-county-wgs84-v1') {
-      await until(() => evaluate(`[...document.querySelectorAll('#county-filter option')].some(option=>option.value==='all')`));
-      await fill('#county-filter', 'all');
+    await fill('#search-input', '');
+    if (city.scope === 'overseas') {
+      assert.equal(city.id,'191001');assert.equal(city.name,'全球（非中国）');
+      await click('#load-global');
+    } else {
+      await fill('#province-filter', city.province); await fill('#city-filter', city.id);
+      if (city.partition === 'osm-county-wgs84-v1') {
+        await until(() => evaluate(`[...document.querySelectorAll('#county-filter option')].some(option=>option.value==='all')`));
+        await fill('#county-filter', 'all');
+      }
+      await until(() => evaluate(`!document.querySelector('#load-city').disabled`));
+      await click('#load-city');
     }
-    await until(() => evaluate(`!document.querySelector('#load-city').disabled`));
-    await click('#load-city');
     await until(() => evaluate(`window.__BAIDU_WORKBENCH__.getState().loadedCollection===${JSON.stringify(city.id)}&&window.__BAIDU_WORKBENCH__.getState().visibleCount===${city.count}`));
     await until(() => evaluate('window.__BAIDU_WORKBENCH__.getState().mapRenderedCount>0'));
     const rows = await evaluate(`await(await import(new URL('js/data-store.js',location.href))).loadCollection(${JSON.stringify(city)})`);
@@ -148,14 +159,14 @@ async function main() {
     const screenshot=await send('Page.captureScreenshot',{format:'png'});
     await writeFile(path.join(results,'viewer-'+width+'.png'),Buffer.from(screenshot.data,'base64'));
   }
-  const dated = catalog.collections.find(city => city.id === '522700' && city.count > 0);
+  const dated = !args.includes('--require-pages')&&catalog.collections.find(city => city.id === '522700' && city.count > 0);
   if (dated && dated.id !== target.id) {
     const datedRows = await loadCity(dated);
     assert(datedRows.every(row => row[4] && row[9].extra?.country === 'CN' && row[4]===row[9].extra.imageDate && !row[9].captureTime), 'Explicit source date/country was not preserved');
     report.checks.explicitSourceDates = { city: dated.name, rows: dated.count, sampleDate: datedRows[0][4], sampleCountry: datedRows[0][9].extra.country };
   }
   const allowed = new Set([target.id, ...(dated ? [dated.id] : [])]);
-  const shardRequests = requests.filter(request => /points-\d+\.json(?:\.gz)?(?:\?|$)/.test(request));
+  const shardRequests = requests.filter(request => /\/data\/baidu\/\d{6}\/(?:counties\/[A-Za-z0-9_-]+\/)?points-\d+\.json(?:\.gz)?(?:\?|$)/.test(request));
   assert(shardRequests.length > 0);
   assert(shardRequests.every(request => allowed.has(request.match(/\/baidu\/(\d{6})\//)?.[1])), 'Unselected city shard downloaded');
   if(args.includes('--require-pages')){
@@ -167,26 +178,11 @@ async function main() {
   await send('Page.navigate', { url: new URL('report.html', url).href });
   await until(() => evaluate(`document.querySelector('#report-total')?.dataset.ready==='true'`));
   const reportText = await evaluate(`document.querySelector('#report-total').textContent.replaceAll(',','')`);
-  const national = await evaluate(`await(await fetch(new URL('data/national-catalog.json',location.href))).json()`).catch(() => null);
-  const blueManifest = await evaluate(`await(await fetch(new URL('data/blue-dots/parts-manifest.json',location.href))).json()`).catch(() => null);
   const reportState = await evaluate('window.__BAIDU_WORKBENCH__');
-  const blueTotal = Number(blueManifest?.total || 0);
-  const expectedTotal = Number(reportState?.total ?? catalog.total);
-  assert(Number.isSafeInteger(expectedTotal) && expectedTotal > 0, 'Report window state total invalid');
-  // 顶部汇总为 街景合并总数 + 蓝点补充数；去千分位后必须包含该组合值
-  assert(reportText.includes(String(expectedTotal + blueTotal)), 'Published report total mismatch');
-  if (national && national.publication?.mode === 'national-descriptor') {
-    assert.equal(reportState.collections, national.collections.length, 'National report city count mismatch');
-    const descriptorTotal = national.collections.reduce((sum, desc) => sum + desc.count, 0);
-    assert.equal(descriptorTotal, national.total, 'National descriptor total mismatch');
-    assert(Number(reportState.total) <= national.total, 'Report total exceeds national source total');
-    const hosted = catalog.collections.reduce((sum, city) => sum + city.count, 0);
-    const mergedTotal = national.collections.reduce((sum, desc) => {
-      const item = catalog.collections.find(city => city.id === desc.id);
-      return sum + (item ? item.count : desc.count);
-    }, 0);
-    assert.equal(expectedTotal, mergedTotal, 'Merged report total mismatch');
-  }
+  assert.equal(reportState?.total, catalog.total, 'Report counted unpublished points');
+  assert.equal(reportState.collections, catalog.collections.length, 'Report collection count mismatch');
+  assert(reportText.includes(`已发布街景 ${catalog.total} 条`), 'Published street report total mismatch');
+  assert(!requests.some(request => /\/national-catalog\.json(?:\?|$)/.test(request)), 'Report requested archive statistics');
   if(catalog.captureSummary && reportState.captureSummary){
     assert.deepEqual(await evaluate('window.__BAIDU_WORKBENCH__.captureSummary'),catalog.captureSummary,'Published time report mismatch');
     report.checks.captureSummary=catalog.captureSummary;

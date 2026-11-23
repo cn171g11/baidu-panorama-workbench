@@ -1,13 +1,16 @@
 #!/usr/bin/env node
 // Focused browser check for the independent small-blue-dot layer.
-// It verifies: (1) no blue downloads on the homepage, (2) selecting one province
-// downloads only that province's shards, (3) blue rows render above ordinary points,
-// (4) ordinary list counts stay unchanged, (5) no whole-country blue request.
+// With --city, select immediately and verify only that city's complete manifest assets,
+// actual compressed/plain SHA and pixel painting; without --city preserve province mode.
+// Province requests already started before the city event may be aborted, never resumed.
 import assert from 'node:assert/strict';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { access, mkdir, mkdtemp, readFile, writeFile } from 'node:fs/promises';
 import { spawn } from 'node:child_process';
+import { createHash } from 'node:crypto';
+import { gunzipSync } from 'node:zlib';
+import { validateBlueCityManifest, resolveBlueCity, blueCityName } from '../city-viewer/js/blue-city-data.js';
 import { startServer } from './serve.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -27,12 +30,17 @@ async function chooseBrowser(o) {
 
 const report = { passed: false, checks: {} };
 let server, browser, socket, nextId = 1;
-const pending = new Map(), requests = [], errors = [];
+const pending = new Map(), requests = [], errors = [], network = [], bodyChecks = [];
+const hash = bytes => createHash('sha256').update(bytes).digest('hex');
+let activeCityManifest = null, citySwitchAt = null;
+function verifyCityBody(url,bytes){const file=decodeURIComponent(new URL(url).pathname.split('/blue-dots-cities/')[1]||'');const asset=activeCityManifest?.assets[file];assert(asset,'Downloaded undeclared blue city asset '+file);assert.equal(bytes.length,asset.compressedBytes,'Actual city compressed bytes');assert.equal(hash(bytes),asset.compressedSha256,'Actual city compressed SHA');const plain=gunzipSync(bytes);assert.equal(plain.length,asset.bytes,'Actual city plain bytes');assert.equal(hash(plain),asset.sha256,'Actual city plain SHA');const rows=JSON.parse(plain);assert.equal(rows.length,asset.count,'Actual city row count');return {file,count:rows.length,compressedBytes:bytes.length,compressedSha256:hash(bytes),bytes:plain.length,sha256:hash(plain)};}
+
 const send = (method, params = {}) => new Promise((resolve, reject) => { const id = nextId++; const t = setTimeout(() => { pending.delete(id); reject(Error('CDP timeout ' + method)); }, 120000); pending.set(id, { resolve, reject, t }); socket.send(JSON.stringify({ id, method, params })); });
 async function evaluate(expression) { const r = await send('Runtime.evaluate', { expression: `(async()=>(${expression}))()`, awaitPromise: true, returnByValue: true }); if (r.exceptionDetails) throw Error(r.exceptionDetails.exception?.description || r.exceptionDetails.text); return r.result.value; }
 async function until(fn, timeout = 60000, label = 'state') { const start = Date.now(); while (Date.now() - start < timeout) { if (await fn()) return; await delay(250); } const s = await evaluate(`({state:window.__BAIDU_WORKBENCH__?.getState?.()||null,blue:(()=>{const rows=window.__blueDotsBridge?.rows||[];return {total:rows.length,cities:[...new Set(rows.map(r=>r[9]?.administrativeArea?.city).filter(Boolean))].slice(0,20),yangquan:rows.filter(r=>r[9]?.administrativeArea?.city==='阳泉市').length,matched:rows.filter(r=>r[9]?.administrativeArea?.county==='盂县').length,osmExtras:rows.filter(r=>r[9]?.administrativeArea?.source==='OpenStreetMap').length,firstIds:rows.slice(0,3).map(r=>r[0]),hasCountyPanoid:rows.some(r=>r[0]==='0901870012190323123011023GQ'),matchedPanoids:rows.filter(r=>['0901870012190323123011023GQ','0901870012190323123142004GQ'].includes(r[0])).map(r=>({id:r[0],extras:r[9]})),sample:rows.find(r=>r[9]?.administrativeArea?.county==='盂县'),load:window.__BAIDU_BLUE_DOT_LOAD__,debug:window.__BAIDU_BLUE_DOT_DEBUG__,live:document.querySelector('#live-message')?.textContent}})(),countyOptions:[...document.querySelectorAll('#county-filter option')].map(o=>({value:o.value,text:o.textContent}))})`).catch(() => null); throw Error('Timed out waiting for ' + label + ': ' + JSON.stringify(s)); }
-const isBlue = u => /\/data\/blue-dots\/.+\.json\.gz(?:\?|$)/.test(u);
-const isBlueAll = u => /\/data\/blue-dots\/parts-manifest\.json/.test(u);
+const isBlue = u => /\/data\/blue-dots(?:-osm|-cities)?\/.+\.json\.gz(?:\?|$)/.test(u);
+const isCity = u => /\/data\/blue-dots-cities\/.+\.json\.gz(?:\?|$)/.test(u);
+
 
 try {
   const o = args();
@@ -57,7 +65,10 @@ try {
   socket.addEventListener('message', e => {
     const v = JSON.parse(e.data);
     if (v.id) { const p = pending.get(v.id); if (!p) return; clearTimeout(p.t); pending.delete(v.id); v.error ? p.reject(Error(v.error.message)) : p.resolve(v.result || {}); }
-    else if (v.method === 'Network.requestWillBeSent') requests.push(v.params.request.url);
+    else if (v.method === 'Network.requestWillBeSent') {requests.push(v.params.request.url);network.push({id:v.params.requestId,url:v.params.request.url,index:requests.length-1,wallTime:v.params.wallTime*1000});}
+    else if (v.method === 'Network.responseReceived') {const row=network.findLast(r=>r.id===v.params.requestId);if(row)row.status=v.params.response.status;}
+    else if (v.method === 'Network.loadingFailed') {const row=network.findLast(r=>r.id===v.params.requestId);if(row){row.error=v.params.errorText;row.cancelled=Boolean(v.params.canceled);}}
+    else if (v.method === 'Network.loadingFinished') {const row=network.findLast(r=>r.id===v.params.requestId);if(row){row.finished=true;row.encodedDataLength=v.params.encodedDataLength;if(/\/blue-dots-cities\/.+\.json\.gz(?:\?|$)/.test(row.url)){const promise=send('Network.getResponseBody',{requestId:row.id}).then(body=>{assert(body.base64Encoded,'City gzip response must be binary');row.integrity=verifyCityBody(row.url,Buffer.from(body.body,'base64'));}).catch(error=>{row.integrityError=error.message;});bodyChecks.push(promise);}}}
     else if (v.method === 'Runtime.exceptionThrown') errors.push(v.params.exceptionDetails.exception?.description || v.params.exceptionDetails.text);
   });
   await send('Page.enable'); await send('Runtime.enable'); await send('Network.enable'); await send('Network.setCacheDisabled', { cacheDisabled: true });
@@ -78,32 +89,30 @@ try {
   const optionOK = await evaluate(`(()=>{const s=document.querySelector('#province-filter');return [...s.options].some(o=>o.value===${JSON.stringify(province)})})()`);
   assert(optionOK, 'Province option not present: ' + province);
   const manifest = await (await fetch(new URL('data/blue-dots/parts-manifest.json', url))).json();
-  const expected = manifest.parts.filter(p => p.province === province);
-  assert(expected.length > 0, 'No blue shards for province ' + province);
-  const expectedRows = expected.reduce((n, p) => n + p.rows, 0);
-  const expectedFiles = new Set(expected.map(p => p.file));
+  const provinceParts = manifest.parts.filter(p => p.province === province);
+  assert(provinceParts.length > 0, 'No blue shards for province ' + province);
+  const provinceRows = provinceParts.reduce((n, p) => n + p.rows, 0);
   const countyManifestResponse = await fetch(new URL('data/blue-dots-osm/county-matched-manifest.json', url));
   const countyManifest = countyManifestResponse.ok ? await countyManifestResponse.json() : null;
   const osmProvince = countyManifest?.parts.filter(part => part.key.startsWith(`${province}|`)) || [];
   const osmProvinceRows = osmProvince.reduce((n, part) => n + part.rows, 0);
+  let selectedCity=null,expectedRows=provinceRows,expectedFiles=new Set(provinceParts.map(p=>p.file));
+  if(requestedCity){const response=await fetch(new URL('data/blue-dots-cities/city-manifest.json',url));assert(response.ok,'City-only manifest unavailable');activeCityManifest=validateBlueCityManifest(await response.json());selectedCity=resolveBlueCity(activeCityManifest,province,requestedCity);assert(selectedCity,'Requested city absent from complete city manifest: '+requestedCity);expectedRows=selectedCity.count;expectedFiles=new Set(selectedCity.files);assert(expectedRows>0,'Choose a non-empty city for rendering check');}
   await evaluate(`(()=>{const s=document.querySelector('#province-filter');s.value=${JSON.stringify(province)};s.dispatchEvent(new Event('change',{bubbles:true}));return true})()`);
-  await until(() => evaluate(`window.__BAIDU_WORKBENCH__.getState().blueCount>=${expectedRows}`), 120000, 'province blue dots');
-  await until(() => evaluate('window.__BAIDU_WORKBENCH__.getState().mapRenderedCount>0'), 30000, 'blue map render');
+  if(requestedCity){
+    await until(()=>evaluate(`(()=>{const s=document.querySelector('#city-filter');return [...s.options].some(o=>o.value.startsWith('blue:')&&o.value.slice(5).replace(/市$/,'')===${JSON.stringify(blueCityName(requestedCity))})})()`),30000,'blue city directory option');
+    citySwitchAt=await evaluate(`(()=>{const s=document.querySelector('#city-filter'),o=[...s.options].find(o=>o.value.startsWith('blue:')&&o.value.slice(5).replace(/市$/,'')===${JSON.stringify(blueCityName(requestedCity))});if(!o)throw Error('Requested city unavailable');s.value=o.value;const at=performance.timeOrigin+performance.now();s.dispatchEvent(new Event('change',{bubbles:true}));return at})()`);
+    await until(()=>evaluate(`(()=>{const s=window.__BAIDU_WORKBENCH__.getState();return !s.loading&&s.blueScope==='city'&&s.blueCount===${expectedRows}&&s.blueVisibleCount===${expectedRows};})()`),120000,'city-only blue dots');
+  }else await until(()=>evaluate(`(()=>{const s=window.__BAIDU_WORKBENCH__.getState();return !s.loading&&s.blueCount===${expectedRows};})()`),120000,'whole province blue dots');
+  await until(() => evaluate('window.__BAIDU_WORKBENCH__.getState().blueRenderedCount>0'), 30000, 'blue map render');
   await delay(800);
   const loaded = await evaluate('window.__BAIDU_WORKBENCH__.getState()');
-  await evaluate(`document.querySelector('#fit-city').click()`);
-  await delay(300);
-  const fitBounds = await evaluate(`(()=>{const b=window.__BAIDU_WORKBENCH__.getState();return {zoom:b.mapAvailable?document.querySelector('#hud-zoom')?.textContent:null,center:document.querySelector('#hud-coordinate')?.textContent}})()`);
+  await evaluate(`document.querySelector('#fit-city').click()`);await delay(300);
   assert.equal(loaded.blueProvince, province, 'Blue layer province mismatch');
+  assert.equal(loaded.blueCount,expectedRows,'Loaded blue count differs from selected manifest scope');
+  if(requestedCity){assert.equal(loaded.blueScope,'city','Requested city still uses province scope');assert.equal(blueCityName(loaded.blueCity),blueCityName(selectedCity.name),'Blue city scope mismatch');}
   const cityOptions = await evaluate(`[...document.querySelectorAll('#city-filter option')].map(o=>o.textContent)`);
   assert(cityOptions.length > 1, 'Province blue-dot city options were not populated');
-  if (requestedCity) {
-    const cityValue = `blue:${requestedCity}`;
-    assert(cityOptions.some(text => text.includes(requestedCity)), 'Requested blue city option missing: ' + requestedCity);
-    await evaluate(`(()=>{const s=document.querySelector('#city-filter');s.value=${JSON.stringify(cityValue)};s.dispatchEvent(new Event('change',{bubbles:true}));return true})()`);
-    await until(() => evaluate('window.__BAIDU_WORKBENCH__.getState().blueCount>0'), 30000, 'blue city filter');
-  }
-  const cityFiltered = await evaluate('window.__BAIDU_WORKBENCH__.getState()');
   assert.ok(loaded.blueRenderedCount > 0, 'Blue points did not reach the map');
   // Pixel-level proof: count canvas pixels close to #27A9FF (39,169,255).
   // This distinguishes "rows stored in state" from "dots actually painted".
@@ -114,9 +123,10 @@ try {
     for(let i=0;i<d.length;i+=4){const r=d[i],g=d[i+1],b=d[i+2],a=d[i+3];
       if(a>40&&b>190&&r<110&&g>120&&g<215&&b-r>90)n++;}
     return n;})()`);
-  assert.ok(bluePixels > 500, 'Blue dots are not painted on the map canvas: ' + bluePixels + ' blue pixels');
+  const minimumBluePixels=requestedCity?Math.max(5,Math.min(500,loaded.blueRenderedCount*3)):500;
+  assert.ok(bluePixels > minimumBluePixels, 'Blue dots are not painted on the map canvas: ' + bluePixels + ' blue pixels; minimum '+minimumBluePixels);
   assert.equal(loaded.visibleCount, 0, 'Blue dots must not enter the ordinary list count');
-  assert.ok(loaded.blueCount >= expectedRows, 'Loaded blue count is below source province count');
+  assert.equal(loaded.blueCount, expectedRows, 'Loaded blue count differs from selected manifest count');
   if (requestedCounty) {
     const countyOptions = await evaluate(`[...document.querySelectorAll('#county-filter option')].map(o=>o.textContent)`);
     assert(countyOptions.some(text => text.includes(requestedCounty)), 'Requested blue county option missing: ' + requestedCounty);
@@ -125,7 +135,7 @@ try {
     const countyState = await evaluate('window.__BAIDU_WORKBENCH__.getState()');
     assert.equal(countyState.visibleCount, 0, 'County blue points must remain outside ordinary street-view list');
     assert.ok(countyState.mapRenderedCount > 0, 'Selected OSM county has no visible blue points');
-    const provinceCountyPart = osmProvince.find(part => part.key.endsWith(`|${requestedCounty}`));
+    const provinceCountyPart = osmProvince.find(part => part.key.endsWith(`|${requestedCounty}`)&&(!requestedCity||blueCityName(part.key.split('|')[1])===blueCityName(requestedCity)));
     assert(provinceCountyPart, 'No OSM county shard for requested county: ' + requestedCounty);
     assert.equal(countyState.mapRenderedCount, provinceCountyPart.rows, 'OSM county map count does not match manifest');
     await evaluate(`document.querySelector('#fit-city').click()`); await delay(300);
@@ -133,11 +143,30 @@ try {
     const countyState = await evaluate('({disabled:document.querySelector("#county-filter").disabled, options:[...document.querySelectorAll("#county-filter option")].map(o=>o.textContent)})');
     assert(countyState.disabled || countyState.options.length > 1, 'City-level blue selection must expose real county data or state that none exists');
   }
-  const blueRequests = requests.filter(isBlue).map(u => decodeURIComponent(new URL(u).pathname.split('/').pop()));
-  const foreign = [...new Set(blueRequests.filter(f => !expectedFiles.has(f)))];
-  assert.deepEqual(foreign, [], 'Loaded blue shards from another province: ' + JSON.stringify(foreign));
-  assert(!requests.some(u => /blue-dots\/china-.*part-/.test(u) && !expectedFiles.has(decodeURIComponent(new URL(u).pathname.split('/').pop()))), 'Whole-country blue download detected');
-  report.checks.provinceLoad = { province, expectedShards: expected.length, expectedRows, osmCountyRows: osmProvinceRows, osmCountyParts: osmProvince.length, requestedShards: [...new Set(blueRequests)].length, blueCount: loaded.blueCount, blueRenderedCount: loaded.blueRenderedCount, blueCanvasPixels: bluePixels, visibleCount: loaded.visibleCount, county: requestedCounty || null, countyRenderedCount: requestedCounty ? (await evaluate('window.__BAIDU_WORKBENCH__.getState().mapRenderedCount')) : null };
+  const blueRequests = requests.filter(isBlue);
+  if(requestedCity){
+    const afterSwitch=network.filter(r=>r.wallTime>=citySwitchAt&&isBlue(r.url));
+    assert(afterSwitch.length>0,'City selection made no city asset downloads');
+    assert(afterSwitch.every(r=>isCity(r.url)),'Province or OSM payload request started after city selection: '+JSON.stringify(afterSwitch));
+    const actualFiles=new Set(afterSwitch.map(r=>decodeURIComponent(new URL(r.url).pathname.split('/blue-dots-cities/')[1])));
+    assert.deepEqual([...actualFiles].sort(),[...expectedFiles].sort(),'City downloads do not exactly match selected manifest files');
+    await Promise.all(bodyChecks);
+    for(const row of afterSwitch){assert.equal(row.status,200,'City asset HTTP failure');assert(row.finished&&!row.error,'City asset did not complete');assert(!row.integrityError,row.integrityError);assert(row.integrity,'Actual city response SHA not checked');}
+    const preSwitchProvince=network.filter(r=>r.wallTime<citySwitchAt&&isBlue(r.url));
+    const allowedEarlier=new Set([...provinceParts.map(p=>new URL('data/blue-dots/'+p.file,url).href),...osmProvince.map(p=>new URL('data/blue-dots-osm/'+p.file,url).href)]);
+    assert(preSwitchProvince.every(r=>!isCity(r.url)&&allowedEarlier.has(r.url)),'Unexpected city or another province downloaded before selection');
+    report.checks.cityLoad={mode:'city-only',province,city:selectedCity.name,key:selectedCity.key,expectedRows,expectedFiles:[...expectedFiles],provinceTotal:provinceRows,abortedOrEarlierProvinceRequests:preSwitchProvince,actualCityDownloads:afterSwitch,blueCount:loaded.blueCount,blueRenderedCount:loaded.blueRenderedCount,blueCanvasPixels:bluePixels,minimumBluePixels,visibleCount:loaded.visibleCount,county:requestedCounty||null,countyRenderedCount:requestedCounty?(await evaluate('window.__BAIDU_WORKBENCH__.getState().mapRenderedCount')):null};
+  }else{
+    const baseRequests=blueRequests.filter(u=>/\/data\/blue-dots\//.test(u)).map(u=>decodeURIComponent(new URL(u).pathname.split('/').pop()));
+    assert.deepEqual([...new Set(baseRequests.filter(f=>!expectedFiles.has(f)))],[],'Downloaded another province base shard');
+    const expectedOsm=new Set(osmProvince.map(p=>p.file));
+    const osmRequests=blueRequests.filter(u=>/\/data\/blue-dots-osm\//.test(u)).map(u=>decodeURIComponent(new URL(u).pathname.split('/').pop()));
+    assert.deepEqual([...new Set(osmRequests.filter(f=>!expectedOsm.has(f)))],[],'Downloaded another province OSM shard');
+    assert(!blueRequests.some(isCity),'Province-only mode downloaded city shards');
+    assert.deepEqual([...new Set(baseRequests)].sort(),[...expectedFiles].sort(),'Province-only mode missed expected base shards');
+    report.checks.provinceLoad={mode:'province',province,expectedShards:provinceParts.length,expectedRows,osmCountyRows:osmProvinceRows,osmCountyParts:osmProvince.length,requestedShards:[...new Set(baseRequests)].length,blueCount:loaded.blueCount,blueRenderedCount:loaded.blueRenderedCount,blueCanvasPixels:bluePixels,minimumBluePixels,visibleCount:loaded.visibleCount,county:requestedCounty||null,countyRenderedCount:requestedCounty?(await evaluate('window.__BAIDU_WORKBENCH__.getState().mapRenderedCount')):null};
+  }
+  assert(!requests.some(u=>/qq\.com|gtimg\.com|raw\.githubusercontent\.com/.test(u)),'Foreign provider or external data fallback');
   report.checks.errors = errors;
   const shot = await send('Page.captureScreenshot', { format: 'png' });
   await writeFile(path.join(results, 'blue-layer.png'), Buffer.from(shot.data, 'base64'));
@@ -150,5 +179,5 @@ try {
   report.debug = { errors, blueRequests: requests.filter(isBlue), osmRequests: requests.filter(u=>u.includes('blue-dots-osm')), recentRequests: requests.slice(-25) };
   if (resultsDir()) await writeFile(path.join(resultsDir(), 'report.json'), JSON.stringify(report, null, 2) + '\n').catch(() => {});
   console.error(error.message); process.exitCode = 1;
-} finally { pending.clear(); if (socket) socket.close(); if (browser) browser.kill(); if (server) await server.close(); }
+} finally { for(const entry of pending.values())clearTimeout(entry.t);pending.clear();if(socket?.readyState===1)await send('Browser.close').catch(()=>{});if(browser){await Promise.race([new Promise(resolve=>{if(browser.exitCode!==null)resolve();else browser.once('exit',resolve);}),delay(3000)]);if(browser.exitCode===null){if(process.platform==='win32'){const killer=spawn('taskkill',['/PID',String(browser.pid),'/T','/F'],{stdio:'ignore'});await new Promise(resolve=>killer.once('exit',resolve));}else browser.kill('SIGKILL');}}for(const entry of pending.values())clearTimeout(entry.t);pending.clear();socket?.close();if(server){server.server.closeAllConnections();await server.close();} }
 function resultsDir() { const a = process.argv.slice(2); const i = a.indexOf('--result-dir'); return i >= 0 ? path.resolve(ROOT, a[i + 1]) : null; }

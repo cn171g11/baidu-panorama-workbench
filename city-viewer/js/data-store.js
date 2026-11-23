@@ -14,6 +14,16 @@ function collectionShardMaxRows(collection) {
   return maxRows;
 }
 
+function isOverseasCollection(collection) {
+  return collection.id === '191001' && collection.adcode === '191001' && collection.scope === 'overseas' && collection.province === '海外' && !collection.partition && !collection.counties;
+}
+
+function validFlatShardCount(collection, maxRows) {
+  const minimum = Math.ceil(collection.count / maxRows);
+  if (isOverseasCollection(collection)) return collection.files.length >= minimum && collection.files.length <= Math.min(collection.count, 1000);
+  return collection.files.length === minimum;
+}
+
 function assertCatalog(catalog) {
   if (!catalog || catalog.schemaVersion !== 1 || catalog.provider !== "baidu" || catalog.coordinateSystem !== "BD-09") throw new Error("Invalid Baidu catalog header");
   validateSummary(catalog.importSummary, 'catalog.importSummary');
@@ -31,7 +41,7 @@ function assertCatalog(catalog) {
     const maxRows = collectionShardMaxRows(item);
     if(item.partition===COUNTY_PARTITION)validateCountyCatalog(item);
     else {
-      if (item.files.length !== Math.ceil(item.count / maxRows)) throw new Error(`Invalid shard count: ${item.id}`);
+      if (!validFlatShardCount(item, maxRows)) throw new Error(`Invalid shard count: ${item.id}`);
       for (let index = 0; index < item.files.length; index++) {
         const expected = `baidu/${item.id}/points-${String(index + 1).padStart(3, "0")}.json`;
         if (item.files[index] !== expected) throw new Error(`Invalid Baidu shard path: ${item.files[index]}`);
@@ -66,7 +76,7 @@ async function loadCollection(collection, {county='all',part='all',signal,onProg
   if(collection.partition===COUNTY_PARTITION)selection=selectCountyFiles(collection,county,part);
   else {
     if(county!=='all'||part!=='all')throw Error('County shards are not published for this city');
-    if (collection.files.length !== Math.ceil(collection.count / maxRows)) throw new Error("Invalid Baidu collection shard count");
+    if (!validFlatShardCount(collection, maxRows)) throw new Error("Invalid Baidu collection shard count");
     for (let index = 0; index < collection.files.length; index++) {
       const expected = `baidu/${collection.id}/points-${String(index + 1).padStart(3, "0")}.json`;
       if (collection.files[index] !== expected) throw new Error(`Invalid Baidu shard path: ${collection.files[index]}`);
@@ -86,6 +96,7 @@ async function loadCollection(collection, {county='all',part='all',signal,onProg
   for (const path of shardPaths) {
     const asset = manifest.assets[path];
     if (!asset || !Number.isSafeInteger(asset.bytes) || asset.bytes < 0 || !/^[0-9a-f]{64}$/i.test(asset.sha256)) throw new Error(`Invalid manifest entry: ${path}`);
+    if (isOverseasCollection(collection) && (!Number.isSafeInteger(asset.count) || asset.count < 1 || asset.count > maxRows)) throw new Error(`Invalid overseas shard count: ${path}`);
     const isGzip = manifest.codec === 'gzip';
     if (isGzip && (asset.url !== `${path}.gz` || !Number.isSafeInteger(asset.compressedBytes) || asset.compressedBytes < 0 || !/^[0-9a-f]{64}$/i.test(asset.compressedSha256))) throw new Error(`Invalid gzip manifest entry: ${path}`);
     if (!isGzip) {

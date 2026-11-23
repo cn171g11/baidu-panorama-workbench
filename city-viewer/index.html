@@ -25,6 +25,7 @@
     <div class="segmented" role="group" aria-label="地图显示模式"><button type="button" class="segment active" data-map-mode="points" aria-pressed="true">散点</button><button type="button" class="segment" data-map-mode="density" aria-pressed="false">密度</button></div>
     <label class="toolbar-field kind-field"><span class="sr-only">点位类型</span><select id="kind-filter" title="源数据标注类型"><option value="all">全部类型</option><option value="regular">常规</option><option value="hidden">隐藏 · 源标注</option><option value="time-machine">时光机 · 源标注</option><option value="unknown">未知</option></select></label>
     <nav class="top-actions" aria-label="主导航">
+      <button class="button" id="load-global" type="button" aria-pressed="false" hidden>全球（非中国）</button>
       <button class="button" id="fit-city" type="button" title="回到当前城市或筛选结果范围" disabled>全览</button>
       <button class="button" id="toggle-list" type="button" aria-expanded="false" aria-controls="records-panel" title="展开点位列表">列表</button>
       <a class="button nav-link" href="./report.html">数据报告</a>
@@ -57,7 +58,7 @@
     </section>
     <section id="empty-state" class="empty-state viewer-gate" hidden aria-live="polite">
       <h1 id="empty-title">选择省份与城市</h1>
-      <p id="empty-description">选择顶部城市后按需载入百度街景，不自动下载全国点位。</p>
+      <p id="empty-description">选择省份、城市或全球集合后载入对应的百度街景，不自动下载全国点位。</p>
       <button class="button button-primary" id="empty-load" type="button" hidden>载入所选城市</button>
       <button class="button" id="empty-import" type="button">导入本地数据</button>
       <small>本地导入和保存只作用于当前浏览器，不会自动上传网站。</small>

@@ -16,3 +16,14 @@ test('incremental Pages helper retains the previous batch and adds small cities 
   await expandPages(10,{configFile,catalogFile});assert.deepEqual(JSON.parse(await readFile(configFile,'utf8')).cities,['110000','542500','310000']);
  }finally{await rm(root,{recursive:true});}
 });
+
+test('incremental Pages helper refuses to infer supplemental cities from archive counts',async t=>{
+ const root=await mkdtemp(path.join(os.tmpdir(),'baidu-expand-supplement-test-'));
+ t.after(()=>rm(root,{recursive:true}));
+ const configFile=path.join(root,'config.json'),catalogFile=path.join(root,'catalog.json');
+ const policy=JSON.stringify({provider:'baidu',mode:'pages-gzip',domesticSupplementOnly:true,cities:['110000']});
+ await writeFile(configFile,policy);
+ await writeFile(catalogFile,JSON.stringify({provider:'baidu',collections:[{id:'110000',count:1},{id:'310000',count:90000}]}));
+ await assert.rejects(expandPages(1,{configFile,catalogFile}),/Add eligible domestic cities explicitly/);
+ assert.equal(await readFile(configFile,'utf8'),policy);
+});

@@ -1,3 +1,4 @@
+import { loadBlueCityManifest, loadBlueCity, blueCityName, normalizeBluePoint } from './blue-city-data.js';
 import { createLoadFeedback } from './load-feedback.js';
 import { fetchBytes, fetchJson, nextPaint } from './transfer.js';
 import { COUNTY_PARTITION, selectCountyFiles } from './county-data.js';
@@ -8,6 +9,8 @@ import { loadCatalog, loadCollection, saveLocalRows, loadLocalRows, clearLocalRo
 import { createMap, renderMap, bindMapInteractions, highlightRow, fitRows, setBasemap, openRowPopup, closeRowPopup } from './map.js';
 
 const PAGE_SIZE = 50;
+const GLOBAL_COLLECTION_ID = '191001';
+const isOverseasCollection = city => city.province === '海外';
 const $ = (id) => document.getElementById(id);
 const elements = {
   summaryCities: $('summary-cities'), summaryRaw: $('summary-raw'), summaryUnique: $('summary-unique'), summaryDuplicates: $('summary-duplicates'),
@@ -61,7 +64,7 @@ function updateStatus() {
   elements.source.querySelector('span:last-child').textContent=waiting?`加载中：${waiting}`:`Pages ${state.catalog.collections.length} 集合 · 街景 ${state.totalPublished.toLocaleString()} · 小蓝点 ${blueTotal.toLocaleString()} · 百度`;
   $('fit-city').disabled=state.visibleRows.length===0&&blueRowsForSelection().length===0;
   const counts=countCategories(state.visibleRows);
-  $('map-hint').textContent=state.visibleRows.length?`${state.visibleRows.length.toLocaleString()} 个匹配点 · 常规 ${counts.regular.toLocaleString()} / 隐藏 ${counts.hidden.toLocaleString()} / 时光机 ${counts.timeMachine.toLocaleString()} · 点击地图查看最近点`:'请选择顶部省份、城市与县区；仅下载选定分片，不会自动下载整市';
+  $('map-hint').textContent=state.visibleRows.length?`${state.visibleRows.length.toLocaleString()} 个匹配点 · 常规 ${counts.regular.toLocaleString()} / 隐藏 ${counts.hidden.toLocaleString()} / 时光机 ${counts.timeMachine.toLocaleString()} · 点击地图查看最近点`:'选择省份、城市或全球集合；选县区可缩小街景范围';
 }
 let noticeTimer;
 function announce(message) {
@@ -77,24 +80,24 @@ function refreshSnapshot() {
     provider: 'baidu',
     getState: () => Object.freeze({
       ready: state.ready, rows: state.visibleRows.length, total: state.totalPublished,
-      source: 'published-catalog', currentCollection: elements.city.value || elements.province.value || null,
+      source: 'published-catalog', currentCollection: state.globalSelected ? GLOBAL_COLLECTION_ID : elements.city.value || elements.province.value || null,
       loadedCollection: state.loadedCollection, loadedSelection:state.loadedSelection, county:elements.county.value||null, shard:elements.shard.value, localCount: state.localRows.length,
       visibleCount: state.visibleRows.length, page: state.page + 1, pageSize: PAGE_SIZE,
       selectedPanoid: state.selected?.[0] || null, mapAvailable: Boolean(state.map), mapMode: state.mode,
-      mapRenderedCount: state.map?.renderedCount || 0, mapGridCells: state.map?.grid.size || 0,
+      mapRenderedCount: state.map?.renderedCount || 0, mapGridCells: state.map?.grid.size || 0, mapBlueGridCells: state.map?.blueGrid?.size || 0,
       blueCount: state.blueRows.length, blueVisibleCount: blueRowsForSelection().length, blueRenderedCount: state.map?.bluePoints?.length || 0, blueProvince: elements.province.value || null,
       basemap:state.map?.basemap, actualMapMode:state.map?.actualMode, drawnSymbols:state.map?.drawnSymbols||0, kind:$('kind-filter').value,
       collections: state.catalog?.collections.length || 0, blueTotal:state.blueManifestTotal, combinedTotal:state.totalPublished+state.blueManifestTotal, layout:'fullscreen-map', popupOpen:!!state.map?.popup, listOpen:state.listOpen, loading:state.loading,
-      streetLoading: Boolean(state.streetLoading), blueLoading: Boolean(state.blueLoading), loadFeedback: state.loadFeedback || { pending: [], error: null },
+      streetLoading: Boolean(state.streetLoading), blueLoading: Boolean(state.blueLoading), blueScope:state.blueScope||null, blueCity:state.blueCity||null, loadFeedback: state.loadFeedback || { pending: [], error: null },
     }),
   });
 }
-function allRows() { return state.publishedRows.concat(state.localRows); }
+function allRows() { return state.localRows.length ? state.publishedRows.concat(state.localRows) : state.publishedRows; }
 function collectionForRow(row) { return state.localRows.includes(row) ? 'local' : (row.__collectionId || ''); }
 
 let collectionRequest = 0;
 async function loadPublishedCollections(collections) {
-  const cacheKey=collections.map(selectedKey).join(',');
+  const cacheKey=collections.map(city=>selectedKey(city)).join(',');
   if(activeLoad?.key===cacheKey)return activeLoad.promise;
   const promise=loadPublishedCollectionsNow(collections);
   activeLoad={key:cacheKey,promise};
@@ -113,25 +116,30 @@ function progressMessage(progress, noun) {
 async function loadPublishedCollectionsNow(collections) {
   const requestId = ++collectionRequest;
   activeController?.abort();const controller=new AbortController();activeController=controller;
-  const requests=collections.map(city=>({city,key:selectedKey(city),options:{county:city.partition===COUNTY_PARTITION?elements.county.value:'all',part:city.partition===COUNTY_PARTITION?elements.shard.value:'all',signal:controller.signal},selection:selectedRequest(city)}));
+  const requests=collections.map(city=>{
+    const options={...streetSelection(city),signal:controller.signal};
+    return {city,key:selectedKey(city),options,selection:selectedRequest(city,options)};
+  });
   const total = requests.reduce((sum, item) => sum + item.selection.count, 0);
-  const threshold=window.matchMedia('(max-width:680px)').matches?10000:25000;
-  if (total > threshold && !cityCache.has(requests[0]?.key) && !window.confirm(`即将读取 ${total.toLocaleString()} 条已发布记录，可能占用较多内存。继续吗？`)) {
-    loadFeedback.cancel('street'); announce('已取消载入大型城市集合；本地记录仍可使用'); updateView(); return;
-  }
-  const token = loadFeedback.start('street', `${collections.map(city => city.name).join('、')} · 街景`, {
-    cancel: () => { ++collectionRequest; controller.abort(); activeController=null; activeLoad=null; updateView(); announce('街景加载已取消，可点击载入重试'); },
-    retry: () => { const city=state.collectionById.get(elements.city.value); if(city&&!elements.county.value.startsWith('blue:')&&(city.partition!==COUNTY_PARTITION||elements.county.value))void loadPublishedCollections([city]); },
+  const filesTotal = requests.reduce((sum, item) => sum + item.selection.files.length, 0);
+  const label = elements.city.value || state.globalSelected ? collections[0].name : elements.province.value;
+  const token = loadFeedback.start('street', `${label} · 街景`, {
+    cancel: () => { if(activeController!==controller)return; ++collectionRequest; controller.abort(); activeController=null; activeLoad=null; updateView(); announce('街景加载已取消，可点击载入重试'); },
+    retry: () => { void loadPublishedSelection(); },
   });
   elements.empty.hidden=true;
-  state.mapModeManual=true; state.mode='density';
-  loadFeedback.update(token, { phase:'preparing', message:`准备读取 ${total.toLocaleString()} 条街景 · ${requests.reduce((n,r)=>n+r.selection.files.length,0)} 个分片` });
+  loadFeedback.update(token, { phase:'preparing', message:`准备读取 ${total.toLocaleString()} 条街景 · ${filesTotal} 个分片` });
   await nextPaint();
   const nextRows = [];
+  let completedFiles = 0;
   try {
     for (const request of requests) {
+      controller.signal.throwIfAborted();
       const {city:collection,key,options,selection}=request;
-      options.onProgress=progress=>loadFeedback.update(token, { ...progress, fraction:progress.filesTotal?progress.filesDone/progress.filesTotal:null, message:progressMessage(progress,'街景') });
+      options.onProgress=progress=>{
+        const accumulated={...progress,filesTotal,totalRows:total,filesDone:completedFiles+progress.filesDone,verifiedRows:nextRows.length+progress.verifiedRows};
+        loadFeedback.update(token,{...accumulated,fraction:accumulated.filesDone/filesTotal,message:progressMessage(accumulated,'街景')});
+      };
       let rows=cityCache.get(key);
       if(!rows){rows=await loadCollection(collection,options);if(requestId!==collectionRequest||controller.signal.aborted)return;cityCache.set(key,rows);while(cityCache.size>1)cityCache.delete(cityCache.keys().next().value);}
       if (requestId !== collectionRequest) return;
@@ -140,9 +148,10 @@ async function loadPublishedCollectionsNow(collections) {
         for (const row of rows.slice(offset,offset+2000)) nextRows.push(Object.assign(row, { __collectionId: collection.id, __city: collection.name, __province: collection.province, __countyId:selection.county?.id||row[9]?.administrativeArea?.countyId||'unmatched', __county:selection.county?.name||row[9]?.administrativeArea?.countyName||'未匹配' }));
         if(rows.length>2000)await nextPaint();
       }
+      completedFiles += selection.files.length;
     }
     if (requestId !== collectionRequest) return;
-    loadFeedback.update(token,{phase:'render',message:`已校验 ${nextRows.length.toLocaleString()} 条街景 · 正在绘制地图`,fraction:0.99});
+    loadFeedback.update(token,{phase:'render',filesDone:filesTotal,filesTotal,verifiedRows:nextRows.length,message:`已校验 ${nextRows.length.toLocaleString()} 条街景 · 正在绘制地图`,fraction:0.99});
     await nextPaint(); controller.signal.throwIfAborted();
     state.publishedRows = nextRows;
     state.loadedCollection = collections.length === 1 ? collections[0].id : null;
@@ -161,25 +170,29 @@ async function loadPublishedCollectionsNow(collections) {
 
 const BLUE_DOT_PROVINCES = ['北京市','天津市','河北省','山西省','内蒙古自治区','辽宁省','吉林省','黑龙江省','上海市','江苏省','浙江省','安徽省','福建省','江西省','山东省','河南省','湖北省','湖南省','广东省','广西壮族自治区','海南省','重庆市','四川省','贵州省','云南省','西藏自治区','陕西省','甘肃省','青海省','宁夏回族自治区','新疆维吾尔自治区'];
 function populateFilters() {
-  // 省份下拉必须同时包含“有已发布街景的省”和“有小蓝点数据的省”，
-  // 否则未发布城市的省份无法选中，其蓝点也就永远看不到。
-  const provinces = new Set([...state.catalog.collections.map((c) => c.province), ...BLUE_DOT_PROVINCES]);
+  const provinces = new Set([...state.catalog.collections.filter(city=>!isOverseasCollection(city)).map(city=>city.province), ...BLUE_DOT_PROVINCES]);
   elements.province.innerHTML = '<option value="">全部省份</option>';
-  [...provinces].filter(Boolean).sort((a, b) => a.localeCompare(b, 'zh-CN')).forEach((name) => {
-    const hasStreetView = state.catalog.collections.some((c) => c.province === name);
-    elements.province.add(new Option(name, name));
-  });
+  [...provinces].filter(Boolean).sort((a, b) => a.localeCompare(b, 'zh-CN')).forEach(name => elements.province.add(new Option(name, name)));
+  $('load-global').hidden = !globalCollection()?.count;
   syncCities();
 }
 function syncCities() {
   const previousCity = elements.city.value;
   const province = elements.province.value;
-  const cities = state.catalog.collections.filter((c) => !province || c.province === province);
-  const blueCities = province ? [...new Set([...(state.blueRows.filter(row => row.__province === province).map(row => row.__blueCity).filter(Boolean)), ...osmBlueCities(province)])].sort((a,b)=>a.localeCompare(b,'zh-CN')) : [];
+  const cities = province ? provinceCollections(province) : [];
+  const blueCities = province ? (state.blueCityManifest
+    ? state.blueCityManifest.collections.filter(city=>city.province===province).map(city=>city.name)
+    : [...new Set([...state.blueRows.filter(row=>row.__province===province).map(row=>row.__blueCity).filter(Boolean), ...osmBlueCities(province)])]
+  ).sort((a,b)=>a.localeCompare(b,'zh-CN')) : [];
   elements.city.innerHTML = `<option value="">${province ? (cities.length || blueCities.length ? '选择城市' : '该省暂未发布街景或蓝点') : '选择省份后载入'}</option>`;
   cities.forEach((c) => elements.city.add(new Option(c.name, c.id)));
-  blueCities.filter(name => !cities.some(city => city.name === name)).forEach(name => elements.city.add(new Option(name, `blue:${name}`)));
+  const blueNames=new Set();
+  blueCities.filter(name => !cities.some(city => blueCityName(city.name) === blueCityName(name))).forEach(name=>{const key=blueCityName(name);if(!blueNames.has(key)){blueNames.add(key);elements.city.add(new Option(name, `blue:${name}`));}});
   if ([...elements.city.options].some(option => option.value === previousCity)) elements.city.value = previousCity;
+  else if(previousCity.startsWith('blue:')) {
+    const replacement = [...elements.city.options].find(option=>option.value.startsWith('blue:') && blueCityName(option.value.slice(5))===blueCityName(previousCity.slice(5)));
+    if(replacement)elements.city.value=replacement.value;
+  }
   elements.city.disabled = !province || (!cities.length && !blueCities.length);
   syncCounties();
 }
@@ -215,14 +228,39 @@ function syncShards(){
   }else{elements.shard.add(new Option('全部分片','all'));elements.shard.disabled=true;}
   if ([...elements.shard.options].some(option => option.value === previousShard)) elements.shard.value = previousShard;
   const blueSelection=elements.city.value.startsWith('blue:')||elements.county.value.startsWith('blue:');
-  $('load-city').disabled=blueSelection?!elements.province.value:(!city||city.count===0||(city.partition===COUNTY_PARTITION&&!elements.county.value));
+  $('load-city').disabled=blueSelection?!elements.province.value:!selectedStreetCollections().length;
   $('load-city').textContent=blueSelection?'重试蓝点':'载入街景';
-  $('load-city').title=blueSelection?'按省读取蓝点；加载进度在地图提示框中显示':city?.partition===COUNTY_PARTITION?'选县区后按需载入街景分片':'载入所选城市街景';
+  $('load-city').title=blueSelection?'只读取当前所选城市的蓝点分片':'载入当前范围的已发布街景分片';
 }
-function selectedKey(city){return city ? `${city.id}:${city.partition===COUNTY_PARTITION?elements.county.value||'': 'all'}:${city.partition===COUNTY_PARTITION?elements.shard.value:'all'}` : null;}
-function selectedRequest(city){
-  if(city.partition===COUNTY_PARTITION){if(!elements.county.value)throw Error('请先选择县/区');return selectCountyFiles(city,elements.county.value,elements.shard.value);}
+function globalCollection(){
+  const city=state.collectionById.get(GLOBAL_COLLECTION_ID);
+  return city?.scope==='overseas' && isOverseasCollection(city) ? city : null;
+}
+function provinceCollections(province){
+  return state.catalog.collections.filter(city=>!isOverseasCollection(city)&&city.province===province);
+}
+function selectedStreetCollections(){
+  if(elements.city.value.startsWith('blue:')||elements.county.value.startsWith('blue:'))return [];
+  if(state.globalSelected)return [globalCollection()].filter(city=>city?.count>0);
+  const city=state.collectionById.get(elements.city.value);
+  if(city)return city.count>0?[city]:[];
+  return elements.province.value ? provinceCollections(elements.province.value).filter(city=>city.count>0) : [];
+}
+function streetSelection(city){
+  const county=city.partition===COUNTY_PARTITION&&elements.city.value===city.id&&!elements.county.value.startsWith('blue:') ? elements.county.value||'all' : 'all';
+  return {county,part:county==='all'?'all':elements.shard.value};
+}
+function selectedKey(city){
+  const {county,part}=streetSelection(city);
+  return `${city.id}:${county}:${part}`;
+}
+function selectedRequest(city,{county,part}){
+  if(city.partition===COUNTY_PARTITION)return selectCountyFiles(city,county,part);
   return {files:city.files,count:city.count,county:null,part:'all'};
+}
+async function loadPublishedSelection(){
+  const collections=selectedStreetCollections();
+  if(collections.length)await loadPublishedCollections(collections);
 }
 
 // --- 小蓝点独立图层 ------------------------------------------------------------
@@ -233,6 +271,20 @@ let blueDotController = null;
 let blueDotManifestPromise = null;
 let blueOsmManifestPromise = null;
 let blueNationalCountyPromise = null;
+let blueCityManifestPromise = null;
+function readBlueCityManifest(){
+  if(!blueCityManifestPromise)blueCityManifestPromise=loadBlueCityManifest().catch(error=>{blueCityManifestPromise=null;throw error;});
+  return blueCityManifestPromise;
+}
+function selectedBlueCity(){
+  if(elements.city.value.startsWith('blue:'))return elements.city.value.slice(5);
+  const city=state.collectionById.get(elements.city.value);
+  return city&&city.province===elements.province.value?city.name:'';
+}
+function loadBlueDotsForSelection(){
+  const city=selectedBlueCity();
+  return city?loadBlueDotsForCity(elements.province.value||'',city):loadBlueDotsForProvince(elements.province.value||'');
+}
 function loadNationalCountyDirectory(){if(!blueNationalCountyPromise)blueNationalCountyPromise=fetchJson(new URL('../data/blue-dots-osm/national-county-directory.json',import.meta.url),{fetchOptions:{cache:'force-cache'}}).catch(e=>{blueNationalCountyPromise=null;throw e;});return blueNationalCountyPromise;}
 function loadBlueOsmManifest(){
   if(!blueOsmManifestPromise) blueOsmManifestPromise=fetchJson(new URL('../data/blue-dots-osm/county-matched-manifest.json',import.meta.url),{fetchOptions:{cache:'force-cache'}}).then(data=>{if(data.schemaVersion!==1||!Array.isArray(data.parts))throw Error('OSM蓝点县级清单格式错误');return data;}).catch(error=>{blueOsmManifestPromise=null;throw error;});
@@ -241,16 +293,8 @@ function loadBlueOsmManifest(){
 function osmBlueCities(province){
   const prefix=province+'|';return [...new Set((state.blueOsmManifest?.parts||[]).filter(part=>part.key.startsWith(prefix)).map(part=>part.key.split('|')[1]).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'zh-CN'));
 }
-function normalizeBlueRow(row, manifestPart) {
-  if (!Array.isArray(row) || (row.length !== 6 && row.length !== 7) || typeof row[0] !== 'string' || !Number.isFinite(row[1]) || !Number.isFinite(row[2]) || typeof row[3] !== 'string' || !Number.isFinite(row[4]) || !Number.isFinite(row[5])) return null;
-  const sourceExtras = row[6] && typeof row[6] === 'object' ? row[6] : {};
-  const osmAreaRecord = sourceExtras.source === 'OpenStreetMap' ? sourceExtras : sourceExtras.administrativeArea;
-  const extras = { ...sourceExtras, ...(osmAreaRecord ? { administrativeArea: { ...osmAreaRecord } } : {}), blueDot: true, source: 'blue-dots', sourceFile: manifestPart.source, sourceSha256: manifestPart.sha256, sourceCoordinateSystem: 'BD09MC / BD09LL', region: row[3], bd09mcX: row[1], bd09mcY: row[2] };
-  const regionParts = row[3].split('|').map(part => part.trim()).filter(Boolean);
-  const osmArea = extras.administrativeArea?.source === 'OpenStreetMap' && extras.administrativeArea.match === 'matched' ? extras.administrativeArea : null;
-  const normalized = [row[0], row[4], row[5], row[3], '', null, false, false, 'baidu', extras];
-  Object.assign(normalized, { __province: osmArea?.province || regionParts[0] || '', __blueCity: osmArea?.city || regionParts[1] || '', __blueCounty: osmArea?.county || '', __blueDot: true });
-  return normalized;
+function normalizeBlueRow(row, manifestPart={}) {
+  try { return normalizeBluePoint(row,manifestPart); } catch { return null; }
 }
 async function blueDotSha256(bytes) {
   if(!globalThis.crypto?.subtle) throw new Error('小蓝点校验需要Web Crypto');
@@ -262,7 +306,6 @@ async function blueDotManifest(signal) {
   return blueDotManifestPromise;
 }
 async function fetchBlueDots(province, signal, onProgress) {
-  if (blueDotCache.has(province)) return blueDotCache.get(province);
   onProgress({phase:'manifest',filesDone:0,verifiedRows:0});
   const manifest = await blueDotManifest(signal), parts = manifest.parts.filter(part => part.province === province);
   const osmManifest=state.blueOsmManifest||await loadBlueOsmManifest();
@@ -298,29 +341,49 @@ async function fetchBlueDots(province, signal, onProgress) {
   }
   signal.throwIfAborted();
   for(const value of enriched.values())rows.push(value);
-  blueDotCache.set(province, rows);
-  if (blueDotCache.size > 1) blueDotCache.delete(blueDotCache.keys().next().value);
   return rows;
 }
 export async function loadBlueDotsForProvince(province) {
+  return loadBlueDotsScope(province,'');
+}
+export async function loadBlueDotsForCity(province,city) {
+  return loadBlueDotsScope(province,city);
+}
+async function loadBlueDotsScope(province,city) {
   if (!state.catalog) throw new Error('目录尚未加载');
+  // Abort before the first await, including a province transfer still reading its body.
   cancelBlueDotLoad();
-  if (window.__BAIDU_BLUE_DOTS_DISABLED__ || !province || !BLUE_DOT_PROVINCES.includes(province)) { state.blueRows=[]; updateView(); return []; }
+  resetBlueScope();
+  if (window.__BAIDU_BLUE_DOTS_DISABLED__ || !province || !BLUE_DOT_PROVINCES.includes(province)) { updateView(); return []; }
+  state.blueScope=city?'city':'province';state.blueCity=city||null;
   const controller = new AbortController(); blueDotController = controller;
-  const token = loadFeedback.start('blue', `${province} · 小蓝点`, {
-    cancel: () => { controller.abort(); if(blueDotController===controller)blueDotController=null; syncCounties(); updateView(); announce('小蓝点加载已取消，可点击重试蓝点'); },
-    retry: () => { void loadBlueDotsForProvince(elements.province.value || '').catch(error=>announce(error.message)); },
+  const key=city?`city:${province}|${blueCityName(city)}`:`province:${province}`;
+  const token = loadFeedback.start('blue', `${province}${city?' / '+city:''} · 小蓝点`, {
+    cancel: () => { if(blueDotController!==controller)return; controller.abort(); blueDotController=null; syncCounties(); updateView(); announce(`小蓝点加载已取消，可重新选择当前${city?'城市':'省份'}`); },
+    retry: () => { void loadBlueDotsForSelection().catch(error=>announce(error.message)); },
   });
-  elements.empty.hidden=true;
+  updateView();elements.empty.hidden=true;
   await nextPaint();
   try {
-    const next = await fetchBlueDots(province, controller.signal, progress => loadFeedback.update(token,{...progress,message:progressMessage(progress,'蓝点'),fraction:progress.filesTotal?progress.filesDone/progress.filesTotal:null}));
+    let next=blueDotCache.get(key);
+    if(!next){
+      const progress=progress=>loadFeedback.update(token,{...progress,message:progressMessage(progress,'蓝点'),fraction:progress.filesTotal?progress.filesDone/progress.filesTotal:null});
+      if(city){
+        const manifest=state.blueCityManifest||await readBlueCityManifest();
+        controller.signal.throwIfAborted();
+        state.blueCityManifest=manifest;
+        next=await loadBlueCity(province,city,{manifest,signal:controller.signal,onProgress:progress});
+      }else next=await fetchBlueDots(province,controller.signal,progress);
+      if(controller.signal.aborted||blueDotController!==controller)return null;
+      blueDotCache.set(key,next);while(blueDotCache.size>1)blueDotCache.delete(blueDotCache.keys().next().value);
+    }
     if (controller.signal.aborted || blueDotController!==controller || !next) return null;
-    loadFeedback.update(token,{phase:'render',message:`已校验 ${next.length.toLocaleString()} 个蓝点 · 正在绘制地图`,fraction:0.99});
+    loadFeedback.update(token,{phase:'render',message:`已校验 ${next.length.toLocaleString()} 个${city?'市级':''}蓝点 · 正在绘制地图`,fraction:0.99});
     await nextPaint();controller.signal.throwIfAborted();
     state.blueRows = next; syncCities(); updateView();
-    window.__BAIDU_BLUE_DOT_LOAD__ = { province, rows: next.length, osmMatched: next.filter(row=>row[9]?.administrativeArea?.source==='OpenStreetMap').length };
+    window.__BAIDU_BLUE_DOT_LOAD__ = { province, city:city||null, scope:city?'city':'province', rows: next.length, osmMatched: next.filter(row=>row[9]?.administrativeArea?.source==='OpenStreetMap').length };
     await nextPaint();
+    if(controller.signal.aborted||blueDotController!==controller)return null;
     loadFeedback.finish(token); updateView();
     return next;
   } catch (error) {
@@ -332,23 +395,18 @@ export async function loadBlueDotsForProvince(province) {
   }
 }
 function cancelBlueDotLoad() { blueDotController?.abort(); blueDotController = null; loadFeedback.cancel('blue'); }
+function resetBlueScope(){
+  state.blueRows=[]; state.blueScope=null; state.blueCity=null;
+  delete window.__BAIDU_BLUE_DOT_LOAD__;
+}
 
 
 function filtered(rows) {
   rows = filterRows(rows, { query: elements.search.value.trim(), road: elements.road.value.trim(), date: elements.date.value });
-  if (elements.province.value) rows = rows.filter((r) => r.__province === elements.province.value || (r.__collectionId && state.collectionById.get(r.__collectionId)?.province === elements.province.value));
-  if (elements.city.value) {
-    if (elements.city.value.startsWith('blue:')) {const city=elements.city.value.slice(5);rows=rows.filter(r=>r.__blueDot&&(r[9]?.administrativeArea?.city===city||r[9]?.administrativeArea?.city?.replace(/市$/,'')===city||r.__blueCity===city));}
-    else if (state.blueRows.length && state.collectionById.get(elements.city.value)?.province === elements.province.value) rows = rows.filter(r => r.__collectionId === elements.city.value || (r.__blueDot && r.__blueCity === state.collectionById.get(elements.city.value)?.name.replace(/市$/,'')));
-    else rows = rows.filter((r) => r.__collectionId === elements.city.value);
-  }
-  if(elements.county.value&&elements.county.value!=='all'){
-    if(elements.county.value.startsWith('blue:')) {
-    const county=elements.county.value.slice(5);
-    rows=rows.filter(r=>r.__blueDot && (county==='__unmatched__' ? ['unmatched','ambiguous','no-boundary'].includes(r[9]?.administrativeArea?.match) : r[9]?.administrativeArea?.county===county));
-  }
-    else rows=rows.filter(r=>r.__countyId===elements.county.value);
-  }
+  if (state.globalSelected) rows = rows.filter(row=>row.__collectionId===GLOBAL_COLLECTION_ID);
+  if (elements.province.value) rows = rows.filter(row=>row.__province===elements.province.value);
+  if (elements.city.value) rows = rows.filter(row=>row.__collectionId===elements.city.value);
+  if(elements.county.value&&elements.county.value!=='all')rows=rows.filter(row=>row.__countyId===elements.county.value);
   const kind=$('kind-filter').value;
   if(kind!=='all') rows=rows.filter(row=>categoryFor(row)===kind && categoryFor(row)!=='blue');
   const seen = new Set();
@@ -364,11 +422,11 @@ function updateMapButtons() {
 function blueRowsForSelection() {
   let rows = state.blueRows;
   if (elements.province.value) rows = rows.filter(row => row.__province === elements.province.value);
-  if (elements.city.value.startsWith('blue:')) {const city=elements.city.value.slice(5);rows=rows.filter(row=>row.__blueDot&&(row[9]?.administrativeArea?.city===city||row[9]?.administrativeArea?.city?.replace(/市$/,'')===city||row.__blueCity===city));}
+  if (elements.city.value.startsWith('blue:')) {const city=blueCityName(elements.city.value.slice(5));rows=rows.filter(row=>row.__blueDot&&(blueCityName(row[9]?.administrativeArea?.city)===city||blueCityName(row.__blueCity)===city));}
   else if(elements.city.value) {
     const collection=state.collectionById.get(elements.city.value);
-    const cityName=collection?.name.replace(/市$/,'');
-    if(cityName) rows=rows.filter(row=>row.__blueDot && (row[9]?.administrativeArea?.city===cityName || row[9]?.administrativeArea?.city?.replace(/市$/,'')===cityName || row.__blueCity===cityName));
+    const cityName=blueCityName(collection?.name);
+    if(cityName) rows=rows.filter(row=>row.__blueDot && (blueCityName(row[9]?.administrativeArea?.city)===cityName || blueCityName(row.__blueCity)===cityName));
   }
   if (elements.county.value.startsWith('blue:')) {
     const county=elements.county.value.slice(5);
@@ -394,7 +452,8 @@ function updateView() {
   state.visibleRows = filtered(rows);
   state.page = Math.min(state.page, Math.max(0, Math.ceil(state.visibleRows.length / PAGE_SIZE) - 1));
   const count = state.visibleRows.length;
-  if (!state.mapModeManual) state.mode = count > 20000 ? 'density' : 'points';
+  if (!state.mapModeManual) state.mode = count + blueVisibleRows.length > 20000 ? 'density' : 'points';
+  $('load-global').setAttribute('aria-pressed',String(Boolean(state.globalSelected)));
   updateMapButtons();
   elements.count.textContent = String(count);
   elements.mapCount.textContent = `${count} 条`;
@@ -408,17 +467,16 @@ function updateView() {
   } else if (hasBlue && !rows.length) {
     // 该省暂无已发布街景，仅有小蓝点：不要用“请选择城市”的遮罩盖住蓝点。
     title = `小蓝点 ${state.blueRows.length.toLocaleString()} 个`;
-    description = `${elements.province.value} 暂未发布普通街景分片，当前地图只显示该省小蓝点。选择其他已发布城市可查看街景点位。`;
-  } else if (elements.city.value && !elements.city.value.startsWith('blue:') && state.loadedSelection!==selectedKey(state.collectionById.get(elements.city.value))) {
-    const selectedCity=state.collectionById.get(elements.city.value);
-    const partitioned=selectedCity?.partition===COUNTY_PARTITION;
-    title = selectedCity?.count===0?'此集合暂无已发布街景':partitioned?(elements.county.value?'请载入所选县级分片':'请选择县 / 区，再载入街景'):'请载入所选城市街景';
-    description = partitioned?'县级街景按需载入，每片最多25,000点。选择城市不会下载整市；小蓝点另行加载并显示进度。':'该城市为普通街景分片，选择后自动加载；可通过载入按钮重试。';
+    description = `${elements.province.value}${state.blueCity?' / '+state.blueCity:''} 当前显示小蓝点。选市会停止省级加载，只下载所选市的完整蓝点分片；街景与蓝点独立显示。`;
+  } else if (!rows.length && selectedStreetCollections().length) {
+    title = '载入当前范围的街景';
+    description = '选择省份或城市后自动载入全部已发布街景分片。选择城市会取消省级加载，选择县区可进一步缩小范围。';
+  } else if (!rows.length && (elements.province.value || elements.city.value)) {
+    title = '当前范围暂无已发布点位';
+    description = '可以选择其他省份或城市查看已发布的街景与小蓝点。';
   } else if (!rows.length && state.totalPublished > 0) {
-    title = '从目录选择一个城市';
-    description = state.catalog.publication?.mode === 'pages-gzip'
-      ? `Pages当前已发布 ${state.catalog.publication.hostedCities} 个城市、${state.totalPublished.toLocaleString()} 条。完整源目录 ${state.catalog.publication.sourceCities} 城市保留在仓库，其他城市将逐批补充。请选择省份、城市后载入本站分片。`
-      : `网站已收录 ${state.totalPublished.toLocaleString()} 条百度元数据，请选择省份、城市后按需载入。`;
+    title = '选择省份、城市或全球集合';
+    description = `网站已发布 ${state.totalPublished.toLocaleString()} 条百度街景元数据。选择范围后自动载入对应分片，不自动下载全国点位。`;
   } else if (rows.length) {
     title = '没有符合条件的记录';
     description = '调整搜索词、省市或日期筛选，或清除条件查看其他记录。';
@@ -432,8 +490,7 @@ function updateView() {
   elements.list.hidden = count === 0;
   $('list-empty').hidden=count>0;
   elements.mapEmpty.hidden = true;
-  const selectedCity=state.collectionById.get(elements.city.value);
-  $('empty-load').hidden=!selectedCity||selectedCity.count===0||count>0;
+  $('empty-load').hidden=!selectedStreetCollections().length||count>0;
   $('empty-load').disabled=$('load-city').disabled;
   setListOpen(state.listOpen);
   const start = state.page * PAGE_SIZE;
@@ -486,7 +543,7 @@ function showDetail(row, focusMap = true) {
   const timelineIds=[...new Set((Array.isArray(extras.timeLine)?extras.timeLine:[]).filter(id=>typeof id==='string'&&id.trim()))];
   const timelineLinks=timelineIds.length?`<div class="detail-links"><span>源文件时间线 ID（非拓扑分类证明）</span><div>${timelineIds.map(id=>`<a href="${safe(baiduPanoramaUrl(id))}" target="_blank" rel="noopener noreferrer">${safe(id)}${panoidCaptured(id)?` · ${safe(panoidCaptured(id).slice(0,10))}（编码）`:''}</a>`).join('')}</div></div>`:'';
   const tagList = tags.length ? `<div class="detail-tags">${tags.map((tag) => `<span>${safe(tag)}</span>`).join('')}</div>` : '';
-  elements.detail.innerHTML = `<div class="detail-content"><p class="eyebrow">百度街景详情</p><h2>${safe(row[3] || row[0] || '未命名百度 panoid')}</h2><div class="detail-city">${safe(row.__province || '')} ${safe(city)}</div><div class="detail-fields">${[['panoid',row[0]],['来源',source],['采集日期',imageDate],['日期来源',time.source==='source'?'源文件明确日期':time.source==='panoid'?'panoid 编码解析（未逐条官网认证）':'未知'],['时间说明',time.source==='panoid'?'编码含毫秒字段；不包含时区':time.timeZone||'源文件未标时区'],['县区（OSM空间匹配）',extras.administrativeArea?.countyName||'未匹配 / 未提供'],['县区匹配状态',extras.administrativeArea?.match||'未提供'],['县界来源日期',extras.administrativeArea?.boundaryDate||'未提供'],['坐标（BD-09）',`${row[1]}, ${row[2]}`],['方向',row[5] ?? '未知'],['俯仰角',extras.pitch ?? '未知'],['缩放级别',extras.zoom ?? '未知'],['来源类型（源标注）',({regular:'常规',hidden:'隐藏','time-machine':'时光机',unknown:'未知'})[categoryFor(row)]],['来源影像检查',extras.verification?.imageLoaded===true?'源文件标为成功（非本站复核）':extras.verification?.imageLoaded===false?'源文件标为未成功':'未提供'],['街景元数据标记',row[7] ? '有记录（不保证官网当前可用）' : '未标记']].map(([k,v])=>`<div class="detail-line"><span>${safe(k)}</span><span>${safe(v)}</span></div>`).join('')}</div>${tagList}${linkList}${timelineLinks}${timeline}<p class="official-note">在新标签打开百度官网全景。手机若被百度转到普通地图，可切换浏览器“桌面版网站”。链接不等于影像可用保证。</p><div class="detail-actions"><a class="button button-primary" href="${safe(url)}" target="_blank" rel="noopener noreferrer">在百度地图打开街景 ↗</a><button class="button button-quiet" id="copy-panoid" type="button">复制 panoid</button><button class="button button-quiet" id="copy-url" type="button">复制百度街景链接</button><button class="button button-quiet" id="copy-coordinate" type="button">复制 BD-09 坐标</button>${collectionForRow(row)==='local'?'<button class="button button-quiet" id="remove-local-row" type="button">删除本地记录</button>':''}</div></div>`;
+  elements.detail.innerHTML = `<div class="detail-content"><p class="eyebrow">百度街景详情</p><h2>${safe(row[3] || row[0] || '未命名百度 panoid')}</h2><div class="detail-city">${safe(row.__province || '')} ${safe(city)}</div><div class="detail-fields">${[['panoid',row[0]],['来源',source],...(extras.extra?.vehicleId!=null?[['街景车编号',extras.extra.vehicleId]]:[]),['采集日期',imageDate],['日期来源',time.source==='source'?'源文件明确日期':time.source==='panoid'?'panoid 编码解析（未逐条官网认证）':'未知'],['时间说明',time.source==='panoid'?'编码含毫秒字段；不包含时区':time.timeZone||'源文件未标时区'],['县区（OSM空间匹配）',extras.administrativeArea?.countyName||'未匹配 / 未提供'],['县区匹配状态',extras.administrativeArea?.match||'未提供'],['县界来源日期',extras.administrativeArea?.boundaryDate||'未提供'],['坐标（BD-09）',`${row[1]}, ${row[2]}`],['方向',row[5] ?? '未知'],['俯仰角',extras.pitch ?? '未知'],['缩放级别',extras.zoom ?? '未知'],['来源类型（源标注）',({regular:'常规',hidden:'隐藏','time-machine':'时光机',unknown:'未知'})[categoryFor(row)]],['来源影像检查',extras.verification?.imageLoaded===true?'源文件标为成功（非本站复核）':extras.verification?.imageLoaded===false?'源文件标为未成功':'未提供'],['街景元数据标记',row[7] ? '有记录（不保证官网当前可用）' : '未标记']].map(([k,v])=>`<div class="detail-line"><span>${safe(k)}</span><span>${safe(v)}</span></div>`).join('')}</div>${tagList}${linkList}${timelineLinks}${timeline}<p class="official-note">在新标签打开百度官网全景。手机若被百度转到普通地图，可切换浏览器“桌面版网站”。链接不等于影像可用保证。</p><div class="detail-actions"><a class="button button-primary" href="${safe(url)}" target="_blank" rel="noopener noreferrer">在百度地图打开街景 ↗</a><button class="button button-quiet" id="copy-panoid" type="button">复制 panoid</button><button class="button button-quiet" id="copy-url" type="button">复制百度街景链接</button><button class="button button-quiet" id="copy-coordinate" type="button">复制 BD-09 坐标</button>${collectionForRow(row)==='local'?'<button class="button button-quiet" id="remove-local-row" type="button">删除本地记录</button>':''}</div></div>`;
   $('copy-panoid').addEventListener('click', async () => copyText(String(row[0]), '已复制 panoid'));
   $('copy-url').addEventListener('click', async () => copyText(url, '已复制百度街景链接'));
   $('copy-coordinate').addEventListener('click', async () => copyText(`${row[1]}, ${row[2]}`, '已复制 BD-09 坐标'));
@@ -514,7 +571,8 @@ async function loadData() {
   elements.summaryDuplicates.textContent = Number.isFinite(summary.exactDuplicates) ? summary.exactDuplicates.toLocaleString() : '—';
   elements.source.querySelector('.state-dot').style.background = state.catalog.collections.length ? '#5cc49d' : '#d4a850';
   state.totalPublished = Number(state.catalog.total) || 0;
-  state.blueManifestTotal=0;state.blueOsmManifest=null;state.blueCountyDirectory=null;
+  state.globalSelected=false;
+  state.blueManifestTotal=0;state.blueOsmManifest=null;state.blueCountyDirectory=null;state.blueCityManifest=null;resetBlueScope();
   populateFilters();
   let local = null, localError = '';
   try { local = loadLocalRows('local'); }
@@ -525,13 +583,16 @@ async function loadData() {
   state.ready = true;
   updateView();
   const catalog=state.catalog;
-  void Promise.allSettled([blueDotManifest(),loadBlueOsmManifest(),loadNationalCountyDirectory()]).then(results=>{
+  if(window.__BAIDU_BLUE_DOTS_DISABLED__)return;
+  const apply=(promise,accept)=>{void promise.then(value=>{
     if(state.catalog!==catalog)return;
-    if(results[0].status==='fulfilled')state.blueManifestTotal=Number(results[0].value.total)||0;
-    if(results[1].status==='fulfilled')state.blueOsmManifest=results[1].value;
-    if(results[2].status==='fulfilled')state.blueCountyDirectory=results[2].value;
-    syncCities();updateView();
-  });
+    accept(value);syncCities();updateView();
+  },()=>{});};
+  // Don't make city options wait for unrelated province or county metadata.
+  apply(readBlueCityManifest(),manifest=>{state.blueCityManifest=manifest;state.blueManifestTotal=manifest.total;});
+  apply(blueDotManifest(),manifest=>{if(!state.blueCityManifest)state.blueManifestTotal=Number(manifest.total)||0;});
+  apply(loadBlueOsmManifest(),manifest=>{state.blueOsmManifest=manifest;});
+  apply(loadNationalCountyDirectory(),directory=>{state.blueCountyDirectory=directory;});
 }
 
 function openImport() { setMessage(''); elements.importText.value = ''; elements.importFile.value = ''; elements.dialog.showModal(); }
@@ -552,6 +613,7 @@ async function importRows() {
     state.localRows = merged.map((r) => Object.assign(r, { __collectionId: 'local', __city: '本地导入' }));
     ++collectionRequest;cancelActiveLoad();cancelBlueDotLoad();
     if (additions.length) {
+      state.globalSelected=false;resetBlueScope();
       elements.province.value = ''; syncCities();
       elements.search.value = ''; elements.road.value = ''; elements.date.value = '';
       cityCache.clear();state.publishedRows = []; state.loadedCollection = null; state.loadedSelection=null;
@@ -599,14 +661,47 @@ $('loading-close').addEventListener('click',()=>{loadFeedback.close();updateView
 $('page-prev').addEventListener('click', () => { state.page--; updateView(); });
 $('page-next').addEventListener('click', () => { state.page++; updateView(); });
 function clearPublishedSelection(){++collectionRequest;cancelActiveLoad();cityCache.clear();state.publishedRows=[];state.loadedCollection=null;state.loadedSelection=null;state.page=0;}
-elements.province.addEventListener('change',()=>{clearPublishedSelection();cancelBlueDotLoad();state.blueRows=[];syncCities();updateView();void loadBlueDotsForProvince(elements.province.value||'').catch(error=>announce(`小蓝点无法加载：${error.message}`));});
-elements.city.addEventListener('change',()=>{clearPublishedSelection();elements.county.value='';elements.shard.value='all';syncCounties();updateView();const collection=state.collectionById.get(elements.city.value);if(collection&&collection.count>0&&collection.partition!==COUNTY_PARTITION)void loadPublishedCollections([collection]);});
-elements.county.addEventListener('change',()=>{const blueCounty=elements.county.value.startsWith('blue:');clearPublishedSelection();syncShards();updateView();const collection=state.collectionById.get(elements.city.value);if(collection&&collection.partition===COUNTY_PARTITION&&elements.county.value&&!blueCounty)void loadPublishedCollections([collection]);});
-elements.shard.addEventListener('change',()=>{clearPublishedSelection();updateView();const collection=state.collectionById.get(elements.city.value);if(collection&&elements.county.value&&!elements.county.value.startsWith('blue:'))void loadPublishedCollections([collection]);});
+function selectScope({global=false}={}) {
+  // Stop both province jobs synchronously before updating the filters or scheduling city I/O.
+  cancelBlueDotLoad();
+  clearPublishedSelection();
+  state.globalSelected=global;
+  resetBlueScope();
+  $('kind-filter').value='all';
+  elements.county.value='';
+  elements.shard.value='all';
+}
+function loadCurrentScope(){
+  updateView();
+  if(!state.globalSelected)void loadBlueDotsForSelection().catch(error=>announce(`小蓝点无法加载：${error.message}`));
+  void loadPublishedSelection();
+}
+function openGlobalCollection(){
+  if(!globalCollection()?.count)return;
+  selectScope({global:true});
+  elements.province.value='';
+  syncCities();
+  loadCurrentScope();
+}
+$('load-global').addEventListener('click',openGlobalCollection);
+elements.province.addEventListener('change',()=>{
+  selectScope();
+  elements.city.value='';
+  syncCities();
+  loadCurrentScope();
+});
+elements.city.addEventListener('change',()=>{
+  selectScope();
+  syncCounties();
+  const city=state.collectionById.get(elements.city.value);
+  if(city?.count>0&&city.partition===COUNTY_PARTITION){elements.county.value='all';syncShards();}
+  loadCurrentScope();
+});
+elements.county.addEventListener('change',()=>{clearPublishedSelection();syncShards();updateView();void loadPublishedSelection();});
+elements.shard.addEventListener('change',()=>{clearPublishedSelection();updateView();void loadPublishedSelection();});
 $('load-city').addEventListener('click', async () => {
-  if(elements.city.value.startsWith('blue:')||elements.county.value.startsWith('blue:')){await loadBlueDotsForProvince(elements.province.value||'');return;}
-  const collection=state.collectionById.get(elements.city.value);
-  if(collection&&collection.count>0&&(collection.partition!==COUNTY_PARTITION||elements.county.value))await loadPublishedCollections([collection]);
+  if(elements.city.value.startsWith('blue:')||elements.county.value.startsWith('blue:')){await loadBlueDotsForSelection();return;}
+  await loadPublishedSelection();
 });
 let filterTimer;
 [elements.search, elements.road, elements.date].forEach((el) => el.addEventListener('input', () => {
@@ -631,25 +726,27 @@ loadData().then(async()=>{
   const params=new URLSearchParams(location.search),id=params.get('city'),kind=params.get('kind')||'all';
   if(['all','regular','hidden','time-machine','unknown'].includes(kind))$('kind-filter').value=kind;
   const collection=state.collectionById.get(id);
-  if(collection){
+  if(collection && collection===globalCollection()){
+    openGlobalCollection();
+    if(['all','regular','hidden','time-machine','unknown'].includes(kind))$('kind-filter').value=kind;
+  } else if(collection && !isOverseasCollection(collection)){
     elements.province.value=collection.province;syncCities();elements.city.value=collection.id;syncCounties();
-    void loadBlueDotsForProvince(collection.province).catch(error=>announce(`小蓝点无法加载：${error.message}`));
-    if(collection.partition===COUNTY_PARTITION){
+    if(collection.partition===COUNTY_PARTITION&&collection.count>0){
       const county=params.get('county');
-      if(county&&[...elements.county.options].some(option=>option.value===county&&!option.disabled)){
-        elements.county.value=county;syncShards();
-        const shard=params.get('part');if(shard&&[...elements.shard.options].some(option=>option.value===shard))elements.shard.value=shard;
-        await loadPublishedCollections([collection]);
-      }else updateView();
-    }else await loadPublishedCollections([collection]);
+      elements.county.value=county&&[...elements.county.options].some(option=>option.value===county&&!option.disabled)?county:'all';
+      syncShards();
+      const shard=params.get('part');if(shard&&[...elements.shard.options].some(option=>option.value===shard))elements.shard.value=shard;
+    }
+    loadCurrentScope();
   }
 }).catch((error) => { elements.source.querySelector('span:last-child').textContent = '百度元数据源：加载失败'; setMessage(error.message, 'error'); elements.empty.hidden = false; });
 
 // 对外桥接：主流程可调用 window.__blueDotsBridge.load(province) 触发某省蓝点加载；
 // 未提供 manifest 时也能通过 window.__blueDotsBridge.setRows(rows) 直接注入。
 window.__blueDotsBridge = {
-  load: (province) => loadBlueDotsForProvince(province ?? ''),
-  setRows: (rows) => { state.blueRows = (rows ?? []).map(normalizeBlueRow).filter(Boolean); updateView(); },
-  clear: () => { cancelBlueDotLoad(); state.blueRows = []; updateView(); },
+  load: (province) => province===undefined?loadBlueDotsForSelection():loadBlueDotsForProvince(province??''),
+  loadCity: (province,city) => loadBlueDotsForCity(province,city),
+  setRows: (rows) => { cancelBlueDotLoad(); resetBlueScope(); state.blueRows = (rows ?? []).map(row=>normalizeBlueRow(row)).filter(Boolean); updateView(); },
+  clear: () => { cancelBlueDotLoad(); resetBlueScope(); updateView(); },
   get rows() { return state.blueRows; },
 };

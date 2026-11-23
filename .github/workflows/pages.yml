@@ -37,11 +37,11 @@ jobs:
       - name: Verify browser interactions using an unpublished empty-data fixture
         run: node --max-old-space-size=128 tools/browser_smoke.mjs --site-root dist/pages --ui-fixture --low-memory --browser /usr/bin/google-chrome
       - name: Verify visible loading, cancellation and retry in a synthetic browser fixture
-        run: node --max-old-space-size=128 tools/browser_loading_check.mjs --browser /usr/bin/google-chrome --result-dir dist/loading-regression-ci
+        run: node --max-old-space-size=128 tools/browser_loading_check.mjs --browser /usr/bin/google-chrome --result-dir dist/city-loading-ci
       - name: Verify real Baidu county shards and metadata in Chromium
         run: node --max-old-space-size=128 tools/browser_county_check.mjs --site-root dist/pages --browser /usr/bin/google-chrome --city 371600
-      - name: Verify real overseas Baidu metadata and ordinary city loading
-        run: node --max-old-space-size=128 tools/browser_data_check.mjs --site-root dist/pages --require-pages --city 392001 --browser /usr/bin/google-chrome --result-dir dist/overseas-browser-check
+      - name: Verify the global non-China entry and its Baidu metadata
+        run: node --max-old-space-size=128 tools/browser_data_check.mjs --site-root dist/pages --require-pages --city 191001 --browser /usr/bin/google-chrome --result-dir dist/overseas-browser-check
       - name: Verify OSM blue-dot county filtering and pixel rendering
         run: node --max-old-space-size=128 tools/browser_blue_check.mjs --site-root dist/pages --browser /usr/bin/google-chrome --province 山西省 --city 阳泉市 --county 盂县 --result-dir dist/blue-browser-check
       - name: Verify versioned release notes and blue-dot report totals

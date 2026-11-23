@@ -56,7 +56,7 @@ export function createMap(container){
   try{
     const initial=convertCoordinate(104.2,35.8,'WGS84','GCJ-02');
     const map=L.map(container,{zoomControl:true,scrollWheelZoom:true,preferCanvas:true,minZoom:3,maxZoom:20}).setView([initial[1],initial[0]],4);
-    const state={map,container,tileLayer:null,popup:null,points:[],bluePoints:[],background:[],grid:new Map(),mode:'points',actualMode:'points',renderedCount:0,drawnSymbols:0,activeRow:null,canvasLayer:null,bound:false,basemap:'amap-dark'};
+    const state={map,container,tileLayer:null,popup:null,points:[],bluePoints:[],background:[],grid:new Map(),blueGrid:new Map(),mode:'points',actualMode:'points',renderedCount:0,drawnSymbols:0,activeRow:null,canvasLayer:null,bound:false,basemap:'amap-dark'};
     const PointCanvas=L.Layer.extend({
       onAdd(instance){this._map=instance;this._canvas=L.DomUtil.create('canvas','baidu-point-canvas leaflet-zoom-hide');this._canvas.style.cssText='position:absolute;pointer-events:none';instance.getPane('overlayPane').appendChild(this._canvas);instance.on('move moveend zoomend viewreset resize',this.schedule,this);this.draw();},
       onRemove(instance){instance.off('move moveend zoomend viewreset resize',this.schedule,this);if(this._frame)cancelAnimationFrame(this._frame);L.DomUtil.remove(this._canvas);this._map=null;},
@@ -66,27 +66,35 @@ export function createMap(container){
         L.DomUtil.setPosition(canvas,frame.topLeft);canvas.style.width=frame.width+'px';canvas.style.height=frame.height+'px';canvas.style.display='';
         const width=Math.max(1,Math.round(frame.width*ratio)),height=Math.max(1,Math.round(frame.height*ratio));if(canvas.width!==width)canvas.width=width;if(canvas.height!==height)canvas.height=height;
         const ctx=canvas.getContext('2d');if(!ctx)return;ctx.setTransform(ratio,0,0,ratio,0,0);ctx.clearRect(0,0,frame.width,frame.height);
-        state.grid.clear();state.renderedCount=0;state.drawnSymbols=0;state.actualMode=displayModeFor(state.mode,map.getZoom());
+        state.grid.clear();state.blueGrid.clear();state.renderedCount=0;state.drawnSymbols=0;state.actualMode=displayModeFor(state.mode,map.getZoom());
+        const useGrid=state.actualMode==='density-grid';
         ctx.fillStyle='rgba(150,170,195,.28)';for(const point of state.background){const p=pixelFor(point,frame);if(inside(p,frame))ctx.fillRect(p.x-1,p.y-1,2,2);}
-        const groups={regular:[],hidden:[],'time-machine':[],unknown:[],blue:[]};
-        for(const point of state.points){const p=pixelFor(point,frame);if(!inside(p,frame))continue;state.renderedCount++;if(state.mode==='density')addToGrid(state.grid,p,GRID_SIZE);if(state.actualMode==='points')groups[point.color].push(p);}
-        const bluePixels=[];
-        if(state.actualMode==='points'){
-          for(const point of state.bluePoints){const p=pixelFor(point,frame);if(!inside(p,frame))continue;state.renderedCount++;bluePixels.push(p);}
+        const groups={regular:[],hidden:[],'time-machine':[],unknown:[],blue:[]},bluePixels=[];
+        for(const point of state.points){const p=pixelFor(point,frame);if(!inside(p,frame))continue;state.renderedCount++;if(state.mode==='density')addToGrid(state.grid,p,GRID_SIZE);if(!useGrid)groups[point.color].push(p);}
+        for(const point of state.bluePoints){const p=pixelFor(point,frame);if(!inside(p,frame))continue;state.renderedCount++;if(useGrid)addToGrid(state.blueGrid,p,GRID_SIZE);else bluePixels.push(p);}
+        if(!useGrid){
           for(const key of ['regular','unknown','time-machine','hidden']){drawBatch(ctx,groups[key],POINT_COLORS[key],key==='hidden'?3:2,key==='hidden');state.drawnSymbols+=groups[key].length;}drawBatch(ctx,groups.blue,POINT_COLORS.blue,3.5,true);state.drawnSymbols+=groups.blue.length;
           // Small blue dots are drawn last so they stay visible on top of overlapping records.
           for(const p of bluePixels){ctx.beginPath();ctx.arc(p.x,p.y,2.5,0,Math.PI*2);ctx.fillStyle=POINT_COLORS.blue;ctx.fill();ctx.strokeStyle='#fff';ctx.lineWidth=1;ctx.stroke();}state.drawnSymbols+=bluePixels.length;
         }else{
+          const blueStripWidth=8;
           let max=1;for(const cell of state.grid.values())max=Math.max(max,cell.count);const log=Math.log(max+1);
-          for(const cell of state.grid.values()){
+          for(const [key,cell] of state.grid){
             const value=Math.log(cell.count+1)/log;ctx.fillStyle=`rgba(${Math.round(value*255)},${Math.round(229-17*value)},${Math.round(255*(1-value))},.83)`;
-            ctx.fillRect(cell.left+1,cell.top+1,GRID_SIZE-2,GRID_SIZE-2);
+            // Split shared cells so the density colors and source marks remain distinguishable.
+            const width=GRID_SIZE-2-(state.blueGrid.has(key)?blueStripWidth+1:0);
+            ctx.fillRect(cell.left+1,cell.top+1,width,GRID_SIZE-2);
             // Preserve visibility of rare source-marked hidden/history points in dense ordinary cells.
-            if(cell.hidden){ctx.strokeStyle='#fff';ctx.lineWidth=1;ctx.strokeRect(cell.left+1,cell.top+1,GRID_SIZE-2,GRID_SIZE-2);ctx.fillStyle=POINT_COLORS.hidden;ctx.fillRect(cell.left+3,cell.top+3,6,6);}
+            if(cell.hidden){ctx.strokeStyle='#fff';ctx.lineWidth=1;ctx.strokeRect(cell.left+1,cell.top+1,width,GRID_SIZE-2);ctx.fillStyle=POINT_COLORS.hidden;ctx.fillRect(cell.left+3,cell.top+3,6,6);}
             if(cell.timeMachine){ctx.fillStyle=POINT_COLORS['time-machine'];ctx.fillRect(cell.left+11,cell.top+3,6,6);}state.drawnSymbols++;
           }
-          for(const point of state.bluePoints){const p=pixelFor(point,frame);if(!inside(p,frame))continue;state.renderedCount++;bluePixels.push(p);}
-          for(const p of bluePixels){ctx.beginPath();ctx.arc(p.x,p.y,2.5,0,Math.PI*2);ctx.fillStyle=POINT_COLORS.blue;ctx.fill();ctx.strokeStyle='#fff';ctx.lineWidth=1;ctx.stroke();}state.drawnSymbols+=bluePixels.length;
+          let blueMax=1;for(const cell of state.blueGrid.values())blueMax=Math.max(blueMax,cell.count);const blueLog=Math.log(blueMax+1);
+          for(const [key,cell] of state.blueGrid){
+            const value=Math.log(cell.count+1)/blueLog;
+            ctx.fillStyle=`rgba(39,169,255,${.45+.48*value})`;
+            const width=state.grid.has(key)?blueStripWidth:GRID_SIZE-2;
+            ctx.fillRect(cell.left+GRID_SIZE-width-1,cell.top+1,width,GRID_SIZE-2);state.drawnSymbols++;
+          }
         }
         if(state.activeRow){const p=pixelFor(pointFor(state.activeRow,map),frame);ctx.beginPath();ctx.arc(p.x,p.y,9,0,Math.PI*2);ctx.strokeStyle='#fff';ctx.lineWidth=2;ctx.stroke();}
         state.container.dispatchEvent(new CustomEvent('baidu:maprendered'));

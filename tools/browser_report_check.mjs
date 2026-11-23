@@ -23,7 +23,7 @@ async function chooseBrowser(o) {
 }
 const report = { passed: false, checks: {} };
 let server, browser, socket, nextId = 1;
-const pending = new Map(), errors = [];
+const pending = new Map(), errors = [], requests = [];
 const send = (method, params = {}) => new Promise((resolve, reject) => { const id = nextId++; const t = setTimeout(() => { pending.delete(id); reject(Error('CDP timeout ' + method)); }, 90000); pending.set(id, { resolve, reject, t }); socket.send(JSON.stringify({ id, method, params })); });
 async function evaluate(expression) { const r = await send('Runtime.evaluate', { expression: `(()=>(${expression}))()`, awaitPromise: true, returnByValue: true }); if (r.exceptionDetails) throw Error(r.exceptionDetails.exception?.description || r.exceptionDetails.text); return r.result.value; }
 async function until(fn, timeout = 45000, label = 'state') { const start = Date.now(); while (Date.now() - start < timeout) { if (await fn()) return; await delay(200); } throw Error('Timed out waiting for ' + label); }
@@ -48,31 +48,47 @@ try {
   const target = targets.find(t => t.type === 'page'); assert(target, 'No page target');
   socket = new WebSocket(target.webSocketDebuggerUrl);
   await new Promise((res, rej) => { socket.addEventListener('open', res, { once: true }); socket.addEventListener('error', rej, { once: true }); });
-  socket.addEventListener('message', e => { const v = JSON.parse(e.data); if (v.id) { const p = pending.get(v.id); if (!p) return; clearTimeout(p.t); pending.delete(v.id); v.error ? p.reject(Error(v.error.message)) : p.resolve(v.result || {}); } else if (v.method === 'Runtime.exceptionThrown') errors.push(v.params.exceptionDetails.exception?.description || v.params.exceptionDetails.text); });
-  await send('Page.enable'); await send('Runtime.enable');
+  socket.addEventListener('message', e => { const v = JSON.parse(e.data); if (v.id) { const p = pending.get(v.id); if (!p) return; clearTimeout(p.t); pending.delete(v.id); v.error ? p.reject(Error(v.error.message)) : p.resolve(v.result || {}); } else if (v.method === 'Runtime.exceptionThrown') errors.push(v.params.exceptionDetails.exception?.description || v.params.exceptionDetails.text); else if (v.method === 'Network.requestWillBeSent') requests.push(v.params.request.url); });
+  await send('Page.enable'); await send('Runtime.enable'); await send('Network.enable');
   await send('Emulation.setDeviceMetricsOverride', { width: 1440, height: 900, deviceScaleFactor: 1, mobile: false });
   await send('Page.navigate', { url });
   await until(() => evaluate('Boolean(window.__BAIDU_WORKBENCH__?.ready)'), 45000, 'report ready');
   await until(() => evaluate(`document.getElementById('report-version')?.dataset.ready==='true'`), 30000, 'version banner');
   const banner = await evaluate(`document.getElementById('report-version').textContent`);
   const releases = await evaluate(`[...document.querySelectorAll('#release-list .release-item')].map(li=>({version:li.querySelector('.release-version')?.textContent,date:li.querySelector('.release-date')?.textContent,title:li.querySelector('.release-title')?.textContent,changes:[...li.querySelectorAll('.release-changes li')].length,commit:li.querySelector('.release-commit')?.textContent||null}))`);
-  await until(() => evaluate(`document.getElementById('blue-dot-total')?.textContent.includes('4,137,538')`), 30000, 'blue-dot report total');
-  const summary = await evaluate(`({total:document.getElementById('report-total').textContent,hidden:document.getElementById('summary-hidden').textContent,regular:document.getElementById('summary-regular').textContent,blue:document.getElementById('blue-dot-total').textContent,osm:document.getElementById('blue-dot-osm').textContent})`);
-  const national = await fetch(new URL('data/national-catalog.json', url)).then(r => r.json());
-  const blueManifest = await fetch(new URL('data/blue-dots/parts-manifest.json', url)).then(r => r.json()).catch(() => null);
-  const catalogData = await fetch(new URL('data/catalog.json', url)).then(r => r.json());
-  const hostedCatalog = catalogData.collections || catalog;
-  const mergedTotal = national.collections.reduce((sum, desc) => { const hosted = hostedCatalog.find(item => item.id === desc.id); return sum + (hosted ? hosted.count : desc.count); }, 0);
-  const blueTotal = Number(blueManifest?.total || 0);
-  assert.match(banner, /v\d+\.\d+\.\d+/);
-  assert(releases.length >= 2, 'Expected at least two releases');
-  assert(releases[0].version && /^v\d+\.\d+\.\d+$/.test(releases[0].version));
-  assert(releases.every(r => r.changes > 0 && r.title));
-  assert.equal(summary.total.includes((mergedTotal + blueTotal).toLocaleString('en-US')), true, 'Report total mismatch: ' + summary.total + ' expected combined ' + (mergedTotal + blueTotal).toLocaleString('en-US'));
-  const mergedRegular = national.collections.reduce((sum, desc) => { const hosted = hostedCatalog.find(item => item.id === desc.id); const counts = hosted?.displayCounts; return sum + (counts ? counts.regular : (hosted?.count ?? desc.count ?? 0)); }, 0);
-  assert.equal(summary.regular, mergedRegular.toLocaleString('en-US'), 'Merged regular rows mismatch: ' + summary.regular + ' expected ' + mergedRegular.toLocaleString('en-US'));
+  const read = async relative => { const response = await fetch(new URL(relative, url)); assert(response.ok, relative); return response.json(); };
+  const [catalog, blueManifest, osm, notes] = await Promise.all(['data/catalog.json', 'data/blue-dots/parts-manifest.json', 'data/blue-dots-osm/county-matched-manifest.json', '../config/release-notes.json'].map(read));
+  const number = value => Number(value).toLocaleString('zh-CN');
+  const blueLabel = `小蓝点 ${number(blueManifest.total)} 个 · ${number(blueManifest.parts.length)} 个分片 · 独立统计`;
+  await until(() => evaluate(`document.getElementById('blue-dot-total')?.textContent===${JSON.stringify(blueLabel)}`), 30000, 'independent blue-dot total');
+  const snapshot = await evaluate(`({summary:Object.fromEntries(['report-total','summary-total','summary-hidden','summary-regular','summary-time-machine','summary-unknown','blue-dot-total','blue-dot-osm'].map(id=>[id,document.getElementById(id).textContent])),state:window.__BAIDU_WORKBENCH__,rows:[...document.querySelectorAll('#province-groups tr[data-city]')].map(row=>({id:row.dataset.city,href:row.querySelector('td a')?.getAttribute('href')})),coverage:document.getElementById('report-coverage').textContent,releaseText:document.getElementById('release-list').textContent})`);
+  const {summary,state,rows,coverage,releaseText} = snapshot;
+  const published = catalog.collections.filter(item => item.count > 0);
+  assert.equal(state.collections,published.length);
+  assert.deepEqual(rows.sort((a,b)=>a.id.localeCompare(b.id)),published.map(item=>({id:item.id,href:'./?city='+encodeURIComponent(item.id)})).sort((a,b)=>a.id.localeCompare(b.id)),'City rows must exactly match the nonempty public catalog');
+  assert.equal(summary['report-total'], `已发布街景 ${number(catalog.total)} 条`);
+  const keys = {total:'total',hidden:'hidden',regular:'regular',timeMachine:'time-machine',unknown:'unknown'};
+  for (const [key, id] of Object.entries(keys)) {
+    const expected = published.reduce((sum,item)=>sum+(item.displayCounts?.[key]??(['regular','total'].includes(key)?item.count:0)),0);
+    assert.equal(summary['summary-'+id],number(expected));
+    assert.equal(state.counts[key],expected);
+  }
+  if (catalog.captureSummary) assert.deepEqual(state.captureSummary,catalog.captureSummary,'Capture coverage must be published-only');
+  assert.equal(summary['blue-dot-total'],blueLabel);
+  assert(summary['blue-dot-osm'].includes(`唯一匹配 ${number(osm.stats?.matched??osm.total)}`));
+  assert(coverage.includes('不含未发布归档与国内旧常规点位'));
+  assert(banner.includes(`v${notes.current.version}`));
+  assert(releases.length >= 2 && releases.every(r=>r.changes>0&&r.title));
+  assert.equal(releases[0].version,`v${notes.current.version}`);
+  assert(Array.isArray(notes.releases[0].cityAdditions),'Current release needs explicit city additions');
+  const cityAdditions = await evaluate(`(()=>{const detail=document.querySelector('#release-list .release-item .release-city-additions');detail?.querySelector('summary').click();return {open:detail?.open??false,rows:[...(detail?.querySelectorAll('[data-release-city]')??[])].map(row=>({id:row.dataset.releaseCity,name:row.querySelector('th').textContent,added:row.cells[1].textContent,merged:row.cells[2].textContent}))};})()`);
+  const expectedAdditions = notes.releases[0].cityAdditions.map(({id,name,added,merged})=>({id,name,added:number(added),merged:number(merged)}));
+  assert.equal(cityAdditions.open,expectedAdditions.length>0);
+  assert.deepEqual(cityAdditions.rows.sort((a,b)=>a.id.localeCompare(b.id)),expectedAdditions.sort((a,b)=>a.id.localeCompare(b.id)));
+  assert.doesNotMatch(releaseText,/1,899万|18,363,409/);
+  assert.deepEqual(requests.filter(value=>/national-catalog\.json|\/points-\d+\.json|\.json\.gz(?:[?#]|$)/.test(value)),[],'Report must not download archival directories or point payloads');
   assert.equal(errors.length, 0, 'Browser exceptions: ' + JSON.stringify(errors));
-  report.checks = { banner, releases, summary, errors };
+  report.checks = { banner, releases, summary, publishedCollections: rows.length, archiveOrPointRequests: 0, errors };
   const shot = await send('Page.captureScreenshot', { format: 'png' });
   await writeFile(path.join(results, 'report-version.png'), Buffer.from(shot.data, 'base64'));
   report.passed = true;

@@ -8,6 +8,7 @@ export async function expandPages(add=20,{configFile=configPath,catalogFile=path
  if(!Number.isSafeInteger(add)||add<1||add>280)throw Error('The added city count must be between 1 and 280');
  const config=JSON.parse(await readFile(configFile,'utf8')),catalog=JSON.parse(await readFile(catalogFile,'utf8'));
  if(config.provider!=='baidu'||config.mode!=='pages-gzip'||catalog.provider!=='baidu')throw Error('Only Baidu Pages batches are supported');
+ if(config.domesticSupplementOnly===true)throw Error('Add eligible domestic cities explicitly; archive counts do not identify publishable supplemental rows');
  if(!Array.isArray(config.cities)||config.cities.includes('all'))throw Error('Use an explicit cumulative city list for incremental publication');
  const selected=new Set(config.cities),known=new Set(catalog.collections.map(city=>city.id));
  if(selected.size!==config.cities.length||[...selected].some(id=>!known.has(id)))throw Error('Existing selection is invalid');
