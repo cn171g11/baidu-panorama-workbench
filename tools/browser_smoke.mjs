@@ -233,7 +233,9 @@ async function main() {
     const mapState = module.createMap(container);
     try {
       const testCount=${args.includes('--low-memory') ? 6000 : 180001};
-      const rows=Array.from({length:testCount},(_,i)=>[String(i).padStart(27,'0'),118.70+(i%1000)*0.0002,32+Math.floor(i/1000)*0.0002,'合成渲染测试','',null,false,false,'baidu']);
+      // Cluster positions so density aggregation is provable at any viewport/zoom:
+      // many rows share a pixel-near location instead of one cell per row.
+      const rows=Array.from({length:testCount},(_,i)=>[String(i).padStart(27,'0'),118.70+(i%20)*0.0002,32+Math.floor(i/20%20)*0.0002,'合成渲染测试','',null,false,false,'baidu']);
       const started=performance.now();
       module.renderMap(mapState,rows,'points');
       await new Promise(resolve=>setTimeout(resolve,150));
