@@ -22,7 +22,11 @@ test('release notes are versioned, ordered, and shipped with the site', async ()
     assert(Array.isArray(release.changes) && release.changes.length > 0);
     assert(release.changes.every(change => typeof change === 'string' && change.trim()));
   }
-  const additions = notes.releases[0].cityAdditions;
+  assert.equal(notes.releases[0].version, '1.8.0');
+  assert.match(notes.releases[0].changes.join('\n'), /238,833/);
+  assert.match(notes.releases[0].changes.join('\n'), /427/);
+  assert.match(notes.releases[0].changes.join('\n'), /复制而来/);
+  const additions = notes.releases.find(release => release.version === '1.7.0').cityAdditions;
   assert.equal(additions.length, 54);
   assert.equal(new Set(additions.map(row=>row.id)).size, 54);
   assert.equal(additions.reduce((sum,row)=>sum+row.added,0), 41060);
