@@ -116,5 +116,12 @@ test('support dialog thanks users, links the repository and shows the reward cod
   assert.match(app, /navigator\.webdriver/);
   assert.match(app, /supportDialogDue\(\)/);
   assert.match(app, /dialog\.addEventListener\('close', rememberSupportDialog\)/);
+  // 工具栏按钮与团队维护文案：按钮必须能重新打开弹窗，正文不再声称“个人独立维护”。
+  assert.match(html, /id="open-support" type="button" aria-haspopup="dialog"/);
+  assert.match(html, /支持项目/);
+  assert.match(html, /合作团队共同维护/);
+  assert.doesNotMatch(html, /个人独立维护|由个人独立维护/);
+  assert.match(app, /function showSupportDialog\(\)/);
+  assert.match(app, /\$\('open-support'\)\?\.addEventListener\('click'/);
   assert.doesNotMatch(html, /tencent|qqpano|qq\.com/i);
 });

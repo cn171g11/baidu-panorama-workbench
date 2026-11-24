@@ -812,14 +812,22 @@ function supportDialogDue() {
   try { const seen = Number(localStorage.getItem(SUPPORT_DIALOG_KEY) || 0); return !(seen > 0 && Date.now() - seen < SUPPORT_DIALOG_INTERVAL); } catch { return false; }
 }
 function rememberSupportDialog() { try { localStorage.setItem(SUPPORT_DIALOG_KEY, String(Date.now())); } catch { /* 隐私模式或存储被禁用时忽略 */ } }
+function showSupportDialog() {
+  const dialog = $('support-dialog');
+  if (!dialog || typeof dialog.showModal !== 'function' || dialog.open) return false;
+  dialog.showModal();
+  return true;
+}
 function initSupportDialog() {
   const dialog = $('support-dialog');
   if (!dialog || typeof dialog.showModal !== 'function') return;
   dialog.addEventListener('close', rememberSupportDialog);
-  if (navigator.webdriver || /headless/i.test(navigator.userAgent) || !supportDialogDue()) return;
   // 点 Star 会打开新标签页：顺手收起弹窗并记录，避免它一直盖在查看器上。
   dialog.querySelector('.support-star')?.addEventListener('click', () => { rememberSupportDialog(); dialog.close(); });
-  setTimeout(() => { if (!document.querySelector('dialog[open]')) dialog.showModal(); }, 900);
+  // 工具栏的“支持项目”按钮可随时重新打开，不受自动弹窗的时间间隔与自动化环境限制。
+  $('open-support')?.addEventListener('click', () => { showSupportDialog(); });
+  if (navigator.webdriver || /headless/i.test(navigator.userAgent) || !supportDialogDue()) return;
+  setTimeout(() => { if (!document.querySelector('dialog[open]')) showSupportDialog(); }, 900);
 }
 initSupportDialog();
 
