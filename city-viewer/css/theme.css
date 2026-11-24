@@ -151,6 +151,18 @@ tbody tr:hover, tbody tr[aria-selected="true"] { background: #222a33; }
 .form-message.success { color: #70c2a8; }
 .dialog-actions { display: flex; align-items: center; gap: 8px; padding-top: 13px; border-top: 1px solid #2b333e; }
 .action-spacer { flex: 1; }
+/* 支持作者弹窗：沿用导入弹窗的深色面板与强调色，只调整宽度和内部栅格 */
+.support-dialog { width: min(460px, calc(100vw - 24px)); max-height: min(92vh, 820px); padding: 0; border: 1px solid #3c4652; border-radius: 9px; background: #171d24; color: #e7ebf0; box-shadow: 0 22px 80px #0009; }
+.support-dialog::backdrop { background: #06090cdd; backdrop-filter: blur(3px); }
+.support-content { display: grid; gap: 14px; }
+.support-thanks { margin: 0; color: #c6d0da; font-size: 12px; line-height: 1.8; }
+.support-star { display: inline-flex; align-items: center; justify-content: center; gap: 7px; padding: 10px 16px; font-size: 13px; text-decoration: none; }
+.support-qr { display: grid; justify-items: center; gap: 8px; margin: 0; padding: 12px; border: 1px solid #2b333e; border-radius: 7px; background: #10141a; }
+.support-qr img { display: block; width: 100%; max-width: 244px; height: auto; border-radius: 5px; }
+.support-qr figcaption { color: #8f9ba8; font-size: 10px; }
+.support-note { margin: 0; color: #82909f; font-size: 10px; line-height: 1.7; }
+.support-actions { justify-content: flex-end; }
+@media (max-width: 520px) { .support-qr img { max-width: 208px; } .support-dialog .dialog-content { padding: 14px; } }
 .live-notice {
   position: fixed; z-index: 2500; left: 50%; bottom: 18px;
   width: max-content; max-width: min(720px, calc(100% - 24px));

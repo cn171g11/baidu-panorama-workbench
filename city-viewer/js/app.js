@@ -803,6 +803,26 @@ loadData().then(async()=>{
   }
 }).catch((error) => { elements.source.querySelector('span:last-child').textContent = '百度元数据源：加载失败'; setMessage(error.message, 'error'); elements.empty.hidden = false; });
 
+// 支持作者弹窗：同一浏览器 14 天内只自动出现一次，关闭即记录时间。
+// 无头/WebDriver 环境不自动弹出：CI 的浏览器检查会在点位像素上派发真实鼠标事件，
+// 模态层会拦截该点击并使既有断言失效。
+const SUPPORT_DIALOG_KEY = 'baidu-panorama-workbench:support-dialog:v1';
+const SUPPORT_DIALOG_INTERVAL = 14 * 24 * 60 * 60 * 1000;
+function supportDialogDue() {
+  try { const seen = Number(localStorage.getItem(SUPPORT_DIALOG_KEY) || 0); return !(seen > 0 && Date.now() - seen < SUPPORT_DIALOG_INTERVAL); } catch { return false; }
+}
+function rememberSupportDialog() { try { localStorage.setItem(SUPPORT_DIALOG_KEY, String(Date.now())); } catch { /* 隐私模式或存储被禁用时忽略 */ } }
+function initSupportDialog() {
+  const dialog = $('support-dialog');
+  if (!dialog || typeof dialog.showModal !== 'function') return;
+  dialog.addEventListener('close', rememberSupportDialog);
+  if (navigator.webdriver || /headless/i.test(navigator.userAgent) || !supportDialogDue()) return;
+  // 点 Star 会打开新标签页：顺手收起弹窗并记录，避免它一直盖在查看器上。
+  dialog.querySelector('.support-star')?.addEventListener('click', () => { rememberSupportDialog(); dialog.close(); });
+  setTimeout(() => { if (!document.querySelector('dialog[open]')) dialog.showModal(); }, 900);
+}
+initSupportDialog();
+
 // 对外桥接：主流程可调用 window.__blueDotsBridge.load(province) 触发某省蓝点加载；
 // 未提供 manifest 时也能通过 window.__blueDotsBridge.setRows(rows) 直接注入。
 window.__blueDotsBridge = {

@@ -66,6 +66,12 @@ export async function buildSite({ root = PROJECT_ROOT, output = 'dist/pages', co
       if (entry.isSymbolicLink()) throw new Error('Symlinked CSS denied.');
       if (entry.isFile() && entry.name.endsWith('.css') && !PRIVATE_NAME.test(entry.name)) await copyFile(root, stage, 'city-viewer/css/' + entry.name);
     }
+    // 查看器自带的静态图片（如支持作者弹窗的赞赏码）随构建一起发布，只放行常见图片格式。
+    const assetsDir = path.join(root, 'city-viewer/assets');
+    if (await exists(assetsDir)) for (const entry of await readdir(assetsDir, { withFileTypes: true })) {
+      if (entry.isSymbolicLink()) throw new Error('Symlinked viewer asset denied.');
+      if (entry.isFile() && /\.(?:png|jpe?g|webp|gif|svg)$/i.test(entry.name) && !PRIVATE_NAME.test(entry.name)) await copyFile(root, stage, 'city-viewer/assets/' + entry.name);
+    }
     for (const rel of ['city-viewer/vendor/leaflet/leaflet.js','city-viewer/vendor/leaflet/leaflet.css','city-viewer/vendor/leaflet/LICENSE','city-viewer/vendor/leaflet/images/layers.png','city-viewer/vendor/leaflet/images/layers-2x.png','city-viewer/vendor/leaflet/images/marker-icon.png','city-viewer/vendor/leaflet/images/marker-icon-2x.png','city-viewer/vendor/leaflet/images/marker-shadow.png']) {
       if (await exists(path.join(root, rel))) await copyFile(root, stage, rel);
     }

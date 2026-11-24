@@ -101,3 +101,20 @@ test('responsive styles cover narrow devices without viewport-scaled type', asyn
   assert.doesNotMatch(css, /font-size:\s*[^;]*vw/i);
   assert.match(css, /min-width:\s*320px/);
 });
+
+test('support dialog thanks users, links the repository and shows the reward code', async () => {
+  const html = await read('city-viewer/index.html');
+  const app = await read('city-viewer/js/app.js');
+  assert.match(html, /<dialog id="support-dialog" class="support-dialog" aria-labelledby="support-title"/);
+  assert.match(html, /感谢支持/);
+  assert.match(html, /href="https:\/\/github\.com\/cn171g11\/baidu-panorama-workbench" target="_blank" rel="noopener noreferrer"/);
+  assert.match(html, /src="\.\/assets\/reward-qr\.png"/);
+  assert.match(html, /alt="[^"]*赞赏[^"]*"/);
+  assert.match(html, /class="button button-quiet" value="cancel">以后再说/);
+  // 自动展示必须可用 localStorage 记忆，且不在无头/WebDriver 环境弹出（会拦截 CI 的真实鼠标点击）。
+  assert.match(app, /SUPPORT_DIALOG_KEY = 'baidu-panorama-workbench:support-dialog:v1'/);
+  assert.match(app, /navigator\.webdriver/);
+  assert.match(app, /supportDialogDue\(\)/);
+  assert.match(app, /dialog\.addEventListener\('close', rememberSupportDialog\)/);
+  assert.doesNotMatch(html, /tencent|qqpano|qq\.com/i);
+});
