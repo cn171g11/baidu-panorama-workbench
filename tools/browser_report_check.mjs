@@ -80,7 +80,7 @@ try {
   assert(releases.length >= 2 && releases.every(r=>r.changes>0&&r.title));
   assert.equal(releases[0].version,`v${notes.current.version}`);
   assert(Array.isArray(notes.releases[0].cityAdditions),'Current release needs explicit city additions');
-  const cityAdditions = await evaluate(`(()=>{const detail=document.querySelector('#release-list .release-item .release-city-additions');detail?.querySelector('summary').click();return {open:detail?.open??false,rows:[...(detail?.querySelectorAll('[data-release-city]')??[])].map(row=>({id:row.dataset.releaseCity,name:row.querySelector('th').textContent,added:row.cells[1].textContent,merged:row.cells[2].textContent}))};})()`);
+  const cityAdditions = await evaluate(`(()=>{const detail=document.querySelector('#release-list .release-item')?.querySelector('.release-city-additions');detail?.querySelector('summary').click();return {open:detail?.open??false,rows:[...(detail?.querySelectorAll('[data-release-city]')??[])].map(row=>({id:row.dataset.releaseCity,name:row.querySelector('th').textContent,added:row.cells[1].textContent,merged:row.cells[2].textContent}))};})()`);
   const expectedAdditions = notes.releases[0].cityAdditions.map(({id,name,added,merged})=>({id,name,added:number(added),merged:number(merged)}));
   assert.equal(cityAdditions.open,expectedAdditions.length>0);
   assert.deepEqual(cityAdditions.rows.sort((a,b)=>a.id.localeCompare(b.id)),expectedAdditions.sort((a,b)=>a.id.localeCompare(b.id)));
