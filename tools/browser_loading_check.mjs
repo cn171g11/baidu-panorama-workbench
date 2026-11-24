@@ -103,6 +103,8 @@ async function runBrowser(o,f){const profile=await mkdtemp(path.join(output,'pro
  }
  // 小蓝点 alone: only the blue layer, no street rows, no list, dots still painted.
  await fill('kind-filter','blue');
+ // State changes can precede the requestAnimationFrame canvas repaint on CI Chromium.
+ await until(async()=>{const x=await kindState();return x.kind==='blue'&&x.blueRenderedCount===3&&x.pixels>0;},'blue-only canvas repaint');
  k=await kindState();
  assert.equal(k.kind,'blue');assert.equal(k.kindLabel,'小蓝点');
  assert.equal(k.visibleCount,0,'小蓝点 must hide street rows');assert.equal(k.blueMapCount,3);
