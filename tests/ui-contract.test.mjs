@@ -123,5 +123,11 @@ test('support dialog thanks users, links the repository and shows the reward cod
   assert.doesNotMatch(html, /个人独立维护|由个人独立维护/);
   assert.match(app, /function showSupportDialog\(\)/);
   assert.match(app, /\$\('open-support'\)\?\.addEventListener\('click'/);
+  // 二维码必须随构建发布：图片从 city-viewer/assets 复制，且不能被隐私文件名规则拦下。
+  const build = await read('tools/build_site.mjs');
+  assert.match(build, /city-viewer\/assets\//);
+  assert.match(build, /\\\.\(\?:png\|jpe\?g\|webp\|gif\|svg\)/i);
+  const privateName = /(?:^|[._-])(?:agent|history|apikey|credentials?|secrets?|tokens?)(?:[._-]|$)|^\.env/i;
+  assert.equal(privateName.test('reward-qr.png'), false, '赞赏二维码不得被隐私文件名规则排除');
   assert.doesNotMatch(html, /tencent|qqpano|qq\.com/i);
 });
