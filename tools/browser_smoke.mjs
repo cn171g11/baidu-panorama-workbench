@@ -246,9 +246,16 @@ async function main() {
       mapState.map.setZoom(mapState.map.getZoom()+1,{animate:false});
       await new Promise(resolve=>setTimeout(resolve,100));
       if(mapState.renderedCount<=0||getComputedStyle(mapState.canvasLayer._canvas).display==='none')throw Error('Canvas points disappeared after zoom');
+      // Density rendering only aggregates below zoom 15; the fixture's fitBounds zoom depends on
+      // the viewport, so pin the camera first instead of relying on one zoom-in step.
       module.renderMap(mapState,rows,'density');
       await new Promise(resolve=>setTimeout(resolve,100));
+      if(mapState.actualMode!=='density-grid'){
+        mapState.map.setZoom(12,{animate:false});
+        await new Promise(resolve=>setTimeout(resolve,150));
+      }
       const gridPoints=[...mapState.grid.values()].reduce((sum,bucket)=>sum+bucket.count,0);
+      if(mapState.actualMode!=='density-grid')throw Error('Density mode did not activate at zoom '+mapState.map.getZoom());
       if(gridPoints!==mapState.renderedCount||mapState.grid.size>=gridPoints)throw Error('Density did not aggregate exactly the visible rows');
       return {sourcePoints:rows.length,scatterCount,scatterMs,leafletLayers:layerCount,visibleAfterZoom:mapState.renderedCount,densityCells:mapState.grid.size,gridCountsExact:true};
     } finally { mapState.map.remove();container.remove(); }
