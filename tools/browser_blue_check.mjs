@@ -100,8 +100,11 @@ try {
   if(requestedCity){const response=await fetch(new URL('data/blue-dots-cities/city-manifest.json',url));assert(response.ok,'City-only manifest unavailable');activeCityManifest=validateBlueCityManifest(await response.json());selectedCity=resolveBlueCity(activeCityManifest,province,requestedCity);assert(selectedCity,'Requested city absent from complete city manifest: '+requestedCity);expectedRows=selectedCity.count;expectedFiles=new Set(selectedCity.files);assert(expectedRows>0,'Choose a non-empty city for rendering check');}
   await evaluate(`(()=>{const s=document.querySelector('#province-filter');s.value=${JSON.stringify(province)};s.dispatchEvent(new Event('change',{bubbles:true}));return true})()`);
   if(requestedCity){
-    await until(()=>evaluate(`(()=>{const s=document.querySelector('#city-filter');return [...s.options].some(o=>o.value.startsWith('blue:')&&o.value.slice(5).replace(/市$/,'')===${JSON.stringify(blueCityName(requestedCity))})})()`),30000,'blue city directory option');
-    citySwitchAt=await evaluate(`(()=>{const s=document.querySelector('#city-filter'),o=[...s.options].find(o=>o.value.startsWith('blue:')&&o.value.slice(5).replace(/市$/,'')===${JSON.stringify(blueCityName(requestedCity))});if(!o)throw Error('Requested city unavailable');s.value=o.value;const at=performance.timeOrigin+performance.now();s.dispatchEvent(new Event('change',{bubbles:true}));return at})()`);
+    // A city can gain street views after an import. The UI then deliberately uses one
+    // canonical city option for both layers instead of a duplicate blue:<name> option.
+    const findCity=`[...document.querySelector('#city-filter').options].find(o=>!o.disabled&&o.value&&o.textContent.trim().replace(/市$/,'')===${JSON.stringify(blueCityName(requestedCity))})`;
+    await until(()=>evaluate(`Boolean(${findCity})`),30000,'city option for the selected blue scope');
+    citySwitchAt=await evaluate(`(()=>{const s=document.querySelector('#city-filter'),o=${findCity};if(!o)throw Error('Requested city unavailable');s.value=o.value;const at=performance.timeOrigin+performance.now();s.dispatchEvent(new Event('change',{bubbles:true}));const kind=document.querySelector('#kind-filter');kind.value='blue';kind.dispatchEvent(new Event('change',{bubbles:true}));return at})()`);
     await until(()=>evaluate(`(()=>{const s=window.__BAIDU_WORKBENCH__.getState();return !s.loading&&s.blueScope==='city'&&s.blueCount===${expectedRows}&&s.blueVisibleCount===${expectedRows};})()`),120000,'city-only blue dots');
   }else await until(()=>evaluate(`(()=>{const s=window.__BAIDU_WORKBENCH__.getState();return !s.loading&&s.blueCount===${expectedRows};})()`),120000,'whole province blue dots');
   await until(() => evaluate('window.__BAIDU_WORKBENCH__.getState().blueRenderedCount>0'), 30000, 'blue map render');
@@ -130,7 +133,8 @@ try {
   if (requestedCounty) {
     const countyOptions = await evaluate(`[...document.querySelectorAll('#county-filter option')].map(o=>o.textContent)`);
     assert(countyOptions.some(text => text.includes(requestedCounty)), 'Requested blue county option missing: ' + requestedCounty);
-    await evaluate(`(()=>{const s=document.querySelector('#county-filter');const o=[...s.options].find(o=>o.textContent.includes(${JSON.stringify(requestedCounty)}));if(!o)return false;s.value=o.value;s.dispatchEvent(new Event('change',{bubbles:true}));return true})()`);
+    const name=JSON.stringify('blue:'+requestedCounty);
+    assert(await evaluate(`(()=>{const s=document.querySelector('#county-filter');if(![...s.options].some(o=>o.value===${name}&&!o.disabled))return false;s.value=${name};s.dispatchEvent(new Event('change',{bubbles:true}));return true})()`),'Requested blue county unavailable');
     await until(() => evaluate('window.__BAIDU_WORKBENCH__.getState().mapRenderedCount>0'), 30000, 'county blue map render');
     const countyState = await evaluate('window.__BAIDU_WORKBENCH__.getState()');
     assert.equal(countyState.visibleCount, 0, 'County blue points must remain outside ordinary street-view list');
