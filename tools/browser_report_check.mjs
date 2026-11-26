@@ -77,6 +77,13 @@ try {
   assert(summary['blue-dot-osm'].includes(`唯一匹配 ${number(osm.stats?.matched??osm.total)}`));
   assert(coverage.includes('不含未发布归档与国内旧常规点位'));
   assert(banner.includes(`v${notes.current.version}`));
+  if(notes.releases[0]?.auditCounts){
+    const audit=await read('../config/streetview-audit.json');
+    const panel=await evaluate(`({shown:!document.querySelector('#entry-audit').hidden,ready:document.querySelector('#entry-audit').dataset.ready,text:document.querySelector('#entry-audit-counts').textContent})`);
+    assert(panel.shown&&panel.ready==='true','Verified street-view audit not displayed');
+    for(const scope of ['catalog','uploads'])assert(panel.text.includes(number(audit[scope].rows)));
+    for(const key of ['user-confirmed-hidden','time-machine-history-only','regular-confirmed'])assert(panel.text.includes(number(audit.catalog.byStatus[key])));
+  }
   assert(releases.length >= 2 && releases.every(r=>r.changes>0&&r.title));
   assert.equal(releases[0].version,`v${notes.current.version}`);
   assert(Array.isArray(notes.releases[0].cityAdditions),'Current release needs explicit city additions');

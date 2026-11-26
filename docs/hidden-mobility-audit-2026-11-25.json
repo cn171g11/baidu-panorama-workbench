@@ -3,7 +3,7 @@
   "auditBatch": "hidden-mobility-audit-2026-11-25",
   "scope": "all archived rows currently sourceType=hidden",
   "method": "archived metadata: non-self links are accepted only when independent of a copied timeLine field; movementCount; timeLine; no image download",
-  "limitation": "No per-row official arrow clicking was performed. Binzhou links are copied from timeLine by prepare_binzhou_import.mjs and are not independent arrow evidence. A zero result means no archived movement evidence, not proof of immobility.",
+  "limitation": "初始移动性审查基于归档元数据，没有逐条点击百度官网箭头；随后图木舒克市 659003 的 11,796 条由用户逐条核验为常规街景，属于独立的用户复核分类纠正。",
   "reviewed": 238833,
   "moved": 0,
   "retainedHidden": 238833,
@@ -3579,7 +3579,29 @@
   "notes": [
     "Current hidden rows after correction: no positive movementCount and no independent non-self links.",
     "The 427 apparent Binzhou non-self links were copied from timeLine by prepare_binzhou_import.mjs and were excluded as non-independent evidence.",
-    "Timeline siblings are historical continuity evidence only."
+    "Timeline siblings are historical continuity evidence only.",
+    "用户随后逐条核验图木舒克市全部 11,796 条为常规街景，覆盖原 hidden 8,743 条与原 time-machine 3,053 条。canonical sourceType 已按用户明确结论统一为 regular，历史引用的 inheritedCoordinate provenance 保留。",
+    "用户逐条核验图木舒克市全部 11,796 条为常规街景，覆盖原 hidden 8,743 条与原 time-machine 3,053 条。canonical sourceType 已按用户明确结论统一为 regular，历史引用的 inheritedCoordinate provenance 保留。"
   ],
-  "excludedCopiedTimelineLinks": 427
+  "excludedCopiedTimelineLinks": 427,
+  "userCorrections": [
+    {
+      "city": "659003",
+      "name": "图木舒克市",
+      "rows": 11796,
+      "previousHidden": 8743,
+      "previousTimeMachine": 3053,
+      "newSourceType": "regular",
+      "basis": "user-confirmed-regular",
+      "date": "2026-11-25",
+      "reason": "用户逐条核验图木舒克市全部街景为常规街景",
+      "preserves": [
+        "links",
+        "timeLine",
+        "inheritedCoordinate",
+        "vehicleId",
+        "sourceBatch"
+      ]
+    }
+  ]
 }

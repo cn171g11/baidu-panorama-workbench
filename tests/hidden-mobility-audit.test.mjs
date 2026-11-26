@@ -11,8 +11,10 @@ test('full hidden mobility audit has reconciled coverage and explicit limitation
   assert.equal(report.reviewed, report.moved + report.retainedHidden);
   assert.equal(report.byEvidence['timeline-only'], 7024);
   assert.equal(report.byEvidence.none, 231809);
-  assert.match(report.limitation, /No per-row official arrow clicking/);
-  assert.match(report.limitation, /copied from timeLine/);
+  assert.match(report.limitation, /没有逐条点击百度官网箭头/);
+  assert.match(report.limitation, /图木舒克市 659003/);
   assert.equal(report.changedFiles.length, 80);
   assert(report.changedFiles.includes('data/baidu/371600/points-001.json'));
+  const correction = report.userCorrections.find(row => row.city === '659003');
+  assert.deepEqual(correction && { rows: correction.rows, previousHidden: correction.previousHidden, previousTimeMachine: correction.previousTimeMachine, newSourceType: correction.newSourceType }, { rows: 11796, previousHidden: 8743, previousTimeMachine: 3053, newSourceType: 'regular' });
 });

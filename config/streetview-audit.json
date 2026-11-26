@@ -1,0 +1,86 @@
+{
+  "schemaVersion": 2,
+  "scope": "canonical-and-input-rows-separate",
+  "catalog": {
+    "rows": 18936803,
+    "byCategory": {
+      "unknown": 18836952,
+      "hidden": 7418,
+      "regular": 11797,
+      "time-machine": 80636
+    },
+    "byStatus": {
+      "unknown": 18836952,
+      "user-confirmed-hidden": 7418,
+      "regular-confirmed": 11797,
+      "time-machine-history-only": 80636
+    },
+    "bySource": {
+      "hidden": 230090,
+      "time-machine": 124706,
+      "unknown": 268019,
+      "missing": 18142376,
+      "regular": 171612
+    },
+    "byBasis": {
+      "insufficient-evidence": 18836952,
+      "binzhou-user-confirmed-source": 7418,
+      "binzhou-official-browser": 1,
+      "source-parent-history-reference": 80636,
+      "tumushuke-user-confirmed-source": 11796
+    },
+    "sourceByStatus": {
+      "hidden": {
+        "unknown": 222672,
+        "user-confirmed-hidden": 7418
+      },
+      "time-machine": {
+        "unknown": 44070,
+        "time-machine-history-only": 80636
+      },
+      "unknown": {
+        "unknown": 268019
+      },
+      "missing": {
+        "unknown": 18142375,
+        "regular-confirmed": 1
+      },
+      "regular": {
+        "unknown": 159816,
+        "regular-confirmed": 11796
+      }
+    },
+    "collections": 375,
+    "files": 473
+  },
+  "uploads": {
+    "rows": 255422,
+    "byCategory": {
+      "unknown": 255422
+    },
+    "byStatus": {
+      "unknown": 255422
+    },
+    "bySource": {
+      "hidden": 255422
+    },
+    "byBasis": {
+      "insufficient-evidence": 255422
+    },
+    "sourceByStatus": {
+      "hidden": {
+        "unknown": 255422
+      }
+    },
+    "timelineEmpty": 0,
+    "timelineSingle": 214562,
+    "timelineMultiple": 40860,
+    "timelineMissing": 0,
+    "movementZero": 223962,
+    "movementPositive": 31460,
+    "movementMissing": 0,
+    "movementInvalid": 0,
+    "metadataOnly": 255422,
+    "files": 71
+  }
+}

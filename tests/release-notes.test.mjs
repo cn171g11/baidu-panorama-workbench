@@ -22,10 +22,15 @@ test('release notes are versioned, ordered, and shipped with the site', async ()
     assert(Array.isArray(release.changes) && release.changes.length > 0);
     assert(release.changes.every(change => typeof change === 'string' && change.trim()));
   }
-  assert.equal(notes.releases[0].version, '1.8.0');
-  assert.match(notes.releases[0].changes.join('\n'), /238,833/);
-  assert.match(notes.releases[0].changes.join('\n'), /427/);
-  assert.match(notes.releases[0].changes.join('\n'), /复制而来/);
+  const crawler = notes.releases[0], correction = notes.releases.find(r => r.version === '1.9.0');
+  assert.equal(crawler.version, '1.10.0');
+  assert.deepEqual([crawler.importCounts.rawRecords,crawler.importCounts.uniquePanoids,crawler.importCounts.existingIds,crawler.importCounts.invalidRecords],[255422,255036,386,0]);
+  assert.equal(crawler.cityAdditions.reduce((s,r)=>s+r.added,0),255036);
+  assert.equal(crawler.cityAdditions.reduce((s,r)=>s+r.merged,0),386);
+  assert.equal(crawler.auditCounts.uploads.rows,255422);
+  assert.equal(crawler.auditCounts.catalog.rows,18936803);
+  assert.match(correction.changes.join('\n'), /11,796/);
+  assert.match(correction.changes.join('\n'), /user-confirmed-regular/);
   const additions = notes.releases.find(release => release.version === '1.7.0').cityAdditions;
   assert.equal(additions.length, 54);
   assert.equal(new Set(additions.map(row=>row.id)).size, 54);

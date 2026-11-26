@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "provider": "baidu",
+  "overrides": [
+    {
+      "city": "659003",
+      "sourceBatch": "baidu-supplement-20261123",
+      "kind": "regular",
+      "reviewedAt": "2026-11-25",
+      "reviewReason": "用户逐条核验图木舒克市全部街景为常规街景",
+      "count": 11796
+    }
+  ]
+}

@@ -8,10 +8,11 @@ const specs = [
   { id:'810000',count:3,added:0,newBatch:506,localOnly:3,overlap:0,sourceCount:0,sha:'ad26cef76caf823eef2d2b51166155478ee6f812f10d1e3d97e38cdaa8a16514',shards:1 },
 ];
 for(const spec of specs)test('Published-source archive '+spec.id+' supplements local panoids without losing source fields',async()=>{
-  const catalog=JSON.parse(await readFile('data/catalog.json','utf8')),city=catalog.collections.find(c=>c.id===spec.id);assert.equal(city.count,spec.count+spec.added+spec.newBatch);assert.equal(city.shardMaxRows,75000);assert.equal(city.files.length,spec.shards);
-  let count=0,local=0,observed=0,source=0,newBatch=0,previousId=null;
+  const catalog=JSON.parse(await readFile('data/catalog.json','utf8')),city=catalog.collections.find(c=>c.id===spec.id);const release=JSON.parse(await readFile('config/release-notes.json','utf8')).releases.find(r=>r.version==='1.10.0'); const added=release?.cityAdditions?.find(c=>c.id===spec.id)?.added??0;assert.equal(city.count,spec.count+spec.added+spec.newBatch+added);assert.equal(city.shardMaxRows,75000);assert.equal(city.files.length,spec.shards);
+  let count=0,local=0,observed=0,source=0,newBatch=0,crawler1125=0,previousId=null;
   for(const file of city.files){let n=0;for await(const {row}of streamRows('data/'+file)){
     n++;
+    if(row[9]?.extra?.sourceBatch==='baidu-crawler-20261125'){assert.equal(row[9]?.sourceType,'unknown');assert.equal(row[9]?.originalMetadataOnly,true);crawler1125++;continue;}
     const crawler = row[9]?.extra?.vehicleId;
     const prior = crawler ? row[9].observations?.at(-1) : null;
     if (crawler && !prior) { if (row[9].extra.sourceBatch==='baidu-11.24') newBatch++; continue; }
@@ -27,7 +28,7 @@ for(const spec of specs)test('Published-source archive '+spec.id+' supplements l
       assert.deepEqual(original,normalized,'Imported source + local supplement fields must be exactly retained');
     }else local++;
   }assert(n<=75000);}
-  assert.equal(count,spec.count);assert.equal(local,spec.localOnly);assert.equal(observed,spec.overlap);assert.equal(source,spec.sourceCount);assert.equal(newBatch,spec.newBatch);
+  assert.equal(count,spec.count);assert.equal(local,spec.localOnly);assert.equal(observed,spec.overlap);assert.equal(source,spec.sourceCount);assert.equal(newBatch,spec.newBatch);assert.equal(crawler1125,added);
 });
 test('Hong Kong unusable native parent is fail-closed while Lhasa county boundaries are valid',async()=>{
  const hk=JSON.parse(await readFile('config/osm-counties/810000.json','utf8')),lh=JSON.parse(await readFile('config/osm-counties/540100.json','utf8'));

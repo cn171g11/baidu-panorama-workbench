@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
+import { streamRows } from '../tools/stream_rows.mjs';
 import { baiduPanoramaUrl, validateRows } from '../city-viewer/js/metadata.js';
 
 test('Baidu hidden panorama hash URL uses supplied BD09MC and pose metadata',()=>{
@@ -11,9 +12,17 @@ test('Baidu hidden panorama hash URL uses supplied BD09MC and pose metadata',()=
 });
 
 test('Binzhou hidden audit records preserve sourceType, timeLine, verification and BD09MC',async()=>{
- const rows=JSON.parse(await readFile('data/baidu/371600/points-001.json','utf8'));
- assert.equal(rows.length,57530);assert.equal(rows.filter(row=>row[9]?.isHidden).length,7439);assert.equal(rows.filter(row=>row[9]?.sourceType==='time-machine').length,91);assert.equal(rows.filter(row=>row[9]?.extra?.mobilityAudit).length,7439);assert.equal(rows.filter(row=>row[9]?.extra?.mobilityAudit?.evidence==='timeline-only').length,427);assert(rows.every(row=>row[9]?.extra?.mobilityAudit?.evidence!=='direct-links'));assert(rows.some(row=>Array.isArray(row[9]?.observations)&&row[9].observations.some(item=>item?.sourceFile==='百度滨州.json'&&item.variant?.sourceType==='time-machine')));
- assert(rows[0][9].verification);assert(Array.isArray(rows[0][9].timeLine));assert(Number.isFinite(rows[0][9].x));assert.equal(rows[0][9].source,'baidu');
+ const catalog=JSON.parse(await readFile('data/catalog.json','utf8')), city=catalog.collections.find(c=>c.id==='371600');
+ const release=JSON.parse(await readFile('config/release-notes.json','utf8')).releases.find(r=>r.version==='1.10.0');
+ const expectedAdded=release?.cityAdditions.find(c=>c.id==='371600')?.added??0;
+ let old=0,added=0,hidden=0,timeMachine=0,audited=0,timeline=0,hasOldObservation=false,first;
+ for(const file of city.files)for await(const {row} of streamRows('data/'+file)){
+   const m=row[9]; if(m?.extra?.sourceBatch==='baidu-crawler-20261125'){assert.equal(m.sourceType,'unknown');assert.equal(m.originalMetadataOnly,true);added++;continue;}
+   first??=m;old++;hidden+=Number(m?.isHidden===true);timeMachine+=Number(m?.sourceType==='time-machine');audited+=Number(!!m?.extra?.mobilityAudit);timeline+=Number(m?.extra?.mobilityAudit?.evidence==='timeline-only');
+   assert.notEqual(m?.extra?.mobilityAudit?.evidence,'direct-links');if(m?.observations?.some(o=>o.sourceFile==='百度滨州.json'&&o.variant?.sourceType==='time-machine'))hasOldObservation=true;
+ }
+ assert.deepEqual([old,added,hidden,timeMachine,audited,timeline,hasOldObservation],[57530,expectedAdded,7439,91,7439,427,true]);
+ assert.equal(city.count,old+added);assert(first.verification);assert(Array.isArray(first.timeLine));assert(Number.isFinite(first.x));assert.equal(first.source,'baidu');
 });
 
 test('hidden audit precedence does not collapse time-machine records into hidden',()=>{

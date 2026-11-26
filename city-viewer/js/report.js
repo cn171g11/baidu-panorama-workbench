@@ -1,4 +1,15 @@
 import { loadCatalog } from './data-store.js';
+import { validatePublicAudit } from './streetview-audit.js';
+
+export function auditBreakdown(group) {
+  const num=n=>(n??0).toLocaleString('zh-CN');
+  const source=group.bySource, status=group.byStatus;
+  return [
+    `显式来源标签：隐藏 ${num(source.hidden)} · 时光机 ${num(source['time-machine'])} · 常规 ${num(source.regular)} · 待确认 ${num(source.unknown)} · 未标注 ${num(source.missing)}。`,
+    `入口审查：确认常规 ${num(status['regular-confirmed'])} · 人工确认隐藏 ${num(status['user-confirmed-hidden'])} · 日期往返 ${num(status['time-machine-roundtrip'])} · 单向证据 ${num(status['time-machine-one-way'])} · 仅历史引用 ${num(status['time-machine-history-only'])}。`,
+    `未能定类：证据不足 ${num(status.unknown)} · 隐藏候选 ${num(status['hidden-candidate'])} · 访问错误 ${num(status['access-error'])}。`,
+  ];
+}
 import { newCaptureSummary } from './panoid-time.js';
 import { loadBlueCityManifest, blueCityName } from './blue-city-data.js';
 function sumCapture(collections){
@@ -112,6 +123,18 @@ if(typeof document!=='undefined')try{
   // rows only. A manifest that exists but is malformed still fails closed below.
   const optionalManifest=async file=>{const response=await fetch(new URL(file,base),{cache:'no-store'});if(response.status===404)return null;if(!response.ok)throw Error('目录不可用：'+file);return response.json();};
   const [catalog,blue,osm,blueCities]=await Promise.all([loadCatalog(),optionalManifest('city-viewer/data/blue-dots/parts-manifest.json'),optionalManifest('city-viewer/data/blue-dots-osm/county-matched-manifest.json'),loadBlueCityManifest().catch(()=>null)]);
+  const auditSection=document.getElementById('entry-audit'), auditBody=document.getElementById('entry-audit-counts');
+  if(auditSection && auditBody)try{
+    const audit=await optionalManifest('config/streetview-audit.json');
+    if(audit){
+      validatePublicAudit(audit,catalog.publication?.sourcePanoids??catalog.total);
+      for(const [key,label] of [['catalog','全国归档主记录'],['uploads','11.25 本批原始输入']]){
+        const s=audit[key],heading=document.createElement('h3');heading.textContent=`${label}：${number(s.rows)} 条`;auditBody.append(heading);
+        for(const line of auditBreakdown(s)){const p=document.createElement('p');p.className='report-note';p.textContent=line;auditBody.append(p);}
+      }
+      auditSection.hidden=false;auditSection.dataset.ready='true';
+    }
+  }catch(error){auditBody.textContent='审查摘要未通过校验，无法显示。';auditSection.hidden=false;auditSection.dataset.ready='false';}
   const published=catalog.collections.filter(item=>item.count>0);
   const groups=aggregate(published), container=document.getElementById('province-groups');
   if(groups.total.total!==catalog.total || (catalog.importSummary?.uniquePanoids!==undefined && catalog.importSummary.uniquePanoids!==catalog.total))throw Error('已发布分类与唯一点位总数不符');

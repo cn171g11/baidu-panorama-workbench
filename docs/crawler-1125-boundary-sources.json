@@ -1,0 +1,2386 @@
+{
+  "version": 1,
+  "snapshotCompletedUtc": "2026-11-26T14:57:46+00:00",
+  "provider": "Alibaba Cloud DataV.GeoAtlas areas_v3",
+  "crs": "GCJ-02 (working interpretation, not a per-response CRS declaration)",
+  "crsDocumentation": "https://help.aliyun.com/zh/datav/datav-6-0/user-guide/map-data-format",
+  "crsEvidence": "DataV states its map components primarily use GCJ-02 and recommends GeoAtlas for administrative boundaries; provider does not specifically certify every vertex in these files.",
+  "coverage": "All 34 province-level units in this version of the provider roster; all immediate children for 27 provinces/autonomous regions. Four municipalities and Hong Kong/Macao use their own province polygon; Taiwan has no subregions in this snapshot and is province-only. Includes province-administered county-equivalent units as their own codes; not a contemporary official code register.",
+  "snapshotLimit": "For example, the Xinjiang file includes 659001–659010; 659011 and 659012 are not separate units here. Simplification, vintage, coastal gaps, overlaps, sovereignty and border interpretations limit precision. Geometry is not redistributed.",
+  "areas": 370,
+  "sources": [
+    {
+      "url": "https://geo.datav.aliyun.com/areas_v3/bound/100000_full.json",
+      "file": "100000_full.json",
+      "retrievedUtc": "2026-11-26T14:57:43+00:00",
+      "httpLastModified": "Tue, 29 Jun 2021 11:16:54 GMT",
+      "etag": "\"CB2BA75AD5F4A65BB00B748889479F93\"",
+      "bytes": 582522,
+      "sha256": "99adfeded5223848bbe37a0a12f8023e11ee12161c7800521c27db42fdeac275",
+      "use": "province roster (not used as city polygons)",
+      "excludedNonAdministrativeFeatures": [
+        "100000_JD"
+      ]
+    },
+    {
+      "url": "https://geo.datav.aliyun.com/areas_v3/bound/110000.json",
+      "file": "110000.json",
+      "retrievedUtc": "2026-11-26T14:57:43+00:00",
+      "httpLastModified": "Fri, 04 Jun 2021 09:21:57 GMT",
+      "etag": "\"FD28F40CB7A11A7D8663137767A10102\"",
+      "bytes": 31711,
+      "sha256": "42733d8df7b0744f18d767ef736dc2cc38daab550f1a1f2ccd1ccae9c49477c4",
+      "provinceId": "110000",
+      "province": "北京市",
+      "use": "province-equivalent",
+      "rosterChildrenNum": 16,
+      "areas": [
+        {
+          "id": "110000",
+          "name": "北京市",
+          "level": "province"
+        }
+      ]
+    },
+    {
+      "url": "https://geo.datav.aliyun.com/areas_v3/bound/120000.json",
+      "file": "120000.json",
+      "retrievedUtc": "2026-11-26T14:57:43+00:00",
+      "httpLastModified": "Thu, 11 Apr 2024 03:01:59 GMT",
+      "etag": "\"5DDAE0F89AD9F878B87C843C843B9223\"",
+      "bytes": 28034,
+      "sha256": "69c2a808986c800352420d6066ec384eb349fa35d8a5c363eea9fac216b52141",
+      "provinceId": "120000",
+      "province": "天津市",
+      "use": "province-equivalent",
+      "rosterChildrenNum": 16,
+      "areas": [
+        {
+          "id": "120000",
+          "name": "天津市",
+          "level": "province"
+        }
+      ]
+    },
+    {
+      "url": "https://geo.datav.aliyun.com/areas_v3/bound/130000_full.json",
+      "file": "130000_full.json",
+      "retrievedUtc": "2026-11-26T14:57:43+00:00",
+      "httpLastModified": "Fri, 04 Jun 2021 09:21:57 GMT",
+      "etag": "\"A33C1AEB72121CC9E4DD53900AD4499B\"",
+      "bytes": 73454,
+      "sha256": "c7e8f6d81bf815b309e081b17325f73134bfa6929332e1c135398e82216f70f7",
+      "provinceId": "130000",
+      "province": "河北省",
+      "use": "all immediate administrative children",
+      "rosterChildrenNum": 11,
+      "areas": [
+        {
+          "id": "130100",
+          "name": "石家庄市",
+          "level": "city"
+        },
+        {
+          "id": "130200",
+          "name": "唐山市",
+          "level": "city"
+        },
+        {
+          "id": "130300",
+          "name": "秦皇岛市",
+          "level": "city"
+        },
+        {
+          "id": "130400",
+          "name": "邯郸市",
+          "level": "city"
+        },
+        {
+          "id": "130500",
+          "name": "邢台市",
+          "level": "city"
+        },
+        {
+          "id": "130600",
+          "name": "保定市",
+          "level": "city"
+        },
+        {
+          "id": "130700",
+          "name": "张家口市",
+          "level": "city"
+        },
+        {
+          "id": "130800",
+          "name": "承德市",
+          "level": "city"
+        },
+        {
+          "id": "130900",
+          "name": "沧州市",
+          "level": "city"
+        },
+        {
+          "id": "131000",
+          "name": "廊坊市",
+          "level": "city"
+        },
+        {
+          "id": "131100",
+          "name": "衡水市",
+          "level": "city"
+        }
+      ]
+    },
+    {
+      "url": "https://geo.datav.aliyun.com/areas_v3/bound/140000_full.json",
+      "file": "140000_full.json",
+      "retrievedUtc": "2026-11-26T14:57:43+00:00",
+      "httpLastModified": "Fri, 04 Jun 2021 09:21:59 GMT",
+      "etag": "\"E8C48E1EFA44EA3E7209A212224EABFB\"",
+      "bytes": 60906,
+      "sha256": "5da8144cc2d3a6ab6be40a63fd2ed099a33f1deae8e727214542e73f410ff607",
+      "provinceId": "140000",
+      "province": "山西省",
+      "use": "all immediate administrative children",
+      "rosterChildrenNum": 11,
+      "areas": [
+        {
+          "id": "140100",
+          "name": "太原市",
+          "level": "city"
+        },
+        {
+          "id": "140200",
+          "name": "大同市",
+          "level": "city"
+        },
+        {
+          "id": "140300",
+          "name": "阳泉市",
+          "level": "city"
+        },
+        {
+          "id": "140400",
+          "name": "长治市",
+          "level": "city"
+        },
+        {
+          "id": "140500",
+          "name": "晋城市",
+          "level": "city"
+        },
+        {
+          "id": "140600",
+          "name": "朔州市",
+          "level": "city"
+        },
+        {
+          "id": "140700",
+          "name": "晋中市",
+          "level": "city"
+        },
+        {
+          "id": "140800",
+          "name": "运城市",
+          "level": "city"
+        },
+        {
+          "id": "140900",
+          "name": "忻州市",
+          "level": "city"
+        },
+        {
+          "id": "141000",
+          "name": "临汾市",
+          "level": "city"
+        },
+        {
+          "id": "141100",
+          "name": "吕梁市",
+          "level": "city"
+        }
+      ]
+    },
+    {
+      "url": "https://geo.datav.aliyun.com/areas_v3/bound/150000_full.json",
+      "file": "150000_full.json",
+      "retrievedUtc": "2026-11-26T14:57:43+00:00",
+      "httpLastModified": "Thu, 11 Apr 2024 03:01:59 GMT",
+      "etag": "\"CAF3862D69E7769FC39076434BA41B60\"",
+      "bytes": 79281,
+      "sha256": "9a4a3b95d903b064c8e815b78d4f80f391b4bdafd3b52dabd854755457385660",
+      "provinceId": "150000",
+      "province": "内蒙古自治区",
+      "use": "all immediate administrative children",
+      "rosterChildrenNum": 12,
+      "areas": [
+        {
+          "id": "150100",
+          "name": "呼和浩特市",
+          "level": "city"
+        },
+        {
+          "id": "150200",
+          "name": "包头市",
+          "level": "city"
+        },
+        {
+          "id": "150300",
+          "name": "乌海市",
+          "level": "city"
+        },
+        {
+          "id": "150400",
+          "name": "赤峰市",
+          "level": "city"
+        },
+        {
+          "id": "150500",
+          "name": "通辽市",
+          "level": "city"
+        },
+        {
+          "id": "150600",
+          "name": "鄂尔多斯市",
+          "level": "city"
+        },
+        {
+          "id": "150700",
+          "name": "呼伦贝尔市",
+          "level": "city"
+        },
+        {
+          "id": "150800",
+          "name": "巴彦淖尔市",
+          "level": "city"
+        },
+        {
+          "id": "150900",
+          "name": "乌兰察布市",
+          "level": "city"
+        },
+        {
+          "id": "152200",
+          "name": "兴安盟",
+          "level": "city"
+        },
+        {
+          "id": "152500",
+          "name": "锡林郭勒盟",
+          "level": "city"
+        },
+        {
+          "id": "152900",
+          "name": "阿拉善盟",
+          "level": "city"
+        }
+      ]
+    },
+    {
+      "url": "https://geo.datav.aliyun.com/areas_v3/bound/210000_full.json",
+      "file": "210000_full.json",
+      "retrievedUtc": "2026-11-26T14:57:43+00:00",
+      "httpLastModified": "Fri, 04 Jun 2021 09:22:03 GMT",
+      "etag": "\"6697E0B9C891555FA0861495C62295B0\"",
+      "bytes": 161469,
+      "sha256": "679ec739045413f4de0898a9d6a7957f6ffc551809f3f52c786a30d6242b02c5",
+      "provinceId": "210000",
+      "province": "辽宁省",
+      "use": "all immediate administrative children",
+      "rosterChildrenNum": 14,
+      "areas": [
+        {
+          "id": "210100",
+          "name": "沈阳市",
+          "level": "city"
+        },
+        {
+          "id": "210200",
+          "name": "大连市",
+          "level": "city"
+        },
+        {
+          "id": "210300",
+          "name": "鞍山市",
+          "level": "city"
+        },
+        {
+          "id": "210400",
+          "name": "抚顺市",
+          "level": "city"
+        },
+        {
+          "id": "210500",
+          "name": "本溪市",
+          "level": "city"
+        },
+        {
+          "id": "210600",
+          "name": "丹东市",
+          "level": "city"
+        },
+        {
+          "id": "210700",
+          "name": "锦州市",
+          "level": "city"
+        },
+        {
+          "id": "210800",
+          "name": "营口市",
+          "level": "city"
+        },
+        {
+          "id": "210900",
+          "name": "阜新市",
+          "level": "city"
+        },
+        {
+          "id": "211000",
+          "name": "辽阳市",
+          "level": "city"
+        },
+        {
+          "id": "211100",
+          "name": "盘锦市",
+          "level": "city"
+        },
+        {
+          "id": "211200",
+          "name": "铁岭市",
+          "level": "city"
+        },
+        {
+          "id": "211300",
+          "name": "朝阳市",
+          "level": "city"
+        },
+        {
+          "id": "211400",
+          "name": "葫芦岛市",
+          "level": "city"
+        }
+      ]
+    },
+    {
+      "url": "https://geo.datav.aliyun.com/areas_v3/bound/220000_full.json",
+      "file": "220000_full.json",
+      "retrievedUtc": "2026-11-26T14:57:44+00:00",
+      "httpLastModified": "Fri, 04 Jun 2021 09:22:04 GMT",
+      "etag": "\"23983DE192C0E5D75AB8AAE06D5F6417\"",
+      "bytes": 147299,
+      "sha256": "828be8771e676322a81f560611821230d66e1e1dca87308efd7865b27423e605",
+      "provinceId": "220000",
+      "province": "吉林省",
+      "use": "all immediate administrative children",
+      "rosterChildrenNum": 9,
+      "areas": [
+        {
+          "id": "220100",
+          "name": "长春市",
+          "level": "city"
+        },
+        {
+          "id": "220200",
+          "name": "吉林市",
+          "level": "city"
+        },
+        {
+          "id": "220300",
+          "name": "四平市",
+          "level": "city"
+        },
+        {
+          "id": "220400",
+          "name": "辽源市",
+          "level": "city"
+        },
+        {
+          "id": "220500",
+          "name": "通化市",
+          "level": "city"
+        },
+        {
+          "id": "220600",
+          "name": "白山市",
+          "level": "city"
+        },
+        {
+          "id": "220700",
+          "name": "松原市",
+          "level": "city"
+        },
+        {
+          "id": "220800",
+          "name": "白城市",
+          "level": "city"
+        },
+        {
+          "id": "222400",
+          "name": "延边朝鲜族自治州",
+          "level": "city"
+        }
+      ]
+    },
+    {
+      "url": "https://geo.datav.aliyun.com/areas_v3/bound/230000_full.json",
+      "file": "230000_full.json",
+      "retrievedUtc": "2026-11-26T14:57:44+00:00",
+      "httpLastModified": "Fri, 04 Jun 2021 09:22:05 GMT",
+      "etag": "\"B7B6D1EC5B854B127F6038E914942BC6\"",
+      "bytes": 146797,
+      "sha256": "f8d3bdbee4068811237efd23fe349a4c6e3bc99334079f9746f19e7df5ea4854",
+      "provinceId": "230000",
+      "province": "黑龙江省",
+      "use": "all immediate administrative children",
+      "rosterChildrenNum": 13,
+      "areas": [
+        {
+          "id": "230100",
+          "name": "哈尔滨市",
+          "level": "city"
+        },
+        {
+          "id": "230200",
+          "name": "齐齐哈尔市",
+          "level": "city"
+        },
+        {
+          "id": "230300",
+          "name": "鸡西市",
+          "level": "city"
+        },
+        {
+          "id": "230400",
+          "name": "鹤岗市",
+          "level": "city"
+        },
+        {
+          "id": "230500",
+          "name": "双鸭山市",
+          "level": "city"
+        },
+        {
+          "id": "230600",
+          "name": "大庆市",
+          "level": "city"
+        },
+        {
+          "id": "230700",
+          "name": "伊春市",
+          "level": "city"
+        },
+        {
+          "id": "230800",
+          "name": "佳木斯市",
+          "level": "city"
+        },
+        {
+          "id": "230900",
+          "name": "七台河市",
+          "level": "city"
+        },
+        {
+          "id": "231000",
+          "name": "牡丹江市",
+          "level": "city"
+        },
+        {
+          "id": "231100",
+          "name": "黑河市",
+          "level": "city"
+        },
+        {
+          "id": "231200",
+          "name": "绥化市",
+          "level": "city"
+        },
+        {
+          "id": "232700",
+          "name": "大兴安岭地区",
+          "level": "city"
+        }
+      ]
+    },
+    {
+      "url": "https://geo.datav.aliyun.com/areas_v3/bound/310000.json",
+      "file": "310000.json",
+      "retrievedUtc": "2026-11-26T14:57:44+00:00",
+      "httpLastModified": "Fri, 04 Jun 2021 09:22:07 GMT",
+      "etag": "\"CAED79AB028DD00D740F82FABD413897\"",
+      "bytes": 21187,
+      "sha256": "9861383590cc045f85f5b114a12731c057d56f8f322dca913ad0351306892e20",
+      "provinceId": "310000",
+      "province": "上海市",
+      "use": "province-equivalent",
+      "rosterChildrenNum": 16,
+      "areas": [
+        {
+          "id": "310000",
+          "name": "上海市",
+          "level": "province"
+        }
+      ]
+    },
+    {
+      "url": "https://geo.datav.aliyun.com/areas_v3/bound/320000_full.json",
+      "file": "320000_full.json",
+      "retrievedUtc": "2026-11-26T14:57:44+00:00",
+      "httpLastModified": "Fri, 04 Jun 2021 09:22:07 GMT",
+      "etag": "\"755FE42C7BD752E4639EB2C57AAA1F4B\"",
+      "bytes": 97545,
+      "sha256": "6af17f07a3c83bad7d4d552efdd7f59ba8f7574363d1a686f59bc1d0f91733e7",
+      "provinceId": "320000",
+      "province": "江苏省",
+      "use": "all immediate administrative children",
+      "rosterChildrenNum": 13,
+      "areas": [
+        {
+          "id": "320100",
+          "name": "南京市",
+          "level": "city"
+        },
+        {
+          "id": "320200",
+          "name": "无锡市",
+          "level": "city"
+        },
+        {
+          "id": "320300",
+          "name": "徐州市",
+          "level": "city"
+        },
+        {
+          "id": "320400",
+          "name": "常州市",
+          "level": "city"
+        },
+        {
+          "id": "320500",
+          "name": "苏州市",
+          "level": "city"
+        },
+        {
+          "id": "320600",
+          "name": "南通市",
+          "level": "city"
+        },
+        {
+          "id": "320700",
+          "name": "连云港市",
+          "level": "city"
+        },
+        {
+          "id": "320800",
+          "name": "淮安市",
+          "level": "city"
+        },
+        {
+          "id": "320900",
+          "name": "盐城市",
+          "level": "city"
+        },
+        {
+          "id": "321000",
+          "name": "扬州市",
+          "level": "city"
+        },
+        {
+          "id": "321100",
+          "name": "镇江市",
+          "level": "city"
+        },
+        {
+          "id": "321200",
+          "name": "泰州市",
+          "level": "city"
+        },
+        {
+          "id": "321300",
+          "name": "宿迁市",
+          "level": "city"
+        }
+      ]
+    },
+    {
+      "url": "https://geo.datav.aliyun.com/areas_v3/bound/330000_full.json",
+      "file": "330000_full.json",
+      "retrievedUtc": "2026-11-26T14:57:44+00:00",
+      "httpLastModified": "Fri, 04 Jun 2021 09:22:08 GMT",
+      "etag": "\"AD11CC78181310BFD9A264BDB4D7F923\"",
+      "bytes": 120401,
+      "sha256": "f87241d47687264861aa619b8dc37ffeb61a2be5d6018a8c01ec0ce0acb5cb38",
+      "provinceId": "330000",
+      "province": "浙江省",
+      "use": "all immediate administrative children",
+      "rosterChildrenNum": 11,
+      "areas": [
+        {
+          "id": "330100",
+          "name": "杭州市",
+          "level": "city"
+        },
+        {
+          "id": "330200",
+          "name": "宁波市",
+          "level": "city"
+        },
+        {
+          "id": "330300",
+          "name": "温州市",
+          "level": "city"
+        },
+        {
+          "id": "330400",
+          "name": "嘉兴市",
+          "level": "city"
+        },
+        {
+          "id": "330500",
+          "name": "湖州市",
+          "level": "city"
+        },
+        {
+          "id": "330600",
+          "name": "绍兴市",
+          "level": "city"
+        },
+        {
+          "id": "330700",
+          "name": "金华市",
+          "level": "city"
+        },
+        {
+          "id": "330800",
+          "name": "衢州市",
+          "level": "city"
+        },
+        {
+          "id": "330900",
+          "name": "舟山市",
+          "level": "city"
+        },
+        {
+          "id": "331000",
+          "name": "台州市",
+          "level": "city"
+        },
+        {
+          "id": "331100",
+          "name": "丽水市",
+          "level": "city"
+        }
+      ]
+    },
+    {
+      "url": "https://geo.datav.aliyun.com/areas_v3/bound/340000_full.json",
+      "file": "340000_full.json",
+      "retrievedUtc": "2026-11-26T14:57:44+00:00",
+      "httpLastModified": "Thu, 11 Apr 2024 03:01:58 GMT",
+      "etag": "\"563CB20206F25CC8C3A3AEC20B0A5C33\"",
+      "bytes": 127323,
+      "sha256": "7ca3290e0458f34086df4d61fa9804e2c624d55dfe5f8f6a841844b5dcd43207",
+      "provinceId": "340000",
+      "province": "安徽省",
+      "use": "all immediate administrative children",
+      "rosterChildrenNum": 16,
+      "areas": [
+        {
+          "id": "340100",
+          "name": "合肥市",
+          "level": "city"
+        },
+        {
+          "id": "340200",
+          "name": "芜湖市",
+          "level": "city"
+        },
+        {
+          "id": "340300",
+          "name": "蚌埠市",
+          "level": "city"
+        },
+        {
+          "id": "340400",
+          "name": "淮南市",
+          "level": "city"
+        },
+        {
+          "id": "340500",
+          "name": "马鞍山市",
+          "level": "city"
+        },
+        {
+          "id": "340600",
+          "name": "淮北市",
+          "level": "city"
+        },
+        {
+          "id": "340700",
+          "name": "铜陵市",
+          "level": "city"
+        },
+        {
+          "id": "340800",
+          "name": "安庆市",
+          "level": "city"
+        },
+        {
+          "id": "341000",
+          "name": "黄山市",
+          "level": "city"
+        },
+        {
+          "id": "341100",
+          "name": "滁州市",
+          "level": "city"
+        },
+        {
+          "id": "341200",
+          "name": "阜阳市",
+          "level": "city"
+        },
+        {
+          "id": "341300",
+          "name": "宿州市",
+          "level": "city"
+        },
+        {
+          "id": "341500",
+          "name": "六安市",
+          "level": "city"
+        },
+        {
+          "id": "341600",
+          "name": "亳州市",
+          "level": "city"
+        },
+        {
+          "id": "341700",
+          "name": "池州市",
+          "level": "city"
+        },
+        {
+          "id": "341800",
+          "name": "宣城市",
+          "level": "city"
+        }
+      ]
+    },
+    {
+      "url": "https://geo.datav.aliyun.com/areas_v3/bound/350000_full.json",
+      "file": "350000_full.json",
+      "retrievedUtc": "2026-11-26T14:57:44+00:00",
+      "httpLastModified": "Fri, 04 Jun 2021 09:22:13 GMT",
+      "etag": "\"0DB4D0018493F0BDB1317F8F76494845\"",
+      "bytes": 114243,
+      "sha256": "0c749acd0048a5042a5ee701ddd5a87c17ff91afb9b728d23b7253799135b58f",
+      "provinceId": "350000",
+      "province": "福建省",
+      "use": "all immediate administrative children",
+      "rosterChildrenNum": 9,
+      "areas": [
+        {
+          "id": "350100",
+          "name": "福州市",
+          "level": "city"
+        },
+        {
+          "id": "350200",
+          "name": "厦门市",
+          "level": "city"
+        },
+        {
+          "id": "350300",
+          "name": "莆田市",
+          "level": "city"
+        },
+        {
+          "id": "350400",
+          "name": "三明市",
+          "level": "city"
+        },
+        {
+          "id": "350500",
+          "name": "泉州市",
+          "level": "city"
+        },
+        {
+          "id": "350600",
+          "name": "漳州市",
+          "level": "city"
+        },
+        {
+          "id": "350700",
+          "name": "南平市",
+          "level": "city"
+        },
+        {
+          "id": "350800",
+          "name": "龙岩市",
+          "level": "city"
+        },
+        {
+          "id": "350900",
+          "name": "宁德市",
+          "level": "city"
+        }
+      ]
+    },
+    {
+      "url": "https://geo.datav.aliyun.com/areas_v3/bound/360000_full.json",
+      "file": "360000_full.json",
+      "retrievedUtc": "2026-11-26T14:57:44+00:00",
+      "httpLastModified": "Fri, 04 Jun 2021 09:22:15 GMT",
+      "etag": "\"8A97E1DF367A82B3A289FC2DE0AA125A\"",
+      "bytes": 121694,
+      "sha256": "ee9696faaca6e644fb0f1aebfc0bd800beb938dd2eb1737fcb8b244072405d9e",
+      "provinceId": "360000",
+      "province": "江西省",
+      "use": "all immediate administrative children",
+      "rosterChildrenNum": 11,
+      "areas": [
+        {
+          "id": "360100",
+          "name": "南昌市",
+          "level": "city"
+        },
+        {
+          "id": "360200",
+          "name": "景德镇市",
+          "level": "city"
+        },
+        {
+          "id": "360300",
+          "name": "萍乡市",
+          "level": "city"
+        },
+        {
+          "id": "360400",
+          "name": "九江市",
+          "level": "city"
+        },
+        {
+          "id": "360500",
+          "name": "新余市",
+          "level": "city"
+        },
+        {
+          "id": "360600",
+          "name": "鹰潭市",
+          "level": "city"
+        },
+        {
+          "id": "360700",
+          "name": "赣州市",
+          "level": "city"
+        },
+        {
+          "id": "360800",
+          "name": "吉安市",
+          "level": "city"
+        },
+        {
+          "id": "360900",
+          "name": "宜春市",
+          "level": "city"
+        },
+        {
+          "id": "361000",
+          "name": "抚州市",
+          "level": "city"
+        },
+        {
+          "id": "361100",
+          "name": "上饶市",
+          "level": "city"
+        }
+      ]
+    },
+    {
+      "url": "https://geo.datav.aliyun.com/areas_v3/bound/370000_full.json",
+      "file": "370000_full.json",
+      "retrievedUtc": "2026-11-26T14:57:44+00:00",
+      "httpLastModified": "Fri, 04 Jun 2021 09:22:17 GMT",
+      "etag": "\"63B614C2B64F91DC1AF50E9249B9064D\"",
+      "bytes": 167872,
+      "sha256": "04d600e257db17869aa7fabcfcd6a87a7236791a7f02dd891636f5f58da0133f",
+      "provinceId": "370000",
+      "province": "山东省",
+      "use": "all immediate administrative children",
+      "rosterChildrenNum": 16,
+      "areas": [
+        {
+          "id": "370100",
+          "name": "济南市",
+          "level": "city"
+        },
+        {
+          "id": "370200",
+          "name": "青岛市",
+          "level": "city"
+        },
+        {
+          "id": "370300",
+          "name": "淄博市",
+          "level": "city"
+        },
+        {
+          "id": "370400",
+          "name": "枣庄市",
+          "level": "city"
+        },
+        {
+          "id": "370500",
+          "name": "东营市",
+          "level": "city"
+        },
+        {
+          "id": "370600",
+          "name": "烟台市",
+          "level": "city"
+        },
+        {
+          "id": "370700",
+          "name": "潍坊市",
+          "level": "city"
+        },
+        {
+          "id": "370800",
+          "name": "济宁市",
+          "level": "city"
+        },
+        {
+          "id": "370900",
+          "name": "泰安市",
+          "level": "city"
+        },
+        {
+          "id": "371000",
+          "name": "威海市",
+          "level": "city"
+        },
+        {
+          "id": "371100",
+          "name": "日照市",
+          "level": "city"
+        },
+        {
+          "id": "371300",
+          "name": "临沂市",
+          "level": "city"
+        },
+        {
+          "id": "371400",
+          "name": "德州市",
+          "level": "city"
+        },
+        {
+          "id": "371500",
+          "name": "聊城市",
+          "level": "city"
+        },
+        {
+          "id": "371600",
+          "name": "滨州市",
+          "level": "city"
+        },
+        {
+          "id": "371700",
+          "name": "菏泽市",
+          "level": "city"
+        }
+      ]
+    },
+    {
+      "url": "https://geo.datav.aliyun.com/areas_v3/bound/410000_full.json",
+      "file": "410000_full.json",
+      "retrievedUtc": "2026-11-26T14:57:44+00:00",
+      "httpLastModified": "Fri, 04 Jun 2021 09:22:19 GMT",
+      "etag": "\"E7C3AC71BEB11BAB2EEC9D0B6B3478D9\"",
+      "bytes": 153774,
+      "sha256": "34119256db754324763c8484122d71524818c9cec974207bd27a9aafe2d8ad63",
+      "provinceId": "410000",
+      "province": "河南省",
+      "use": "all immediate administrative children",
+      "rosterChildrenNum": 18,
+      "areas": [
+        {
+          "id": "410100",
+          "name": "郑州市",
+          "level": "city"
+        },
+        {
+          "id": "410200",
+          "name": "开封市",
+          "level": "city"
+        },
+        {
+          "id": "410300",
+          "name": "洛阳市",
+          "level": "city"
+        },
+        {
+          "id": "410400",
+          "name": "平顶山市",
+          "level": "city"
+        },
+        {
+          "id": "410500",
+          "name": "安阳市",
+          "level": "city"
+        },
+        {
+          "id": "410600",
+          "name": "鹤壁市",
+          "level": "city"
+        },
+        {
+          "id": "410700",
+          "name": "新乡市",
+          "level": "city"
+        },
+        {
+          "id": "410800",
+          "name": "焦作市",
+          "level": "city"
+        },
+        {
+          "id": "410900",
+          "name": "濮阳市",
+          "level": "city"
+        },
+        {
+          "id": "411000",
+          "name": "许昌市",
+          "level": "city"
+        },
+        {
+          "id": "411100",
+          "name": "漯河市",
+          "level": "city"
+        },
+        {
+          "id": "411200",
+          "name": "三门峡市",
+          "level": "city"
+        },
+        {
+          "id": "411300",
+          "name": "南阳市",
+          "level": "city"
+        },
+        {
+          "id": "411400",
+          "name": "商丘市",
+          "level": "city"
+        },
+        {
+          "id": "411500",
+          "name": "信阳市",
+          "level": "city"
+        },
+        {
+          "id": "411600",
+          "name": "周口市",
+          "level": "city"
+        },
+        {
+          "id": "411700",
+          "name": "驻马店市",
+          "level": "city"
+        },
+        {
+          "id": "419001",
+          "name": "济源市",
+          "level": "city"
+        }
+      ]
+    },
+    {
+      "url": "https://geo.datav.aliyun.com/areas_v3/bound/420000_full.json",
+      "file": "420000_full.json",
+      "retrievedUtc": "2026-11-26T14:57:45+00:00",
+      "httpLastModified": "Fri, 04 Jun 2021 09:22:21 GMT",
+      "etag": "\"0FF6BDF7E69AA8167205091A21348312\"",
+      "bytes": 155792,
+      "sha256": "0acb559fcfe2ab2c5d2707c2477e60facdf4328ad89b8ab7d9126c5166675502",
+      "provinceId": "420000",
+      "province": "湖北省",
+      "use": "all immediate administrative children",
+      "rosterChildrenNum": 17,
+      "areas": [
+        {
+          "id": "420100",
+          "name": "武汉市",
+          "level": "city"
+        },
+        {
+          "id": "420200",
+          "name": "黄石市",
+          "level": "city"
+        },
+        {
+          "id": "420300",
+          "name": "十堰市",
+          "level": "city"
+        },
+        {
+          "id": "420500",
+          "name": "宜昌市",
+          "level": "city"
+        },
+        {
+          "id": "420600",
+          "name": "襄阳市",
+          "level": "city"
+        },
+        {
+          "id": "420700",
+          "name": "鄂州市",
+          "level": "city"
+        },
+        {
+          "id": "420800",
+          "name": "荆门市",
+          "level": "city"
+        },
+        {
+          "id": "420900",
+          "name": "孝感市",
+          "level": "city"
+        },
+        {
+          "id": "421000",
+          "name": "荆州市",
+          "level": "city"
+        },
+        {
+          "id": "421100",
+          "name": "黄冈市",
+          "level": "city"
+        },
+        {
+          "id": "421200",
+          "name": "咸宁市",
+          "level": "city"
+        },
+        {
+          "id": "421300",
+          "name": "随州市",
+          "level": "city"
+        },
+        {
+          "id": "422800",
+          "name": "恩施土家族苗族自治州",
+          "level": "city"
+        },
+        {
+          "id": "429004",
+          "name": "仙桃市",
+          "level": "city"
+        },
+        {
+          "id": "429005",
+          "name": "潜江市",
+          "level": "city"
+        },
+        {
+          "id": "429006",
+          "name": "天门市",
+          "level": "city"
+        },
+        {
+          "id": "429021",
+          "name": "神农架林区",
+          "level": "city"
+        }
+      ]
+    },
+    {
+      "url": "https://geo.datav.aliyun.com/areas_v3/bound/430000_full.json",
+      "file": "430000_full.json",
+      "retrievedUtc": "2026-11-26T14:57:45+00:00",
+      "httpLastModified": "Fri, 04 Jun 2021 09:22:23 GMT",
+      "etag": "\"4479FFC6AC8C1AE178C3ACABAA2BB446\"",
+      "bytes": 175676,
+      "sha256": "091cb4e77e2bc73fb37c8a9b3b174db9b2008db5f544a7156f5a8ad34e77dd66",
+      "provinceId": "430000",
+      "province": "湖南省",
+      "use": "all immediate administrative children",
+      "rosterChildrenNum": 14,
+      "areas": [
+        {
+          "id": "430100",
+          "name": "长沙市",
+          "level": "city"
+        },
+        {
+          "id": "430200",
+          "name": "株洲市",
+          "level": "city"
+        },
+        {
+          "id": "430300",
+          "name": "湘潭市",
+          "level": "city"
+        },
+        {
+          "id": "430400",
+          "name": "衡阳市",
+          "level": "city"
+        },
+        {
+          "id": "430500",
+          "name": "邵阳市",
+          "level": "city"
+        },
+        {
+          "id": "430600",
+          "name": "岳阳市",
+          "level": "city"
+        },
+        {
+          "id": "430700",
+          "name": "常德市",
+          "level": "city"
+        },
+        {
+          "id": "430800",
+          "name": "张家界市",
+          "level": "city"
+        },
+        {
+          "id": "430900",
+          "name": "益阳市",
+          "level": "city"
+        },
+        {
+          "id": "431000",
+          "name": "郴州市",
+          "level": "city"
+        },
+        {
+          "id": "431100",
+          "name": "永州市",
+          "level": "city"
+        },
+        {
+          "id": "431200",
+          "name": "怀化市",
+          "level": "city"
+        },
+        {
+          "id": "431300",
+          "name": "娄底市",
+          "level": "city"
+        },
+        {
+          "id": "433100",
+          "name": "湘西土家族苗族自治州",
+          "level": "city"
+        }
+      ]
+    },
+    {
+      "url": "https://geo.datav.aliyun.com/areas_v3/bound/440000_full.json",
+      "file": "440000_full.json",
+      "retrievedUtc": "2026-11-26T14:57:45+00:00",
+      "httpLastModified": "Fri, 04 Jun 2021 09:22:25 GMT",
+      "etag": "\"B6618EF45CA26E3C66AB149AC5F1E8CC\"",
+      "bytes": 192961,
+      "sha256": "209ad617a296b154c4fd0828180b2a9ab2b270044990ab34e72a344ce913c8c7",
+      "provinceId": "440000",
+      "province": "广东省",
+      "use": "all immediate administrative children",
+      "rosterChildrenNum": 21,
+      "areas": [
+        {
+          "id": "440100",
+          "name": "广州市",
+          "level": "city"
+        },
+        {
+          "id": "440200",
+          "name": "韶关市",
+          "level": "city"
+        },
+        {
+          "id": "440300",
+          "name": "深圳市",
+          "level": "city"
+        },
+        {
+          "id": "440400",
+          "name": "珠海市",
+          "level": "city"
+        },
+        {
+          "id": "440500",
+          "name": "汕头市",
+          "level": "city"
+        },
+        {
+          "id": "440600",
+          "name": "佛山市",
+          "level": "city"
+        },
+        {
+          "id": "440700",
+          "name": "江门市",
+          "level": "city"
+        },
+        {
+          "id": "440800",
+          "name": "湛江市",
+          "level": "city"
+        },
+        {
+          "id": "440900",
+          "name": "茂名市",
+          "level": "city"
+        },
+        {
+          "id": "441200",
+          "name": "肇庆市",
+          "level": "city"
+        },
+        {
+          "id": "441300",
+          "name": "惠州市",
+          "level": "city"
+        },
+        {
+          "id": "441400",
+          "name": "梅州市",
+          "level": "city"
+        },
+        {
+          "id": "441500",
+          "name": "汕尾市",
+          "level": "city"
+        },
+        {
+          "id": "441600",
+          "name": "河源市",
+          "level": "city"
+        },
+        {
+          "id": "441700",
+          "name": "阳江市",
+          "level": "city"
+        },
+        {
+          "id": "441800",
+          "name": "清远市",
+          "level": "city"
+        },
+        {
+          "id": "441900",
+          "name": "东莞市",
+          "level": "city"
+        },
+        {
+          "id": "442000",
+          "name": "中山市",
+          "level": "city"
+        },
+        {
+          "id": "445100",
+          "name": "潮州市",
+          "level": "city"
+        },
+        {
+          "id": "445200",
+          "name": "揭阳市",
+          "level": "city"
+        },
+        {
+          "id": "445300",
+          "name": "云浮市",
+          "level": "city"
+        }
+      ]
+    },
+    {
+      "url": "https://geo.datav.aliyun.com/areas_v3/bound/450000_full.json",
+      "file": "450000_full.json",
+      "retrievedUtc": "2026-11-26T14:57:45+00:00",
+      "httpLastModified": "Fri, 04 Jun 2021 09:22:27 GMT",
+      "etag": "\"98DBE4FFF41F52086ADDF5D115236EA1\"",
+      "bytes": 167980,
+      "sha256": "5bdcaa8808d78065be4a496718b449c5b97d1ef27900bbfcd2407f69c5f6c041",
+      "provinceId": "450000",
+      "province": "广西壮族自治区",
+      "use": "all immediate administrative children",
+      "rosterChildrenNum": 14,
+      "areas": [
+        {
+          "id": "450100",
+          "name": "南宁市",
+          "level": "city"
+        },
+        {
+          "id": "450200",
+          "name": "柳州市",
+          "level": "city"
+        },
+        {
+          "id": "450300",
+          "name": "桂林市",
+          "level": "city"
+        },
+        {
+          "id": "450400",
+          "name": "梧州市",
+          "level": "city"
+        },
+        {
+          "id": "450500",
+          "name": "北海市",
+          "level": "city"
+        },
+        {
+          "id": "450600",
+          "name": "防城港市",
+          "level": "city"
+        },
+        {
+          "id": "450700",
+          "name": "钦州市",
+          "level": "city"
+        },
+        {
+          "id": "450800",
+          "name": "贵港市",
+          "level": "city"
+        },
+        {
+          "id": "450900",
+          "name": "玉林市",
+          "level": "city"
+        },
+        {
+          "id": "451000",
+          "name": "百色市",
+          "level": "city"
+        },
+        {
+          "id": "451100",
+          "name": "贺州市",
+          "level": "city"
+        },
+        {
+          "id": "451200",
+          "name": "河池市",
+          "level": "city"
+        },
+        {
+          "id": "451300",
+          "name": "来宾市",
+          "level": "city"
+        },
+        {
+          "id": "451400",
+          "name": "崇左市",
+          "level": "city"
+        }
+      ]
+    },
+    {
+      "url": "https://geo.datav.aliyun.com/areas_v3/bound/460000_full.json",
+      "file": "460000_full.json",
+      "retrievedUtc": "2026-11-26T14:57:45+00:00",
+      "httpLastModified": "Fri, 04 Jun 2021 09:22:29 GMT",
+      "etag": "\"52E061459D5A515610BDDDBAA278AE73\"",
+      "bytes": 34123,
+      "sha256": "ae44b392cf32ff7f7df5466ca16fa7f1b70b9fb9c36f00f54d6f142d011c65e4",
+      "provinceId": "460000",
+      "province": "海南省",
+      "use": "all immediate administrative children",
+      "rosterChildrenNum": 19,
+      "areas": [
+        {
+          "id": "460100",
+          "name": "海口市",
+          "level": "city"
+        },
+        {
+          "id": "460200",
+          "name": "三亚市",
+          "level": "city"
+        },
+        {
+          "id": "460300",
+          "name": "三沙市",
+          "level": "city"
+        },
+        {
+          "id": "460400",
+          "name": "儋州市",
+          "level": "city"
+        },
+        {
+          "id": "469001",
+          "name": "五指山市",
+          "level": "city"
+        },
+        {
+          "id": "469002",
+          "name": "琼海市",
+          "level": "city"
+        },
+        {
+          "id": "469005",
+          "name": "文昌市",
+          "level": "city"
+        },
+        {
+          "id": "469006",
+          "name": "万宁市",
+          "level": "city"
+        },
+        {
+          "id": "469007",
+          "name": "东方市",
+          "level": "city"
+        },
+        {
+          "id": "469021",
+          "name": "定安县",
+          "level": "city"
+        },
+        {
+          "id": "469022",
+          "name": "屯昌县",
+          "level": "city"
+        },
+        {
+          "id": "469023",
+          "name": "澄迈县",
+          "level": "city"
+        },
+        {
+          "id": "469024",
+          "name": "临高县",
+          "level": "city"
+        },
+        {
+          "id": "469025",
+          "name": "白沙黎族自治县",
+          "level": "city"
+        },
+        {
+          "id": "469026",
+          "name": "昌江黎族自治县",
+          "level": "city"
+        },
+        {
+          "id": "469027",
+          "name": "乐东黎族自治县",
+          "level": "city"
+        },
+        {
+          "id": "469028",
+          "name": "陵水黎族自治县",
+          "level": "city"
+        },
+        {
+          "id": "469029",
+          "name": "保亭黎族苗族自治县",
+          "level": "city"
+        },
+        {
+          "id": "469030",
+          "name": "琼中黎族苗族自治县",
+          "level": "city"
+        }
+      ]
+    },
+    {
+      "url": "https://geo.datav.aliyun.com/areas_v3/bound/500000.json",
+      "file": "500000.json",
+      "retrievedUtc": "2026-11-26T14:57:45+00:00",
+      "httpLastModified": "Fri, 04 Jun 2021 09:22:30 GMT",
+      "etag": "\"AE691965A9CC8F37A070331D8B4E8F26\"",
+      "bytes": 44184,
+      "sha256": "95c2581a56c994bb1a6ae6669ada5f9e994f76bf6c3a18949b6708c4da3014b2",
+      "provinceId": "500000",
+      "province": "重庆市",
+      "use": "province-equivalent",
+      "rosterChildrenNum": 38,
+      "areas": [
+        {
+          "id": "500000",
+          "name": "重庆市",
+          "level": "province"
+        }
+      ]
+    },
+    {
+      "url": "https://geo.datav.aliyun.com/areas_v3/bound/510000_full.json",
+      "file": "510000_full.json",
+      "retrievedUtc": "2026-11-26T14:57:45+00:00",
+      "httpLastModified": "Fri, 04 Jun 2021 09:22:31 GMT",
+      "etag": "\"944FE675B05339E73B7319FD83C0BD7E\"",
+      "bytes": 164814,
+      "sha256": "e8e3a3820d97ca3453c18c6335703f4e4f93df95ba394a1259eebab59e7072b1",
+      "provinceId": "510000",
+      "province": "四川省",
+      "use": "all immediate administrative children",
+      "rosterChildrenNum": 21,
+      "areas": [
+        {
+          "id": "510100",
+          "name": "成都市",
+          "level": "city"
+        },
+        {
+          "id": "510300",
+          "name": "自贡市",
+          "level": "city"
+        },
+        {
+          "id": "510400",
+          "name": "攀枝花市",
+          "level": "city"
+        },
+        {
+          "id": "510500",
+          "name": "泸州市",
+          "level": "city"
+        },
+        {
+          "id": "510600",
+          "name": "德阳市",
+          "level": "city"
+        },
+        {
+          "id": "510700",
+          "name": "绵阳市",
+          "level": "city"
+        },
+        {
+          "id": "510800",
+          "name": "广元市",
+          "level": "city"
+        },
+        {
+          "id": "510900",
+          "name": "遂宁市",
+          "level": "city"
+        },
+        {
+          "id": "511000",
+          "name": "内江市",
+          "level": "city"
+        },
+        {
+          "id": "511100",
+          "name": "乐山市",
+          "level": "city"
+        },
+        {
+          "id": "511300",
+          "name": "南充市",
+          "level": "city"
+        },
+        {
+          "id": "511400",
+          "name": "眉山市",
+          "level": "city"
+        },
+        {
+          "id": "511500",
+          "name": "宜宾市",
+          "level": "city"
+        },
+        {
+          "id": "511600",
+          "name": "广安市",
+          "level": "city"
+        },
+        {
+          "id": "511700",
+          "name": "达州市",
+          "level": "city"
+        },
+        {
+          "id": "511800",
+          "name": "雅安市",
+          "level": "city"
+        },
+        {
+          "id": "511900",
+          "name": "巴中市",
+          "level": "city"
+        },
+        {
+          "id": "512000",
+          "name": "资阳市",
+          "level": "city"
+        },
+        {
+          "id": "513200",
+          "name": "阿坝藏族羌族自治州",
+          "level": "city"
+        },
+        {
+          "id": "513300",
+          "name": "甘孜藏族自治州",
+          "level": "city"
+        },
+        {
+          "id": "513400",
+          "name": "凉山彝族自治州",
+          "level": "city"
+        }
+      ]
+    },
+    {
+      "url": "https://geo.datav.aliyun.com/areas_v3/bound/520000_full.json",
+      "file": "520000_full.json",
+      "retrievedUtc": "2026-11-26T14:57:45+00:00",
+      "httpLastModified": "Fri, 04 Jun 2021 09:22:35 GMT",
+      "etag": "\"536A05ACAF3582AFE0997F34354176C2\"",
+      "bytes": 130185,
+      "sha256": "3336ddee76a8d33a5841f928c764ec4e4bb33988ec59d08efc75000251af1cf6",
+      "provinceId": "520000",
+      "province": "贵州省",
+      "use": "all immediate administrative children",
+      "rosterChildrenNum": 9,
+      "areas": [
+        {
+          "id": "520100",
+          "name": "贵阳市",
+          "level": "city"
+        },
+        {
+          "id": "520200",
+          "name": "六盘水市",
+          "level": "city"
+        },
+        {
+          "id": "520300",
+          "name": "遵义市",
+          "level": "city"
+        },
+        {
+          "id": "520400",
+          "name": "安顺市",
+          "level": "city"
+        },
+        {
+          "id": "520500",
+          "name": "毕节市",
+          "level": "city"
+        },
+        {
+          "id": "520600",
+          "name": "铜仁市",
+          "level": "city"
+        },
+        {
+          "id": "522300",
+          "name": "黔西南布依族苗族自治州",
+          "level": "city"
+        },
+        {
+          "id": "522600",
+          "name": "黔东南苗族侗族自治州",
+          "level": "city"
+        },
+        {
+          "id": "522700",
+          "name": "黔南布依族苗族自治州",
+          "level": "city"
+        }
+      ]
+    },
+    {
+      "url": "https://geo.datav.aliyun.com/areas_v3/bound/530000_full.json",
+      "file": "530000_full.json",
+      "retrievedUtc": "2026-11-26T14:57:45+00:00",
+      "httpLastModified": "Fri, 04 Jun 2021 09:22:36 GMT",
+      "etag": "\"7652FC7AD1CE040570021A1E098F221B\"",
+      "bytes": 122596,
+      "sha256": "c11c7adf7581fc53e965bf0fd2b3217213f118c59ebddf4cab929c51ee00aa6e",
+      "provinceId": "530000",
+      "province": "云南省",
+      "use": "all immediate administrative children",
+      "rosterChildrenNum": 16,
+      "areas": [
+        {
+          "id": "530100",
+          "name": "昆明市",
+          "level": "city"
+        },
+        {
+          "id": "530300",
+          "name": "曲靖市",
+          "level": "city"
+        },
+        {
+          "id": "530400",
+          "name": "玉溪市",
+          "level": "city"
+        },
+        {
+          "id": "530500",
+          "name": "保山市",
+          "level": "city"
+        },
+        {
+          "id": "530600",
+          "name": "昭通市",
+          "level": "city"
+        },
+        {
+          "id": "530700",
+          "name": "丽江市",
+          "level": "city"
+        },
+        {
+          "id": "530800",
+          "name": "普洱市",
+          "level": "city"
+        },
+        {
+          "id": "530900",
+          "name": "临沧市",
+          "level": "city"
+        },
+        {
+          "id": "532300",
+          "name": "楚雄彝族自治州",
+          "level": "city"
+        },
+        {
+          "id": "532500",
+          "name": "红河哈尼族彝族自治州",
+          "level": "city"
+        },
+        {
+          "id": "532600",
+          "name": "文山壮族苗族自治州",
+          "level": "city"
+        },
+        {
+          "id": "532800",
+          "name": "西双版纳傣族自治州",
+          "level": "city"
+        },
+        {
+          "id": "532900",
+          "name": "大理白族自治州",
+          "level": "city"
+        },
+        {
+          "id": "533100",
+          "name": "德宏傣族景颇族自治州",
+          "level": "city"
+        },
+        {
+          "id": "533300",
+          "name": "怒江傈僳族自治州",
+          "level": "city"
+        },
+        {
+          "id": "533400",
+          "name": "迪庆藏族自治州",
+          "level": "city"
+        }
+      ]
+    },
+    {
+      "url": "https://geo.datav.aliyun.com/areas_v3/bound/540000_full.json",
+      "file": "540000_full.json",
+      "retrievedUtc": "2026-11-26T14:57:46+00:00",
+      "httpLastModified": "Fri, 04 Jun 2021 09:22:38 GMT",
+      "etag": "\"FEA42F3E6B02803679D2DF20BD91E2BD\"",
+      "bytes": 134516,
+      "sha256": "ba95ab3f6b9183942c183d66d1258ac710dcdf9cb49c51f79915532379747c81",
+      "provinceId": "540000",
+      "province": "西藏自治区",
+      "use": "all immediate administrative children",
+      "rosterChildrenNum": 7,
+      "areas": [
+        {
+          "id": "540100",
+          "name": "拉萨市",
+          "level": "city"
+        },
+        {
+          "id": "540200",
+          "name": "日喀则市",
+          "level": "city"
+        },
+        {
+          "id": "540300",
+          "name": "昌都市",
+          "level": "city"
+        },
+        {
+          "id": "540400",
+          "name": "林芝市",
+          "level": "city"
+        },
+        {
+          "id": "540500",
+          "name": "山南市",
+          "level": "city"
+        },
+        {
+          "id": "540600",
+          "name": "那曲市",
+          "level": "city"
+        },
+        {
+          "id": "542500",
+          "name": "阿里地区",
+          "level": "city"
+        }
+      ]
+    },
+    {
+      "url": "https://geo.datav.aliyun.com/areas_v3/bound/610000_full.json",
+      "file": "610000_full.json",
+      "retrievedUtc": "2026-11-26T14:57:46+00:00",
+      "httpLastModified": "Fri, 04 Jun 2021 09:22:39 GMT",
+      "etag": "\"371D3D77F07E61823959C18A09A0777E\"",
+      "bytes": 71735,
+      "sha256": "969ca94cc865bf3a37c22e30d7c0125196fd22175f7c212953185f7c67921682",
+      "provinceId": "610000",
+      "province": "陕西省",
+      "use": "all immediate administrative children",
+      "rosterChildrenNum": 10,
+      "areas": [
+        {
+          "id": "610100",
+          "name": "西安市",
+          "level": "city"
+        },
+        {
+          "id": "610200",
+          "name": "铜川市",
+          "level": "city"
+        },
+        {
+          "id": "610300",
+          "name": "宝鸡市",
+          "level": "city"
+        },
+        {
+          "id": "610400",
+          "name": "咸阳市",
+          "level": "city"
+        },
+        {
+          "id": "610500",
+          "name": "渭南市",
+          "level": "city"
+        },
+        {
+          "id": "610600",
+          "name": "延安市",
+          "level": "city"
+        },
+        {
+          "id": "610700",
+          "name": "汉中市",
+          "level": "city"
+        },
+        {
+          "id": "610800",
+          "name": "榆林市",
+          "level": "city"
+        },
+        {
+          "id": "610900",
+          "name": "安康市",
+          "level": "city"
+        },
+        {
+          "id": "611000",
+          "name": "商洛市",
+          "level": "city"
+        }
+      ]
+    },
+    {
+      "url": "https://geo.datav.aliyun.com/areas_v3/bound/620000_full.json",
+      "file": "620000_full.json",
+      "retrievedUtc": "2026-11-26T14:57:46+00:00",
+      "httpLastModified": "Fri, 04 Jun 2021 09:22:42 GMT",
+      "etag": "\"ED2FC1445E4C81551C01D0A70AA64935\"",
+      "bytes": 105622,
+      "sha256": "5252d2ce49a7b6f721d5ca9404a2960b428fab09b6f62256fe62db0218d1123e",
+      "provinceId": "620000",
+      "province": "甘肃省",
+      "use": "all immediate administrative children",
+      "rosterChildrenNum": 14,
+      "areas": [
+        {
+          "id": "620100",
+          "name": "兰州市",
+          "level": "city"
+        },
+        {
+          "id": "620200",
+          "name": "嘉峪关市",
+          "level": "city"
+        },
+        {
+          "id": "620300",
+          "name": "金昌市",
+          "level": "city"
+        },
+        {
+          "id": "620400",
+          "name": "白银市",
+          "level": "city"
+        },
+        {
+          "id": "620500",
+          "name": "天水市",
+          "level": "city"
+        },
+        {
+          "id": "620600",
+          "name": "武威市",
+          "level": "city"
+        },
+        {
+          "id": "620700",
+          "name": "张掖市",
+          "level": "city"
+        },
+        {
+          "id": "620800",
+          "name": "平凉市",
+          "level": "city"
+        },
+        {
+          "id": "620900",
+          "name": "酒泉市",
+          "level": "city"
+        },
+        {
+          "id": "621000",
+          "name": "庆阳市",
+          "level": "city"
+        },
+        {
+          "id": "621100",
+          "name": "定西市",
+          "level": "city"
+        },
+        {
+          "id": "621200",
+          "name": "陇南市",
+          "level": "city"
+        },
+        {
+          "id": "622900",
+          "name": "临夏回族自治州",
+          "level": "city"
+        },
+        {
+          "id": "623000",
+          "name": "甘南藏族自治州",
+          "level": "city"
+        }
+      ]
+    },
+    {
+      "url": "https://geo.datav.aliyun.com/areas_v3/bound/630000_full.json",
+      "file": "630000_full.json",
+      "retrievedUtc": "2026-11-26T14:57:46+00:00",
+      "httpLastModified": "Fri, 04 Jun 2021 09:22:44 GMT",
+      "etag": "\"27F639A8114B36EB9D9815A16754D096\"",
+      "bytes": 97941,
+      "sha256": "42caf689c3c37630aa725bac2351153bac00fb626a01fbe5f141c3a279706936",
+      "provinceId": "630000",
+      "province": "青海省",
+      "use": "all immediate administrative children",
+      "rosterChildrenNum": 8,
+      "areas": [
+        {
+          "id": "630100",
+          "name": "西宁市",
+          "level": "city"
+        },
+        {
+          "id": "630200",
+          "name": "海东市",
+          "level": "city"
+        },
+        {
+          "id": "632200",
+          "name": "海北藏族自治州",
+          "level": "city"
+        },
+        {
+          "id": "632300",
+          "name": "黄南藏族自治州",
+          "level": "city"
+        },
+        {
+          "id": "632500",
+          "name": "海南藏族自治州",
+          "level": "city"
+        },
+        {
+          "id": "632600",
+          "name": "果洛藏族自治州",
+          "level": "city"
+        },
+        {
+          "id": "632700",
+          "name": "玉树藏族自治州",
+          "level": "city"
+        },
+        {
+          "id": "632800",
+          "name": "海西蒙古族藏族自治州",
+          "level": "city"
+        }
+      ]
+    },
+    {
+      "url": "https://geo.datav.aliyun.com/areas_v3/bound/640000_full.json",
+      "file": "640000_full.json",
+      "retrievedUtc": "2026-11-26T14:57:46+00:00",
+      "httpLastModified": "Fri, 04 Jun 2021 09:22:45 GMT",
+      "etag": "\"2F96EA15DFC02084B606E156A7AB34A9\"",
+      "bytes": 49533,
+      "sha256": "99e03114c3f7dff3fad5b87a88ddf2fb08687d117c62bf999236191ca29d78f9",
+      "provinceId": "640000",
+      "province": "宁夏回族自治区",
+      "use": "all immediate administrative children",
+      "rosterChildrenNum": 5,
+      "areas": [
+        {
+          "id": "640100",
+          "name": "银川市",
+          "level": "city"
+        },
+        {
+          "id": "640200",
+          "name": "石嘴山市",
+          "level": "city"
+        },
+        {
+          "id": "640300",
+          "name": "吴忠市",
+          "level": "city"
+        },
+        {
+          "id": "640400",
+          "name": "固原市",
+          "level": "city"
+        },
+        {
+          "id": "640500",
+          "name": "中卫市",
+          "level": "city"
+        }
+      ]
+    },
+    {
+      "url": "https://geo.datav.aliyun.com/areas_v3/bound/650000_full.json",
+      "file": "650000_full.json",
+      "retrievedUtc": "2026-11-26T14:57:46+00:00",
+      "httpLastModified": "Fri, 04 Jun 2021 09:22:45 GMT",
+      "etag": "\"490643E90BC37480B48A350B9D2F8F78\"",
+      "bytes": 119226,
+      "sha256": "587b5069eddcad4b5a2f784380351f756f0ba955211721091b85a6528ae74745",
+      "provinceId": "650000",
+      "province": "新疆维吾尔自治区",
+      "use": "all immediate administrative children",
+      "rosterChildrenNum": 24,
+      "areas": [
+        {
+          "id": "650100",
+          "name": "乌鲁木齐市",
+          "level": "city"
+        },
+        {
+          "id": "650200",
+          "name": "克拉玛依市",
+          "level": "city"
+        },
+        {
+          "id": "650400",
+          "name": "吐鲁番市",
+          "level": "city"
+        },
+        {
+          "id": "650500",
+          "name": "哈密市",
+          "level": "city"
+        },
+        {
+          "id": "652300",
+          "name": "昌吉回族自治州",
+          "level": "city"
+        },
+        {
+          "id": "652700",
+          "name": "博尔塔拉蒙古自治州",
+          "level": "city"
+        },
+        {
+          "id": "652800",
+          "name": "巴音郭楞蒙古自治州",
+          "level": "city"
+        },
+        {
+          "id": "652900",
+          "name": "阿克苏地区",
+          "level": "city"
+        },
+        {
+          "id": "653000",
+          "name": "克孜勒苏柯尔克孜自治州",
+          "level": "city"
+        },
+        {
+          "id": "653100",
+          "name": "喀什地区",
+          "level": "city"
+        },
+        {
+          "id": "653200",
+          "name": "和田地区",
+          "level": "city"
+        },
+        {
+          "id": "654000",
+          "name": "伊犁哈萨克自治州",
+          "level": "city"
+        },
+        {
+          "id": "654200",
+          "name": "塔城地区",
+          "level": "city"
+        },
+        {
+          "id": "654300",
+          "name": "阿勒泰地区",
+          "level": "city"
+        },
+        {
+          "id": "659001",
+          "name": "石河子市",
+          "level": "city"
+        },
+        {
+          "id": "659002",
+          "name": "阿拉尔市",
+          "level": "city"
+        },
+        {
+          "id": "659003",
+          "name": "图木舒克市",
+          "level": "city"
+        },
+        {
+          "id": "659004",
+          "name": "五家渠市",
+          "level": "city"
+        },
+        {
+          "id": "659005",
+          "name": "北屯市",
+          "level": "city"
+        },
+        {
+          "id": "659006",
+          "name": "铁门关市",
+          "level": "city"
+        },
+        {
+          "id": "659007",
+          "name": "双河市",
+          "level": "city"
+        },
+        {
+          "id": "659008",
+          "name": "可克达拉市",
+          "level": "city"
+        },
+        {
+          "id": "659009",
+          "name": "昆玉市",
+          "level": "city"
+        },
+        {
+          "id": "659010",
+          "name": "胡杨河市",
+          "level": "city"
+        }
+      ]
+    },
+    {
+      "url": "https://geo.datav.aliyun.com/areas_v3/bound/710000.json",
+      "file": "710000.json",
+      "retrievedUtc": "2026-11-26T14:57:46+00:00",
+      "httpLastModified": "Fri, 04 Jun 2021 09:22:47 GMT",
+      "etag": "\"EA0BE0A0F85316D02CB0EDC06468E45D\"",
+      "bytes": 4217,
+      "sha256": "c2cbf59169d81bc95ca3569aecaa95b906016e9cf99e03f1d60b0fa6cca91483",
+      "provinceId": "710000",
+      "province": "台湾省",
+      "use": "province-equivalent",
+      "rosterChildrenNum": 0,
+      "areas": [
+        {
+          "id": "710000",
+          "name": "台湾省",
+          "level": "province"
+        }
+      ]
+    },
+    {
+      "url": "https://geo.datav.aliyun.com/areas_v3/bound/810000.json",
+      "file": "810000.json",
+      "retrievedUtc": "2026-11-26T14:57:46+00:00",
+      "httpLastModified": "Fri, 04 Jun 2021 09:22:47 GMT",
+      "etag": "\"7C25A2AEA526FDBA9EDFA647EF8A0420\"",
+      "bytes": 89753,
+      "sha256": "8fa38f726438a2bab4141930bfe3e8590c6ae060ba163da502149ec7ea4d6d53",
+      "provinceId": "810000",
+      "province": "香港特别行政区",
+      "use": "province-equivalent",
+      "rosterChildrenNum": 18,
+      "areas": [
+        {
+          "id": "810000",
+          "name": "香港特别行政区",
+          "level": "province"
+        }
+      ]
+    },
+    {
+      "url": "https://geo.datav.aliyun.com/areas_v3/bound/820000.json",
+      "file": "820000.json",
+      "retrievedUtc": "2026-11-26T14:57:46+00:00",
+      "httpLastModified": "Fri, 04 Jun 2021 09:22:47 GMT",
+      "etag": "\"05B31E92B0A55B0BC164EB26BD414F06\"",
+      "bytes": 2249,
+      "sha256": "6f154b3a101339b2ecb714289f95041e9653bca09d7a08b26567cd1f5b7acdc6",
+      "provinceId": "820000",
+      "province": "澳门特别行政区",
+      "use": "province-equivalent",
+      "rosterChildrenNum": 8,
+      "areas": [
+        {
+          "id": "820000",
+          "name": "澳门特别行政区",
+          "level": "province"
+        }
+      ]
+    }
+  ]
+}

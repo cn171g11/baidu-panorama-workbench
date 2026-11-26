@@ -49,7 +49,21 @@ function mergeBounds(a,b) {
   if(!b)return a;
   return [Math.min(a[0],b[0]),Math.min(a[1],b[1]),Math.max(a[2],b[2]),Math.max(a[3],b[3])];
 }
-const supplementaryRow=row=>['hidden','time-machine'].includes(categoryFor(row));
+// Domestic supplement publication includes the explicit hidden/time-machine rows plus
+// user-confirmed regular corrections from the same bundle. Regular rows from older
+// conventional archives remain excluded by the source-batch marker.
+const METADATA_ONLY_SOURCE_BATCH='baidu-crawler-20261125';
+const supplementaryRow=(row,override=null)=>{
+  const category=categoryFor(row);
+  const extras=row?.[9];
+  const batch=extras?.extra?.sourceBatch??extras?.sourceBatch;
+  const metadataOnly=extras?.originalMetadataOnly===true||extras?.extra?.originalMetadataOnly===true;
+  // Metadata-only crawler rows are publishable only as explicit unknowns from
+  // the reviewed batch. They must never be promoted to hidden/time-machine.
+  if(batch===METADATA_ONLY_SOURCE_BATCH)return metadataOnly&&category==='unknown'&&extras?.sourceType==='unknown'&&extras?.isHidden!==true;
+  if(['hidden','time-machine'].includes(category))return true;
+  return category==='regular'&&override&&batch===override.sourceBatch&&extras?.extra?.classificationBasis==='user-confirmed-regular';
+};
 const CITY_ID=/^\d{6}$/;
 const OVERSEAS_ID='191001';
 async function hasCountySnapshot(root,id){
@@ -81,6 +95,15 @@ export async function publishPages({root=PROJECT_ROOT,output='dist/pages',commit
   for(const key of ['hiddenOnly','countyShards','domesticSupplementOnly'])if(config[key]!==undefined&&typeof config[key]!=='boolean')throw Error(key+' must be a boolean');
   const supplementOnly=config.domesticSupplementOnly===true;
   const overseasIds=config.overseasSourceCities;
+  const overridePath=path.join(root,'config/classification-overrides.json');
+  const classificationOverrides=await access(overridePath).then(async()=>JSON.parse(await readFile(overridePath,'utf8')),()=>null);
+  if(classificationOverrides&& (classificationOverrides.schemaVersion!==1||classificationOverrides.provider!=='baidu'||!Array.isArray(classificationOverrides.overrides)))throw Error('Invalid classification override manifest');
+  const regularOverrides=new Map();
+  for(const item of classificationOverrides?.overrides||[]){
+    if(!item||typeof item.city!=='string'||!/^\d{6}$/.test(item.city)||item.kind!=='regular'||typeof item.sourceBatch!=='string'||typeof item.reviewedAt!=='string'||typeof item.reviewReason!=='string'||!Number.isSafeInteger(item.count)||item.count<0)throw Error('Invalid classification override entry');
+    if(regularOverrides.has(item.city))throw Error('Repeated classification override city: '+item.city);
+    regularOverrides.set(item.city,item);
+  }
   if(supplementOnly&&(all||config.hiddenOnly!==undefined||config.hiddenOnlyCities!==undefined))throw Error('domesticSupplementOnly requires an explicit city list without hiddenOnly settings');
   if(overseasIds!==undefined){
     if(!supplementOnly)throw Error('overseasSourceCities requires domesticSupplementOnly');
@@ -99,6 +122,10 @@ export async function publishPages({root=PROJECT_ROOT,output='dist/pages',commit
   const canonical=new Map(fullCatalog.collections.map(city=>[city.id,city]));
   if(!all)for(const id of config.cities)if(!canonical.has(id))throw Error('Unknown Pages city: '+id);
   for(const id of config.hiddenOnlyCities||[])if(!canonical.has(id))throw Error('Unknown hiddenOnlyCities city: '+id);
+  for(const id of regularOverrides.keys()){
+    if(!canonical.has(id))throw Error('Unknown classification override city: '+id);
+    if(supplementOnly&&!all&&!config.cities.includes(id))throw Error('Classification override city is not selected: '+id);
+  }
   const overseasSources=overseasIds?.map(id=>{
     const city=canonical.get(id);
     if(!city)throw Error('Unknown overseas Pages source: '+id);
@@ -120,8 +147,8 @@ export async function publishPages({root=PROJECT_ROOT,output='dist/pages',commit
   const hiddenOnlyCities=config.hiddenOnlyCities===undefined?null:new Set(config.hiddenOnlyCities);
   const cityHiddenOnly=id=>hiddenOnly&&(hiddenOnlyCities===null||hiddenOnlyCities.has(id));
   const isOverseas=id=>overseas?.id===id;
-  const rowFilterFor=id=>cityHiddenOnly(id)?(row=>categoryFor(row)==='hidden'):supplementOnly&&!isOverseas(id)?supplementaryRow:null;
-  const selectionFor=id=>cityHiddenOnly(id)?'hidden-only':supplementOnly&&!isOverseas(id)?'hidden-and-time-machine':'all';
+  const rowFilterFor=id=>cityHiddenOnly(id)?(row=>categoryFor(row)==='hidden'):supplementOnly&&!isOverseas(id)?(row=>supplementaryRow(row,regularOverrides.get(id))):null;
+  const selectionFor=id=>cityHiddenOnly(id)?'hidden-only':supplementOnly&&!isOverseas(id)?(regularOverrides.has(id)?'supplement-with-reviewed-regular-and-batch-unknown':'hidden-time-machine-and-batch-unknown'):'all';
   // First create only the already-whitelisted app and its verified national asset descriptors.
   // An isolated output is used by CLI/CI; the caller uploads only after all checks below succeed.
   const desired=path.resolve(root,output),dist=path.join(root,'dist');
@@ -158,16 +185,19 @@ export async function publishPages({root=PROJECT_ROOT,output='dist/pages',commit
     for(const city of selected){
       const cityFilter=rowFilterFor(city.id);
       if(!cityFilter)continue;
-      const totals={count:0,bounds:null};
+      const totals={count:0,bounds:null,userConfirmedRegular:0};
+       const override=regularOverrides.get(city.id);
       for(const source of city.sourceFiles){
         const hash=createHash('sha256');let bytes=0;
         for await(const {row:input} of streamRows(path.join(root,'data',source.path),{onChunk(chunk){bytes+=chunk.length;hash.update(chunk);}})){
           const row=validateRows([input])[0];if(!cityFilter(row))continue;
           totals.bounds=mergeBounds(totals.bounds,[row[1],row[2],row[1],row[2]]);
           totals.count++;
+          if(override&&row[9]?.extra?.classificationBasis==='user-confirmed-regular')totals.userConfirmedRegular++;
         }
         if(bytes!==source.bytes||hash.digest('hex')!==source.sha256)throw Error('Source changed during publication selection: '+source.path);
       }
+      if(override&&totals.userConfirmedRegular!==override.count)throw Error(`Classification override count mismatch for ${city.id}: ${totals.userConfirmedRegular} vs ${override.count}`);
       city.count=totals.count;city.bounds=totals.bounds;
       city.summary={sourceFiles:totals.count?1:0,rawRecords:totals.count,uniquePanoids:totals.count,exactDuplicates:0,differingDuplicates:0,invalidRecords:0,scope:'published-rows',selection:selectionFor(city.id)};
       if(supplementOnly)delete city.sources;
@@ -229,7 +259,7 @@ export async function publishPages({root=PROJECT_ROOT,output='dist/pages',commit
   const total=sum(selected,'count');
   const filteredCities=selected.filter(city=>!!rowFilterFor(city.id));
   const completeImportSummary=files.length>0&&sum(files,'uniquePanoids')===total&&sum(files,'rawRecords')===total+sum(files,'exactDuplicates')+sum(files,'differingDuplicates')+sum(files,'invalidRecords');
-  const summarySelection=supplementOnly?'domestic-hidden-and-time-machine':filteredCities.length?(filteredCities.length===selected.length?'hidden-only':'mixed-hidden-only'):'published-rows';
+  const summarySelection=supplementOnly?'domestic-reviewed-supplement-and-batch-unknown':filteredCities.length?(filteredCities.length===selected.length?'hidden-only':'mixed-hidden-only'):'published-rows';
   const summary=filteredCities.length||(fullCatalog.importSummary&&!completeImportSummary)?{
     schemaVersion:1,provider:'baidu',scope:'published-rows',sourceFiles:selected.filter(city=>city.count>0).length,rawRecords:total,uniquePanoids:total,exactDuplicates:0,differingDuplicates:0,invalidRecords:0,archiveCoordinateSystem:'BD-09',selection:summarySelection,
     [supplementOnly?'domesticSupplementCities':'hiddenOnlyCities']:filteredCities.map(city=>city.id),note:'Derived published-row counts, not original import provenance; duplicate counts refer only to this unique published snapshot.',

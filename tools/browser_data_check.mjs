@@ -90,7 +90,15 @@ async function main() {
   if (target.scope === 'overseas') {
     assert.deepEqual(catalog.collections.filter(city=>city.scope==='overseas').map(city=>city.id),['191001']);
     assert.equal(target.count,97);assert.equal(target.files.length,28);
-    assert(catalog.collections.filter(city=>city.scope!=='overseas').every(city=>city.displayCounts.regular===0&&city.displayCounts.unknown===0),'Conventional domestic records must not be hosted');
+    const notes = await evaluate(`await(await fetch(new URL('../config/release-notes.json',location.href))).json()`);
+    const release = notes.releases.find(r=>r.importCounts && r.version==='1.10.0');
+    const approved = new Map((release?.cityAdditions ?? []).map(c=>[c.id,c.added]));
+    const manualRegular = notes.releases.some(r=>r.version==='1.9.0') ? 11796 : 0;
+    for(const city of catalog.collections.filter(c=>c.scope!=='overseas')) {
+      assert.equal(city.displayCounts.regular,city.id==='659003'?manualRegular:0,'Unreviewed domestic regular rows hosted: '+city.id);
+      assert.equal(city.displayCounts.unknown,approved.get(city.id)??0,'Domestic unknown differs from reviewed batch: '+city.id);
+    }
+    if(release)assert.equal(catalog.collections.reduce((n,c)=>n+(c.scope==='overseas'?0:c.displayCounts.unknown),0),release.importCounts.uniquePanoids);
   }
   async function loadCity(city) {
     await fill('#search-input', '');

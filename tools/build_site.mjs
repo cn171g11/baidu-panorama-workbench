@@ -5,9 +5,10 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { randomUUID } from 'node:crypto';
 import { validateCatalog } from './validate_data.mjs';
+import { validatePublicAudit } from '../city-viewer/js/streetview-audit.js';
 
 export const PROJECT_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-export const PUBLIC_MODULES = ['app.js', 'map.js', 'report.js', 'coordinates.js', 'metadata.js', 'data-store.js', 'classification.js', 'panoid-time.js', 'county-data.js', 'transfer.js', 'load-feedback.js', 'blue-city-data.js'];
+export const PUBLIC_MODULES = ['app.js', 'map.js', 'report.js', 'coordinates.js', 'metadata.js', 'data-store.js', 'classification.js', 'panoid-time.js', 'county-data.js', 'transfer.js', 'load-feedback.js', 'blue-city-data.js', 'streetview-audit.js'];
 const PRIVATE_NAME = /(?:^|[._-])(?:agent|history|apikey|credentials?|secrets?|tokens?)(?:[._-]|$)|^\.env/i;
 const sha256 = bytes => createHash('sha256').update(bytes).digest('hex');
 async function exists(target) { try { await access(target, constants.F_OK); return true; } catch (error) { if (error.code === 'ENOENT') return false; throw error; } }
@@ -50,6 +51,16 @@ export async function buildSite({ root = PROJECT_ROOT, output = 'dist/pages', co
     for (const file of PUBLIC_MODULES) await copyFile(root, stage, 'city-viewer/js/' + file);
     const releasesSource = path.join(root, 'config/release-notes.json');
     if (await exists(releasesSource)) await copyFile(root, stage, 'config/release-notes.json');
+    const auditPath=path.join(root,'config/streetview-audit.json');
+    if(await exists(auditPath)){
+      const info=await lstat(auditPath);
+      if(!info.isFile()||info.isSymbolicLink()||await realpath(auditPath)!==auditPath||info.size>65536)throw Error('Unsafe street-view audit summary');
+      const bytes=await readFile(auditPath);
+      if(bytes.length!==info.size)throw Error('Audit size changed');
+      validatePublicAudit(JSON.parse(new TextDecoder('utf-8',{fatal:true}).decode(bytes)),catalog.total);
+      await mkdir(path.join(stage,'config'),{recursive:true});
+      await writeFile(path.join(stage,'config/streetview-audit.json'),bytes,{flag:'wx'});
+    }
     const osmBlueManifest = path.join(root, 'data/blue-dots-osm/county-matched-manifest.json');
     if (await exists(osmBlueManifest)) {
       const blueOsmDir = path.join(stage, 'city-viewer/data/blue-dots-osm'); await mkdir(blueOsmDir, { recursive: true });
@@ -84,7 +95,11 @@ export async function buildSite({ root = PROJECT_ROOT, output = 'dist/pages', co
       assets[file.path] = { url: rawBase ? rawBase + file.path : null, storage: 'github-raw', bytes: file.bytes, sha256: file.sha256 };
       rawDataBytes += file.bytes;
     }
-    await writeFile(path.join(publicData, 'catalog.json'), JSON.stringify(catalog, null, 2) + '\n');
+    // Provenance files are already served separately. Keep all numerical accounting in the
+    // viewer catalog but avoid sending each original filename and SHA twice on startup.
+    const lightCatalog={...catalog};
+    if(catalog.importSummary){const {files:sourceList,...totals}=catalog.importSummary;lightCatalog.importSummary=totals;}
+    await writeFile(path.join(publicData, 'catalog.json'), JSON.stringify(lightCatalog) + '\n');
     await writeFile(path.join(publicData, 'asset-manifest.json'), JSON.stringify({ schemaVersion:1,provider:'baidu',codec:'identity',source:'github-raw',revision:publishCommit,assets }, null, 2) + '\n');
     if (catalog.importSummary) {
       const imports = path.join(publicData, 'imports'); await mkdir(imports, { recursive: true });

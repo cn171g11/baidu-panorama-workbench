@@ -120,7 +120,7 @@ test('public policy groups overseas sources while allowing only domestic hidden 
   assert.deepEqual(rows.get(flat.files[0]).map(r=>r[9].extra.vehicleId),['010-5A','010-5B']);
   for(const city of catalog.collections.filter(c=>c.scope!=='overseas')){
     assert.equal(city.displayCounts.regular,0);assert.equal(city.displayCounts.unknown,0);
-    for(const file of city.files)assert.equal(manifest.assets[file].selection,'hidden-and-time-machine');
+    for(const file of city.files)assert.equal(manifest.assets[file].selection,'hidden-time-machine-and-batch-unknown');
   }
   assert.deepEqual([...catalog.importSummary.domesticSupplementCities].sort(),['371600','469001','820000']);
   for(const [logical,raw] of f.archives)assert.equal(await readFile(path.join(f.root,'data',logical),'utf8'),raw);

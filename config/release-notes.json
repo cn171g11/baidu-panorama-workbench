@@ -2,14 +2,1054 @@
   "schemaVersion": 1,
   "project": "baidu-panorama-workbench",
   "current": {
-    "version": "1.8.0",
-    "date": "2026-11-25",
+    "version": "1.10.0",
+    "date": "2026-11-26",
     "highlights": [
-      "全量审查 238,833 条当前隐藏街景。",
-      "确认当前没有可依据独立元数据改为时光机的隐藏点，滨州 links/timeLine 同源复制已排除。"
+      "11.25 爬虫批次新增 255,036 个待确认街景；匹配已有 panoid 的 386 条记录不重复计点。"
     ]
   },
   "releases": [
+    {
+      "version": "1.10.0",
+      "date": "2026-11-26",
+      "title": "11.25 爬虫街景归档与入口证据说明",
+      "changes": [
+        "本批输入 255,422 条：新增 255,036 个 panoid，完全相同重复 0 条、内容不同重复 386 条，无效 0 条。所有重复中，命中导入前归档 386 条，按原归属计入逐城合并；只在批内重复的不计为旧库匹配。",
+        "逐城表列出 158 个有新增或合并的地区。国内白名单在旧清单上增加 100 个有新增点的地区。表中新增是归档增量，不是线上总点数变化；小蓝点不在本批统计内。",
+        "新增街景仅有爬虫元数据（metadata-only），入口分类为 unknown（待确认）。原始 hidden 标签、movementCount、Links 或 TimeLine 不能单独证明地图入口、道路单向通行、日期往返或隐藏；合并观察也不覆盖已有主记录的分类。",
+        "城市归属与街景类型分开判断：边界包含与按候选边界距离推定不是同一证据。最近或有歧义的归属只在候选范围内成立，不是官方行政区认证，也不证明街景入口可达。",
+        "既有人工基线单列：滨州原始批次的 7,418 个隐藏 ID，不含后来 21 条来源标注；图木舒克 11,796 条常规由用户逐条确认（user-confirmed-regular，见 v1.9.0）。官网样本只证明已记录的入口操作，不能把少量操作外推到同城整批。以上不是本批新增或逐条官网实测的计数。",
+        "导入后归档（18,936,803 条，不含小蓝点）：显式来源标签为隐藏 230,090、时光机 124,706、常规 171,612、待确认 268,019、未标注 18,142,376、其他 0；按入口记录、明确历史引用与人工基线复核为隐藏 7,418、时光机 80,636、常规 11,797、待确认 18,836,952。证据状态：用户确认隐藏 7,418、已确认常规 11,797、仅明确历史引用（非日期往返实测） 80,636、待确认 18,836,952。未标注不视作已确认常规。",
+        "本批上传输入（255,422 条，不含小蓝点）：显式来源标签为隐藏 255,422、时光机 0、常规 0、待确认 0、未标注 0、其他 0；按入口记录、明确历史引用与人工基线复核为隐藏 0、时光机 0、常规 0、待确认 255,422。证据状态：待确认 255,422。未标注不视作已确认常规。",
+        "以上是归档主记录和本批输入的两个统计范围，存在重叠，不能相加；归档数也不是 Pages 已发布点位数。"
+      ],
+      "importCounts": {
+        "rawRecords": 255422,
+        "uniquePanoids": 255036,
+        "existingIds": 386,
+        "exactDuplicates": 0,
+        "differingDuplicates": 386,
+        "invalidRecords": 0
+      },
+      "cityAdditions": [
+        {
+          "id": "110000",
+          "name": "北京市",
+          "added": 1780,
+          "merged": 0
+        },
+        {
+          "id": "120000",
+          "name": "天津市",
+          "added": 1255,
+          "merged": 0
+        },
+        {
+          "id": "130100",
+          "name": "石家庄市",
+          "added": 10486,
+          "merged": 0
+        },
+        {
+          "id": "130500",
+          "name": "邢台市",
+          "added": 2,
+          "merged": 0
+        },
+        {
+          "id": "130600",
+          "name": "保定市",
+          "added": 1439,
+          "merged": 0
+        },
+        {
+          "id": "131000",
+          "name": "廊坊市",
+          "added": 140,
+          "merged": 0
+        },
+        {
+          "id": "140100",
+          "name": "太原市",
+          "added": 11586,
+          "merged": 0
+        },
+        {
+          "id": "140200",
+          "name": "大同市",
+          "added": 2513,
+          "merged": 0
+        },
+        {
+          "id": "140300",
+          "name": "阳泉市",
+          "added": 2995,
+          "merged": 0
+        },
+        {
+          "id": "140400",
+          "name": "长治市",
+          "added": 5356,
+          "merged": 0
+        },
+        {
+          "id": "140600",
+          "name": "朔州市",
+          "added": 1150,
+          "merged": 0
+        },
+        {
+          "id": "140700",
+          "name": "晋中市",
+          "added": 2438,
+          "merged": 0
+        },
+        {
+          "id": "140800",
+          "name": "运城市",
+          "added": 3221,
+          "merged": 0
+        },
+        {
+          "id": "140900",
+          "name": "忻州市",
+          "added": 1957,
+          "merged": 0
+        },
+        {
+          "id": "141000",
+          "name": "临汾市",
+          "added": 3274,
+          "merged": 0
+        },
+        {
+          "id": "141100",
+          "name": "吕梁市",
+          "added": 416,
+          "merged": 0
+        },
+        {
+          "id": "150100",
+          "name": "呼和浩特市",
+          "added": 271,
+          "merged": 0
+        },
+        {
+          "id": "150400",
+          "name": "赤峰市",
+          "added": 1079,
+          "merged": 0
+        },
+        {
+          "id": "150500",
+          "name": "通辽市",
+          "added": 1544,
+          "merged": 0
+        },
+        {
+          "id": "150600",
+          "name": "鄂尔多斯市",
+          "added": 148,
+          "merged": 0
+        },
+        {
+          "id": "152200",
+          "name": "兴安盟",
+          "added": 180,
+          "merged": 0
+        },
+        {
+          "id": "210100",
+          "name": "沈阳市",
+          "added": 886,
+          "merged": 0
+        },
+        {
+          "id": "210300",
+          "name": "鞍山市",
+          "added": 544,
+          "merged": 0
+        },
+        {
+          "id": "210500",
+          "name": "本溪市",
+          "added": 1,
+          "merged": 0
+        },
+        {
+          "id": "210600",
+          "name": "丹东市",
+          "added": 201,
+          "merged": 0
+        },
+        {
+          "id": "210700",
+          "name": "锦州市",
+          "added": 1134,
+          "merged": 0
+        },
+        {
+          "id": "210800",
+          "name": "营口市",
+          "added": 535,
+          "merged": 0
+        },
+        {
+          "id": "210900",
+          "name": "阜新市",
+          "added": 984,
+          "merged": 0
+        },
+        {
+          "id": "211000",
+          "name": "辽阳市",
+          "added": 314,
+          "merged": 0
+        },
+        {
+          "id": "211100",
+          "name": "盘锦市",
+          "added": 626,
+          "merged": 0
+        },
+        {
+          "id": "211200",
+          "name": "铁岭市",
+          "added": 956,
+          "merged": 0
+        },
+        {
+          "id": "211300",
+          "name": "朝阳市",
+          "added": 651,
+          "merged": 0
+        },
+        {
+          "id": "211400",
+          "name": "葫芦岛市",
+          "added": 325,
+          "merged": 0
+        },
+        {
+          "id": "220100",
+          "name": "长春市",
+          "added": 3605,
+          "merged": 0
+        },
+        {
+          "id": "220200",
+          "name": "吉林市",
+          "added": 683,
+          "merged": 0
+        },
+        {
+          "id": "220300",
+          "name": "四平市",
+          "added": 387,
+          "merged": 0
+        },
+        {
+          "id": "220700",
+          "name": "松原市",
+          "added": 1518,
+          "merged": 0
+        },
+        {
+          "id": "220800",
+          "name": "白城市",
+          "added": 3452,
+          "merged": 0
+        },
+        {
+          "id": "222400",
+          "name": "延边朝鲜族自治州",
+          "added": 333,
+          "merged": 0
+        },
+        {
+          "id": "230100",
+          "name": "哈尔滨市",
+          "added": 13247,
+          "merged": 0
+        },
+        {
+          "id": "230600",
+          "name": "大庆市",
+          "added": 18,
+          "merged": 0
+        },
+        {
+          "id": "231200",
+          "name": "绥化市",
+          "added": 2898,
+          "merged": 0
+        },
+        {
+          "id": "310000",
+          "name": "上海市",
+          "added": 4175,
+          "merged": 0
+        },
+        {
+          "id": "320100",
+          "name": "南京市",
+          "added": 5,
+          "merged": 0
+        },
+        {
+          "id": "320200",
+          "name": "无锡市",
+          "added": 16,
+          "merged": 0
+        },
+        {
+          "id": "320300",
+          "name": "徐州市",
+          "added": 2,
+          "merged": 0
+        },
+        {
+          "id": "320500",
+          "name": "苏州市",
+          "added": 421,
+          "merged": 0
+        },
+        {
+          "id": "320600",
+          "name": "南通市",
+          "added": 410,
+          "merged": 0
+        },
+        {
+          "id": "320700",
+          "name": "连云港市",
+          "added": 6287,
+          "merged": 0
+        },
+        {
+          "id": "320800",
+          "name": "淮安市",
+          "added": 878,
+          "merged": 0
+        },
+        {
+          "id": "321000",
+          "name": "扬州市",
+          "added": 1,
+          "merged": 0
+        },
+        {
+          "id": "321100",
+          "name": "镇江市",
+          "added": 1,
+          "merged": 0
+        },
+        {
+          "id": "330100",
+          "name": "杭州市",
+          "added": 4827,
+          "merged": 0
+        },
+        {
+          "id": "330200",
+          "name": "宁波市",
+          "added": 2863,
+          "merged": 0
+        },
+        {
+          "id": "330400",
+          "name": "嘉兴市",
+          "added": 21,
+          "merged": 0
+        },
+        {
+          "id": "330500",
+          "name": "湖州市",
+          "added": 4632,
+          "merged": 0
+        },
+        {
+          "id": "330600",
+          "name": "绍兴市",
+          "added": 2671,
+          "merged": 0
+        },
+        {
+          "id": "330900",
+          "name": "舟山市",
+          "added": 80,
+          "merged": 0
+        },
+        {
+          "id": "340100",
+          "name": "合肥市",
+          "added": 8024,
+          "merged": 0
+        },
+        {
+          "id": "340400",
+          "name": "淮南市",
+          "added": 28,
+          "merged": 0
+        },
+        {
+          "id": "341000",
+          "name": "黄山市",
+          "added": 104,
+          "merged": 0
+        },
+        {
+          "id": "341500",
+          "name": "六安市",
+          "added": 628,
+          "merged": 0
+        },
+        {
+          "id": "350200",
+          "name": "厦门市",
+          "added": 10,
+          "merged": 0
+        },
+        {
+          "id": "360100",
+          "name": "南昌市",
+          "added": 677,
+          "merged": 0
+        },
+        {
+          "id": "360300",
+          "name": "萍乡市",
+          "added": 199,
+          "merged": 0
+        },
+        {
+          "id": "360900",
+          "name": "宜春市",
+          "added": 184,
+          "merged": 0
+        },
+        {
+          "id": "361000",
+          "name": "抚州市",
+          "added": 846,
+          "merged": 0
+        },
+        {
+          "id": "370100",
+          "name": "济南市",
+          "added": 316,
+          "merged": 0
+        },
+        {
+          "id": "370200",
+          "name": "青岛市",
+          "added": 5180,
+          "merged": 0
+        },
+        {
+          "id": "370300",
+          "name": "淄博市",
+          "added": 152,
+          "merged": 0
+        },
+        {
+          "id": "370500",
+          "name": "东营市",
+          "added": 671,
+          "merged": 0
+        },
+        {
+          "id": "370600",
+          "name": "烟台市",
+          "added": 52,
+          "merged": 0
+        },
+        {
+          "id": "370700",
+          "name": "潍坊市",
+          "added": 10520,
+          "merged": 0
+        },
+        {
+          "id": "371100",
+          "name": "日照市",
+          "added": 3187,
+          "merged": 0
+        },
+        {
+          "id": "371400",
+          "name": "德州市",
+          "added": 147,
+          "merged": 0
+        },
+        {
+          "id": "371600",
+          "name": "滨州市",
+          "added": 3,
+          "merged": 0
+        },
+        {
+          "id": "410100",
+          "name": "郑州市",
+          "added": 2315,
+          "merged": 0
+        },
+        {
+          "id": "410200",
+          "name": "开封市",
+          "added": 53,
+          "merged": 0
+        },
+        {
+          "id": "410300",
+          "name": "洛阳市",
+          "added": 305,
+          "merged": 0
+        },
+        {
+          "id": "410400",
+          "name": "平顶山市",
+          "added": 226,
+          "merged": 0
+        },
+        {
+          "id": "410700",
+          "name": "新乡市",
+          "added": 1798,
+          "merged": 0
+        },
+        {
+          "id": "410800",
+          "name": "焦作市",
+          "added": 563,
+          "merged": 0
+        },
+        {
+          "id": "420100",
+          "name": "武汉市",
+          "added": 14410,
+          "merged": 0
+        },
+        {
+          "id": "420200",
+          "name": "黄石市",
+          "added": 2360,
+          "merged": 0
+        },
+        {
+          "id": "420300",
+          "name": "十堰市",
+          "added": 3471,
+          "merged": 0
+        },
+        {
+          "id": "420500",
+          "name": "宜昌市",
+          "added": 1702,
+          "merged": 0
+        },
+        {
+          "id": "420700",
+          "name": "鄂州市",
+          "added": 461,
+          "merged": 0
+        },
+        {
+          "id": "420800",
+          "name": "荆门市",
+          "added": 543,
+          "merged": 0
+        },
+        {
+          "id": "420900",
+          "name": "孝感市",
+          "added": 343,
+          "merged": 0
+        },
+        {
+          "id": "421000",
+          "name": "荆州市",
+          "added": 3412,
+          "merged": 0
+        },
+        {
+          "id": "421100",
+          "name": "黄冈市",
+          "added": 254,
+          "merged": 0
+        },
+        {
+          "id": "421200",
+          "name": "咸宁市",
+          "added": 595,
+          "merged": 0
+        },
+        {
+          "id": "421300",
+          "name": "随州市",
+          "added": 1002,
+          "merged": 0
+        },
+        {
+          "id": "422800",
+          "name": "恩施土家族苗族自治州",
+          "added": 354,
+          "merged": 0
+        },
+        {
+          "id": "429004",
+          "name": "仙桃市",
+          "added": 712,
+          "merged": 0
+        },
+        {
+          "id": "429005",
+          "name": "潜江市",
+          "added": 679,
+          "merged": 0
+        },
+        {
+          "id": "429006",
+          "name": "天门市",
+          "added": 558,
+          "merged": 0
+        },
+        {
+          "id": "430100",
+          "name": "长沙市",
+          "added": 155,
+          "merged": 0
+        },
+        {
+          "id": "433100",
+          "name": "湘西土家族苗族自治州",
+          "added": 103,
+          "merged": 0
+        },
+        {
+          "id": "440100",
+          "name": "广州市",
+          "added": 65,
+          "merged": 0
+        },
+        {
+          "id": "440300",
+          "name": "深圳市",
+          "added": 717,
+          "merged": 0
+        },
+        {
+          "id": "440600",
+          "name": "佛山市",
+          "added": 1,
+          "merged": 0
+        },
+        {
+          "id": "441300",
+          "name": "惠州市",
+          "added": 616,
+          "merged": 0
+        },
+        {
+          "id": "441900",
+          "name": "东莞市",
+          "added": 1102,
+          "merged": 0
+        },
+        {
+          "id": "460100",
+          "name": "海口市",
+          "added": 1304,
+          "merged": 0
+        },
+        {
+          "id": "460200",
+          "name": "三亚市",
+          "added": 182,
+          "merged": 0
+        },
+        {
+          "id": "460400",
+          "name": "儋州市",
+          "added": 387,
+          "merged": 0
+        },
+        {
+          "id": "469002",
+          "name": "琼海市",
+          "added": 605,
+          "merged": 0
+        },
+        {
+          "id": "469005",
+          "name": "文昌市",
+          "added": 2,
+          "merged": 0
+        },
+        {
+          "id": "469006",
+          "name": "万宁市",
+          "added": 511,
+          "merged": 0
+        },
+        {
+          "id": "469007",
+          "name": "东方市",
+          "added": 148,
+          "merged": 0
+        },
+        {
+          "id": "469021",
+          "name": "定安县",
+          "added": 569,
+          "merged": 0
+        },
+        {
+          "id": "469023",
+          "name": "澄迈县",
+          "added": 1616,
+          "merged": 0
+        },
+        {
+          "id": "469024",
+          "name": "临高县",
+          "added": 188,
+          "merged": 0
+        },
+        {
+          "id": "469025",
+          "name": "白沙黎族自治县",
+          "added": 58,
+          "merged": 0
+        },
+        {
+          "id": "469026",
+          "name": "昌江黎族自治县",
+          "added": 154,
+          "merged": 0
+        },
+        {
+          "id": "469027",
+          "name": "乐东黎族自治县",
+          "added": 44,
+          "merged": 0
+        },
+        {
+          "id": "469028",
+          "name": "陵水黎族自治县",
+          "added": 644,
+          "merged": 0
+        },
+        {
+          "id": "469029",
+          "name": "保亭黎族苗族自治县",
+          "added": 129,
+          "merged": 0
+        },
+        {
+          "id": "469030",
+          "name": "琼中黎族苗族自治县",
+          "added": 454,
+          "merged": 0
+        },
+        {
+          "id": "610100",
+          "name": "西安市",
+          "added": 484,
+          "merged": 0
+        },
+        {
+          "id": "610300",
+          "name": "宝鸡市",
+          "added": 6161,
+          "merged": 0
+        },
+        {
+          "id": "610400",
+          "name": "咸阳市",
+          "added": 96,
+          "merged": 0
+        },
+        {
+          "id": "610700",
+          "name": "汉中市",
+          "added": 56,
+          "merged": 0
+        },
+        {
+          "id": "610800",
+          "name": "榆林市",
+          "added": 639,
+          "merged": 0
+        },
+        {
+          "id": "620100",
+          "name": "兰州市",
+          "added": 320,
+          "merged": 0
+        },
+        {
+          "id": "620200",
+          "name": "嘉峪关市",
+          "added": 2115,
+          "merged": 0
+        },
+        {
+          "id": "620300",
+          "name": "金昌市",
+          "added": 1535,
+          "merged": 0
+        },
+        {
+          "id": "620600",
+          "name": "武威市",
+          "added": 3311,
+          "merged": 0
+        },
+        {
+          "id": "620700",
+          "name": "张掖市",
+          "added": 2970,
+          "merged": 0
+        },
+        {
+          "id": "620900",
+          "name": "酒泉市",
+          "added": 6239,
+          "merged": 0
+        },
+        {
+          "id": "630100",
+          "name": "西宁市",
+          "added": 219,
+          "merged": 0
+        },
+        {
+          "id": "632200",
+          "name": "海北藏族自治州",
+          "added": 2635,
+          "merged": 0
+        },
+        {
+          "id": "632500",
+          "name": "海南藏族自治州",
+          "added": 4224,
+          "merged": 0
+        },
+        {
+          "id": "632600",
+          "name": "果洛藏族自治州",
+          "added": 640,
+          "merged": 0
+        },
+        {
+          "id": "632700",
+          "name": "玉树藏族自治州",
+          "added": 842,
+          "merged": 0
+        },
+        {
+          "id": "632800",
+          "name": "海西蒙古族藏族自治州",
+          "added": 2426,
+          "merged": 0
+        },
+        {
+          "id": "640100",
+          "name": "银川市",
+          "added": 485,
+          "merged": 0
+        },
+        {
+          "id": "640200",
+          "name": "石嘴山市",
+          "added": 1521,
+          "merged": 0
+        },
+        {
+          "id": "640300",
+          "name": "吴忠市",
+          "added": 3525,
+          "merged": 0
+        },
+        {
+          "id": "640500",
+          "name": "中卫市",
+          "added": 11,
+          "merged": 0
+        },
+        {
+          "id": "650100",
+          "name": "乌鲁木齐市",
+          "added": 10043,
+          "merged": 118
+        },
+        {
+          "id": "650200",
+          "name": "克拉玛依市",
+          "added": 3155,
+          "merged": 136
+        },
+        {
+          "id": "650400",
+          "name": "吐鲁番市",
+          "added": 2389,
+          "merged": 24
+        },
+        {
+          "id": "652300",
+          "name": "昌吉回族自治州",
+          "added": 645,
+          "merged": 10
+        },
+        {
+          "id": "652800",
+          "name": "巴音郭楞蒙古自治州",
+          "added": 490,
+          "merged": 8
+        },
+        {
+          "id": "652900",
+          "name": "阿克苏地区",
+          "added": 395,
+          "merged": 5
+        },
+        {
+          "id": "653000",
+          "name": "克孜勒苏柯尔克孜自治州",
+          "added": 477,
+          "merged": 4
+        },
+        {
+          "id": "653100",
+          "name": "喀什地区",
+          "added": 822,
+          "merged": 12
+        },
+        {
+          "id": "653200",
+          "name": "和田地区",
+          "added": 1449,
+          "merged": 0
+        },
+        {
+          "id": "654000",
+          "name": "伊犁哈萨克自治州",
+          "added": 1476,
+          "merged": 18
+        },
+        {
+          "id": "654200",
+          "name": "塔城地区",
+          "added": 491,
+          "merged": 0
+        },
+        {
+          "id": "659001",
+          "name": "石河子市",
+          "added": 1762,
+          "merged": 0
+        },
+        {
+          "id": "659004",
+          "name": "五家渠市",
+          "added": 169,
+          "merged": 0
+        },
+        {
+          "id": "659006",
+          "name": "铁门关市",
+          "added": 84,
+          "merged": 0
+        },
+        {
+          "id": "659010",
+          "name": "胡杨河市",
+          "added": 106,
+          "merged": 0
+        },
+        {
+          "id": "659900",
+          "name": "新疆未匹配（源导出）",
+          "added": 0,
+          "merged": 51
+        },
+        {
+          "id": "810000",
+          "name": "香港特别行政区",
+          "added": 13,
+          "merged": 0
+        }
+      ],
+      "auditCounts": {
+        "catalog": {
+          "rows": 18936803,
+          "bySource": {
+            "hidden": 230090,
+            "time-machine": 124706,
+            "regular": 171612,
+            "unknown": 268019,
+            "missing": 18142376,
+            "other": 0
+          },
+          "byCategory": {
+            "hidden": 7418,
+            "time-machine": 80636,
+            "regular": 11797,
+            "unknown": 18836952
+          },
+          "byStatus": {
+            "user-confirmed-hidden": 7418,
+            "regular-confirmed": 11797,
+            "time-machine-roundtrip": 0,
+            "time-machine-one-way": 0,
+            "time-machine-history-only": 80636,
+            "hidden-candidate": 0,
+            "access-error": 0,
+            "unknown": 18836952
+          }
+        },
+        "uploads": {
+          "rows": 255422,
+          "bySource": {
+            "hidden": 255422,
+            "time-machine": 0,
+            "regular": 0,
+            "unknown": 0,
+            "missing": 0,
+            "other": 0
+          },
+          "byCategory": {
+            "hidden": 0,
+            "time-machine": 0,
+            "regular": 0,
+            "unknown": 255422
+          },
+          "byStatus": {
+            "user-confirmed-hidden": 0,
+            "regular-confirmed": 0,
+            "time-machine-roundtrip": 0,
+            "time-machine-one-way": 0,
+            "time-machine-history-only": 0,
+            "hidden-candidate": 0,
+            "access-error": 0,
+            "unknown": 255422
+          }
+        }
+      }
+    },
+    {
+      "version": "1.9.0",
+      "date": "2026-11-25",
+      "title": "图木舒克市全部街景分类纠正",
+      "cityAdditions": [],
+      "changes": [
+        "根据用户逐条核验结果，将图木舒克市 659003 全部 11,796 条原补充包记录统一恢复为 regular，覆盖原 hidden 8,743 条与原 time-machine 3,053 条。",
+        "每条纠正记录写入 extra.classificationBasis=user-confirmed-regular、classificationReviewedAt 和用户复核原因，原始 links、timeLine、继承坐标、车辆和来源字段均保留。",
+        "修正发布筛选逻辑：同一补充包中带有 user-confirmed-regular 证据的 regular 行可以进入国内补充发布，其他旧归档常规街景仍不会被带入。",
+        "此前空 links 导致的 hidden/time-machine 分类仅代表补充包导入策略，不是百度官方 hidden 标记；本次图木舒克分类以用户逐条核验为准。"
+      ]
+    },
     {
       "version": "1.8.0",
       "date": "2026-11-25",
