@@ -15,6 +15,11 @@ function normalizeRecord(record, { coordinateSystem } = {}) {
   const [lng, lat] = convertCoordinate(record.lng, record.lat, coordinateSystem, "BD-09");
   if (!Array.isArray(record.links) || record.links.some(value => typeof value !== "string")) fail("links must be an array of strings");
   const extras = { source: record.source, links: structuredClone(record.links), pitch: Number.isFinite(record.pitch) ? record.pitch : null, zoom: Number.isFinite(record.zoom) ? record.zoom : null, extra: record.extra && typeof record.extra === "object" && !Array.isArray(record.extra) ? structuredClone(record.extra) : {}, tags: Array.isArray(record.extra?.tags) ? structuredClone(record.extra.tags) : [] };
+  if (Object.hasOwn(record, 'isHidden') && typeof record.isHidden === 'boolean') {
+    extras.isHidden=record.isHidden;
+    if (record.isHidden) extras.sourceType='hidden';
+  }
+  if (record.sourceType === 'hidden' && extras.isHidden !== true) extras.sourceType='unknown';
   const captured = typeof record.imageDate === "string" && !Number.isNaN(Date.parse(record.imageDate)) ? record.imageDate : (typeof record.extra?.imageDate === "string" && !Number.isNaN(Date.parse(record.extra.imageDate)) ? record.extra.imageDate : "");
   for (const [key, value] of Object.entries(record)) if (!(key in { panoId: 1, lng: 1, lat: 1, heading: 1, source: 1, links: 1, pitch: 1, zoom: 1, extra: 1 })) { if (!SAFE_KEYS.test(key)) fail(`Unsafe source field: ${key}`); extras.extra[key] = structuredClone(value); }
   return [record.panoId, lng, lat, "", captured, Number.isFinite(record.heading) ? record.heading : null, false, true, "baidu", extras];

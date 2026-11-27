@@ -20,7 +20,7 @@ async function fixture(t) {
   const tmp=await realpath(os.tmpdir()), root=await realpath(await mkdtemp(path.join(tmp,'crawler-stage-apply-')));
   t.after(async()=>{assert.equal(path.dirname(root),tmp); assert.match(path.basename(root),/^crawler-stage-apply-/); assert.equal(await realpath(root),root); await rm(root,{recursive:true});});
   const put=async(rel,content)=>{const p=path.join(root,rel); await mkdir(path.dirname(p),{recursive:true}); await writeFile(p,content);};
-  for(const r of ['tools/apply_crawler_stage.mjs','tools/import_crawler_1125.mjs','tools/crawler_input_stream.mjs','tools/validate_data.mjs','tools/stream_rows.mjs','city-viewer/js/metadata.js','city-viewer/js/coordinates.js','city-viewer/js/panoid-time.js']) {
+  for(const r of ['tools/apply_crawler_stage.mjs','tools/import_crawler_1125.mjs','tools/crawler_input_stream.mjs','tools/validate_data.mjs','tools/stream_rows.mjs','tools/hidden_review_protections.mjs','tools/supp23_manual_review.mjs','config/reviews/hidden-policy-protected.json','config/reviews/supp23-hidden-overlap.json','city-viewer/js/hidden-flag.js','city-viewer/js/metadata.js','city-viewer/js/coordinates.js','city-viewer/js/panoid-time.js']) {
     await mkdir(path.dirname(path.join(root,r)),{recursive:true}); await copyFile(path.join(HERE,r),path.join(root,r));
   }
   await put('package.json','{"type":"module"}');

@@ -11,6 +11,8 @@ import { isDeepStrictEqual } from 'node:util';
 import { streamCrawlerRecords, streamMappingLines } from './crawler_input_stream.mjs';
 import { fileFingerprint, streamRows } from './stream_rows.mjs';
 import { mcToBd09 } from './crawler_bd09mc.mjs';
+import { protectedDecision } from './hidden_review_protections.mjs';
+import { embeddedSourceIsHidden } from '../city-viewer/js/hidden-flag.js';
 
 const BATCH = 'baidu-crawler-20261125';
 // Independent transport receipt and baseline, not values copied from the importer under test.
@@ -98,7 +100,8 @@ function checkVariant(row,raw,assignment,desc) {
   const {panoid,...mapped}=assignment;
   same(m.cityAssignment,{...mapped,distanceUnit:'m'},'City boundary assignment differs: '+id);
   const {extra,cityAssignment,...remaining}=m;
-  const metadata={source:raw.source,sourceId:src,sourceFile:desc.name,sourceType:'unknown',isHidden:false,originalMetadataOnly:true,links:raw.links??[]};
+  const marked = Object.hasOwn(raw,'isHidden') && raw.isHidden === true;
+  const metadata={source:raw.source,sourceId:src,sourceFile:desc.name,sourceType:marked?'hidden':'unknown',isHidden:marked,originalMetadataOnly:true,links:raw.links??[]};
   for(const k of ['timeLine','movementCount','verification','gapId','x','y','roadName','pitch','zoom'])
     if(Object.hasOwn(raw,k)) metadata[k]=raw[k];
   same(remaining,metadata,'Crawler identity, metadata-only status, timeline/links, or metadata differs: '+id);
@@ -174,7 +177,7 @@ export async function checkCrawlerStage({report,files,mapping,stageRoot,dataRoot
         const perMethod={}; let hits=0, disagree=0;
         db.exec('BEGIN');
         for await(const r of streamCrawlerRecords(d.path,{onChunk:b=>{h.update(b);size+=b.length;}})) {
-          const {done,value:p}=await mappings.next(); assert(!done && r && !Array.isArray(r) && r.panoId===p.panoid && typeof r.panoId==='string' && r.panoId===r.id && r.id===r.sid && r.source==='baidu','Mapping/source order, ID aliases or provider differs: '+d.name);
+          const {done,value:p}=await mappings.next(); assert(!done && r && !Array.isArray(r) && r.panoId===p.panoid && typeof r.panoId==='string' && r.panoId===r.id && r.id===r.sid && ['panoid','streetViewId'].every(key=>!Object.hasOwn(r,key)||r[key]===r.panoId) && r.source==='baidu','Mapping/source order, ID aliases or provider differs: '+d.name);
           checkPlace(p);
           const [lng,lat]=mcToBd09(r.x,r.y), residual=Math.max(Math.abs(lng-r.lng),Math.abs(lat-r.lat));
           assert(Number.isFinite(r.lng) && Number.isFinite(r.lat) && residual<1e-6,'Source BD09MC versus BD-09 mismatch: '+p.panoid); maxResidual=Math.max(maxResidual,residual);
@@ -216,9 +219,12 @@ export async function checkCrawlerStage({report,files,mapping,stageRoot,dataRoot
             const variant=obs.at(-1), hash=rawHash(raw), srcId=d.name+'@'+d.sha256;
             const {variant:observedRow,...wrapper}=variant;
             same(wrapper,{source:d.name,sourceFile:d.name,sourceId:srcId,rawSha256:hash},'Observation envelope differs: '+id);
-            const retained=[...historical]; retained[9]={...priorMeta,observations:[...priorObs,variant]};
-            same(row,retained,'Owner primary or pre-existing observations changed: '+id);
             checkVariant(observedRow,raw,place,d);
+            const retained=[...historical]; retained[9]={...priorMeta,observations:[...priorObs,variant]};
+            if(embeddedSourceIsHidden(retained)&&!protectedDecision(historical,city)){
+              retained[9].sourceType='hidden';retained[9].isHidden=true;
+            }
+            same(row,retained,'Owner primary or pre-existing observations changed: '+id);
             const cls=isDeepStrictEqual(raw,priorMeta.extra?.originalRecord??priorMeta.originalRecord??historical)?'exactDuplicates':'differingDuplicates';
             d.counts[cls]++; d.counts.existingIds++; newlySeen().merged++; inc(byOwner,city); matchedOwners++;
             if(city!==place.id) { conflicts++; inc(pairs,city+'>'+place.id); }

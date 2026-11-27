@@ -33,7 +33,7 @@ async function fixture(t, { existingCity = '620100', existingPanoid = 'fixture-e
   // The validator's cache root is relative to its module, not its data argument.
   // Copy only these tiny runtime modules into this disposable root, so SQLite and
   // validation reports cannot touch the checkout's dist or actual data directory.
-  for (const relative of ['tools/migrations/xinjiang-import.mjs', 'tools/migrations/xinjiang-source.mjs', 'tools/validate_data.mjs', 'tools/stream_rows.mjs', 'city-viewer/js/metadata.js', 'city-viewer/js/coordinates.js', 'city-viewer/js/panoid-time.js']) {
+  for (const relative of ['tools/migrations/xinjiang-import.mjs', 'tools/migrations/xinjiang-source.mjs', 'tools/validate_data.mjs', 'tools/stream_rows.mjs', 'city-viewer/js/hidden-flag.js', 'city-viewer/js/metadata.js', 'city-viewer/js/coordinates.js', 'city-viewer/js/panoid-time.js']) {
     await put(relative, await fs.readFile(path.join(PROJECT, relative)));
   }
   await put('package.json', '{"type":"module"}\n');

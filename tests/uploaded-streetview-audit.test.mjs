@@ -6,7 +6,8 @@ import path from 'node:path';
 import { Readable } from 'node:stream';
 import { deflateRawSync } from 'node:zlib';
 import { auditCatalog, auditUploaded, binzhouSourceIds, classify, publicSummary, streamRecords } from '../tools/audit_uploaded_streetview.mjs';
-import { overlapReview, verifyOverlapCity } from '../tools/supp23_manual_review.mjs';
+import { overlapReview } from '../tools/supp23_manual_review.mjs';
+import protectedReceipts from '../config/reviews/hidden-policy-protected.json' with { type:'json' };
 
 const row = (id, meta = {}) => [id, 0, 0, '', '', null, false, true, 'baidu', meta];
 function zipEntry(name, text, { corrupt = false, method = 8 } = {}) {
@@ -37,7 +38,7 @@ test('only independent consistent historical provenance qualifies; manual review
   const rule = (extra, ctx) => classify(row('target',{sourceType:'hidden',extra}),ctx).status;
   assert.equal(rule(historical), 'time-machine-history-only');
   for (const patch of [{parentPanoid:'target'},{returnedBy:undefined},{returnedBy:'other'},{coordinateSource:'self'}, {timelineLabel:undefined},{inheritedCoordinate:{coordinateSource:'parent-reference-only'}},{inheritedCoordinate:{inheritedFrom:'parent'}}]) assert.equal(rule({...historical,...patch}),'unknown');
-  assert.equal(rule({...historical,...reviewed},{city:'659003'}),'regular-confirmed');
+  assert.equal(rule({...historical,...reviewed},{city:'659003'}),'time-machine-history-only'); // incomplete stamp is not a decision
   assert.equal(rule(reviewed,{city:'371600'}),'unknown');
   assert.equal(rule({...reviewed,sourceBatch:'other'},{city:'659003'}),'unknown');
   assert.equal(rule(historical,{binzhouHiddenIds:new Set(['target'])}),'user-confirmed-hidden');
@@ -52,7 +53,7 @@ function marked(id) {
 }
 
 test('the new decision requires its own complete declaration in trusted catalog city context', () => {
-  const r = marked('x');
+  const r = marked('1'.repeat(27));
   assert.deepEqual(classify(r, {city:'659012'}), {category:'regular',status:'regular-confirmed',basis:overlapBasis});
   for (const city of [undefined,'659003','371600']) assert.equal(classify(r,{city}).status,'unknown');
   for (const mutate of [m=>m.isHidden=false, m=>m.sourceType='hidden', m=>m.tags=[], m=>m.extra.sourceZipSha256='other',
@@ -62,40 +63,54 @@ test('the new decision requires its own complete declaration in trusted catalog 
   }
 });
 
-test('public catalog checks actual IDs per city, not even a balanced national count', async t => {
-  // The two smallest reviewed cities suffice; never run a national scan in this test.
-  const ids = {};
-  for (const city of ['659012','659007']) {
-    const rows = JSON.parse(await readFile(new URL(`../data/baidu/${city}/points-001.json`, import.meta.url),'utf8'));
-    ids[city] = rows.filter(r => r[9]?.sourceType === 'hidden' || r[9]?.extra?.manualReview?.scope === overlapReview.reviewId).map(r=>r[0]);
-    assert.equal(verifyOverlapCity(city, ids[city]),true);
-  }
+test('catalog validates a receipt before reusing a manual decision for a raw upload', async t => {
   const root = await mkdtemp(path.join(tmpdir(),'review-city-'));
   t.after(()=>rm(root,{recursive:true,force:true}));
-  async function setup(group) {
-    const collections = [];
-    for (const [id,rows] of Object.entries(group)) {
-      const dir = `baidu/${id}`, file = `${dir}/points-001.json`;
-      await mkdir(path.join(root,dir),{recursive:true}); await writeFile(path.join(root,file),JSON.stringify(rows));
-      collections.push({id,count:rows.length,files:[file]});
-    }
-    await writeFile(path.join(root,'catalog.json'),JSON.stringify({collections,total:collections.reduce((n,c)=>n+c.count,0)}));
+  async function setup(id,rows) {
+    const dir = `baidu/${id}`, file = `${dir}/points-001.json`;
+    await mkdir(path.join(root,dir),{recursive:true}); await writeFile(path.join(root,file),JSON.stringify(rows));
+    await writeFile(path.join(root,'catalog.json'),JSON.stringify({total:rows.length,collections:[{id,count:rows.length,files:[file]}]}));
   }
-  const check = () => auditCatalog(root,null,[],{publicOnly:true});
-  const a = ids['659012'].map(marked), b = ids['659007'].map(marked);
-  await setup({'659012':a,'659007':b});
-  await assert.rejects(check,/Missing overlap review city/); // both present cities passed; the other 18 are required too
+  const x = protectedReceipts.xinxiang;
+  await setup(x.city,[row(x.panoid,{sourceType:'hidden',isHidden:true})]);
   const upload = path.join(root,'raw.json');
-  await writeFile(upload,JSON.stringify([{...a[0][9],id:'fake',source:'baidu',city:'659012'}]));
+  const fake = {...marked('7'.repeat(27))[9], id:'7'.repeat(27),source:'baidu',city:'659012'};
+  await writeFile(upload,JSON.stringify([{id:x.panoid,source:'baidu'},fake]));
   const s = publicSummary(await auditUploaded({dataRoot:root,files:[upload]}));
-  assert.equal(s.catalog.byBasis[overlapBasis],a.length+b.length);
-  assert.deepEqual(s.uploads.byBasis,{'insufficient-evidence':1});
-  const swappedA = [b[0],...a.slice(1)], swappedB = [a[0],...b.slice(1)];
-  await setup({'659012':swappedA,'659007':swappedB}); await assert.rejects(check,/fingerprint mismatch/);
-  await setup({'659012':[marked('0'.repeat(27)),...a.slice(1)]}); await assert.rejects(check,/fingerprint mismatch/);
-  await setup({'659012':[a[1],...a.slice(1)]}); await assert.rejects(check,/duplicate/);
-  await setup({'659012':a.slice(1)}); await assert.rejects(check,/count mismatch/);
-  await setup({'659003':[a[0]]}); await assert.rejects(check,/Invalid overlap review declaration/);
+  assert.deepEqual(s.uploads.byBasis,{[x.basis]:1,'insufficient-evidence':1});
+  const adversarial = Array.from({length:overlapReview.cities['659012'].count},(_,i)=>marked(String(i).padStart(27,'0')));
+  await setup('659012',adversarial); await assert.rejects(auditCatalog(root,null),/fingerprint mismatch/);
+  await setup('659012',[adversarial[0]]); await assert.rejects(auditCatalog(root,null),/count mismatch/);
+  await setup('659003',[adversarial[0]]); await assert.rejects(auditCatalog(root,null),/Invalid overlap review declaration/);
+});
+
+const target = 'H';
+const boolResult = {category:'hidden',status:'source-isHidden-true',basis:'source-isHidden-true'};
+test('literal flag is about the original primary ID, not copied canonical flags, neighbours or lookalikes', () => {
+  const plain = {id:target,source:'baidu',sourceType:'regular',isHidden:true,movementCount:3,TimeLine:[{id:'A'},{id:'B'}],hasPano:true};
+  const canonical = row(target,{sourceType:'hidden',isHidden:true});
+  assert.deepEqual(classify(canonical), {category:'unknown',status:'unknown'});
+  assert.deepEqual(classify(canonical,{verifiedCatalog:true}),boolResult);
+  assert.deepEqual(classify(canonical,{originalRecord:plain}),boolResult);
+  for(const isHidden of [0,1,null,false,'true',undefined]) assert.equal(classify(canonical,{originalRecord:{...plain,isHidden}}).category,'unknown');
+  const embedded = raw => classify(row(target,{sourceType:'unknown',isHidden:false,extra:{originalRecord:raw}}));
+  assert.deepEqual(embedded(plain),boolResult);
+  assert.deepEqual(embedded(row(target,{isHidden:true})),boolResult);
+  assert.equal(embedded(row('other',{isHidden:true})).category,'unknown');
+  assert.equal(embedded({...plain,sid:'other'}).category,'unknown');
+  assert.equal(embedded({id:target,Links:[plain],timeLine:[plain]}).category,'unknown');
+  assert.equal(embedded({isHidden:true}).category,'unknown');
+  const variant = (outer,inner) => classify(row(target,{observations:[{variant:row(outer,{extra:{originalRecord:{id:inner,isHidden:true}}})}]}));
+  assert.deepEqual(variant(target,target),boolResult);
+  assert.equal(variant('other',target).category,'unknown'); assert.equal(variant(target,'other').category,'unknown');
+  const conflicted = (primary, flags) => row(target,{extra:{originalRecord:{id:target,isHidden:primary}},observations:flags.map(isHidden=>({variant:row(target,{extra:{originalRecord:{id:target,isHidden}}})}))});
+  assert.equal(classify(conflicted(false,[true])).category,'unknown');
+  assert.deepEqual(classify(conflicted(true,[false])),boolResult);
+  assert.equal(classify(conflicted(undefined,[false,true])).category,'unknown');
+  assert.equal(classify(conflicted(undefined,[true,false])).category,'unknown');
+  assert.deepEqual(classify(conflicted(undefined,[true,true])),boolResult);
+  const labeled = {id:target,sourceType:'time-machine',isHidden:false};
+  assert.equal(classify(row(target,labeled),{originalRecord:labeled}).status,'unknown');
 });
 
 test('documented Binzhou browser observations override source labels', () => {
@@ -121,7 +136,7 @@ test('Binzhou scan list rejects an unverified source', async () => {
     const file = path.join(root, 'source.json');
     await writeFile(file, JSON.stringify([{ id: 'x', sourceType: 'hidden' }]));
     await assert.rejects(binzhouSourceIds(file), /fingerprint or count mismatch/);
-    await writeFile(file, JSON.stringify([{ id: 'x', sourceType: 'hidden' }, { id: 'x', sourceType: 'hidden' }]));
+    await writeFile(file, JSON.stringify([{ id: 'x', isHidden:true }, { id: 'x', isHidden:true }]));
     await assert.rejects(binzhouSourceIds(file), /duplicate/);
   } finally { await rm(root, { recursive: true, force: true }); }
 });
@@ -133,15 +148,15 @@ test('audit supports isolated catalog, uploads and ZIP', async () => {
     await mkdir(path.join(root, 'data','baidu','659003'), { recursive:true });
     const catalog = {total:3, collections:[{id:'659003',count:3,files:[shard]}]};
     await writeFile(path.join(root, 'data', 'catalog.json'), JSON.stringify(catalog));
-    await writeFile(path.join(root, 'data',shard), JSON.stringify([row('a', {sourceType:'regular'}).slice(0,9), row('b',{sourceType:'hidden',extra:historical}), row('c',{sourceType:'regular',extra:{...reviewed,...historical}})]));
+    await writeFile(path.join(root, 'data',shard), JSON.stringify([row('a', {sourceType:'regular'}).slice(0,9), row('b',{sourceType:'hidden',extra:historical}), row('c',{sourceType:'hidden',isHidden:true,extra:{originalRecord:{id:'c',isHidden:true}}})]));
     const upload = path.join(root, 'upload.json');
-    await writeFile(upload, JSON.stringify([{id:'b',panoId:'b',sid:'b',source:'baidu',sourceType:'hidden',verification:{mode:'metadata-only'},movementCount:1,timeLine:[{},{}]},{panoId:'d',source:'baidu',sourceType:'__proto__',movementCount:-1,timeLine:[]}]));
+    await writeFile(upload, JSON.stringify([{id:'b',panoId:'b',sid:'b',source:'baidu',sourceType:'hidden',isHidden:true,verification:{mode:'metadata-only'},movementCount:1,timeLine:[{},{}]},{panoId:'d',source:'baidu',sourceType:'__proto__',movementCount:-1,timeLine:[]}]));
     const result = await auditUploaded({ root, files: [upload] });
     assert.equal(result.catalog.stats.byStatus.unknown, 1);
     assert.equal(result.catalog.stats.bySource.missing, 1);
-    assert.equal(result.catalog.stats.byStatus['regular-confirmed'], 1);
+    assert.equal(result.catalog.stats.byStatus['source-isHidden-true'], 1);
     assert.equal(result.catalog.stats.byStatus['time-machine-history-only'], 1);
-    assert.equal(result.external[0].byStatus.unknown, 2);
+    assert.equal(result.external[0].byStatus.unknown, 1);
     assert.equal(result.external[0].movementPositive, 1);
     assert.equal(result.external[0].movementZero, 0);
     assert.equal(result.external[0].movementInvalid, 1);
@@ -149,13 +164,13 @@ test('audit supports isolated catalog, uploads and ZIP', async () => {
     assert.equal(result.external[0].timelineEmpty, 1);
     await assert.rejects(auditUploaded({root,publicOnly:true}),/requires the fingerprinted/);
     const zip = path.join(root, 'upload.zip');
-    await writeFile(zip, zipEntry('nested/upload.json', '[{"id":"c","source":"baidu","sourceType":"hidden","movementCount":2}]'));
+    await writeFile(zip, zipEntry('nested/upload.json', '[{"id":"c","source":"baidu","sourceType":"hidden","isHidden":true,"movementCount":2}]'));
     const zipped = await auditUploaded({ root, zip, files:[upload] });
     assert.equal(zipped.external[1].fileCount, 1);
-    assert.equal(zipped.external[1].files[0].byStatus['regular-confirmed'], 1);
+    assert.equal(zipped.external[1].files[0].byStatus['source-isHidden-true'], 1);
     const small = publicSummary(zipped);
     assert.equal(small.catalog.rows, 3); assert.equal(small.uploads.rows, 3); assert.equal(small.uploads.metadataOnly, 1);
-    assert.equal(small.uploads.files, 2); assert.equal(small.uploads.bySource.other, 1); assert.equal(small.uploads.sourceByStatus.hidden.unknown, 1);
+    assert.equal(small.uploads.files, 2); assert.equal(small.uploads.bySource.other, 1); assert.equal(small.uploads.sourceByStatus.hidden['source-isHidden-true'], 2);
     assert.ok(!JSON.stringify(small).includes('upload.json') && !JSON.stringify(small).includes(root));
     assert.deepEqual(Object.keys(small).sort(), ['catalog','schemaVersion','scope','uploads']);
     for (const name of ['../evil.json', '/evil.json', 'C:/evil.json', 'a\\\\evil.json']) {

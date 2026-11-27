@@ -14,7 +14,7 @@ import {newCaptureSummary,addCaptureSummary} from '../city-viewer/js/panoid-time
 const hash=bytes=>createHash('sha256').update(bytes).digest('hex');
 const selection={schemaVersion:1,provider:'baidu',mode:'pages-gzip',cities:['371600','820000','191001','191002'],countyShards:true,hiddenOnly:true,hiddenOnlyCities:['371600','820000']};
 const feature=(id,lo,hi,level)=>({type:'Feature',properties:{id,name:id,osmRelationId:id,adminLevel:level,adcode:id},geometry:{type:'Polygon',coordinates:[[[lo,36],[hi,36],[hi,38],[lo,38],[lo,36]]]}});
-const row=(id,lng,sourceType,date='')=>[id,...convertCoordinate(lng,37,'WGS84','BD-09'),'fixture road',date,null,false,true,'baidu',{source:'baidu',sourceType,extra:{keep:id}}];
+const row=(id,lng,sourceType,date='')=>[id,...convertCoordinate(lng,37,'WGS84','BD-09'),'fixture road',date,null,false,true,'baidu',{source:'baidu',sourceType,...(sourceType==='hidden'?{isHidden:true}:{}),extra:{keep:id}}];
 async function fixture(t,{withNewCity=false}={}){
   const root=await mkdtemp(path.join(os.tmpdir(),'baidu-overseas-pages-'));t.after(()=>rm(root,{recursive:true}));
   async function put(name,bytes){await mkdir(path.dirname(path.join(root,name)),{recursive:true});await writeFile(path.join(root,name),bytes);}
@@ -141,7 +141,7 @@ test('legacy hiddenOnly without a list filters all cities and rechunks late cano
   for(const city of catalog.collections){assert.equal(city.files.length,Math.ceil(city.count/city.shardMaxRows));for(const [i,file]of city.files.entries())assert.equal(file,`baidu/${city.id}/points-${String(i+1).padStart(3,'0')}.json`);}
 });
 test('filtered regular outputs split at declared shardMaxRows while retaining all source descriptors',async t=>{
-  const f=await fixture(t),input=f.batches['371600'];input[1][9].sourceType='hidden';
+  const f=await fixture(t),input=f.batches['371600'];Object.assign(input[1][9],{sourceType:'hidden',isHidden:true});
   for(let i=0;i<input.length;i+=2)await writeFile(path.join(f.root,'data/baidu/371600',`points-${String(i/2+1).padStart(3,'0')}.json`),JSON.stringify(input.slice(i,i+2))+'\n');
   const result=await publishPages({root:f.root,commit:'c'.repeat(40),selection:{schemaVersion:1,provider:'baidu',mode:'pages-gzip',cities:['371600'],hiddenOnly:true}});
   const {catalog,rows}=await readPublication(result);verifyAggregates(catalog,rows);assert.equal(catalog.total,3);assert.deepEqual(catalog.collections[0].files,['baidu/371600/points-001.json','baidu/371600/points-002.json']);assert.deepEqual([...rows.values()].map(part=>part.length),[2,1]);assert.equal(catalog.collections[0].sourceFiles.length,3);

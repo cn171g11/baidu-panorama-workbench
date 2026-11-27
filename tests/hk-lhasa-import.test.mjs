@@ -12,7 +12,7 @@ for(const spec of specs)test('Published-source archive '+spec.id+' supplements l
   let count=0,local=0,observed=0,source=0,newBatch=0,crawler1125=0,previousId=null;
   for(const file of city.files){let n=0;for await(const {row}of streamRows('data/'+file)){
     n++;
-    if(row[9]?.extra?.sourceBatch==='baidu-crawler-20261125'){assert.equal(row[9]?.sourceType,'unknown');assert.equal(row[9]?.originalMetadataOnly,true);crawler1125++;continue;}
+    if(row[9]?.extra?.sourceBatch==='baidu-crawler-20261125'){assert.equal(row[9].extra.originalRecord.panoId,row[0]);assert.equal(row[9].extra.originalRecord.isHidden,true);assert.equal(row[9].sourceType,'hidden');assert.equal(row[9].isHidden,true);assert.equal(row[9].originalMetadataOnly,true);crawler1125++;continue;}
     const crawler = row[9]?.extra?.vehicleId;
     const prior = crawler ? row[9].observations?.at(-1) : null;
     if (crawler && !prior) { if (row[9].extra.sourceBatch==='baidu-11.24') newBatch++; continue; }

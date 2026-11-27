@@ -8,7 +8,7 @@ import { validateCatalog } from './validate_data.mjs';
 import { validatePublicAudit } from '../city-viewer/js/streetview-audit.js';
 
 export const PROJECT_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-export const PUBLIC_MODULES = ['app.js', 'map.js', 'report.js', 'coordinates.js', 'metadata.js', 'data-store.js', 'classification.js', 'panoid-time.js', 'county-data.js', 'transfer.js', 'load-feedback.js', 'blue-city-data.js', 'streetview-audit.js'];
+export const PUBLIC_MODULES = ['app.js', 'map.js', 'report.js', 'coordinates.js', 'metadata.js', 'data-store.js', 'classification.js', 'hidden-flag.js', 'panoid-time.js', 'county-data.js', 'transfer.js', 'load-feedback.js', 'blue-city-data.js', 'streetview-audit.js'];
 const PRIVATE_NAME = /(?:^|[._-])(?:agent|history|apikey|credentials?|secrets?|tokens?)(?:[._-]|$)|^\.env/i;
 const sha256 = bytes => createHash('sha256').update(bytes).digest('hex');
 async function exists(target) { try { await access(target, constants.F_OK); return true; } catch (error) { if (error.code === 'ENOENT') return false; throw error; } }

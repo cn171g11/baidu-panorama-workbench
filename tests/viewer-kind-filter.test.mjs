@@ -13,7 +13,7 @@ const bounds = [117, 37, 117, 37];
 const countyPath = `baidu/${id}/counties/${county}/points-001.json`;
 const unmatchedPath = `baidu/${id}/counties/unmatched/points-001.json`;
 const otherPath = `baidu/${other}/points-001.json`;
-const row = (id, sourceType) => [id, 117, 37, '路', '2024-01-01', null, false, true, 'baidu', { sourceType }];
+const row = (id, sourceType) => [id, 117, 37, '路', '2024-01-01', null, false, true, 'baidu', { sourceType, ...(sourceType === 'hidden' ? {isHidden:true} : {}) }];
 const pack = rows => {
   const plain = Buffer.from(JSON.stringify(rows)), gzip = gzipSync(plain);
   return { gzip, meta: { count: rows.length, bytes: plain.length, sha256: hash(plain), compressedBytes: gzip.length, compressedSha256: hash(gzip) } };

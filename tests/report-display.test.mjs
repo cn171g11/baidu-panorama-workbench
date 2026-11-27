@@ -4,10 +4,19 @@ import { categoryFor, countCategories } from '../city-viewer/js/classification.j
 import { aggregate, countFor, mergeBlueCities } from '../city-viewer/js/report.js';
 
 test('classification prioritizes source type and explicit visibility evidence', () => {
-  assert.equal(categoryFor(["id", 1, 2, "", "", null, false, true, "baidu", { sourceType: 'time-machine', isHidden: true }]), 'time-machine');
+  assert.equal(categoryFor(["id", 1, 2, "", "", null, false, true, "baidu", { sourceType: 'time-machine', isHidden: true }]), 'hidden');
+  assert.equal(categoryFor(["id", 1, 2, "", "", null, false, true, "baidu", { sourceType: 'time-machine', isHidden: false }]), 'time-machine');
   assert.equal(categoryFor({ isHidden: true }), 'hidden'); assert.equal(categoryFor({ sourceType: 'unknown' }), 'unknown'); assert.equal(categoryFor({ timeline: [{ year: 2000 }] }), 'regular');
 });
-test('countCategories returns displayCounts naming', () => { assert.deepEqual(countCategories([{ sourceType: 'hidden' }, { sourceType: 'time-machine' }, {}]), { regular: 1, hidden: 1, timeMachine: 1, unknown: 0, blue: 0, total: 3 }); });
+test('source labels and lookalike flags are not literal source markers', () => {
+  for (const isHidden of [false, undefined, null, 1, 'true']) {
+    assert.equal(categoryFor({sourceType:'hidden', isHidden, hasPano:true, Links:[], TimeLine:[]}), 'unknown');
+  }
+  assert.equal(categoryFor({id:'H', extras:{id:'other',isHidden:true, sourceType:'hidden'}}), 'unknown');
+  assert.equal(categoryFor({id:'H', sourceType:'hidden', links:[{id:'other',isHidden:true}]}), 'unknown');
+  assert.equal(categoryFor({isHidden:true, movementCount:5}), 'hidden');
+});
+test('countCategories returns displayCounts naming', () => { assert.deepEqual(countCategories([{ sourceType: 'hidden', isHidden:true }, { sourceType: 'time-machine' }, {}]), { regular: 1, hidden: 1, timeMachine: 1, unknown: 0, blue: 0, total: 3 }); });
 test('report aggregates province totals and preserves display count categories', () => {
   const result = aggregate([{ id:'1', province:'A', name:'One', count:10, displayCounts:{ regular:4, hidden:3, timeMachine:2, unknown:1, total:10 } }, { id:'2', province:'A', name:'Two', count:5, displayCounts:{ regular:5, hidden:0, timeMachine:0, unknown:0, total:5 } }, { id:'3', province:'B', name:'Three', count:2 }]);
   assert.deepEqual(result.total, { regular:11, hidden:3, timeMachine:2, unknown:1, total:17 });

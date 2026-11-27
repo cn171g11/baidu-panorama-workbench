@@ -56,7 +56,8 @@ test('retains a full independent originalRecord and future fields without mutati
   const row = normalizeXinjiangRecord(original, { sourceFile: 'fixtures/xinjiang.json', sourceSha256: SHA.toUpperCase() });
   assert.deepEqual(original, before);
   assert.deepEqual(row[9].extra.originalRecord, before);
-  assert.equal(row[9].sourceType, 'unknown');
+  assert.equal(row[9].sourceType, 'hidden');
+  assert.equal(row[9].isHidden,true);
   assert.equal(row[9].extra.sourceFile, 'fixtures/xinjiang.json');
   assert.equal(row[9].extra.sourceSha256, SHA);
   original.future.nested[1].value = 'changed';
@@ -65,6 +66,17 @@ test('retains a full independent originalRecord and future fields without mutati
   assert.deepEqual(row[9].tags, before.tags);
   row[9].tags.push('normalized-only');
   assert.deepEqual(row[9].extra.originalRecord.tags, before.tags);
+});
+
+test('only a literal, same-ID hidden flag classifies; tags and movement are not entry evidence', () => {
+  for(const flag of [undefined,false,'true',1,null]){
+    const raw=source({sourceType:'hidden',movementCount:5,tags:['hidden'],...(flag===undefined?{}:{isHidden:flag})});
+    const m=normalizeXinjiangRecord(raw,options)[9];
+    assert.equal(m.sourceType,'unknown');assert.notEqual(m.isHidden,true);assert.deepEqual(m.extra.originalRecord,raw);
+  }
+  const marked=source({isHidden:true,sourceType:'regular',movementCount:7});
+  assert.equal(normalizeXinjiangRecord(marked,options)[9].sourceType,'hidden');
+  for(const key of ['id','sid','panoid','streetViewId'])assert.throws(()=>normalizeXinjiangRecord({...marked,[key]:'not-the-subject'},options),/differs from panoId/);
 });
 
 test('preserves signed zero and numerical extremes that are valid metadata', () => {

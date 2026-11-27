@@ -4,6 +4,7 @@ import { fetchBytes, fetchJson, nextPaint } from './transfer.js';
 import { COUNTY_PARTITION, selectCountyFiles } from './county-data.js';
 import { captureInfo, enrichCapturedRow, panoidCaptured } from './panoid-time.js';
 import { categoryFor, countCategories } from './classification.js';
+import { embeddedSourceIsHidden } from './hidden-flag.js';
 import { parseImport, validateRows, filterRows, baiduPanoramaUrl, mergeRows } from './metadata.js';
 import { loadCatalog, loadCollection, saveLocalRows, loadLocalRows, clearLocalRows } from './data-store.js';
 import { createMap, renderMap, bindMapInteractions, highlightRow, fitRows, setBasemap, openRowPopup, closeRowPopup } from './map.js';
@@ -599,7 +600,8 @@ function showDetail(row, focusMap = true) {
     batchFields.push(['确认日期', extras.extra.classificationReviewedAt], ['更正依据', extras.extra.classificationReason], ['原归档分类', '隐藏（旧导入规则）']);
   }
   if (extras.extra?.sourceBatch === 'baidu-crawler-20261125' && extras.originalMetadataOnly === true) {
-    batchFields.push(['采集文件标注', extras.extra.originalRecord?.sourceType ?? '未标注'], ['入口审查', '待确认：仅有元数据，未逐条核验地图、日期及道路入口']);
+    const raw = extras.extra.originalRecord, marked = embeddedSourceIsHidden(row);
+    batchFields.push(['采集文件标注', (Array.isArray(raw)?raw[9]:raw)?.sourceType ?? '未标注'], ['隐藏分类依据', marked ? '同一 panoid 的原件记录有布尔 isHidden=true。隐藏指无法从官网蓝线点入，不代表不能沿道路移动；该批次为元数据记录，非逐点官网实测。' : '同一 panoid 的原件记录未提供布尔 isHidden=true，不据此标为隐藏。']);
     const a = extras.cityAssignment;
     if (a) {
       const method = ({'inside-polygon':'面内唯一匹配','nearest-boundary':'面外，按最近市界推定','overlap-nearest-boundary':'市界重叠，按最近边界推定'})[a.method] ?? '未提供';

@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import { readFile } from 'node:fs/promises';
 import { pathToFileURL } from 'node:url';
+import { sourceRecordIsHidden } from '../city-viewer/js/hidden-flag.js';
 
 const routes = ['map-entry', 'date-switch', 'date-option', 'arrow', 'panoid-url'];
 const results = ['reached', 'alternative', 'unavailable', 'error'];
@@ -35,15 +36,15 @@ function validateObservation(step, index) {
   }
 }
 
-export function auditPanoramaAccess(input) {
+export function auditPanoramaAccess(input, { manualById } = {}) {
   if (!input || input.schemaVersion !== 1 || !isId(input.panoid) || !isText(input.client) || !isText(input.checkedAt) || Number.isNaN(Date.parse(input.checkedAt)) || !Array.isArray(input.sessions)) {
     throw new Error('Expected schemaVersion 1, panoid, client, checkedAt and sessions');
   }
   const { panoid, client, checkedAt } = input;
   const entries = [], mapPaths = [], dateTrips = [], dateCandidates = [], dateSwitches = [], urlEntries = [], checkedRoutes = [], mapAttempts = [];
-  const incoming = [], outgoingArrows = [], oneWayCandidates = [], unresolved = [], missedMapDates = [], failedRoadReturns = [];
-  let observedAccess = false, ambiguousDates = false;
-  const optionCandidates=[], reverseDates=[], missedEntries=[], normalMissDates=[], normalMissArrows=[];
+  const incoming = [], outgoingArrows = [], oneWayCandidates = [], unresolved = [];
+  let ambiguousDates = false;
+  const optionCandidates=[], reverseDates=[];
   const sessions = new Set();
   for (const session of input.sessions) {
     if (!session || !isText(session.id) || sessions.has(session.id) || !Array.isArray(session.steps)) throw new Error('Invalid or duplicate session');
@@ -53,7 +54,7 @@ export function auditPanoramaAccess(input) {
     const regular = new Set(), regularClicks = new Set(), candidates = [], trips = [];
     let current, currentDate, mapRoot, atMapRoot = false, last, pendingDate;
     const supported = candidate => candidate.knownRegular || regularClicks.has(candidate.click);
-    const options=[], returning=[], sessionDateMiss=[], sessionArrowMiss=[];
+    const options=[], returning=[];
     for (const [index, step] of session.steps.entries()) {
       validateObservation(step, index);
       const ref = { ...step, session: session.id, step: index + 1 };
@@ -61,13 +62,11 @@ export function auditPanoramaAccess(input) {
       if (!step.from) { current = currentDate = mapRoot = pendingDate = last = undefined; atMapRoot = false; }
       if (step.route === 'date-switch' && step.dateBefore && currentDate && step.dateBefore !== currentDate) throw new Error(`Session ${session.id}, step ${index + 1}: dateBefore differs from previously observed date`);
       if (step.result === 'error' && (step.to === panoid || step.from === panoid)) unresolved.push(ref);
-      if (step.route !== 'panoid-url' && step.observed === panoid) observedAccess = true;
       if (step.route === 'map-entry') {
         mapAttempts.push(ref);
         if (step.result === 'reached' || step.result === 'alternative') mapRoot = ref;
         atMapRoot = step.result === 'reached';
         if (atMapRoot && step.observed === panoid) entries.push(ref);
-        if(step.to===panoid && negative(step))missedEntries.push(ref);
       } else if (step.route === 'panoid-url') {
         if (step.result === 'reached' && step.to === panoid) urlEntries.push(ref);
       } else if (step.route==='date-option') {
@@ -75,7 +74,6 @@ export function auditPanoramaAccess(input) {
         // Inspecting the list leaves the current panorama, selected date and pending outbound intact.
         continue;
       } else if (step.route === 'arrow') {
-        if(negative(step) && step.to===panoid && atMapRoot && mapRoot?.observed===step.from)sessionArrowMiss.push({...ref,click:mapRoot.step,knownRegular:regular.has(step.from)});
         if (step.result === 'reached') {
           if (step.from === panoid) outgoingArrows.push(ref);
           if (step.to === panoid) incoming.push(ref);
@@ -86,11 +84,9 @@ export function auditPanoramaAccess(input) {
         }
         if (negative(step) && last?.route === 'arrow' && last.result === 'reached' && last.from === step.to && last.to === step.from) {
           if (last.to === panoid) oneWayCandidates.push({ outbound: last, reverseAttempts: [ref] });
-          if (last.from === panoid) failedRoadReturns.push(ref);
         }
         atMapRoot = false; pendingDate = undefined;
       } else {
-        if(negative(step) && step.to===panoid && atMapRoot && mapRoot?.observed===step.from)sessionDateMiss.push({...ref,click:mapRoot.step,knownRegular:regular.has(step.from)});
         const reverse = pendingDate && step.from === pendingDate.to && step.to === pendingDate.from;
         if (step.result === 'reached') {
           dateSwitches.push(ref);
@@ -106,7 +102,6 @@ export function auditPanoramaAccess(input) {
           }
           currentDate = step.dateAfter;
         } else {
-          if (negative(step) && step.to === panoid && mapRoot?.to === panoid && mapRoot.result === 'alternative' && mapRoot.observed === step.from && last === mapRoot) missedMapDates.push(ref);
           pendingDate = undefined; atMapRoot = false;
         }
       }
@@ -118,21 +113,21 @@ export function auditPanoramaAccess(input) {
     dateCandidates.push(...candidates.filter(supported));
     optionCandidates.push(...options.filter(supported));
     reverseDates.push(...returning.filter(step=>regular.has(step.to)));
-    normalMissDates.push(...sessionDateMiss.filter(supported));normalMissArrows.push(...sessionArrowMiss.filter(supported));
     dateTrips.push(...trips.filter(([step]) => supported(step)));
   }
 
   const oneWayArrows = oneWayCandidates.filter(({outbound}) => !outgoingArrows.some(reverse => reverse.to === outbound.from));
-  const hiddenCandidate = urlEntries.length && !observedAccess && !unresolved.length && (missedMapDates.some(date => failedRoadReturns.some(road => road.from === date.from)) || (missedEntries.length && normalMissDates.length && normalMissArrows.length));
   const historyOnly = Array.isArray(input.history) && input.history.some(item => item?.panoid === panoid && explicitSourceHistory(panoid, item.extra));
   let category = 'unknown', status = unresolved.length ? 'access-error' : 'unknown';
-  if (mapPaths.length) { category = 'regular'; status = 'regular-confirmed'; }
-  else if (!entries.length && !ambiguousDates && dateTrips.length) { category = 'time-machine'; status = 'time-machine-roundtrip'; }
+  const manual = manualById?.get(panoid); // supplied by a trusted caller, not the observation file
+  let basis;
+  if (manual) ({category,status,basis} = manual);
+  else if (!ambiguousDates && dateTrips.length) { category = 'time-machine'; status = 'time-machine-roundtrip'; }
+  else if (sourceRecordIsHidden(input.originalRecord, panoid)) { category = 'hidden'; status = basis = 'source-isHidden-true'; }
+  else if (mapPaths.length) { category = 'regular'; status = 'regular-confirmed'; }
   else if (!entries.length && !ambiguousDates && (dateCandidates.length || reverseDates.length)) { category = 'time-machine'; status = 'time-machine-one-way'; }
-  else if (!entries.length && oneWayArrows.length) { category = 'time-machine'; status = 'time-machine-one-way'; }
   else if (!entries.length && !ambiguousDates && (historyOnly || optionCandidates.length)) { category = 'time-machine'; status = 'time-machine-history-only'; }
-  else if (hiddenCandidate) status = 'hidden-candidate';
-  return { panoid, client, checkedAt, category, status, evidence: { entries, mapPaths, dateTrips, dateCandidates, reverseDates, optionCandidates, dateSwitches, urlEntries, checkedRoutes, mapAttempts, incoming, outgoingArrows, oneWayArrows, unresolved } };
+  return { panoid, client, checkedAt, category, status, ...(basis ? {basis} : {}), evidence: { entries, mapPaths, dateTrips, dateCandidates, reverseDates, optionCandidates, dateSwitches, urlEntries, checkedRoutes, mapAttempts, incoming, outgoingArrows, oneWayArrows, unresolved } };
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {

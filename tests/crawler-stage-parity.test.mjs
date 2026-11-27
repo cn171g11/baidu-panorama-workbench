@@ -55,6 +55,9 @@ async function fixture(t) {
 test('one-to-one content parity: exact legacy owner observation, new rows, independent geometry, links, SHA and empty source',async t=>{
   const f=await fixture(t), {opts,expected}=f, baseBefore=await treeSig(opts.dataRoot), stageBefore=await treeSig(opts.stageRoot);
   const r=await checkCrawlerStage(opts,expected);
+  const [primary]=await read(f.oldPath);
+  assert.equal(primary[9].sourceType,'hidden');assert.equal(primary[9].isHidden,true);assert.deepEqual(primary.slice(1,3),[1,2]);
+  assert.equal(primary[9].observations.at(-1).variant[9].originalMetadataOnly,true);
   assert.deepEqual(await read(opts.output),r);
   assert.deepEqual([r.verified,r.rawRecords,r.matchedRows,r.uniquePanoids,r.existingObservations,r.existingIds,r.ownerMismatches,r.exactDuplicates,r.zeroRowFiles],[true,3,3,2,1,1,1,1,1]);
   assert.deepEqual(r.cities,{[f.a]:{name:'City '+f.a,added:1,merged:1},[f.z]:{name:'City '+f.z,added:1,merged:0}});
@@ -73,7 +76,7 @@ test('changes cannot pass even with a newly computed importer signature and unch
     ['source origin changed',f.newPath,rows=>{rows[0][9].extra.originalRecord.extra.untouched[1]=42;},/Original record/],
     ['primary coordinates drift',f.newPath,rows=>{rows[0][1]+=0.001;},/Canonical BD-09/],
     ['vehicle or ZIP invented',f.newPath,rows=>{rows[0][9].extra.sourceZipSha256='f'.repeat(64);},/Vehicle, ZIP/],
-    ['new classification upgraded',f.newPath,rows=>{rows[0][9].sourceType='hidden';},/metadata-only/],
+    ['literal source flag ignored',f.newPath,rows=>{rows[0][9].sourceType='unknown';},/metadata-only/],
     ['timeline substituted for absent links',f.oldPath,rows=>{rows[2][9].links=rows[2][9].timeLine;},/timeline\/links/],
     ['source ID replaced',f.newPath,rows=>{rows[0][9].sourceId='same-name@wrong-digest';},/identity/],
     ['city distance changed',f.oldPath,rows=>{rows[0][9].observations.at(-1).variant[9].cityAssignment.distance=0;},/assignment differs/],

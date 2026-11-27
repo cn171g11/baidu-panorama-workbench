@@ -1,6 +1,7 @@
 {
   "date": "2026-11-25",
   "auditBatch": "hidden-mobility-audit-2026-11-25",
+  "classificationUse": "历史快照：本报告记录的是当时的移动性元数据，不是现行隐藏分类依据。现行口径按同一 ID 的原始布尔 isHidden 与既有人工/官网改判；隐藏可以移动。",
   "scope": "all archived rows currently sourceType=hidden",
   "method": "archived metadata: non-self links are accepted only when independent of a copied timeLine field; movementCount; timeLine; no image download",
   "limitation": "初始移动性审查基于归档元数据，没有逐条点击百度官网箭头；随后图木舒克市 659003 的 11,796 条由用户逐条核验为常规街景，属于独立的用户复核分类纠正。",

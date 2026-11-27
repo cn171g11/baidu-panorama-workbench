@@ -1,6 +1,7 @@
 import { createHash } from 'node:crypto';
 import { convertCoordinate } from '../../city-viewer/js/coordinates.js';
 import { validateRows } from '../../city-viewer/js/metadata.js';
+import { sourceRecordIsHidden } from '../../city-viewer/js/hidden-flag.js';
 import { validCaptured } from '../../city-viewer/js/panoid-time.js';
 
 const DEFAULT_SOURCE_FILE = 'baidu-xinjiang-20261025/points.json';
@@ -43,6 +44,7 @@ export function normalizeXinjiangRecord(record, { sourceFile = DEFAULT_SOURCE_FI
   requireObject(record, 'Record');
   if (record.source !== 'baidu_pano') throw new TypeError('Record source must be exactly baidu_pano');
   if (typeof record.panoId !== 'string' || !/^[\x21-\x7e]{27}$/.test(record.panoId)) throw new TypeError('panoId must be a 27-character printable ASCII string');
+  for (const key of ['id','sid','panoid','streetViewId']) if (own(record,key) && record[key] !== record.panoId) throw new TypeError('Record ID differs from panoId');
   if (own(record, 'coordinateSystem') && record.coordinateSystem !== SOURCE_COORDINATE_SYSTEM) throw new TypeError('Record coordinateSystem conflicts with declared WGS84 source');
   for (const field of ['heading', 'pitch', 'zoom']) {
     if (!Number.isFinite(record[field])) throw new TypeError(`${field} must be a finite number`);
@@ -55,7 +57,8 @@ export function normalizeXinjiangRecord(record, { sourceFile = DEFAULT_SOURCE_FI
   const captured = validCaptured(record.captured) ? record.captured : validCaptured(record.imageDate) ? record.imageDate : '';
   const extras = {
     source: 'baidu_pano',
-    sourceType: 'unknown', // An export alone does not establish hidden/regular classification.
+    sourceType: sourceRecordIsHidden(record,record.panoId) ? 'hidden' : 'unknown',
+    ...(own(record, 'isHidden') && typeof record.isHidden === 'boolean' ? {isHidden: record.isHidden} : {}),
     pitch: record.pitch,
     zoom: record.zoom,
     tags: [...record.tags],

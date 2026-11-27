@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 1,
+  "asOf": "2026-11-27",
+  "idFingerprint": "SHA-256 over unique primary panoids, ASCII ascending, one LF after every ID (including last)",
+  "manualTimeMachine": {
+    "basis": "user-directed-time-machine",
+    "reviewDate": "2026-11-23T13:01:44.127Z",
+    "reviewReason": "user-directed reclassification of hidden rows to time-machine",
+    "previousSourceType": "hidden",
+    "reference": "config/release-notes.json: 2026-11-23, 192 Nanjing and 41 Lhasa Chengguan rows reclassified without adding points.",
+    "cities": {
+      "320100": { "scope": "南京市全部区", "vehicleId": "010-5D", "sourceFile": "baidu-010-0000-5D-crawler-results.json", "sourceSha256": "15df3cbddd8890a082c1f98f1eacec9cdb21b640a228fa63c8e845edd79da82e", "sourceIsHidden": true, "count": 192, "idsSha256": "b1a5b7a913350b56f515daefc94fc9f1aaa43de399221c0503c7eccf21e051f3" },
+      "540100": { "scope": "拉萨市城关区", "vehicleId": "010-5B", "sourceFile": "baidu-010-0000-5B-crawler-results.json", "sourceSha256": "42a9a3dea9b98ecf8edea7541fa6f613c77cb4da99146e1fda09e23af1cb4539", "sourceIsHidden": true, "count": 41, "idsSha256": "5d780e694fec15dade28d0c1c88eed52800e26abc02f967f75da485ee64cb387" }
+    }
+  },
+  "binzhou": {
+    "city": "371600", "basis": "binzhou-user-confirmed-source",
+    "sourceFile": "百度滨州.json", "sourceSha256": "7dbfdcd80d11f22d2a446f4965e96d0531aba4fa23ae1148bdf3795cd15e79cc", "sourceRows": 7586,
+    "sourceIsHidden": true, "count": 7418, "idsSha256": "4e84358d089bf2f278361836df5a24dac9dea56b837a8f242cebfb6dee6c1942",
+    "reference": "docs/panorama-access-audit.md: fixed first batch only; excluding 21 later hidden rows"
+  },
+  "alxa": {
+    "city": "152900", "basis": "alxa-user-directed-hidden-batch",
+    "sourceFile": "6Z.json", "sourceSha256": "95661cd396011fd7d341cfebd839dc30109054d800ca5d176140cba19a6103f4", "sourceIsHidden": "missing",
+    "count": 216, "idsSha256": "0c9be9114da791c793e572da3a7b4345110b12d92a730ce9ad39a73f7412069f",
+    "decisionRecord": { "file": "tools/merge_alxa_hidden.mjs", "sha256": "f9a187c32ba566cc4f46f98aa7975ed21d1ddc9cae146cac802f6a4f04950bb0", "excerpt": "the user confirmed that label is to be archived as hidden coverage, not guessed.", "corroboratingImportReportSha256": "599bc034d618dbbaa808642ac71e14aad3dfbbf8a1b5cd6b56a7ee45c33c4c06" },
+    "reference": "tools/merge_alxa_hidden.mjs:58-62 documents user-confirmed archive treatment of this export; 61934935989122e977301d7f5fc4f913e5aa4f81. Neither a literal source boolean nor per-ID browser tests."
+  },
+  "xinxiang": {
+    "city": "410700", "basis": "xinxiang-user-directed-hidden", "panoid": "01028400001406121604545075A",
+    "sourceFile": "baidu-010-0000-5A-crawler-results (1).json", "sourceSha256": "71355a7775d302a0da94fb4c3e8648d6ee4daf6f28c3b43036e0384e966315e4", "sourceIsHidden": true,
+    "count": 1, "idsSha256": "c22ce00ddd45e84abe069c078bed2cc68d8510becc8c423943c1483379efc110", "reference": "history.md:19; dist/crawler-batch-20261122/report.json:userConfirmed"
+  },
+  "tumushuke": {
+    "city": "659003", "basis": "tumushuke-user-confirmed-source", "reviewDate": "2026-11-25",
+    "sourceBatch": "baidu-supplement-20261123", "sourceZipSha256": "838b229ed9ce2d54e3659edede934d9bf7b3b4547700e9f48f2582683dac769b",
+    "reviewReasons": ["user individually verified Tumushuke primary panoramas as regular street-view", "用户逐条核验图木舒克市全部街景为常规街景"],
+    "count": 11796, "idsSha256": "f1960ab07f9cf3928d2a3157a97a08093dea9be6a0c2b175e10f45fdb64b01e6", "reference": "config/release-notes.json:v1.9.0; 8743 formerly hidden plus 3053 formerly time-machine, including 1461 historical references."
+  },
+  "overlap": {
+    "basis": "supp23-overlap-user-confirmed", "receipt": "config/reviews/supp23-hidden-overlap.json", "total": 150762, "idSetSha256": "e58401a855f770dc7acb9d9dbf90c4a1ec23faa7630c2b1de4e833d8cf0941f1"
+  },
+  "official": {
+    "city": "371600", "basis": "binzhou-official-browser", "client": "Baidu Maps desktop web, Edge headless, 500×320", "checkedAt": "2026-11-25T23:15:48+08:00",
+    "observation": "dist/access-binzhou-observations.json", "observationSha256": "be9c3f03cb14cb3e2c1dd3e05ef66aa95440db8cfa5ca90ed2e67de3292ad0d9",
+    "session": "binzhou-road-entry", "reference": "docs/panorama-access-audit.md, 黄河十路: map entry, same-location outbound and return, then actual road clicks.",
+    "decisions": {
+      "09017800011603201325323725N": { "category": "regular", "status": "regular-confirmed", "observedDate": "2016-03", "primaryAtReview": true },
+      "09017800001409051038442536J": { "category": "time-machine", "status": "time-machine-roundtrip", "observedDate": "2014-09", "primaryAtReview": false }
+    }
+  }
+}

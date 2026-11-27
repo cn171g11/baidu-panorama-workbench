@@ -7,6 +7,8 @@ import path from 'node:path';
 import { DatabaseSync } from 'node:sqlite';
 import { pathToFileURL } from 'node:url';
 import { validateRows } from '../city-viewer/js/metadata.js';
+import { embeddedSourceHiddenFlag, sourceRecordHiddenFlag, sourceRecordIsHidden } from '../city-viewer/js/hidden-flag.js';
+import { protectedDecision } from './hidden_review_protections.mjs';
 import { fileFingerprint, streamRows } from './stream_rows.mjs';
 import { validateCatalog } from './validate_data.mjs';
 import { streamCrawlerRecords, streamMappingLines } from './crawler_input_stream.mjs';
@@ -50,12 +52,14 @@ function canonical(raw, place, input) {
   ensure(isId(id), 'record panoId missing or invalid');
   const lng = array ? raw[1] : raw.lng, lat = array ? raw[2] : raw.lat;
   ensure(Number.isFinite(lng) && Math.abs(lng)<=180 && Number.isFinite(lat) && Math.abs(lat)<=90,'record coordinates invalid');
-  for (const alias of ['sid','id']) if (!array && Object.hasOwn(raw,alias)) ensure(raw[alias]===id, `crawler ${alias} differs from panoId`);
+  const identity=array ? raw[9] : raw;
+  for (const alias of ['panoId','panoid','sid','id','streetViewId']) if (identity && Object.hasOwn(identity,alias)) ensure(identity[alias]===id, `crawler ${alias} differs from panoId`);
   if (!array) ensure(['baidu','baidu_pano'].includes(raw.source), 'Non-Baidu or missing crawler source');
   const sourceRow=array ? validateRows([raw])[0] : [id,lng,lat,raw.roadName ?? '',raw.imageDate ?? '',raw.heading ?? null,false,true,'baidu'];
   const sourceMeta=array ? sourceRow[9] ?? {} : raw;
   const vehicle = /^baidu-(\d{3})-\d{4}-([A-Z0-9]{2})-crawler-results\.json$/i.exec(input.name);
-  const m = {source:array ? sourceMeta.source ?? 'baidu' : raw.source, sourceType:'unknown',isHidden:false,originalMetadataOnly:true,
+  const marked = sourceRecordIsHidden(raw,id);
+  const m = {source:array ? sourceMeta.source ?? 'baidu' : raw.source, sourceType:marked?'hidden':'unknown',isHidden:marked,originalMetadataOnly:true,
     sourceFile:input.name,sourceId:input.sourceId,cityAssignment:place,
     links:sourceMeta.links ?? [],
     extra:{originalRecord:raw, sourceBatch:BATCH, crawlerSource:input.name, ...(input.containerSha256 ? {sourceZipSha256:input.containerSha256} : {}), inputCoordinateSystem:'BD-09', ...(vehicle ? {vehicleId:`${vehicle[1]}-${vehicle[2]}`} : {})}};
@@ -168,7 +172,7 @@ export async function importCrawler({mapping,mappingFile,files,outputRoot,existi
     if(mappingFile&&strict)ensure(!db.prepare('SELECT 1 FROM map WHERE used=0 LIMIT 1').get(),'Unused assignment in strict batch');
     // Resolve archived collisions once in source order. Compare original payloads, not their routing or filenames.
     let resolved=0;
-    function mergeObservations(row, archived) {
+    function mergeObservations(row, archived, city) {
       let observations, addedBytes=byteCount(JSON.stringify(row));
       const priors=new Set();const meta=row[9]??{};
       if(archived){const prior=meta.extra?.originalRecord??meta.originalRecord??row;priors.add(fingerprint(prior));}
@@ -180,12 +184,23 @@ export async function importCrawler({mapping,mappingFile,files,outputRoot,existi
         (observations??=[]).push({source:summaries[item.fileNum].name,sourceFile:summaries[item.fileNum].name,sourceId:item.sourceId,rawSha256:item.fp,variant:JSON.parse(item.row)});
         if(archived)stats.existingObservations++;
       }
-      if(observations)row[9]={...meta,observations:[...observed,...observations]};
+      if(observations){
+        // The owner and its coordinates never move. Protected reviews and an explicit
+        // primary source boolean outrank other observations, including contrary flags.
+        const protectedPrimary=protectedDecision(row,city);
+        row[9]={...meta,observations:[...observed,...observations]};
+        if(!protectedPrimary){
+          const flag=embeddedSourceHiddenFlag(row);
+          const hasNewBoolean=observations.some(o=>sourceRecordHiddenFlag(o.variant[9].extra.originalRecord,row[0])!==undefined);
+          ensure(flag!==undefined||!hasNewBoolean,'Conflicting or unbound source hidden flags for '+row[0]);
+          if(flag===true){row[9].sourceType='hidden';row[9].isHidden=true;}
+        }
+      }
       const text=JSON.stringify(row);ensure(byteCount(text)<=ROW_LIMIT,'Rewritten row above the 1 MiB archive row wall (90 MiB wall guard)');return text;
     }
     const findObs=db.prepare('SELECT 1 FROM obs WHERE id=? LIMIT 1');
     if(er&&stats.existingIds){db.exec('BEGIN');for(const c of base.collections){if(!oldCityHasObs.get(c.id))continue;for(const rel of c.files){
-      for await(const {row} of streamRows(path.join(er,rel))){if(!findObs.get(row[0]))continue;addEdit.run(row[0],mergeObservations(row,true));touchedFiles.add(rel);}
+      for await(const {row} of streamRows(path.join(er,rel))){if(!findObs.get(row[0]))continue;addEdit.run(row[0],mergeObservations(row,true,c.id));touchedFiles.add(rel);}
     }}db.exec('COMMIT');}
     ensure(resolved===stats.existingIds,'Archive owner lookup disagrees with verified shards');
     // Materialise repeats of newly added points only; the normal (unique) case never re-parses the row.

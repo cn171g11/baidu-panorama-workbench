@@ -15,6 +15,13 @@ test("normalizes customCoordinates while preserving source extras and no inferre
   assert.equal(row[9].source, "baidu_pano"); assert.equal(row[9].pitch, 1); assert.equal(row[9].zoom, 2); assert.equal(row[9].extra.imageDate, "2024-02-29"); assert.equal(row[4], "2024-02-29");
 });
 
+test('customCoordinates preserves the explicit same-record hidden flag and does not infer one',()=>{
+  const adapt=v=>normalizeRecord({...raw('A'),...v},{coordinateSystem:'BD-09'})[9];
+  assert.equal(adapt({isHidden:true,movementCount:4}).sourceType,'hidden');assert.equal(adapt({isHidden:true}).isHidden,true);
+  assert.equal(adapt({sourceType:'hidden',isHidden:'true'}).sourceType,'unknown');assert.equal(adapt({sourceType:'hidden',isHidden:false}).isHidden,false);
+  assert.equal(adapt({links:['B']}).isHidden,undefined);
+});
+
 test("disk index separates identical and differing payloads", async t => {
   const dir = await mkdtemp(path.join(os.tmpdir(), "baidu-index-")); t.after(() => rm(dir, { recursive: true, force: true }));
   const index = openUniqueIndex(path.join(dir, "ids.sqlite"));

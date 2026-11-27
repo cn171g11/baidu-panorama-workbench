@@ -12,6 +12,8 @@ import { publishCountyCity } from './counties/publish.mjs';
 import { COUNTY_PARTITION, validateCountyCatalog } from '../city-viewer/js/county-data.js';
 import {newCaptureSummary,PANOID_TIME_ENCODING} from '../city-viewer/js/panoid-time.js';
 import {categoryFor} from '../city-viewer/js/classification.js';
+import {embeddedSourceIsHidden} from '../city-viewer/js/hidden-flag.js';
+import { verifyHiddenCitySet } from './verified_source_hidden.mjs';
 import { validateRows } from '../city-viewer/js/metadata.js';
 import { streamRows, fileFingerprint } from './stream_rows.mjs';
 
@@ -89,12 +91,55 @@ export async function readRegularOverrides(root,{optional=false}={}) {
   return overrides;
 }
 
-export function supplementaryRow(row,override) {
+const SOURCE_HIDDEN_POLICY='source-isHidden-boolean-v1';
+export function sourcePolicyForSnapshot(notes,receipt){
+  const release=notes?.releases?.find(r=>Object.hasOwn(r,'hiddenPolicy'));
+  const version=notes?.current?.version;
+  const [major,minor]=String(version??'').split('.').map(Number);
+  const needsPolicy=major>1||major===1&&minor>=11;
+  if(!release){
+    if(needsPolicy)throw Error('Missing source hidden policy declaration');
+    return null;
+  }
+  if(!needsPolicy||notes.releases[0]?.version!==version)throw Error('Source hidden policy and snapshot version disagree');
+  const policy=release.hiddenPolicy;
+  if(!policy||policy.policy!==SOURCE_HIDDEN_POLICY||receipt?.policy!==policy.policy||receipt?.state!=='verified'||receipt.schemaVersion!==1)throw Error('Unknown or unverified source hidden policy');
+  if(!Number.isSafeInteger(policy.hiddenCount)||policy.hiddenCount<0||policy.hiddenCount!==receipt.hiddenCount)throw Error('Source hidden policy count mismatch');
+  const object=v=>v!==null&&typeof v==='object'&&!Array.isArray(v);
+  if(!object(receipt.cities)||!object(receipt.crawlerHiddenCounts)||!object(receipt.retainedUnknownIds))throw Error('Incomplete source hidden receipt');
+  let count=0;
+  for(const [city,v] of Object.entries(receipt.cities)){
+    if(!CITY_ID.test(city)||!Number.isSafeInteger(v?.count)||v.count<1||!/^[a-f0-9]{64}$/.test(v.idsSha256))throw Error('Invalid source hidden city receipt: '+city);
+    count+=v.count;
+  }
+  if(count!==receipt.hiddenCount)throw Error('Source hidden receipt city counts differ from total');
+  for(const [city,n] of Object.entries(receipt.crawlerHiddenCounts))if(!CITY_ID.test(city)||!Number.isSafeInteger(n)||n<1||n>(receipt.cities[city]?.count??0))throw Error('Invalid crawler hidden count: '+city);
+  // Full reconciliation found zero previously published IDs demoted to unknown. No generic override.
+  if(Object.keys(receipt.retainedUnknownIds).length)throw Error('Unexpected retained unknown IDs');
+  return receipt;
+}
+export function crawlerAdditions(notes,policy){
+  const release=notes.releases.find(r=>r.version==='1.10.0'), counts=new Map();
+  if(!Array.isArray(release?.cityAdditions)||!Number.isSafeInteger(release.importCounts?.uniquePanoids))throw Error('Missing 11.25 primary counts');
+  for(const {id,added} of release.cityAdditions){
+    if(!CITY_ID.test(id)||!Number.isSafeInteger(added)||added<0||counts.has(id))throw Error('Invalid crawler city addition: '+id);
+    counts.set(id,added);
+  }
+  if([...counts.values()].reduce((a,b)=>a+b,0)!==release.importCounts.uniquePanoids)throw Error('Crawler addition totals differ');
+  for(const [id,n] of Object.entries(policy.crawlerHiddenCounts))if(n>(counts.get(id)??0))throw Error('Crawler hidden exceeds city additions: '+id);
+  return counts;
+}
+export function supplementaryRow(row,override,policy=null) {
   const category=categoryFor(row), m=row?.[9], x=m?.extra;
   const batch=x?.sourceBatch??m?.sourceBatch;
   const metadataOnly=m?.originalMetadataOnly===true||x?.originalMetadataOnly===true;
-  if(batch===METADATA_ONLY_SOURCE_BATCH)return metadataOnly&&category==='unknown'&&m?.sourceType==='unknown'&&m?.isHidden!==true;
-  if(['hidden','time-machine'].includes(category))return true;
+  if(batch===METADATA_ONLY_SOURCE_BATCH){
+    if(!metadataOnly)return false;
+    const marked=!!policy && embeddedSourceIsHidden(row);
+    return marked ? category==='hidden'&&m?.sourceType==='hidden'&&m?.isHidden===true : category==='unknown'&&m?.sourceType==='unknown'&&m?.isHidden!==true;
+  }
+  if(category==='hidden')return !policy || m?.sourceType==='hidden'&&m.isHidden===true;
+  if(category==='time-machine')return true;
   if(category!=='regular'||metadataOnly||!override)return false;
   if(override.reviewId===overlapReview.reviewId)return isOverlapReview(row,override.city);
   return override.city===TUMUSHUKE&&m?.sourceType==='regular'&&!Object.hasOwn(m,'isHidden')&&x?.sourceBatch===override.sourceBatch&&x.sourceZipSha256===overlapReview.sourceZipSha256&&
@@ -145,6 +190,10 @@ export async function publishPages({root=PROJECT_ROOT,output='dist/pages',commit
   if(!all&&config.cities.some(city=>typeof city!=='string'||!CITY_ID.test(city)))throw Error('Pages city IDs must be six-digit strings');
   for(const key of ['hiddenOnly','countyShards','domesticSupplementOnly'])if(config[key]!==undefined&&typeof config[key]!=='boolean')throw Error(key+' must be a boolean');
   const supplementOnly=config.domesticSupplementOnly===true;
+  const notes=supplementOnly&&await readConfigJSON(root,'release-notes.json',!!selection&&root!==PROJECT_ROOT);
+  const declared=notes?.releases?.some(r=>Object.hasOwn(r,'hiddenPolicy'));
+  const sourcePolicy=sourcePolicyForSnapshot(notes,declared?await readConfigJSON(root,'reviews/source-hidden-flags.json'):null);
+  const batchByCity=sourcePolicy?crawlerAdditions(notes,sourcePolicy):null;
   const overseasIds=config.overseasSourceCities;
   const regularOverrides=await readRegularOverrides(root,{optional:!!selection&&root!==PROJECT_ROOT});
   if(supplementOnly&&(all||config.hiddenOnly!==undefined||config.hiddenOnlyCities!==undefined))throw Error('domesticSupplementOnly requires an explicit city list without hiddenOnly settings');
@@ -190,7 +239,7 @@ export async function publishPages({root=PROJECT_ROOT,output='dist/pages',commit
   const hiddenOnlyCities=config.hiddenOnlyCities===undefined?null:new Set(config.hiddenOnlyCities);
   const cityHiddenOnly=id=>hiddenOnly&&(hiddenOnlyCities===null||hiddenOnlyCities.has(id));
   const isOverseas=id=>overseas?.id===id;
-  const rowFilterFor=id=>cityHiddenOnly(id)?(row=>categoryFor(row)==='hidden'):supplementOnly&&!isOverseas(id)?(row=>supplementaryRow(row,regularOverrides.get(id))):null;
+  const rowFilterFor=id=>cityHiddenOnly(id)?(row=>categoryFor(row)==='hidden'):supplementOnly&&!isOverseas(id)?(row=>supplementaryRow(row,regularOverrides.get(id),sourcePolicy)):null;
   const selectionFor=id=>cityHiddenOnly(id)?'hidden-only':supplementOnly&&!isOverseas(id)?(regularOverrides.has(id)?'supplement-with-reviewed-regular-and-batch-unknown':'hidden-time-machine-and-batch-unknown'):'all';
   // First create only the already-whitelisted app and its verified national asset descriptors.
   // An isolated output is used by CLI/CI; the caller uploads only after all checks below succeed.
@@ -229,12 +278,21 @@ export async function publishPages({root=PROJECT_ROOT,output='dist/pages',commit
       const cityFilter=rowFilterFor(city.id);
       if(!cityFilter)continue;
       const totals={count:0,bounds:null};
+      const hiddenIds=[];let crawlerRows=0,crawlerHidden=0;
       const override=supplementOnly&&regularOverrides.get(city.id);
       const gate=override?reviewedRegularGate(override):null;
       for(const source of city.sourceFiles){
         const hash=createHash('sha256');let bytes=0;
         for await(const {row:input} of streamRows(path.join(root,'data',source.path),{onChunk(chunk){bytes+=chunk.length;hash.update(chunk);}})){
           const row=validateRows([input])[0];if(!cityFilter(row))continue;
+          if(sourcePolicy){
+            const kind=categoryFor(row), m=row[9];
+            if(kind==='hidden'){
+              if(hiddenIds.length>=(sourcePolicy.cities[city.id]?.count??0))throw Error('Too many source hidden IDs: '+city.id);
+              hiddenIds.push(row[0]);
+            }
+            if((m?.extra?.sourceBatch??m?.sourceBatch)===METADATA_ONLY_SOURCE_BATCH){crawlerRows++;if(kind==='hidden')crawlerHidden++;}
+          }
           totals.bounds=mergeBounds(totals.bounds,[row[1],row[2],row[1],row[2]]);
           totals.count++;
           gate?.observe(row);
@@ -242,6 +300,10 @@ export async function publishPages({root=PROJECT_ROOT,output='dist/pages',commit
         if(bytes!==source.bytes||hash.digest('hex')!==source.sha256)throw Error('Source changed during publication selection: '+source.path);
       }
       gate?.finish();
+      if(sourcePolicy){
+        verifyHiddenCitySet(city.id,hiddenIds,sourcePolicy);
+        if(crawlerRows!==(batchByCity.get(city.id)??0)||crawlerHidden!==(sourcePolicy.crawlerHiddenCounts[city.id]??0))throw Error('Published 11.25 primary scope differs: '+city.id);
+      }
       city.count=totals.count;city.bounds=totals.bounds;
       city.summary={sourceFiles:totals.count?1:0,rawRecords:totals.count,uniquePanoids:totals.count,exactDuplicates:0,differingDuplicates:0,invalidRecords:0,scope:'published-rows',selection:selectionFor(city.id)};
       if(supplementOnly)delete city.sources;

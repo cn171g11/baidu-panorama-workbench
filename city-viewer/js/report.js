@@ -1,14 +1,17 @@
 import { loadCatalog } from './data-store.js';
 import { validatePublicAudit } from './streetview-audit.js';
 
-export function auditBreakdown(group) {
+export function auditBreakdown(group, schemaVersion = 3) {
   const num=n=>(n??0).toLocaleString('zh-CN');
   const source=group.bySource, status=group.byStatus;
   return [
-    `显式来源标签：隐藏 ${num(source.hidden)} · 时光机 ${num(source['time-machine'])} · 常规 ${num(source.regular)} · 待确认 ${num(source.unknown)} · 未标注 ${num(source.missing)}。`,
-    `入口审查：确认常规 ${num(status['regular-confirmed'])} · 人工确认隐藏 ${num(status['user-confirmed-hidden'])} · 日期往返 ${num(status['time-machine-roundtrip'])} · 单向证据 ${num(status['time-machine-one-way'])} · 仅历史引用 ${num(status['time-machine-history-only'])}。`,
-    ...(group.byBasis?.['supp23-overlap-user-confirmed'] ? [`确认常规中，有 ${num(group.byBasis['supp23-overlap-user-confirmed'])} 条来自 11.23 补充包隐藏交集的人工确认，不是本次官网逐点操作。`] : []),
-    `未能定类：证据不足 ${num(status.unknown)} · 隐藏候选 ${num(status['hidden-candidate'])} · 访问错误 ${num(status['access-error'])}。`,
+    `来源分类字段 sourceType：隐藏 ${num(source.hidden)} · 时光机 ${num(source['time-machine'])} · 常规 ${num(source.regular)} · 待确认 ${num(source.unknown)} · 未标注 ${num(source.missing)}。`,
+    ...(schemaVersion===2 ? ['历史快照（v1.10.1 旧口径），未按原件 isHidden 布尔值重算，不能作为当前隐藏统计。'] : [
+      `隐藏：原件 isHidden 为布尔 true ${num(status['source-isHidden-true'])} · 已有人工确认 ${num(status['user-confirmed-hidden'])}。这两类不重复计数，不表示本次逐条检查官网蓝线。`,
+      `时光机：已有人工改判 ${num(status['time-machine-manual-confirmed'])} · 官网日期往返 ${num(status['time-machine-roundtrip'])} · 单向证据 ${num(status['time-machine-one-way'])} · 仅历史引用 ${num(status['time-machine-history-only'])}。`,
+    ]),
+    `确认常规 ${num(status['regular-confirmed'])} · 证据不足 ${num(status.unknown)} · 访问错误 ${num(status['access-error'])}。`,
+    ...(group.byBasis?.['supp23-overlap-user-confirmed'] ? [`确认常规中，有 ${num(group.byBasis['supp23-overlap-user-confirmed'])} 条来自 11.23 补充包交集的人工确认，不是本次官网逐点操作。`] : []),
   ];
 }
 import { newCaptureSummary } from './panoid-time.js';
@@ -131,7 +134,7 @@ if(typeof document!=='undefined')try{
       validatePublicAudit(audit,catalog.publication?.sourcePanoids??catalog.total);
       for(const [key,label] of [['catalog','全国归档主记录'],['uploads','11.25 本批原始输入']]){
         const s=audit[key],heading=document.createElement('h3');heading.textContent=`${label}：${number(s.rows)} 条`;auditBody.append(heading);
-        for(const line of auditBreakdown(s)){const p=document.createElement('p');p.className='report-note';p.textContent=line;auditBody.append(p);}
+        for(const line of auditBreakdown(s,audit.schemaVersion)){const p=document.createElement('p');p.className='report-note';p.textContent=line;auditBody.append(p);}
       }
       auditSection.hidden=false;auditSection.dataset.ready='true';
     }

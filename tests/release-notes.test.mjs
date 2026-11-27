@@ -22,7 +22,13 @@ test('release notes are versioned, ordered, and shipped with the site', async ()
     assert(Array.isArray(release.changes) && release.changes.length > 0);
     assert(release.changes.every(change => typeof change === 'string' && change.trim()));
   }
-  const review = notes.releases[0];
+  const policy = notes.releases.find(r=>r.hiddenPolicy?.policy==='source-isHidden-boolean-v1');
+  const flagReceipt = JSON.parse(await readFile(path.join(root,'config/reviews/source-hidden-flags.json'),'utf8'));
+  const currentAudit = JSON.parse(await readFile(path.join(root,'config/streetview-audit.json'),'utf8'));
+  assert.equal(policy.version,'1.11.0'); assert.deepEqual(policy.cityAdditions,[]);
+  assert.equal(policy.hiddenPolicy.hiddenCount,flagReceipt.hiddenCount); assert.equal(policy.hiddenPolicy.idsSha256,flagReceipt.idsSha256);
+  assert.equal(policy.hiddenPolicy.changed,265060); assert.equal(policy.auditCounts.catalog.byCategory.hidden,currentAudit.catalog.byCategory.hidden);
+  const review = notes.releases.find(r=>r.version==='1.10.1');
   const receipt = JSON.parse(await readFile(path.join(root,'config/reviews/supp23-hidden-overlap.json'),'utf8'));
   assert.equal(review.version,'1.10.1'); assert.deepEqual(review.cityAdditions,[]);
   assert.deepEqual(review.classificationReview,{reviewId:receipt.reviewId,previous:'hidden',current:'regular',count:150762,idSetSha256:receipt.idSetSha256,cityCount:20});

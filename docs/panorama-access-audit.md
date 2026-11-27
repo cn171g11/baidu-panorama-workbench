@@ -1,19 +1,15 @@
-# 百度街景入口审查
+# 百度街景分类依据与官网入口记录
 
-街景类型取决于用户如何到达目标全景。道路移动性单独记录。每次审查以一个目标 `panoid` 为单位，记录客户端、时间和实际操作后显示的全景 ID。
+**“隐藏”指不能从官网蓝线入口点入，不表示不能沿路移动。** 未经人工改判的点按该 ID 的原件 `isHidden === true` 确认隐藏。这不是本站逐点点击官网所得的结论。不采信字符串 `"true"`、数字 `1`、旧推导的 `sourceType: hidden`、道路或日期线索。一次或多次蓝线点击失败也不是隐藏依据。
 
-| 判定 | 所需观察 |
-| --- | --- |
-| 常规 | 官网正常地图入口到目标，随即沿路面箭头到另一 ID；允许同一地图入口先用日期控件往返，再沿路面移动。能切日期、是别人的历史版本或目标自身能沿路动，均不抵消已证实的地图入口。状态 `regular-confirmed`，其余关系单列。 |
-| 时光机 | 同一会话、可核实的常规地图起点，用同址日期控件切到目标并切回原 ID **和原日期**：`time-machine-roundtrip`。只切到目标属于日期方向候选；实际从其他点沿箭头进入目标且在目标明确尝试原路未回、无成功逆边，属于道路方向候选。两者均记 `time-machine-one-way`，分别看 `dateCandidates` 和 `oneWayArrows`，不当作往返。仅有明确来源父版本历史引用为 `time-machine-history-only`，不是官网入口证明。 |
-| 隐藏候选 | 直接 URL 成功；针对该点的地图点击实际进入 A，在 A 检查日期仍未到达；从目标到 A 后尝试反向道路未回。已观察到成功进入目标、网络错误、验证码、超时、单次失败或缺项都不能据此证明隐藏。状态 `hidden-candidate`，类别仍 `unknown`，须人工复核。 |
-| 待确认 | 证据矛盾、普通双向邻接、未检查反向的单条邻接、只有 URL 或接口字段时保持 `unknown`；相关操作出错且没有充分正证时记 `access-error`。 |
+| 优先级 | 使用的证据 | 结果与边界 |
+| --- | --- | --- |
+| 1 | 已签认的精确 ID、城市及历史改判回执 | 保留人工常规、隐藏、时光机；不按地名、车辆、批次或标签扩展。南京 192、拉萨城关 41 记 `time-machine-manual-confirmed`，并非 233 份官网往返录像。 |
+| 2 | 已保存的官网同址日期操作 | `time-machine-roundtrip` 要求同一会话由有道路移动实证的常规蓝线锚点切入目标并切回原 ID **和原月份**。另保留已有精确常规官网基线。 |
+| 3 | 该 ID 的原始记录自身有 `isHidden` 且值为布尔 `true` | 类别 `hidden`；依据和状态均为 `source-isHidden-true`。移动、箭头、`Links`、`TimeLine`、`hasPano`、直接 URL 不推断也不否决此标记。 |
+| 4 | 没有以上证据 | 不确认隐藏。仍可分别记录实际常规入口、同址单向日期操作及明确父版本历史引用；不能据此声称日期往返。否则为 `unknown`，相关官网操作出错且无充分正证为 `access-error`。 |
 
-单向可达按方向记录。若从目标 A 点击箭头到 B，在 B 尝试反向箭头却未回到 A，本次只记录 A → B 成功和反向尝试结果。日期往返要分别操作两次，浏览器返回按钮不计入日期切换。
-
-## 已有接口记录
-
-`Links` 提供有方向的连接线索。`Roads[].Panos` 提供道路成员及排序线索。`TimeLine` 提供历史版本线索。已有记录表明 `IsCurrent` 会随请求的全景 ID 改变。深圳和图木舒克均出现 `Links=[]` 但道路上有其他全景成员的样本。`HasTopo`、`Obsolete`、道路名、坐标距离和这些数组可辅助选择核查入口。最终分类由入口行为决定。
+固定人工范围见[保护回执](../config/reviews/hidden-policy-protected.json)：图木舒克 11,796 和 11.23 补充包交集 150,762 保留常规。滨州首份原件 7,418 条、新乡指名 1 条、阿拉善 6Z 整批 216 条各按原人工依据保留隐藏。6Z 没有原件布尔标记，**不计入** `source-isHidden-true`。滨州同份原件另有 168 条为 `isHidden: false` 且类别 `time-machine`，仅用于原件核数，不当作隐藏，也不把归档主记录或入口审查结果改判为时光机。原有主分类不因此改变。
 
 ## 官网桌面网页实测
 
@@ -29,37 +25,27 @@
 
 滨州黄河十路。开启地图「全景」模式后点击地图，首屏进入 `09017800011603201325323725N`（2016 年 3 月）。点击日期控件中的 2014 年 9 月选项进入 `09017800001409051038442536J`，再点击 2016 年 3 月回到原 ID。随后连续两次点击全景路面，依次进入 `09017800011603201325354615N` 和 `09017800011603201325385665N`。工具根据这份操作记录判定 2016 年入口为常规，2014 年版本为时光机。日期按钮的 `data-pid` 可用于识别目标，操作成功以切换后的地址栏 `panoid` 和选中日期为准。
 
-另一个此前标为隐藏的样本 `09017800001408011004002175F` 可在网页日期控件中与 `09017800011603190834100056W` 相互切换。还需要实际确认该组能否从地图直接进入，以及从哪个版本进入。隐藏候选仍只有合成用例覆盖。
+另一个此前标为隐藏的样本 `09017800001408011004002175F` 可在网页日期控件中与 `09017800011603190834100056W` 相互切换。还需要实际确认该组能否从地图直接进入，以及从哪个版本进入。这不等于从已验证的蓝线常规点经日期控件往返，不能据此撤销既有人工决定。
 
-## 录入格式
+## 网页操作录入
 
-顶层需要 `schemaVersion: 1`、目标 `panoid`、客户端描述 `client`、检查时间 `checkedAt` 和 `sessions`。每个会话包含唯一 `id` 和按发生顺序排列的 `steps`。每步填写 `route`、目标 `to`、`result` 和证据引用 `evidence`，例如截图编号或操作记录编号。
+输入 `schemaVersion: 1`、`panoid`、`client`、`checkedAt`、`sessions`。每个会话含唯一 `id` 及顺序 `steps`，每步含 `route`、`to`、`result`、证据引用 `evidence`。
 
-- `map-entry` 填 `location`，记录点击的位置。操作后核对地图首先显示的 ID。
-- `date-switch` 和 `arrow` 填起点 `from`，必须与上一步实际 ID 一致。日期切换成功（或切到替代点）记录官网的两个不同月份 `dateBefore`、`dateAfter`（`YYYY-MM`）和 `sameLocation: true`；不从 panoid 推月。新地图点击、直接 URL、错误或换会话不能接到先前的日期返程。不能只因同一 ID 曾经从地图进入，就把后来的直接 URL 会话当地图入口。
-- `panoid-url` 记录输入指定全景 ID 后的实际结果。仅在日期控件中核对到同址目标编号和另一月份时，用 `date-option`、`result: listed`、`from/to`、`dateBefore/dateAfter`、`sameLocation: true`；这只记历史关联，不记一次成功切换或移动。从目标日期控件成功切回已确认的常规点，但没有对应去程时，只记录单向日期证据。
-- 隐藏候选的另一种录入方式是：地图入口针对目标明确未命中、在可核实的常规锚点分别检查日期和道路入口未到达目标、直接 URL 能到达目标。无须从目标找到一条出向道路，也不推论所有可能入口已查尽。
-- `reached` 表示到达目标，`observed` 必须等于 `to`。`alternative` 表示进入其他全景，须填写实际 `observed`。`unavailable` 表示当前操作入口不可用。网络、验证码和操作状态不明记为 `error`。
-
-工具读取 JSON 并输出判断及证据引用。`status` 明确区分 `regular-confirmed`、`time-machine-roundtrip`、`time-machine-one-way`、`time-machine-history-only`、`hidden-candidate`、`unknown` 和 `access-error`。隐藏候选仍输出 `category: unknown`，以便人工复核。每份结果仅适用于所记录的客户端和时间。
+- `map-entry` 需要点击位置 `location`；成功时核对实际 `observed`。从地图点到目标且沿路面实际移动，记 `regular-confirmed`。独立 URL 或孤立箭头不能证明蓝线入口。
+- `date-switch` 和 `arrow` 要求 `from` 与上一步实际 ID 一致。日期成功或切到替代点填写两个不同有效月份 `dateBefore`、`dateAfter` 与 `sameLocation: true`。日期切入/切回是两次操作，浏览器返回键不计。新入口、URL、换会话不能拼成一次往返。只有单向日期证据的记 `time-machine-one-way`。
+- `date-option` 要求常规锚点及同址目标编号与月份，`result: listed` 只记录关联。道路单向及反向未回保存在 `oneWayArrows`，不能当作日期关系。`panoid-url` 只记录直接访问。
+- `reached` 的 `observed` 等于 `to`；`alternative` 填实际到达的不同 ID。`unavailable` 表示本次入口不可用；网络、验证码和操作状态不明记 `error`。
+- 如重放时附 `originalRecord`，必须与目标 ID 一致，只有原件自己的 `isHidden: true` 才有效。选填 `history` 中的 `{panoid, extra}` 用以记录同一目标的明确父版本来源。不会从操作输入的 `manualReview` 生成新的人工决定。
 
 ```powershell
 node tools/audit_panorama_access.mjs observations.json
 ```
 
-## 将来源证据与现行标签分开汇总
+## 离线归档与原件审查
 
-分类顺序：
+`--public` 在校正后的归档上运行。每个城市中，当前主记录的 `row[9].sourceType === 'hidden'` 和 `row[9].isHidden === true` 必须一致。对所有这样的 ID 排序，以 ASCII `ID + LF` 逐个计算 SHA-256，与[原件复核后的精确城市收据](../config/reviews/source-hidden-flags.json)核对数量和指纹；还要闭合全国城市名册、总量以及逐城人工回执。人工例外在证据类别中优先，不将其重复计为原件布尔真。只有核对通过才产生公开结果；双字段自身不证明旧归档的原件曾为 true。
 
-1. 滨州固定原始清单（7,586 条；固定 SHA-256 为 `7dbfdcd80d11f22d2a446f4965e96d0531aba4fa23ae1148bdf3795cd15e79cc`）中的 **7,418 个指定 ID** 优先保留用户确认隐藏。后加的 21 条 `hidden` 标签不属于此人工确认。图木舒克 `659003` 的 **11,796 条**以 `extra.classificationBasis=user-confirmed-regular`、`extra.sourceBatch=baidu-supplement-20261123` 和该包指纹确认；该批在图木舒克的历史引用同样服从人工结论。三项人工决定均不按地名扩张。
-   - **11 月 27 日补充包交集：150,762 个常规。** 用户本次确认的是 `baidu-supplement-20261123` 与原隐藏清单交集中的确切主记录，不是所有补充包记录，也不是这些城市的所有街景。归档行的 `sourceType` 改为 `regular`，删除 `isHidden`，增加 `经过人工确认` 标签；`extra` 保留原分类 `hidden`，记录日期 `2026-11-27`、理由「用户确认补充包与原隐藏清单交集为常规街景」及 `manualReview.scope=supp23-hidden-overlap-20261127`。审查状态为 `regular-confirmed`，依据单列 `supp23-overlap-user-confirmed`，不计入图木舒克旧决定，也不冒充官网入口观测。上传原件不采信自报的城市、标签或范围；11.25 原件核对无此交集。
-2. 复用上文黄河十路已记录的两个精确 ID；即使某个 ID 是网页版的日期选项，也只有当它本身是输入行时才计数。不能为被引用 ID 增行，也不能把直接 URL 加载成功算作地图/日期/道路入口。
-3. 补充包的历史原件样本写有 `kind=historical_reference`、`returnedBy`、`timelineLabel`、`coordinateSource=parent-reference-only` 和父坐标。归档样本的 `row[9].extra` 除来源月份 `timelineLabel=YYYYMM` 外，`returnedBy`、`parentPanoid`、`inheritedCoordinate.inheritedFrom` 指向同一个非自身父 ID；`coordinateSource` 与 `inheritedCoordinate.coordinateSource` 都是 `parent-reference-only`。这些字段应在**同一条记录**共同出现才记历史关系，不拿父坐标当独立影像位置。缺来源关系、只有时间线成员/标签/邻接/移动计数，均保留 `unknown`。轨迹输入如附 `history`，每项为 `{panoid, extra}`，采用同一核对方法。
-4. 已抽看本次 ZIP 和两份独立爬虫 JSON 的原始记录：`id`、`sid`、`panoId` 一致，`source=baidu`，`verification.mode=metadata-only`，另有 `sourceType`、`isHidden`、`movementCount`、`timeLine`。这不是官网试验。滨州旧导入还曾把时间线复制到 `links`；不能据此认定道路方向或隐藏。
-
-### 低内存 CLI（不联网、不改归档）
-
-从仓库根目录运行。`$stage` 是**已完成完整性/唯一性校验**的暂存数据根（直接包含 `catalog.json`），`$inputs` 是原始输入所在的私有目录。输出目录必须已存在，摘要文件须为新路径，不可位于规范归档内。全国审查与构建/导入串行执行。
+非公开审查不把未迁移主记录上的旧双字段当原件。可读取 `extra.originalRecord`、`originalRecord` 或同 ID 观察版本中的上述原件槽位；不能把版本归一化时填入的标签、另一个 panoid、时间线成员或邻点的标记归给目标。同 ID 主原件明确的布尔值优先（包括 `false`）；主件未标时才看版本原件，出现相反观察而无法确定主来源则不判隐藏。上传文件按实际读取的原件自身计；同一 ID 可以复用已核实的人工决定，上传自报的 `city`、标签和 `manualReview` 不可信。若旧来源未保留原件证据，不确认隐藏。`returnedBy`、`parentPanoid` 和 `inheritedCoordinate.inheritedFrom` 等一致、同一非自身父 ID 加 `timelineLabel=YYYYMM` 的显式来源历史关系照旧记录，不把父坐标当独立位置。
 
 ```powershell
 node --max-old-space-size=128 tools/audit_uploaded_streetview.mjs --public `
@@ -68,8 +54,6 @@ node --max-old-space-size=128 tools/audit_uploaded_streetview.mjs --public `
   "$inputs/baidu-020-0000-5C-crawler-results.json" "--output=$freshSummary"
 ```
 
-`--public` 核对归档条数、滨州和图木舒克旧基线，并按[本次人工确认回执](../config/reviews/supp23-hidden-overlap.json)逐一核对全部 20 个目标城市：仅收集该城满足完整标记且判为新依据的 ID，按 ASCII 升序，将每个 ID 加换行后核对 SHA-256 和条数，全局须合计 150,762。任一目标城缺失、ID 重复、等量替换或跨城互换均失败；不接受仅数量相等。每次最多暂存一个城市的 32,156 个新确认 ID。只逐行读取目录登记的百度街景分片，不遍历蓝点。原文件和 ZIP 成员流式计数，逐成员校验大小及 CRC。全局唯一性属于归档验证/导入器，审查器不宣称输入行全局唯一。
+`$stage` 为完成唯一性/完整性校验的归档根，`$inputs` 为受信原件目录，摘要须输出到归档外的新路径。滨州原件 SHA-256 固定为 `7dbfdcd80d11f22d2a446f4965e96d0531aba4fa23ae1148bdf3795cd15e79cc`。逐分片读取目录登记的百度街景，不查小蓝点或联网，不改 `data`；ZIP 流式校验成员大小和 CRC。非公开输出含私有路径，不宜发布。
 
-本次确认改变的是两种不同的统计。在 18,936,803 条归档中，按**证据类别**计数，常规由 11,797 增至 162,559，待确认由 18,836,952 降至 18,686,190；人工确认隐藏仍为 7,418，仅历史引用仍为 80,636。按**来源标签**计数，`hidden` 由 230,090 降至 79,328，`regular` 由 171,612 增至 322,374。11.25 上传的 255,422 条原始记录仍全部是来源标签 `hidden`、审查证据不足，不从归档转移计数。
-
-可公开的 v2 摘要不含路径、车档文件名、ID、逐条轨迹和原始记录。`catalog.rows` 是选定归档快照的主记录数；`uploads.rows` 是指定上传的原始行数，**两套不可相加**。各自的 `bySource` 只统计显式 `sourceType`（缺项记 `missing`，不暗算作常规）；`byCategory`、`byStatus`、`byBasis` 是独立的审查维度，`sourceByStatus[源标签][审查状态]` 给出交叉计数。只有非零类别才出现。`metadataOnly` 为上传中 `verification.mode=metadata-only` 的行数。时间线空、单项、多项、缺失分别记数；移动数负值或非整数字段不当作零。审查不更新 `sourceType`、不改发布筛选，网页显示类别可以与入口审查不同。不加 `--public` 的详细结果含私有路径，不能发布。
+公开摘要 v3 的 `catalog` 计归档主记录，`uploads` 计输入原始行，**两者不可相加**。`bySource` 仅统计 `sourceType` 标签；`byCategory`、`byStatus`、`byBasis` 及 `sourceByStatus` 记录审查类别、状态、依据及交叉计数。仅公布合计，不公布原件路径、ID 或轨迹。时间线数、移动数和 `metadataOnly` 是上传诊断而非判据。v1.10.1 的 v2 统计如仍显示，仅为尚未按布尔真值重算的历史快照，不能用作现行审查结果。

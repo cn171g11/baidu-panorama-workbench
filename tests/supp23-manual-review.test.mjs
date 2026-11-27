@@ -28,7 +28,7 @@ test('exact-scope manual annotation preserves original provenance, history, obse
 });
 test('actual archive retains the exact reviewed population and the other package classes', async()=>{
   const cat=JSON.parse(await readFile('data/catalog.json','utf8'));
-  const counts={regular:0,hidden:0,'time-machine':0,unknown:0},historical={regular:0,'time-machine':0};
+  const counts={regular:0,hidden:0,'time-machine':0,unknown:0},historical={regular:0,hidden:0,'time-machine':0};
   const cityIds=new Set([...Object.keys(review.cities),'659003']);
   let nReviewed=0, oldRegular=0, total=0;
   for(const c of cat.collections){
@@ -44,8 +44,9 @@ test('actual archive retains the exact reviewed population and the other package
     if(c.id!=='659003')verifyOverlapCity(c.id,ids);
   }
   assert.equal(cityIds.size,0);assert.deepEqual([total,nReviewed,oldRegular],[278517,150762,11796]);
-  assert.deepEqual(counts,{regular:162558,hidden:0,'time-machine':115959,unknown:0});
-  assert.deepEqual(historical,{regular:1461,'time-machine':80636});
+  // Other uploaded files explicitly mark 1,215 different package IDs as hidden; 824 of them also have a real historical reference.
+  assert.deepEqual(counts,{regular:162558,hidden:1215,'time-machine':114744,unknown:0});
+  assert.deepEqual(historical,{regular:1461,hidden:824,'time-machine':79812});
 });
 
 test('a correct city count or a repeated ID is not an authorized set',()=>{

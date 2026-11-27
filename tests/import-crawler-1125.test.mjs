@@ -1,6 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdtemp, writeFile, readFile, mkdir, readdir, stat, access } from 'node:fs/promises';
+import { mkdtemp, writeFile, readFile, mkdir, readdir, rm, stat, access } from 'node:fs/promises';
+import { markOverlapRegular, overlapReview } from '../tools/supp23_manual_review.mjs';
+import { normalizeBinzhouRecord } from '../tools/prepare_binzhou_import.mjs';
 import os from 'node:os';
 import path from 'node:path';
 import { importCrawler, assertDisjointRoots } from '../tools/import_crawler_1125.mjs';
@@ -63,6 +65,42 @@ test('existing IDs are retained in place and never emitted as replacement rows',
 test('real crawler fields preserve timeline, movement, verification, and row assignment', async () => {
   const {root,out}=await fixture(); const input=path.join(root,'real.json'); await writeFile(input,JSON.stringify({customCoordinates:[{panoId:'real',lng:7,lat:8,source:'baidu_pano',links:['l'],timeLine:['real','old'],movementCount:2,gapId:'g',roadName:'R',verification:{imageLoaded:true},x:1,y:2}]}));
   const r=await importCrawler({files:[input],outputRoot:out,indexPath:path.join(root,'i.sqlite'),mapping:{real:{id:'130000',adcode:'130000',name:'Real',province:'P',method:'nearest',distance:4}}}); const rows=JSON.parse(await readFile(path.join(out,r.catalog.collections[0].files[0]),'utf8')); const m=rows[0][9]; assert.deepEqual(m.links,['l']); assert.deepEqual(m.timeLine,['real','old']); assert.equal(m.movementCount,2); assert.equal(m.gapId,'g'); assert.equal(m.roadName,'R'); assert.equal(m.verification.imageLoaded,true); assert.equal(m.sourceType,'unknown'); assert.equal(m.isHidden,false); assert.equal(m.cityAssignment.id,'130000');
+});
+
+test('literal primary and same-ID observation flags promote only non-reviewed primaries',async t=>{
+  const {root,out}=await fixture();t.after(()=>rm(root,{recursive:true,force:true}));
+  const city='659012',reviewedId='0901560012230924174528905AB',old=id=>legacy(id,1,2);
+  const manual=markOverlapRegular([...old(reviewedId).slice(0,9),{sourceType:'hidden',isHidden:true,tags:[],extra:{sourceBatch:overlapReview.sourceBatch,sourceZipSha256:overlapReview.sourceZipSha256}}],city);
+  const preserved=old('explicit-false');preserved[9]={sourceType:'unknown',extra:{originalRecord:{id:preserved[0],isHidden:false}}};
+  const {dir}=await existingRoot(root,[{id:city,shards:[[old('old'),preserved,manual]]}]);
+  const raw=(panoId,flag)=>({panoId,source:'baidu',sourceType:'hidden',lng:3,lat:4,movementCount:9,...(flag===undefined?{}:{isHidden:flag})});
+  const entries=[raw('old',true),raw('explicit-false',true),raw(reviewedId,true),raw('new',true),raw('same-upload'),raw('same-upload',true),raw('tag'),raw('string','true'),raw('bool-false',false),{...raw('id-conflict',true),panoid:'elsewhere'}];
+  const file=path.join(root,'literal.json');await writeFile(file,JSON.stringify(entries));
+  const r=await importCrawler({files:[file],outputRoot:out,existingRoot:dir,mapping:{literal:{id:city,name:'City '+city,province:'P'}}});
+  const rows=await rowsOf(path.join(out,r.catalog.collections[0].files[0])),byId=new Map(rows.map(row=>[row[0],row]));
+  for(const id of ['old','new','same-upload'])assert.equal(byId.get(id)[9].sourceType,'hidden');
+  for(const id of ['explicit-false','tag','string','bool-false'])assert.equal(byId.get(id)[9].sourceType,'unknown');
+  assert.equal(byId.get('old')[1],1);assert.equal(byId.get('old')[9].observations[0].variant[9].extra.originalRecord.isHidden,true);
+  const {observations,...keep}=byId.get(reviewedId)[9];assert.deepEqual(keep,manual[9]);assert.equal(observations[0].variant[9].sourceType,'hidden');
+  for(const id of ['new','same-upload','tag','string','bool-false'])assert.equal(byId.get(id)[9].originalMetadataOnly,true);
+  assert.equal(r.invalidRecords,1);assert(!byId.has('id-conflict'));
+});
+
+test('opposing observations without an identified primary flag stop the import',async t=>{
+  const {root,out}=await fixture();t.after(()=>rm(root,{recursive:true,force:true}));
+  const records=[{}, {isHidden:true}, {isHidden:false}].map((patch,i)=>({panoId:'conflict',lng:1+i,lat:2,source:'baidu',...patch}));
+  const file=path.join(root,'conflicts.json');await writeFile(file,JSON.stringify(records));
+  await assert.rejects(importCrawler({files:[file],outputRoot:out,mapping:mappingFor('conflicts')}),/Conflicting or unbound source hidden flags/);
+  assert.equal(await exists(path.join(out,'STAGING_FAILED')),true);
+});
+
+test('Binzhou preparation takes literal same-ID flags, not movement or sourceType',()=>{
+  const raw={panoId:'B',lng:117,lat:37,source:'baidu',sourceType:'hidden',movementCount:2,timeLine:['A']};
+  for(const flag of [undefined,false,'true',null,true]){
+    const record={...raw,...(flag===undefined?{}:{isHidden:flag})},m=normalizeBinzhouRecord(record)[9];
+    assert.equal(m.sourceType,flag===true?'hidden':'unknown');assert.deepEqual(m.extra.originalRecord,record);assert.deepEqual(m.links,[]);
+  }
+  assert.throws(()=>normalizeBinzhouRecord({...raw,id:'A',isHidden:true}),/panoid 不一致/);
 });
 
 test('retains differing duplicate variants and mapping provenance', async () => {

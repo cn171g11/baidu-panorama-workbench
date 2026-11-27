@@ -7,6 +7,8 @@ import { spawn } from 'node:child_process';
 import { startServer } from './serve.mjs';
 import { overlapReview, isOverlapReview, verifyOverlapCity } from './supp23_manual_review.mjs';
 import { categoryFor } from '../city-viewer/js/classification.js';
+import { verifiedSourceHidden, verifyHiddenCitySet } from './verified_source_hidden.mjs';
+import { crawlerAdditions, sourcePolicyForSnapshot } from './publish_pages.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const args = process.argv.slice(2);
@@ -40,7 +42,7 @@ async function chooseBrowser() {
   throw Error('No test browser available');
 }
 // The policy is selected from the snapshot under test, not the local checkout's pending version.
-export function checkDomesticSnapshot(notes,collections) {
+export function checkDomesticSnapshot(notes,collections,receipt=verifiedSourceHidden) {
   const current=notes.current?.version;
   assert.equal(notes.releases?.[0]?.version,current,'Current release mismatch');
   assert.match(current,/^\d+\.\d+\.\d+$/);
@@ -57,15 +59,19 @@ export function checkDomesticSnapshot(notes,collections) {
     assert.deepEqual(correction.cityAdditions,[],'Classification-only correction cannot add cities or rows');
     for(const [id,c] of Object.entries(overlapReview.cities))regular.set(id,c.count);
   } else assert(!correction,'Correction declared in a snapshot predating v1.10.1');
-  const approved=new Map((crawler?.cityAdditions??[]).map(c=>[c.id,c.added]));
+  const policy=sourcePolicyForSnapshot(notes,receipt);
+  const approved=policy?crawlerAdditions(notes,policy):new Map((crawler?.cityAdditions??[]).map(c=>[c.id,c.added]));
   const cities=collections.filter(c=>c.scope!=='overseas');
   const ids=new Set(cities.map(c=>c.id));assert.equal(ids.size,cities.length,'Duplicate domestic city');
   for(const id of regular.keys())assert(ids.has(id),'Missing reviewed domestic city: '+id);
   for(const city of cities){
     assert.equal(city.displayCounts.regular,regular.get(city.id)??0,'Unreviewed or missing domestic regular rows: '+city.id);
-    assert.equal(city.displayCounts.unknown,approved.get(city.id)??0,'Domestic unknown differs from reviewed batch: '+city.id);
+    const crawlerHidden=policy?.crawlerHiddenCounts[city.id]??0;
+    assert.equal(city.displayCounts.unknown,(approved.get(city.id)??0)-crawlerHidden,'Domestic unknown differs from reviewed batch: '+city.id);
+    if(policy)assert.equal(city.displayCounts.hidden,policy.cities[city.id]?.count??0,'Domestic hidden differs from source receipt: '+city.id);
   }
-  if(crawler)assert.equal(cities.reduce((n,c)=>n+c.displayCounts.unknown,0),crawler.importCounts.uniquePanoids);
+  if(crawler&&!policy)assert.equal(cities.reduce((n,c)=>n+c.displayCounts.unknown,0),crawler.importCounts.uniquePanoids);
+  if(policy)for(const [id,n] of approved)if(n>0)assert(ids.has(id),'Missing published crawler city: '+id);
   return corrected;
 }
 async function main() {
@@ -122,11 +128,12 @@ async function main() {
     assert.deepEqual(catalog.collections.filter(city=>city.scope==='overseas').map(city=>city.id),['191001']);
     assert.equal(target.count,97);assert.equal(target.files.length,28);
   }
-  let correctedSnapshot=false;
+  let correctedSnapshot=false,sourcePolicy=null;
   if(target.scope==='overseas'||(args.includes('--require-pages')&&catalog.publication?.overseas)){
     const notes=await evaluate(`await(await fetch(new URL('../config/release-notes.json',location.href))).json()`);
     correctedSnapshot=checkDomesticSnapshot(notes,catalog.collections);
-    report.checks.domesticPolicy={version:notes.current.version,overlapReview:correctedSnapshot?overlapReview.reviewId:null};
+    sourcePolicy=sourcePolicyForSnapshot(notes,verifiedSourceHidden);
+    report.checks.domesticPolicy={version:notes.current.version,policyVersion:sourcePolicy?.policy??null,overlapReview:correctedSnapshot?overlapReview.reviewId:null};
   }
   async function loadCity(city) {
     await fill('#search-input', '');
@@ -146,6 +153,11 @@ async function main() {
     await until(() => evaluate('window.__BAIDU_WORKBENCH__.getState().mapRenderedCount>0'));
     const rows = await evaluate(`await(await import(new URL('js/data-store.js',location.href))).loadCollection(${JSON.stringify(city)})`);
     assert.equal(rows.length, city.count); assert(rows.every(row => row[8] === 'baidu'));
+    if(sourcePolicy&&city.scope!=='overseas'){
+      verifyHiddenCitySet(city.id,rows.filter(row=>categoryFor(row)==='hidden').map(row=>row[0]),sourcePolicy);
+      const oldUnknown=rows.filter(row=>categoryFor(row)==='unknown'&&(row[9]?.extra?.sourceBatch??row[9]?.sourceBatch)!=='baidu-crawler-20261125');
+      assert.equal(oldUnknown.length,0,'Unapproved unknown rows: '+city.id);
+    }
     if(correctedSnapshot&&Object.hasOwn(overlapReview.cities,city.id)){
       const regular=rows.filter(row=>categoryFor(row)==='regular');
       assert(regular.every(row=>isOverlapReview(row,city.id)),'Invalid reviewed regular metadata: '+city.id);

@@ -2,13 +2,70 @@
   "schemaVersion": 1,
   "project": "baidu-panorama-workbench",
   "current": {
-    "version": "1.10.1",
+    "version": "1.11.0",
     "date": "2026-11-27",
     "highlights": [
-      "按用户人工确认，将 11.23 补充包与原隐藏清单重合的 150,762 个街景 ID 更正为常规；未新增点位。"
+      "按上传原件的布尔 isHidden 重新核对隐藏：全国归档共 344,388 个隐藏街景。可移动不等于非隐藏；所有既有人工决定保留。"
     ]
   },
   "releases": [
+    {
+      "version": "1.11.0",
+      "date": "2026-11-27",
+      "title": "按原件布尔标记重新核对隐藏街景",
+      "hiddenPolicy": {
+        "policy": "source-isHidden-boolean-v1",
+        "hiddenCount": 344388,
+        "idsSha256": "8fb69883b7a5c40ac635bddb2e177128d070da6da650f425ea27930d201518d8",
+        "reviewedCollections": 179,
+        "changed": 265060
+      },
+      "cityAdditions": [],
+      "changes": [
+        "隐藏指不能从百度官网蓝线入口点入，可以沿路移动。除既有人工或已保存的官网确认决定外，仅使用同一主 ID 的原始布尔 isHidden:true，不用连接、移动计数、时间线、打不开或单向道路判断隐藏。此次是原件复核，不是官网逐点点测。",
+        "核对全部 403 个来源登记项。去重有 344,405 个 ID 的原件出现布尔 true；扣除人工时光机 233 个，加上原件缺标但已由用户确认的阿拉善 216 个，现有 344,388 个隐藏主记录。51 个 ID 的两份原件标记相反，按已核实的主来源采用真值，旧标记仍在其原件和观察中。",
+        "仅 265,060 个归档主记录改为隐藏：原待确认 255,422 个、原时光机 9,638 个。南京 192 条、拉萨城关区 41 条人工时光机保持；图木舒克 11,796 条和补充包交集 150,762 条人工常规保持；滨州首批 7,418 条人工隐藏保持。",
+        "没有增删点位、改坐标、改变城市或删改道路连接、时间线与原始观察。归档仍是 18,936,803 条；11.25 的 255,422 条原始输入是单独的重叠统计范围，不与归档相加。"
+      ],
+      "auditCounts": {
+        "catalog": {
+          "rows": 18936803,
+          "bySource": {
+            "hidden": 344388,
+            "missing": 18142376,
+            "time-machine": 115068,
+            "regular": 322374,
+            "unknown": 12597
+          },
+          "byCategory": {
+            "hidden": 344388,
+            "unknown": 18349811,
+            "time-machine": 80045,
+            "regular": 162559
+          },
+          "byStatus": {
+            "source-isHidden-true": 336753,
+            "unknown": 18349811,
+            "user-confirmed-hidden": 7635,
+            "time-machine-manual-confirmed": 233,
+            "regular-confirmed": 162559,
+            "time-machine-history-only": 79812
+          }
+        },
+        "uploads": {
+          "rows": 255422,
+          "bySource": {
+            "hidden": 255422
+          },
+          "byCategory": {
+            "hidden": 255422
+          },
+          "byStatus": {
+            "source-isHidden-true": 255422
+          }
+        }
+      }
+    },
     {
       "version": "1.10.1",
       "date": "2026-11-27",

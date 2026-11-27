@@ -7,34 +7,26 @@ import { createInflateRaw } from 'node:zlib';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { explicitSourceHistory } from './audit_panorama_access.mjs';
-import { isOverlapReview, overlapReview, verifyOverlapCity } from './supp23_manual_review.mjs';
+import { overlapReview } from './supp23_manual_review.mjs';
+import { declaredProtection, officialProtection, protectionCityReceipts, verifyProtectionCity } from './hidden_review_protections.mjs';
+import { canonicalIsHidden, embeddedSourceIsHidden, sourceRecordIsHidden } from '../city-viewer/js/hidden-flag.js';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const BASELINE = new Map([
-  ['09017800011603201325323725N', ['regular', 'regular-confirmed']],
-  ['09017800001409051038442536J', ['time-machine', 'time-machine-roundtrip']],
-]);
-
-const OVERLAP_BASIS = 'supp23-overlap-user-confirmed';
-function sortedHas(ids, id) {
-  let lo = 0, hi = ids?.length ?? 0;
-  while (lo < hi) { const mid = (lo + hi) >>> 1; if (ids[mid] < id) lo = mid + 1; else hi = mid; }
-  return ids?.[lo] === id;
-}
-export function classify(row, { binzhouHiddenIds, tumushukeIds, city } = {}) {
-  const id = row[0], meta = row[9], extra = meta?.extra;
-  if (binzhouHiddenIds?.has(id)) return { category: 'hidden', status: 'user-confirmed-hidden', basis: 'binzhou-user-confirmed-source' };
-  // The city is trusted catalog context, never a field supplied by an upload.
-  if (city && isOverlapReview(row, city)) return { category: 'regular', status: 'regular-confirmed', basis: OVERLAP_BASIS };
-  if ((city === '659003' && extra?.classificationBasis === 'user-confirmed-regular' &&
-      extra.sourceBatch === overlapReview.sourceBatch && extra.sourceZipSha256 === overlapReview.sourceZipSha256 &&
-      !Object.hasOwn(extra, 'manualReview') && extra.classificationReviewedAt !== overlapReview.reviewedAt) || (tumushukeIds && sortedHas(tumushukeIds,id))) {
-    return { category: 'regular', status: 'regular-confirmed', basis: 'tumushuke-user-confirmed-source' };
-  }
-  const baseline = BASELINE.get(id);
-  if (baseline) return { category: baseline[0], status: baseline[1], basis: 'binzhou-official-browser' };
-  if (explicitSourceHistory(id, extra)) return { category: 'time-machine', status: 'time-machine-history-only', basis: 'source-parent-history-reference' };
-  return { category: 'unknown', status: 'unknown' };
+const sourceHidden = Object.freeze({category:'hidden', status:'source-isHidden-true', basis:'source-isHidden-true'});
+const binzhouManual = Object.freeze({category:'hidden', status:'user-confirmed-hidden', basis:'binzhou-user-confirmed-source'});
+export function classify(row, { city, binzhouHiddenIds, manualById, originalRecord, verifiedCatalog = false } = {}) {
+  const id = row[0], meta = row[9];
+  // A declared catalog decision must subsequently match the exact city's signed-off ID digest.
+  // Raw uploads never receive a city context; a review field in their JSON cannot grant a decision.
+  const manual = manualById?.get(id) ?? (binzhouHiddenIds?.has(id) ? binzhouManual : null) ?? (originalRecord === undefined && city && declaredProtection(row, city));
+  if (manual) return manual;
+  const official = officialProtection(id);
+  if (official) return official;
+  const hidden = originalRecord !== undefined ? sourceRecordIsHidden(originalRecord, id) :
+    verifiedCatalog ? canonicalIsHidden(meta) : embeddedSourceIsHidden(row);
+  if (hidden) return sourceHidden;
+  if (explicitSourceHistory(id, meta?.extra)) return {category:'time-machine', status:'time-machine-history-only', basis:'source-parent-history-reference'};
+  return {category:'unknown',status:'unknown'};
 }
 
 // Parse one bounded JSON object or row at a time, including object-form uploads.
@@ -83,19 +75,19 @@ const BINZHOU_SOURCE_SHA256 = '7dbfdcd80d11f22d2a446f4965e96d0531aba4fa23ae1148b
 
 // This private scan list preserves source labels; it is not an access verdict.
 export async function binzhouSourceIds(file) {
-  const hash = createHash('sha256'), input = createReadStream(file), ids = new Set();
+  const hash = createHash('sha256'), input = createReadStream(file), ids = new Set(), timeIds = new Set();
   let total = 0, hidden = 0;
   async function* chunks() { for await (const chunk of input) { hash.update(chunk); yield chunk; } }
   for await (const item of streamRecords(Readable.from(chunks()))) {
     if (!item || Array.isArray(item) || typeof item !== 'object') throw Error('Invalid Binzhou source record');
     if (++total > 7586) throw Error('Binzhou source fingerprint or count mismatch');
-    if (item.sourceType !== 'hidden') continue;
-    if (typeof item.id !== 'string' || !item.id || ids.has(item.id)) throw Error('Invalid or duplicate Binzhou ID');
-    ids.add(item.id); hidden++;
+    if (typeof item.id !== 'string' || !item.id || ids.has(item.id) || timeIds.has(item.id)) throw Error('Invalid or duplicate Binzhou ID');
+    if (sourceRecordIsHidden(item, item.id)) { ids.add(item.id); hidden++; }
+    else if (item.isHidden === false && item.sourceType === 'time-machine') timeIds.add(item.id);
   }
   const sha256 = hash.digest('hex');
-  if (sha256 !== BINZHOU_SOURCE_SHA256 || total !== 7586 || hidden !== 7418) throw Error('Binzhou source fingerprint or count mismatch');
-  return { sha256, total, hidden, ids: [...ids].sort() };
+  if (sha256 !== BINZHOU_SOURCE_SHA256 || total !== 7586 || hidden !== 7418 || timeIds.size !== 168) throw Error('Binzhou source fingerprint or count mismatch');
+  return { sha256, total, hidden, ids: [...ids].sort(), sourceTimeMachine: timeIds.size };
 }
 function rowOf(item) {
   if (Array.isArray(item)) {
@@ -116,40 +108,54 @@ function addStats(stats, source, result) {
   stats.rows++; increment(stats.byCategory, result.category); increment(stats.byStatus, result.status); increment(stats.bySource, source);
   increment(stats.byBasis, result.basis || 'insufficient-evidence'); increment(stats.sourceByStatus[source] ??= {}, result.status);
 }
-export async function auditCatalog(dataRoot, binzhouHiddenIds, tumushukeIds, { publicOnly = false } = {}) {
+export async function auditCatalog(dataRoot, binzhouHiddenIds, { manualById = new Map(), publicOnly = false } = {}) {
   const catalog = JSON.parse((await readFile(path.join(dataRoot, 'catalog.json'), 'utf8')).replace(/^\ufeff/, ''));
+  // Load the public policy receipt only for the public run, never for a raw upload or private fixture.
+  const policy = publicOnly ? await import('./verified_source_hidden.mjs') : null;
   const stats = { ...counters(), collections: catalog.collections.length, files: 0 }, city = {};
   for (const collection of catalog.collections) {
-    if (!/^\d{6}$/.test(collection.id) || city[collection.id]) throw Error('Invalid or duplicate catalog city');
-    const target = publicOnly && overlapReview.cities[collection.id];
-    const overlapIds = target ? [] : null;
-    const local = city[collection.id] = { rows: 0, byCategory: {}, byStatus: {} };
+    const id = collection.id;
+    if (!/^\d{6}$/.test(id) || city[id]) throw Error('Invalid or duplicate catalog city');
+    const receipts = protectionCityReceipts[id], declaredIds = {}, decisions = {}, hiddenIds = [];
+    const local = city[id] = { rows: 0, byCategory: {}, byStatus: {} };
+    const ctx = {binzhouHiddenIds, city:id, verifiedCatalog:publicOnly};
     for (const [index, relative] of collection.files.entries()) {
-      if (relative !== `baidu/${collection.id}/points-${String(index + 1).padStart(3,'0')}.json`) throw Error('Invalid catalog shard path');
-      const file = path.join(dataRoot, relative);
+      if (relative !== `baidu/${id}/points-${String(index + 1).padStart(3,'0')}.json`) throw Error('Invalid catalog shard path');
       stats.files++;
-      for await (const item of streamRecords(createReadStream(file))) {
+      for await (const item of streamRecords(createReadStream(path.join(dataRoot, relative)))) {
         if (!Array.isArray(item)) throw Error('Expected canonical row');
-        const row = rowOf(item), result = classify(row, { binzhouHiddenIds, city: collection.id });
-        if (publicOnly && result.basis === OVERLAP_BASIS) {
-          if (!target || overlapIds.length >= target.count) throw Error(`Manual review count exceeds receipt: ${collection.id}`);
-          overlapIds.push(row[0]);
-        } else if (publicOnly && row[9]?.extra?.manualReview?.scope === overlapReview.reviewId) {
-          throw Error(`Invalid overlap review declaration: ${collection.id}`);
+        const row = rowOf(item), m = row[9], result = classify(row, ctx);
+        const receipt = receipts?.[result.basis];
+        if (receipt) {
+          const ids = declaredIds[result.basis] ??= [];
+          if (ids.length >= receipt.count) throw Error(`Manual review count exceeds receipt: ${id}`);
+          ids.push(row[0]); decisions[result.basis] = result;
+        } else if (m?.extra?.manualReview?.scope === overlapReview.reviewId) throw Error(`Invalid overlap review declaration: ${id}`);
+        if (publicOnly) {
+          const marked = canonicalIsHidden(m);
+          if ((m?.sourceType === 'hidden' || m?.isHidden === true || result.category === 'hidden') !== marked || (marked && result.category !== 'hidden')) throw Error(`Inconsistent canonical hidden decision: ${id}`);
+          if (marked) {
+            if (hiddenIds.length >= (policy.verifiedSourceHidden.cities[id]?.count ?? 0)) throw Error(`Hidden count exceeds receipt: ${id}`);
+            hiddenIds.push(row[0]);
+          }
         }
-        if (result.basis === 'tumushuke-user-confirmed-source') {
-          if (tumushukeIds.length >= 11796) throw Error('Tumushuke baseline exceeds fixed size');
-          tumushukeIds.push(row[0]);
-        }
-        addStats(stats, sourceType(row[9]), result); local.rows++; increment(local.byCategory, result.category); increment(local.byStatus, result.status);
+        addStats(stats, sourceType(m), result); local.rows++; increment(local.byCategory, result.category); increment(local.byStatus, result.status);
       }
     }
     if (local.rows !== collection.count) throw Error('Catalog collection count mismatch');
-    if (target) verifyOverlapCity(collection.id, overlapIds);
+    if (receipts && (publicOnly || Object.keys(declaredIds).length)) {
+      verifyProtectionCity(id, declaredIds);
+      for (const [basis, ids] of Object.entries(declaredIds)) {
+        // Only these exact decisions may be reused when the same ID occurs in a subsequent upload.
+        const result = decisions[basis];
+        for (const pid of ids) { if (manualById.has(pid)) throw Error('Duplicate manual ID'); manualById.set(pid,result); }
+      }
+    }
+    if (publicOnly) policy.verifyHiddenCitySet(id, hiddenIds);
   }
   if (publicOnly) {
-    for (const id of Object.keys(overlapReview.cities)) if (!city[id]) throw Error(`Missing overlap review city: ${id}`);
-    if (stats.byBasis[OVERLAP_BASIS] !== overlapReview.total) throw Error('National overlap review count mismatch');
+    for (const id of [...Object.keys(protectionCityReceipts),...Object.keys(policy.verifiedSourceHidden.cities)]) if (!city[id]) throw Error(`Missing receipt city: ${id}`);
+    if ((stats.byCategory.hidden ?? 0) !== policy.verifiedSourceHidden.hiddenCount) throw Error('National hidden receipt mismatch');
   }
   if (stats.rows !== catalog.total) throw Error('Catalog total mismatch');
   return { catalog: { total: catalog.total, collections: catalog.collections.length }, stats, city };
@@ -164,7 +170,7 @@ async function auditExternalStream(stream, file, manual) {
     const n = meta.movementCount;
     stats[n == null ? 'movementMissing' : !Number.isSafeInteger(n) || n < 0 ? 'movementInvalid' : n === 0 ? 'movementZero' : 'movementPositive']++;
     if (meta.verification?.mode === 'metadata-only') stats.metadataOnly++;
-    addStats(stats, sourceType(meta), classify(row, manual));
+    addStats(stats, sourceType(meta), classify(row, {...manual, originalRecord:item}));
   }
   return { file, ...stats };
 }
@@ -242,19 +248,16 @@ export function publicSummary(result) {
     for (const [source, statuses] of Object.entries(part.sourceByStatus)) merge(uploads.sourceByStatus[source] ??= {}, statuses);
   }
   // Return only fixed counters; never emit a source filename, path, raw ID or observation.
-  return { schemaVersion: 2, scope: 'canonical-and-input-rows-separate', catalog, uploads };
+  return { schemaVersion: 3, scope: 'canonical-and-input-rows-separate', catalog, uploads };
 }
 export async function auditUploaded({ zip, files = [], root = ROOT, dataRoot = path.join(root, 'data'), binzhouSource, publicOnly = false } = {}) {
   if (publicOnly && !binzhouSource) throw Error('Public national summary requires the fingerprinted Binzhou source');
   if (new Set(files.map(file => path.resolve(file))).size !== files.length) throw Error('Repeated upload file');
   const baseline = binzhouSource ? await binzhouSourceIds(binzhouSource) : null;
   const binzhouHiddenIds = baseline && new Set(baseline.ids);
-  const manual = { binzhouHiddenIds, tumushukeIds: [] };
-  const catalog = await auditCatalog(path.resolve(dataRoot), binzhouHiddenIds, manual.tumushukeIds, { publicOnly });
-  manual.tumushukeIds.sort();
-  if (manual.tumushukeIds.some((id,i,all) => i && id === all[i-1])) throw Error('Duplicate Tumushuke manual ID');
-  if (publicOnly && (catalog.stats.byBasis['binzhou-user-confirmed-source'] !== 7418 || catalog.stats.byBasis['tumushuke-user-confirmed-source'] !== 11796)) throw Error('National manual baseline counts do not reconcile');
-  const result = { schemaVersion: 2, generatedAt: new Date().toISOString(), binzhouBaseline: baseline && { sha256: baseline.sha256, hidden: baseline.hidden }, catalog, external: [] };
+  const manual = { binzhouHiddenIds, manualById:new Map() };
+  const catalog = await auditCatalog(path.resolve(dataRoot), binzhouHiddenIds, {...manual, publicOnly});
+  const result = { schemaVersion: 3, generatedAt: new Date().toISOString(), binzhouBaseline: baseline && { sha256: baseline.sha256, hidden: baseline.hidden, sourceTimeMachine:baseline.sourceTimeMachine }, catalog, external: [] };
   for (const file of files) result.external.push(await auditExternalStream(createReadStream(file), file, manual));
   if (zip) result.external.push(await auditZip(zip, manual));
   return publicOnly ? publicSummary(result) : result;

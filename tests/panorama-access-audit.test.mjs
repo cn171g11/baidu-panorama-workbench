@@ -37,12 +37,12 @@ test('time-machine needs date selection both ways from a documented regular anch
   assert.equal(audit('H', regular, [map('A'), outward, returning], [map('H')]).status, 'unknown');
 });
 
-test('hidden candidate requires direct URL plus explicit negative map, date and road observations', () => {
+test('even explicit negative map, date and road observations do not establish hidden', () => {
   const missedEntry = { ...map('H'), result: 'alternative', observed: 'A' };
   const missedDate = { route: 'date-switch', from: 'A', to: 'H', result: 'unavailable', evidence: 'date option not reached' };
   const missedReturn = { route: 'arrow', from: 'A', to: 'H', result: 'unavailable', evidence: 'reverse attempt' };
   const result = audit('H', [missedEntry, missedDate], [direct('H'), arrow('H', 'A'), missedReturn]);
-  assert.equal(result.status, 'hidden-candidate');
+  assert.equal(result.status, 'unknown');
   assert.equal(result.category, 'unknown');
   assert.equal(result.evidence.oneWayArrows.length, 0);
   assert.equal(audit('H', [missedEntry, missedDate], [direct('H'), arrow('H', 'A'), { ...missedReturn, result: 'error' }]).status, 'access-error');
@@ -77,7 +77,8 @@ test('a successful one-way date candidate does not imply a round trip', () => {
 test('one-way requires observed incoming arrow and an explicit reverse miss on that edge', () => {
   const onward = arrow('A','H'), back = {route:'arrow',from:'H',to:'A',result:'unavailable',evidence:'reverse arrow checked'};
   assert.equal(audit('H',[map('A'),onward]).status,'unknown');
-  assert.equal(audit('H',[map('A'),onward,back]).status,'time-machine-one-way');
+  const oneWay = audit('H',[map('A'),onward,back]);
+  assert.equal(oneWay.status,'unknown'); assert.equal(oneWay.evidence.oneWayArrows.length,1);
   assert.equal(audit('H',[map('A'),onward],[direct('H'),back]).status,'unknown');
   assert.equal(audit('H',[map('A'),onward,back],[direct('H'),arrow('H','A')]).status,'unknown');
   assert.equal(audit('H',[map('A'),onward,{...back,result:'error'}]).status,'access-error');
@@ -140,10 +141,25 @@ test('date control identified without clicking, and reverse-only date return, do
   assert.equal(audit('H',[map('A'),option]).status,'unknown');
 });
 
-test('hidden candidate does not require a road arrow OUT OF the target',()=>{
+test('absence of every attempted entrance still does not establish hidden',()=>{
   const miss=(route)=>({route,from:'A',to:'H',result:'unavailable',evidence:'normal route inspected'});
   const anchor=[map('A'),arrow('A','N'),map('A')];
   const tries=[[{...map('H'),result:'alternative',observed:'X'}],[...anchor,miss('date-switch')],[...anchor,miss('arrow')],[direct('H')]];
-  assert.equal(audit('H',...tries).status,'hidden-candidate');assert.equal(audit('H',tries[0],tries[1],tries[3]).status,'unknown');
+  assert.equal(audit('H',...tries).status,'unknown');assert.equal(audit('H',tries[0],tries[1],tries[3]).status,'unknown');
   assert.equal(audit('H',...tries,[...anchor,arrow('A','H')]).status,'unknown');
+});
+
+
+test('target source boolean beats mobility, but not a validated date roundtrip or a trusted manual decision', () => {
+  const H = 'H', originalRecord = {id:H, sid:H, isHidden:true, Links:['A'], TimeLine:[{},{}], hasPano:true, movementCount:4};
+  const run = (steps, raw=originalRecord, ctx) => auditPanoramaAccess({schemaVersion:1,panoid:H,client:'fixture',checkedAt:'2026-11-27',originalRecord:raw,sessions:[{id:'1',steps}]},ctx);
+  const traces = [direct(H),arrow(H,'B'),arrow('B',H)];
+  assert.equal(run(traces).basis,'source-isHidden-true');
+  for (const mark of [false,null,undefined,1,'true']) assert.equal(run(traces,{...originalRecord,isHidden:mark}).status,'unknown');
+  assert.equal(run(traces,{id:'A',isHidden:true}).status,'unknown');
+  assert.equal(run(traces,{id:H,sid:'A',isHidden:true}).status,'unknown');
+  const dateTrip = [map('A'),date('A',H,'2023-09','2016-05'),date(H,'A','2016-05','2023-09'),arrow('A','B')];
+  assert.equal(run(dateTrip).status,'time-machine-roundtrip');
+  const m = {category:'regular',status:'regular-confirmed',basis:'prior-fixture-receipt'};
+  assert.equal(run(dateTrip,originalRecord,{manualById:new Map([[H,m]])}).basis,m.basis);
 });

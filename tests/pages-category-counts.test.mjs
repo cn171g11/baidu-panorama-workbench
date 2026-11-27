@@ -3,6 +3,8 @@ import assert from 'node:assert/strict';
 import { mkdtemp, mkdir, readFile, writeFile, rm } from 'node:fs/promises';
 import path from 'node:path';
 import os from 'node:os';
+import { createHash } from 'node:crypto';
+import { gunzipSync } from 'node:zlib';
 import { publishPages, readRegularOverrides, supplementaryRow, reviewedRegularGate } from '../tools/publish_pages.mjs';
 import { checkDomesticSnapshot } from '../tools/browser_data_check.mjs';
 import { overlapReview, markOverlapRegular } from '../tools/supp23_manual_review.mjs';
@@ -17,12 +19,21 @@ async function fixture(extraRows=[]){
   for(const module of PUBLIC_MODULES)await put('city-viewer/js/'+module,'export {};');
   for(const file of ['leaflet.js','leaflet.css','LICENSE'])await put('city-viewer/vendor/leaflet/'+file,await readFile(path.join(PROJECT_ROOT,'city-viewer/vendor/leaflet',file)));
   const row=(id,extra)=>[id,117,37,'','',null,false,true,'baidu',extra];
-  const rows=[row('ordinary',{source:'baidu_pano'}),row('hidden',{source:'baidu',isHidden:true}),row('history',{source:'baidu',sourceType:'time-machine',isHidden:true}),row('unknown',{source:'baidu',sourceType:'unknown'}),row('confirmed-regular',{source:'baidu_pano',sourceType:'regular',extra:{sourceBatch:'baidu-supplement-20261123',classificationBasis:'user-confirmed-regular',classificationReviewedAt:'2026-11-25'}}),...extraRows];
+  const rows=[row('ordinary',{source:'baidu_pano'}),row('hidden',{source:'baidu',isHidden:true}),row('history',{source:'baidu',sourceType:'time-machine',isHidden:false}),row('unknown',{source:'baidu',sourceType:'unknown'}),row('confirmed-regular',{source:'baidu_pano',sourceType:'regular',extra:{sourceBatch:'baidu-supplement-20261123',classificationBasis:'user-confirmed-regular',classificationReviewedAt:'2026-11-25'}}),...extraRows];
   const logical='baidu/371600/points-001.json';await put('data/'+logical,JSON.stringify(rows)+'\n');
   const catalog={schemaVersion:1,provider:'baidu',coordinateSystem:'BD-09',updatedAt:null,total:rows.length,collections:[{id:'371600',adcode:'371600',name:'滨州市',province:'山东省',coordinateSystem:'BD-09',count:rows.length,bounds:[117,37,117,37],files:[logical],displayCounts:{regular:999,hidden:99,timeMachine:99,unknown:99,total:999}}]};
   await put('data/catalog.json',JSON.stringify(catalog)+'\n');
   return {root,put,dispose:()=>rm(root,{recursive:true,force:false})};
 }
+
+test('the public module whitelist includes every local viewer dependency',async()=>{
+  const modules=new Set(PUBLIC_MODULES);
+  assert(modules.has('app.js')&&modules.has('hidden-flag.js'));
+  for(const entry of modules){
+    const source=await readFile(path.join(PROJECT_ROOT,'city-viewer/js',entry),'utf8');
+    for(const [,dep] of source.matchAll(/(?:\bfrom\s*|\bimport\s*\(?\s*)['"]\.\/([^'"]+\.js)['"]/g))assert(modules.has(dep),`${entry} needs ${dep} in PUBLIC_MODULES`);
+  }
+});
 
 test('publication derives source categories from verified rows, not stale input summaries',async()=>{
   const f=await fixture();try{
@@ -50,6 +61,33 @@ test('domestic supplement publishes only reviewed crawler metadata-only unknown 
     const catalog=JSON.parse(await readFile(path.join(result.output,'city-viewer/data/catalog.json'),'utf8'));
     assert.deepEqual(catalog.collections[0].displayCounts,{regular:0,hidden:2,timeMachine:1,unknown:1,total:4});
     assert.equal(catalog.collections[0].summary.selection,'hidden-time-machine-and-batch-unknown');
+  }finally{await f.dispose();}
+});
+
+const flagPolicy='source-isHidden-boolean-v1';
+const receiptCity=ids=>({count:ids.length,idsSha256:createHash('sha256').update([...ids].sort().map(id=>id+'\n').join(''),'ascii').digest('hex')});
+test('v1.11 scoped Pages retains every batch primary and no unrelated unknown IDs',async()=>{
+  const batch='baidu-crawler-20261125';
+  const make=(id,m)=>[id,117,37,'','',null,false,true,'baidu',m];
+  const crawler=(id,flag,type)=>make(id,{source:'baidu',sourceType:type,isHidden:type==='hidden',originalMetadataOnly:true,extra:{sourceBatch:batch,originalRecord:{panoId:id,...(flag===undefined?{}:{isHidden:flag}),sourceType:'hidden',movementCount:6}}});
+  const fromObservation=crawler('observation',undefined,'hidden');
+  fromObservation[9].observations=[{variant:crawler('observation',true,'hidden')}];
+  const hidden=['literal','observation','corrected-old'];
+  const f=await fixture([crawler('literal',true,'hidden'),fromObservation,crawler('unset',undefined,'unknown'),crawler('false',false,'unknown'),crawler('string','true','unknown'),make('corrected-old',{sourceType:'hidden',isHidden:true}),make('was-public',{sourceType:'unknown'}),make('neighbor',{sourceType:'unknown'})]);
+  try{
+    const receipt={schemaVersion:1,policy:flagPolicy,state:'verified',hiddenCount:4,cities:{'371600':receiptCity(hidden),'999999':receiptCity(['unhosted'])},crawlerHiddenCounts:{'371600':2},retainedUnknownIds:{}};
+    const notes={current:{version:'1.11.0'},releases:[{version:'1.11.0',hiddenPolicy:{policy:flagPolicy,hiddenCount:4}},{version:'1.10.0',cityAdditions:[{id:'371600',added:5}],importCounts:{uniquePanoids:5}}]};
+    await f.put('config/release-notes.json',JSON.stringify(notes));
+    const putReceipt=r=>f.put('config/reviews/source-hidden-flags.json',JSON.stringify(r));await putReceipt(receipt);
+    const options={root:f.root,commit:'b'.repeat(40),selection:{schemaVersion:1,provider:'baidu',mode:'pages-gzip',cities:['371600'],domesticSupplementOnly:true}};
+    const result=await publishPages(options),dir=path.join(result.output,'city-viewer/data');
+    const {collections:[city]}=JSON.parse(await readFile(path.join(dir,'catalog.json')));
+    const ids=JSON.parse(gunzipSync(await readFile(path.join(dir,city.files[0]+'.gz')))).map(row=>row[0]);
+    assert.deepEqual(city.displayCounts,{regular:0,hidden:3,timeMachine:1,unknown:3,total:7});
+    assert.deepEqual(ids.sort(),['history','literal','observation','unset','false','string','corrected-old'].sort());
+    for(const [patch,err] of [[{state:'pending'},/unverified/],[{crawlerHiddenCounts:{}},/11.25 primary/],[{retainedUnknownIds:{'371600':['absent']}},/retained unknown/],[{cities:{...receipt.cities,'371600':receiptCity(['literal','observation','substitute'])}},/fingerprint/]]){
+      await putReceipt({...receipt,...patch});await assert.rejects(publishPages(options),err);
+    }
   }finally{await f.dispose();}
 });
 
@@ -107,4 +145,13 @@ test('browser snapshot: v1.10.0 keeps old regular baseline; v1.10.1 requires all
   assert.equal(checkDomesticSnapshot(next,cities),true);assert.throws(()=>checkDomesticSnapshot(old,cities),/regular/);
   assert.throws(()=>checkDomesticSnapshot(next,cities.slice(0,-1)),/Missing reviewed/);
   cities[0].displayCounts.unknown--;assert.throws(()=>checkDomesticSnapshot(next,cities),/unknown/);
+  const gate={version:'1.11.0',hiddenPolicy:{policy:flagPolicy,hiddenCount:5}}, modern={current:{version:gate.version},releases:[gate,...next.releases]};
+  const receipt={schemaVersion:1,state:'verified',policy:flagPolicy,hiddenCount:5,cities:{'371600':receiptCity(['first','second','old']),'659900':receiptCity(['offscope1','offscope2'])},crawlerHiddenCounts:{'371600':2},retainedUnknownIds:{}};
+  for(const c of cities){c.displayCounts.unknown=0;c.displayCounts.hidden=c.id==='371600'?3:0;}
+  assert.equal(checkDomesticSnapshot(modern,cities,receipt),true);
+  const patch={current:{version:'1.11.1'},releases:[{version:'1.11.1'},...modern.releases]};assert.equal(checkDomesticSnapshot(patch,cities,receipt),true);
+  assert.throws(()=>checkDomesticSnapshot({...modern,releases:[{version:'1.11.0'},...next.releases]},cities,receipt),/Missing source hidden policy/);
+  assert.throws(()=>checkDomesticSnapshot(modern,cities,{...receipt,policy:'unrecognized'}),/unverified/);
+  cities[0].displayCounts.hidden--;assert.throws(()=>checkDomesticSnapshot(modern,cities,receipt),/Domestic hidden/);cities[0].displayCounts.hidden++;
+  cities[0].displayCounts.unknown++;assert.throws(()=>checkDomesticSnapshot(modern,cities,receipt),/Domestic unknown/);
 });

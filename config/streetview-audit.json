@@ -1,54 +1,61 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "scope": "canonical-and-input-rows-separate",
   "catalog": {
     "rows": 18936803,
     "byCategory": {
-      "unknown": 18686190,
-      "hidden": 7418,
-      "regular": 162559,
-      "time-machine": 80636
+      "hidden": 344388,
+      "unknown": 18349811,
+      "time-machine": 80045,
+      "regular": 162559
     },
     "byStatus": {
-      "unknown": 18686190,
-      "user-confirmed-hidden": 7418,
+      "source-isHidden-true": 336753,
+      "unknown": 18349811,
+      "user-confirmed-hidden": 7635,
+      "time-machine-manual-confirmed": 233,
       "regular-confirmed": 162559,
-      "time-machine-history-only": 80636
+      "time-machine-history-only": 79812
     },
     "bySource": {
-      "hidden": 79328,
-      "time-machine": 124706,
-      "unknown": 268019,
+      "hidden": 344388,
       "missing": 18142376,
-      "regular": 322374
+      "time-machine": 115068,
+      "regular": 322374,
+      "unknown": 12597
     },
     "byBasis": {
-      "insufficient-evidence": 18686190,
+      "source-isHidden-true": 336753,
+      "insufficient-evidence": 18349811,
+      "alxa-user-directed-hidden-batch": 216,
+      "user-directed-time-machine": 233,
       "binzhou-user-confirmed-source": 7418,
       "binzhou-official-browser": 1,
+      "xinxiang-user-directed-hidden": 1,
       "supp23-overlap-user-confirmed": 150762,
-      "source-parent-history-reference": 80636,
+      "source-parent-history-reference": 79812,
       "tumushuke-user-confirmed-source": 11796
     },
     "sourceByStatus": {
       "hidden": {
-        "unknown": 71910,
-        "user-confirmed-hidden": 7418
-      },
-      "time-machine": {
-        "unknown": 44070,
-        "time-machine-history-only": 80636
-      },
-      "unknown": {
-        "unknown": 268019
+        "source-isHidden-true": 336753,
+        "user-confirmed-hidden": 7635
       },
       "missing": {
         "unknown": 18142375,
         "regular-confirmed": 1
       },
+      "time-machine": {
+        "time-machine-manual-confirmed": 233,
+        "unknown": 35023,
+        "time-machine-history-only": 79812
+      },
       "regular": {
         "unknown": 159816,
         "regular-confirmed": 162558
+      },
+      "unknown": {
+        "unknown": 12597
       }
     },
     "collections": 375,
@@ -57,20 +64,20 @@
   "uploads": {
     "rows": 255422,
     "byCategory": {
-      "unknown": 255422
+      "hidden": 255422
     },
     "byStatus": {
-      "unknown": 255422
+      "source-isHidden-true": 255422
     },
     "bySource": {
       "hidden": 255422
     },
     "byBasis": {
-      "insufficient-evidence": 255422
+      "source-isHidden-true": 255422
     },
     "sourceByStatus": {
       "hidden": {
-        "unknown": 255422
+        "source-isHidden-true": 255422
       }
     },
     "timelineEmpty": 0,
