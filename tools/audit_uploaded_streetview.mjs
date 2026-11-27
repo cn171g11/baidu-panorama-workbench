@@ -7,6 +7,7 @@ import { createInflateRaw } from 'node:zlib';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { explicitSourceHistory } from './audit_panorama_access.mjs';
+import { isOverlapReview, overlapReview, verifyOverlapCity } from './supp23_manual_review.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const BASELINE = new Map([
@@ -14,8 +15,7 @@ const BASELINE = new Map([
   ['09017800001409051038442536J', ['time-machine', 'time-machine-roundtrip']],
 ]);
 
-const SOURCE_BATCH = 'baidu-supplement-20261123';
-const SOURCE_SHA256 = '838b229ed9ce2d54e3659edede934d9bf7b3b4547700e9f48f2582683dac769b';
+const OVERLAP_BASIS = 'supp23-overlap-user-confirmed';
 function sortedHas(ids, id) {
   let lo = 0, hi = ids?.length ?? 0;
   while (lo < hi) { const mid = (lo + hi) >>> 1; if (ids[mid] < id) lo = mid + 1; else hi = mid; }
@@ -24,8 +24,11 @@ function sortedHas(ids, id) {
 export function classify(row, { binzhouHiddenIds, tumushukeIds, city } = {}) {
   const id = row[0], meta = row[9], extra = meta?.extra;
   if (binzhouHiddenIds?.has(id)) return { category: 'hidden', status: 'user-confirmed-hidden', basis: 'binzhou-user-confirmed-source' };
+  // The city is trusted catalog context, never a field supplied by an upload.
+  if (city && isOverlapReview(row, city)) return { category: 'regular', status: 'regular-confirmed', basis: OVERLAP_BASIS };
   if ((city === '659003' && extra?.classificationBasis === 'user-confirmed-regular' &&
-      extra.sourceBatch === SOURCE_BATCH && extra.sourceZipSha256 === SOURCE_SHA256) || (tumushukeIds && sortedHas(tumushukeIds,id))) {
+      extra.sourceBatch === overlapReview.sourceBatch && extra.sourceZipSha256 === overlapReview.sourceZipSha256 &&
+      !Object.hasOwn(extra, 'manualReview') && extra.classificationReviewedAt !== overlapReview.reviewedAt) || (tumushukeIds && sortedHas(tumushukeIds,id))) {
     return { category: 'regular', status: 'regular-confirmed', basis: 'tumushuke-user-confirmed-source' };
   }
   const baseline = BASELINE.get(id);
@@ -113,11 +116,13 @@ function addStats(stats, source, result) {
   stats.rows++; increment(stats.byCategory, result.category); increment(stats.byStatus, result.status); increment(stats.bySource, source);
   increment(stats.byBasis, result.basis || 'insufficient-evidence'); increment(stats.sourceByStatus[source] ??= {}, result.status);
 }
-async function auditCatalog(dataRoot, binzhouHiddenIds, tumushukeIds) {
+export async function auditCatalog(dataRoot, binzhouHiddenIds, tumushukeIds, { publicOnly = false } = {}) {
   const catalog = JSON.parse((await readFile(path.join(dataRoot, 'catalog.json'), 'utf8')).replace(/^\ufeff/, ''));
   const stats = { ...counters(), collections: catalog.collections.length, files: 0 }, city = {};
   for (const collection of catalog.collections) {
     if (!/^\d{6}$/.test(collection.id) || city[collection.id]) throw Error('Invalid or duplicate catalog city');
+    const target = publicOnly && overlapReview.cities[collection.id];
+    const overlapIds = target ? [] : null;
     const local = city[collection.id] = { rows: 0, byCategory: {}, byStatus: {} };
     for (const [index, relative] of collection.files.entries()) {
       if (relative !== `baidu/${collection.id}/points-${String(index + 1).padStart(3,'0')}.json`) throw Error('Invalid catalog shard path');
@@ -126,6 +131,12 @@ async function auditCatalog(dataRoot, binzhouHiddenIds, tumushukeIds) {
       for await (const item of streamRecords(createReadStream(file))) {
         if (!Array.isArray(item)) throw Error('Expected canonical row');
         const row = rowOf(item), result = classify(row, { binzhouHiddenIds, city: collection.id });
+        if (publicOnly && result.basis === OVERLAP_BASIS) {
+          if (!target || overlapIds.length >= target.count) throw Error(`Manual review count exceeds receipt: ${collection.id}`);
+          overlapIds.push(row[0]);
+        } else if (publicOnly && row[9]?.extra?.manualReview?.scope === overlapReview.reviewId) {
+          throw Error(`Invalid overlap review declaration: ${collection.id}`);
+        }
         if (result.basis === 'tumushuke-user-confirmed-source') {
           if (tumushukeIds.length >= 11796) throw Error('Tumushuke baseline exceeds fixed size');
           tumushukeIds.push(row[0]);
@@ -134,6 +145,11 @@ async function auditCatalog(dataRoot, binzhouHiddenIds, tumushukeIds) {
       }
     }
     if (local.rows !== collection.count) throw Error('Catalog collection count mismatch');
+    if (target) verifyOverlapCity(collection.id, overlapIds);
+  }
+  if (publicOnly) {
+    for (const id of Object.keys(overlapReview.cities)) if (!city[id]) throw Error(`Missing overlap review city: ${id}`);
+    if (stats.byBasis[OVERLAP_BASIS] !== overlapReview.total) throw Error('National overlap review count mismatch');
   }
   if (stats.rows !== catalog.total) throw Error('Catalog total mismatch');
   return { catalog: { total: catalog.total, collections: catalog.collections.length }, stats, city };
@@ -234,7 +250,7 @@ export async function auditUploaded({ zip, files = [], root = ROOT, dataRoot = p
   const baseline = binzhouSource ? await binzhouSourceIds(binzhouSource) : null;
   const binzhouHiddenIds = baseline && new Set(baseline.ids);
   const manual = { binzhouHiddenIds, tumushukeIds: [] };
-  const catalog = await auditCatalog(path.resolve(dataRoot), binzhouHiddenIds, manual.tumushukeIds);
+  const catalog = await auditCatalog(path.resolve(dataRoot), binzhouHiddenIds, manual.tumushukeIds, { publicOnly });
   manual.tumushukeIds.sort();
   if (manual.tumushukeIds.some((id,i,all) => i && id === all[i-1])) throw Error('Duplicate Tumushuke manual ID');
   if (publicOnly && (catalog.stats.byBasis['binzhou-user-confirmed-source'] !== 7418 || catalog.stats.byBasis['tumushuke-user-confirmed-source'] !== 11796)) throw Error('National manual baseline counts do not reconcile');

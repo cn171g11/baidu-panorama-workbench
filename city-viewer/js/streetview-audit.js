@@ -3,7 +3,7 @@
 const sourceKeys = ['regular','hidden','time-machine','unknown','missing','other'];
 const categories = ['regular','hidden','time-machine','unknown'];
 const statuses = ['regular-confirmed','user-confirmed-hidden','time-machine-roundtrip','time-machine-one-way','time-machine-history-only','hidden-candidate','access-error','unknown'];
-const bases = ['binzhou-user-confirmed-source','tumushuke-user-confirmed-source','binzhou-official-browser','source-parent-history-reference','insufficient-evidence'];
+const bases = ['binzhou-user-confirmed-source','tumushuke-user-confirmed-source','supp23-overlap-user-confirmed','binzhou-official-browser','source-parent-history-reference','insufficient-evidence'];
 const diagnostics = ['timelineEmpty','timelineSingle','timelineMultiple','timelineMissing','movementZero','movementPositive','movementMissing','movementInvalid','metadataOnly'];
 const integer = v => Number.isSafeInteger(v) && v >= 0;
 function allow(value, keys, label) {

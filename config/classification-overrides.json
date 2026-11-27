@@ -1,6 +1,7 @@
 {
   "schemaVersion": 1,
   "provider": "baidu",
+  "reviewReceipt": "reviews/supp23-hidden-overlap.json",
   "overrides": [
     {
       "city": "659003",

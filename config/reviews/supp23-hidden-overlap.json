@@ -1,0 +1,118 @@
+{
+  "schemaVersion": 1,
+  "reviewId": "supp23-hidden-overlap-20261127",
+  "reviewedAt": "2026-11-27",
+  "reason": "用户确认补充包与原隐藏清单交集为常规街景",
+  "tag": "经过人工确认",
+  "from": "hidden",
+  "to": "regular",
+  "sourceBatch": "baidu-supplement-20261123",
+  "sourceZipSha256": "838b229ed9ce2d54e3659edede934d9bf7b3b4547700e9f48f2582683dac769b",
+  "baselineCommit": "813c8f5b3b1b33631fe0e19682bc4b6974b155f1",
+  "focusTsvSha256": "fb3d133bff4922a44d465862e8629deed1cb7702603649aca88f78ea8f87a21a",
+  "total": 150762,
+  "idSetSha256": "e58401a855f770dc7acb9d9dbf90c4a1ec23faa7630c2b1de4e833d8cf0941f1",
+  "cities": {
+    "469001": {
+      "name": "五指山市",
+      "count": 1936,
+      "idsSha256": "e2cd28010352072d2412699d9e7e8f469dbdfd8b9ac312bdf4b6e6afd23e64e5"
+    },
+    "469002": {
+      "name": "琼海市",
+      "count": 14680,
+      "idsSha256": "3e45dbf6556d56889487695b54168d587271ebfd2859d62e50992fe9013e3c9a"
+    },
+    "469005": {
+      "name": "文昌市",
+      "count": 9975,
+      "idsSha256": "20afb42ee833d5db0e45c738e8d3c082692681a2dea1100b4253bdec720f5448"
+    },
+    "469006": {
+      "name": "万宁市",
+      "count": 11207,
+      "idsSha256": "2794f309ee908c3e3e3d29c444f9ef50314db9e38b826984d8fd8d64fb8bb2a2"
+    },
+    "469007": {
+      "name": "东方市",
+      "count": 16235,
+      "idsSha256": "5c8dcbc5d8a54a48c5e7be3e4c5f56508e612d55e051701a0e96edce40c19fd7"
+    },
+    "469021": {
+      "name": "定安县",
+      "count": 6875,
+      "idsSha256": "573c9118c9c7e876f668e62de47fe1d050d065c7dc87c0b0753a5c865699c440"
+    },
+    "469022": {
+      "name": "屯昌县",
+      "count": 7091,
+      "idsSha256": "5e9f19c0909bc04dd73d03e4469fb77081e7fc732da971012e8d51d2882dbd4b"
+    },
+    "469023": {
+      "name": "澄迈县",
+      "count": 10538,
+      "idsSha256": "0671bab8ed0bb649f4da0385f08c4f81f894f428244236b9a0c91ea9000fbdfc"
+    },
+    "469024": {
+      "name": "临高县",
+      "count": 3862,
+      "idsSha256": "17b8810dad02bc45278114e7110f8e1349024648e28e9965ba359db920bf5f0c"
+    },
+    "469025": {
+      "name": "白沙黎族自治县",
+      "count": 3262,
+      "idsSha256": "9d655a2a5c7c5c40e2ae2ec23fd2ae9d22599e883397986cae2651096e9cb01e"
+    },
+    "469026": {
+      "name": "昌江黎族自治县",
+      "count": 4340,
+      "idsSha256": "388f689f28f2b6257e85db66c1f85b49d9e2a0590796c8f2c8ec7d29138a3b5a"
+    },
+    "469027": {
+      "name": "乐东黎族自治县",
+      "count": 1940,
+      "idsSha256": "1b36ac30a2216346a2ab5266a08d0520b4300739c3bed6e36f15ecf1b58914ee"
+    },
+    "469028": {
+      "name": "陵水黎族自治县",
+      "count": 7162,
+      "idsSha256": "f21c50557129f8f85a7cd4344c3cb51fe5757a1264042f632765652695660322"
+    },
+    "469029": {
+      "name": "保亭黎族苗族自治县",
+      "count": 3596,
+      "idsSha256": "3580d1342787563e5cf2021f34816a9c7469b432d4ca9df283fea324af5f2ecd"
+    },
+    "469030": {
+      "name": "琼中黎族苗族自治县",
+      "count": 1586,
+      "idsSha256": "9b6d1eea6f5fdab9383d81f21da6169227d4944546cb689edae960380ad96ff9"
+    },
+    "659001": {
+      "name": "石河子市",
+      "count": 32156,
+      "idsSha256": "1d80bd55a85ce11b557f30d9186fc16ba2054642fb2fc3ccd8dc0b39b1914a87"
+    },
+    "659002": {
+      "name": "阿拉尔市",
+      "count": 9222,
+      "idsSha256": "c123dd13b8ac2a506ebe6a3462c337ba1e03c714270ca09615a8d6458af62cea"
+    },
+    "659004": {
+      "name": "五家渠市",
+      "count": 4663,
+      "idsSha256": "559398f851c4134896a5a75c37abc54e66a475725bdc76056ef55ff01ba40143"
+    },
+    "659007": {
+      "name": "双河市",
+      "count": 403,
+      "idsSha256": "700c2301c181d56e3ac5e183bf1888cd6346e9cc24d263552e1393da14b416d3"
+    },
+    "659012": {
+      "name": "白杨市",
+      "count": 33,
+      "idsSha256": "515b17c1cb3e95a879b90a481d5c35abf0534e190a538ec12e21a096d8b9c960"
+    }
+  },
+  "hashFormat": "UTF-8, ascending ASCII order. City: panoid + LF; full scope: city + TAB + panoid + LF."
+}

@@ -1,11 +1,12 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdtemp, mkdir, writeFile, rm } from 'node:fs/promises';
+import { mkdtemp, mkdir, readFile, writeFile, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { Readable } from 'node:stream';
 import { deflateRawSync } from 'node:zlib';
-import { auditUploaded, binzhouSourceIds, classify, publicSummary, streamRecords } from '../tools/audit_uploaded_streetview.mjs';
+import { auditCatalog, auditUploaded, binzhouSourceIds, classify, publicSummary, streamRecords } from '../tools/audit_uploaded_streetview.mjs';
+import { overlapReview, verifyOverlapCity } from '../tools/supp23_manual_review.mjs';
 
 const row = (id, meta = {}) => [id, 0, 0, '', '', null, false, true, 'baidu', meta];
 function zipEntry(name, text, { corrupt = false, method = 8 } = {}) {
@@ -40,6 +41,61 @@ test('only independent consistent historical provenance qualifies; manual review
   assert.equal(rule(reviewed,{city:'371600'}),'unknown');
   assert.equal(rule({...reviewed,sourceBatch:'other'},{city:'659003'}),'unknown');
   assert.equal(rule(historical,{binzhouHiddenIds:new Set(['target'])}),'user-confirmed-hidden');
+});
+
+const overlapBasis = 'supp23-overlap-user-confirmed';
+function marked(id) {
+  const date = '2026-11-27', reason = '用户确认补充包与原隐藏清单交集为常规街景';
+  return row(id, { sourceType:'regular', tags:['经过人工确认'], extra:{ ...reviewed,
+    classificationReviewedAt:date, classificationReason:reason, previousSourceType:'hidden',
+    manualReview:{scope:'supp23-hidden-overlap-20261127',date,reason,previousSourceType:'hidden'} } });
+}
+
+test('the new decision requires its own complete declaration in trusted catalog city context', () => {
+  const r = marked('x');
+  assert.deepEqual(classify(r, {city:'659012'}), {category:'regular',status:'regular-confirmed',basis:overlapBasis});
+  for (const city of [undefined,'659003','371600']) assert.equal(classify(r,{city}).status,'unknown');
+  for (const mutate of [m=>m.isHidden=false, m=>m.sourceType='hidden', m=>m.tags=[], m=>m.extra.sourceZipSha256='other',
+    m=>m.extra.sourceBatch='other', m=>delete m.extra.manualReview, m=>m.extra.manualReview.scope='elsewhere',
+    m=>m.extra.classificationReviewedAt='2026-11-25', m=>m.extra.manualReview.date='2026-11-25', m=>m.extra.previousSourceType='regular']) {
+    const invalid = structuredClone(r); mutate(invalid[9]); assert.equal(classify(invalid,{city:'659012'}).status,'unknown');
+  }
+});
+
+test('public catalog checks actual IDs per city, not even a balanced national count', async t => {
+  // The two smallest reviewed cities suffice; never run a national scan in this test.
+  const ids = {};
+  for (const city of ['659012','659007']) {
+    const rows = JSON.parse(await readFile(new URL(`../data/baidu/${city}/points-001.json`, import.meta.url),'utf8'));
+    ids[city] = rows.filter(r => r[9]?.sourceType === 'hidden' || r[9]?.extra?.manualReview?.scope === overlapReview.reviewId).map(r=>r[0]);
+    assert.equal(verifyOverlapCity(city, ids[city]),true);
+  }
+  const root = await mkdtemp(path.join(tmpdir(),'review-city-'));
+  t.after(()=>rm(root,{recursive:true,force:true}));
+  async function setup(group) {
+    const collections = [];
+    for (const [id,rows] of Object.entries(group)) {
+      const dir = `baidu/${id}`, file = `${dir}/points-001.json`;
+      await mkdir(path.join(root,dir),{recursive:true}); await writeFile(path.join(root,file),JSON.stringify(rows));
+      collections.push({id,count:rows.length,files:[file]});
+    }
+    await writeFile(path.join(root,'catalog.json'),JSON.stringify({collections,total:collections.reduce((n,c)=>n+c.count,0)}));
+  }
+  const check = () => auditCatalog(root,null,[],{publicOnly:true});
+  const a = ids['659012'].map(marked), b = ids['659007'].map(marked);
+  await setup({'659012':a,'659007':b});
+  await assert.rejects(check,/Missing overlap review city/); // both present cities passed; the other 18 are required too
+  const upload = path.join(root,'raw.json');
+  await writeFile(upload,JSON.stringify([{...a[0][9],id:'fake',source:'baidu',city:'659012'}]));
+  const s = publicSummary(await auditUploaded({dataRoot:root,files:[upload]}));
+  assert.equal(s.catalog.byBasis[overlapBasis],a.length+b.length);
+  assert.deepEqual(s.uploads.byBasis,{'insufficient-evidence':1});
+  const swappedA = [b[0],...a.slice(1)], swappedB = [a[0],...b.slice(1)];
+  await setup({'659012':swappedA,'659007':swappedB}); await assert.rejects(check,/fingerprint mismatch/);
+  await setup({'659012':[marked('0'.repeat(27)),...a.slice(1)]}); await assert.rejects(check,/fingerprint mismatch/);
+  await setup({'659012':[a[1],...a.slice(1)]}); await assert.rejects(check,/duplicate/);
+  await setup({'659012':a.slice(1)}); await assert.rejects(check,/count mismatch/);
+  await setup({'659003':[a[0]]}); await assert.rejects(check,/Invalid overlap review declaration/);
 });
 
 test('documented Binzhou browser observations override source labels', () => {

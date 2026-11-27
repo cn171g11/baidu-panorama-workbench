@@ -2,13 +2,68 @@
   "schemaVersion": 1,
   "project": "baidu-panorama-workbench",
   "current": {
-    "version": "1.10.0",
-    "date": "2026-11-26",
+    "version": "1.10.1",
+    "date": "2026-11-27",
     "highlights": [
-      "11.25 爬虫批次新增 255,036 个待确认街景；匹配已有 panoid 的 386 条记录不重复计点。"
+      "按用户人工确认，将 11.23 补充包与原隐藏清单重合的 150,762 个街景 ID 更正为常规；未新增点位。"
     ]
   },
   "releases": [
+    {
+      "version": "1.10.1",
+      "date": "2026-11-27",
+      "title": "11.23 补充包隐藏交集人工确认更正",
+      "classificationReview": {
+        "reviewId": "supp23-hidden-overlap-20261127",
+        "previous": "hidden",
+        "current": "regular",
+        "count": 150762,
+        "idSetSha256": "e58401a855f770dc7acb9d9dbf90c4a1ec23faa7630c2b1de4e833d8cf0941f1",
+        "cityCount": 20
+      },
+      "cityAdditions": [],
+      "changes": [
+        "此次只更正 20 个地区共 150,762 个精确 panoid。归档由 hidden 改为 regular，添加“经过人工确认”标签，并保留原分类、用户确认日期和适用范围。不是把空 links 判作常规，也不是本站逐点进行的官网操作测试。",
+        "补充包 278,517 个 ID 中，常规 162,558（含图木舒克先前确认的 11,796 个），时光机 115,959，隐藏 0。滨州原始人工隐藏 7,418 个和 11.25 上传记录保持不变。",
+        "全国仍有 79,328 条主记录标为隐藏：7,418 个为滨州人工确认，其余 71,910 个入口状态为待确认。此更正不增删点位，不改变原坐标、道路连接、日期和历史观察。"
+      ],
+      "auditCounts": {
+        "catalog": {
+          "rows": 18936803,
+          "bySource": {
+            "hidden": 79328,
+            "time-machine": 124706,
+            "unknown": 268019,
+            "missing": 18142376,
+            "regular": 322374
+          },
+          "byStatus": {
+            "unknown": 18686190,
+            "user-confirmed-hidden": 7418,
+            "regular-confirmed": 162559,
+            "time-machine-history-only": 80636
+          },
+          "byCategory": {
+            "unknown": 18686190,
+            "hidden": 7418,
+            "regular": 162559,
+            "time-machine": 80636
+          }
+        },
+        "uploads": {
+          "rows": 255422,
+          "bySource": {
+            "hidden": 255422
+          },
+          "byStatus": {
+            "unknown": 255422
+          },
+          "byCategory": {
+            "unknown": 255422
+          }
+        }
+      }
+    },
     {
       "version": "1.10.0",
       "date": "2026-11-26",

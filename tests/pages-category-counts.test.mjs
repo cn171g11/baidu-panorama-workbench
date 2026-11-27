@@ -3,7 +3,9 @@ import assert from 'node:assert/strict';
 import { mkdtemp, mkdir, readFile, writeFile, rm } from 'node:fs/promises';
 import path from 'node:path';
 import os from 'node:os';
-import { publishPages } from '../tools/publish_pages.mjs';
+import { publishPages, readRegularOverrides, supplementaryRow, reviewedRegularGate } from '../tools/publish_pages.mjs';
+import { checkDomesticSnapshot } from '../tools/browser_data_check.mjs';
+import { overlapReview, markOverlapRegular } from '../tools/supp23_manual_review.mjs';
 import { PUBLIC_MODULES, PROJECT_ROOT } from '../tools/build_site.mjs';
 
 async function fixture(extraRows=[]){
@@ -49,4 +51,60 @@ test('domestic supplement publishes only reviewed crawler metadata-only unknown 
     assert.deepEqual(catalog.collections[0].displayCounts,{regular:0,hidden:2,timeMachine:1,unknown:1,total:4});
     assert.equal(catalog.collections[0].summary.selection,'hidden-time-machine-and-batch-unknown');
   }finally{await f.dispose();}
+});
+
+const overlapCity='659012';
+// Smallest complete signed-off set (33 Baiyang primary IDs); no dist artifact or live site needed.
+const shortIds='174528905 174529983 174531499 174532593 174534030 174535499 174537046 174538452 174539468 174540531 174543140 174550266 174910938 174911969 174913048 182141135 182146745 182147777 182148824 182149902 182150980 182151996 182311811 182313186 182314280 182315327 182921487 182922878 182923909 182924987 183048477 183050556 183051618'.split(' ');
+const sampleRow=id=>[id,117,37,'','',null,false,true,'baidu',{sourceType:'hidden',isHidden:true,tags:['source'],extra:{sourceBatch:overlapReview.sourceBatch,sourceZipSha256:overlapReview.sourceZipSha256}}];
+const reviewedRows=()=>shortIds.map(s=>markOverlapRegular(sampleRow('0901560012230924'+s+'AB'),overlapCity));
+
+test('review receipt: fail closed on missing, substituted, traversing or duplicate override configuration',async t=>{
+  const root=await mkdtemp(path.join(os.tmpdir(),'baidu-regular-config-'));t.after(()=>rm(root,{recursive:true,force:false}));
+  const folder=path.join(root,'config'),file=path.join(folder,'classification-overrides.json');
+  await mkdir(path.join(folder,'reviews'),{recursive:true});
+  const baseline=JSON.parse(await readFile(path.join(PROJECT_ROOT,'config/classification-overrides.json'),'utf8'));
+  const put=obj=>writeFile(file,JSON.stringify(obj));
+  await assert.rejects(readRegularOverrides(root),{code:'ENOENT'});
+  await put(baseline);await assert.rejects(readRegularOverrides(root),{code:'ENOENT'});
+  const receiptPath=path.join(folder,baseline.reviewReceipt);
+  await writeFile(receiptPath,JSON.stringify({...overlapReview,total:1}));await assert.rejects(readRegularOverrides(root),/receipt/);
+  await writeFile(receiptPath,JSON.stringify(overlapReview));
+  const rules=await readRegularOverrides(root);assert.equal(rules.size,21);assert.equal(rules.get('659003').count,11796);
+  assert.equal([...rules.values()].filter(o=>o.reviewId).reduce((sum,o)=>sum+o.count,0),150762);
+  await put({...baseline,reviewReceipt:'../'+baseline.reviewReceipt});await assert.rejects(readRegularOverrides(root),/manifest/);
+  await put({...baseline,overrides:[...baseline.overrides,...baseline.overrides]});await assert.rejects(readRegularOverrides(root),/Repeated/);
+  await put({...baseline,overrides:[{...baseline.overrides[0],city:overlapCity}]});await assert.rejects(readRegularOverrides(root),/legacy/);
+});
+
+test('review receipt: only the exact city IDs with primary metadata qualify; duplicate/substituted/missing/extra fail',async()=>{
+  const rules=await readRegularOverrides(PROJECT_ROOT),override=rules.get(overlapCity),rows=reviewedRows();
+  const verify=records=>{const gate=reviewedRegularGate(override);for(const row of records)if(supplementaryRow(row,override))gate.observe(row);gate.finish();};
+  verify([...rows].reverse());
+  const spoof=structuredClone(rows[0]);spoof[0]='1'.repeat(27);
+  assert.throws(()=>verify([spoof,...rows.slice(1)]),/fingerprint/);
+  assert.throws(()=>verify([rows[1],...rows.slice(1)]),/duplicate/);
+  assert.throws(()=>verify(rows.slice(1)),/count/);
+  assert.throws(()=>verify([...rows,spoof]),/Too many/);
+  for(const change of [m=>{m.tags=[];},m=>{m.isHidden=false;},m=>{m.blueDot=true;},m=>{m.extra.sourceBatch='baidu-crawler-20261125';},m=>{m.extra.sourceZipSha256='0'.repeat(64);},m=>{m.extra.manualReview.scope='other';},m=>{m.extra.classificationReviewedAt='2026-11-25';},m=>{m.extra.previousSourceType='unknown';},m=>{m.extra.manualReview.reason='other';}]){
+    const bad=structuredClone(rows[0]);change(bad[9]);assert.equal(supplementaryRow(bad,override),false);
+  }
+  const ordinary=sampleRow('ordinary');ordinary[9]={sourceType:'regular',tags:[overlapReview.tag],extra:{sourceBatch:overlapReview.sourceBatch}};
+  assert.equal(supplementaryRow(ordinary,override),false);
+  assert.equal(supplementaryRow(rows[0],rules.get('371600')),false);
+  assert.equal(supplementaryRow(rows[0],rules.get('659003')),false);
+});
+
+test('browser snapshot: v1.10.0 keeps old regular baseline; v1.10.1 requires all 20 corrected cities and unchanged crawler unknowns',()=>{
+  const crawler={version:'1.10.0',importCounts:{uniquePanoids:2},cityAdditions:[{id:'371600',added:2}]};
+  const old={current:{version:'1.10.0'},releases:[crawler,{version:'1.9.0'}]};
+  const review={version:'1.10.1',cityAdditions:[],classificationReview:{reviewId:overlapReview.reviewId,previous:'hidden',current:'regular',count:overlapReview.total,idSetSha256:overlapReview.idSetSha256,cityCount:20}};
+  const next={current:{version:'1.10.1'},releases:[review,...old.releases]};
+  const cities=['371600','659003',...Object.keys(overlapReview.cities)].map(id=>({id,displayCounts:{regular:id==='659003'?11796:0,unknown:id==='371600'?2:0}}));
+  assert.equal(checkDomesticSnapshot(old,cities),false);
+  assert.throws(()=>checkDomesticSnapshot(next,cities),/regular/);
+  for(const c of cities)if(overlapReview.cities[c.id])c.displayCounts.regular=overlapReview.cities[c.id].count;
+  assert.equal(checkDomesticSnapshot(next,cities),true);assert.throws(()=>checkDomesticSnapshot(old,cities),/regular/);
+  assert.throws(()=>checkDomesticSnapshot(next,cities.slice(0,-1)),/Missing reviewed/);
+  cities[0].displayCounts.unknown--;assert.throws(()=>checkDomesticSnapshot(next,cities),/unknown/);
 });

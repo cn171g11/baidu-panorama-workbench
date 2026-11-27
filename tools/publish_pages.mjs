@@ -3,6 +3,8 @@ import { readFile, mkdir, writeFile, rename, lstat, realpath, access, rm, readdi
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createHash } from 'node:crypto';
+import { isDeepStrictEqual } from 'node:util';
+import { overlapReview, isOverlapReview, verifyOverlapCity } from './supp23_manual_review.mjs';
 import { publishBlueCities } from './blue-dots/city-publication.mjs';
 import { buildSite, PROJECT_ROOT } from './build_site.mjs';
 import { publishTimeShard } from './publish_time_shard.mjs';
@@ -49,22 +51,71 @@ function mergeBounds(a,b) {
   if(!b)return a;
   return [Math.min(a[0],b[0]),Math.min(a[1],b[1]),Math.max(a[2],b[2]),Math.max(a[3],b[3])];
 }
-// Domestic supplement publication includes the explicit hidden/time-machine rows plus
-// user-confirmed regular corrections from the same bundle. Regular rows from older
-// conventional archives remain excluded by the source-batch marker.
+// Never turn city membership, an archive name or a human-readable tag into a regular-row allowlist.
 const METADATA_ONLY_SOURCE_BATCH='baidu-crawler-20261125';
-const supplementaryRow=(row,override=null)=>{
-  const category=categoryFor(row);
-  const extras=row?.[9];
-  const batch=extras?.extra?.sourceBatch??extras?.sourceBatch;
-  const metadataOnly=extras?.originalMetadataOnly===true||extras?.extra?.originalMetadataOnly===true;
-  // Metadata-only crawler rows are publishable only as explicit unknowns from
-  // the reviewed batch. They must never be promoted to hidden/time-machine.
-  if(batch===METADATA_ONLY_SOURCE_BATCH)return metadataOnly&&category==='unknown'&&extras?.sourceType==='unknown'&&extras?.isHidden!==true;
-  if(['hidden','time-machine'].includes(category))return true;
-  return category==='regular'&&override&&batch===override.sourceBatch&&extras?.extra?.classificationBasis==='user-confirmed-regular';
-};
+const REVIEW_RECEIPT='reviews/supp23-hidden-overlap.json';
 const CITY_ID=/^\d{6}$/;
+const TUMUSHUKE='659003';
+
+async function readConfigJSON(root, relative, optional=false) {
+  const file=path.join(root,'config',relative);
+  let info;
+  try { info=await lstat(file); } catch(error) { if(optional&&error.code==='ENOENT')return undefined; throw error; }
+  if(!info.isFile()||await realpath(file)!==file)throw Error('Unsafe classification configuration: '+relative);
+  return JSON.parse(await readFile(file,'utf8'));
+}
+
+export async function readRegularOverrides(root,{optional=false}={}) {
+  const manifest=await readConfigJSON(root,'classification-overrides.json',optional);
+  const overrides=new Map();
+  if(manifest===undefined)return overrides; // isolated fixtures without any override policy
+  if(manifest?.schemaVersion!==1||manifest.provider!=='baidu'||!Array.isArray(manifest.overrides)||manifest.reviewReceipt!==REVIEW_RECEIPT)throw Error('Invalid classification override manifest');
+  const add=item=>{if(overrides.has(item.city))throw Error('Repeated classification override city: '+item.city);overrides.set(item.city,item);};
+  for(const item of manifest.overrides){
+    if(item?.city!==TUMUSHUKE||item.kind!=='regular'||item.sourceBatch!==overlapReview.sourceBatch||item.reviewedAt!=='2026-11-25'||typeof item.reviewReason!=='string'||!item.reviewReason.trim()||item.count!==11796)throw Error('Invalid legacy classification override');
+    add(item);
+  }
+  if(!overrides.has(TUMUSHUKE))throw Error('Missing Tumushuke classification override');
+  // Read the selected root, not a fallback receipt from another checkout. The row verifier uses
+  // the embedded receipt, so both policies must identify exactly the same decision and cities.
+  const receipt=await readConfigJSON(root,manifest.reviewReceipt);
+  if(!isDeepStrictEqual(receipt,overlapReview)||Object.keys(receipt.cities).length!==20)throw Error('Unexpected classification review receipt');
+  let total=0;
+  for(const [city,{count,idsSha256}] of Object.entries(receipt.cities)){
+    if(!CITY_ID.test(city)||!Number.isSafeInteger(count)||count<1||count>32156||!/^[a-f0-9]{64}$/.test(idsSha256))throw Error('Invalid classification receipt city: '+city);
+    add({city,count,reviewId:receipt.reviewId});total+=count;
+  }
+  if(total!==receipt.total)throw Error('Classification receipt totals do not reconcile');
+  return overrides;
+}
+
+export function supplementaryRow(row,override) {
+  const category=categoryFor(row), m=row?.[9], x=m?.extra;
+  const batch=x?.sourceBatch??m?.sourceBatch;
+  const metadataOnly=m?.originalMetadataOnly===true||x?.originalMetadataOnly===true;
+  if(batch===METADATA_ONLY_SOURCE_BATCH)return metadataOnly&&category==='unknown'&&m?.sourceType==='unknown'&&m?.isHidden!==true;
+  if(['hidden','time-machine'].includes(category))return true;
+  if(category!=='regular'||metadataOnly||!override)return false;
+  if(override.reviewId===overlapReview.reviewId)return isOverlapReview(row,override.city);
+  return override.city===TUMUSHUKE&&m?.sourceType==='regular'&&!Object.hasOwn(m,'isHidden')&&x?.sourceBatch===override.sourceBatch&&x.sourceZipSha256===overlapReview.sourceZipSha256&&
+    x.classificationBasis==='user-confirmed-regular'&&x.classificationReviewedAt===override.reviewedAt&&x.manualReview?.scope!==overlapReview.reviewId;
+}
+// Count only admitted regular primary rows. Called for a single city across all its shards.
+export function reviewedRegularGate(override) {
+  const ids=override.reviewId===overlapReview.reviewId?[]:null;
+  let count=0;
+  return {
+    observe(row){
+      if(categoryFor(row)!=='regular')return;
+      if(++count>override.count)throw Error('Too many reviewed regular rows: '+override.city);
+      if(ids)ids.push(row[0]);
+    },
+    finish(){
+      if(ids)verifyOverlapCity(override.city,ids);
+      else if(count!==override.count)throw Error('Classification override count mismatch for '+override.city);
+    }
+  };
+}
 const OVERSEAS_ID='191001';
 async function hasCountySnapshot(root,id){
   const folder=path.join(root,'config/osm-counties');
@@ -95,15 +146,7 @@ export async function publishPages({root=PROJECT_ROOT,output='dist/pages',commit
   for(const key of ['hiddenOnly','countyShards','domesticSupplementOnly'])if(config[key]!==undefined&&typeof config[key]!=='boolean')throw Error(key+' must be a boolean');
   const supplementOnly=config.domesticSupplementOnly===true;
   const overseasIds=config.overseasSourceCities;
-  const overridePath=path.join(root,'config/classification-overrides.json');
-  const classificationOverrides=await access(overridePath).then(async()=>JSON.parse(await readFile(overridePath,'utf8')),()=>null);
-  if(classificationOverrides&& (classificationOverrides.schemaVersion!==1||classificationOverrides.provider!=='baidu'||!Array.isArray(classificationOverrides.overrides)))throw Error('Invalid classification override manifest');
-  const regularOverrides=new Map();
-  for(const item of classificationOverrides?.overrides||[]){
-    if(!item||typeof item.city!=='string'||!/^\d{6}$/.test(item.city)||item.kind!=='regular'||typeof item.sourceBatch!=='string'||typeof item.reviewedAt!=='string'||typeof item.reviewReason!=='string'||!Number.isSafeInteger(item.count)||item.count<0)throw Error('Invalid classification override entry');
-    if(regularOverrides.has(item.city))throw Error('Repeated classification override city: '+item.city);
-    regularOverrides.set(item.city,item);
-  }
+  const regularOverrides=await readRegularOverrides(root,{optional:!!selection&&root!==PROJECT_ROOT});
   if(supplementOnly&&(all||config.hiddenOnly!==undefined||config.hiddenOnlyCities!==undefined))throw Error('domesticSupplementOnly requires an explicit city list without hiddenOnly settings');
   if(overseasIds!==undefined){
     if(!supplementOnly)throw Error('overseasSourceCities requires domesticSupplementOnly');
@@ -185,19 +228,20 @@ export async function publishPages({root=PROJECT_ROOT,output='dist/pages',commit
     for(const city of selected){
       const cityFilter=rowFilterFor(city.id);
       if(!cityFilter)continue;
-      const totals={count:0,bounds:null,userConfirmedRegular:0};
-       const override=regularOverrides.get(city.id);
+      const totals={count:0,bounds:null};
+      const override=supplementOnly&&regularOverrides.get(city.id);
+      const gate=override?reviewedRegularGate(override):null;
       for(const source of city.sourceFiles){
         const hash=createHash('sha256');let bytes=0;
         for await(const {row:input} of streamRows(path.join(root,'data',source.path),{onChunk(chunk){bytes+=chunk.length;hash.update(chunk);}})){
           const row=validateRows([input])[0];if(!cityFilter(row))continue;
           totals.bounds=mergeBounds(totals.bounds,[row[1],row[2],row[1],row[2]]);
           totals.count++;
-          if(override&&row[9]?.extra?.classificationBasis==='user-confirmed-regular')totals.userConfirmedRegular++;
+          gate?.observe(row);
         }
         if(bytes!==source.bytes||hash.digest('hex')!==source.sha256)throw Error('Source changed during publication selection: '+source.path);
       }
-      if(override&&totals.userConfirmedRegular!==override.count)throw Error(`Classification override count mismatch for ${city.id}: ${totals.userConfirmedRegular} vs ${override.count}`);
+      gate?.finish();
       city.count=totals.count;city.bounds=totals.bounds;
       city.summary={sourceFiles:totals.count?1:0,rawRecords:totals.count,uniquePanoids:totals.count,exactDuplicates:0,differingDuplicates:0,invalidRecords:0,scope:'published-rows',selection:selectionFor(city.id)};
       if(supplementOnly)delete city.sources;

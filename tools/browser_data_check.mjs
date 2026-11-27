@@ -5,6 +5,8 @@ import { fileURLToPath } from 'node:url';
 import { access, mkdir, mkdtemp, readFile, writeFile } from 'node:fs/promises';
 import { spawn } from 'node:child_process';
 import { startServer } from './serve.mjs';
+import { overlapReview, isOverlapReview, verifyOverlapCity } from './supp23_manual_review.mjs';
+import { categoryFor } from '../city-viewer/js/classification.js';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const args = process.argv.slice(2);
@@ -36,6 +38,35 @@ async function chooseBrowser() {
   if (explicit) return explicit;
   for (const file of ['C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe','C:/Program Files/Microsoft/Edge/Application/msedge.exe','/usr/bin/google-chrome','/usr/bin/chromium']) if (await exists(file)) return file;
   throw Error('No test browser available');
+}
+// The policy is selected from the snapshot under test, not the local checkout's pending version.
+export function checkDomesticSnapshot(notes,collections) {
+  const current=notes.current?.version;
+  assert.equal(notes.releases?.[0]?.version,current,'Current release mismatch');
+  assert.match(current,/^\d+\.\d+\.\d+$/);
+  const [major,minor,patch]=current.split('.').map(Number);
+  const corrected=major>1||major===1&&(minor>10||minor===10&&patch>=1);
+  const correction=notes.releases.find(r=>r.version==='1.10.1');
+  const crawler=notes.releases.find(r=>r.version==='1.10.0');
+  const oldReview=notes.releases.some(r=>r.version==='1.9.0');
+  const regular=new Map(oldReview?[['659003',11796]]:[]);
+  if(corrected){
+    assert(oldReview&&crawler?.importCounts,'Missing earlier review/import baselines');
+    assert.deepEqual(correction?.classificationReview,{reviewId:overlapReview.reviewId,previous:overlapReview.from,current:overlapReview.to,
+      count:overlapReview.total,idSetSha256:overlapReview.idSetSha256,cityCount:Object.keys(overlapReview.cities).length});
+    assert.deepEqual(correction.cityAdditions,[],'Classification-only correction cannot add cities or rows');
+    for(const [id,c] of Object.entries(overlapReview.cities))regular.set(id,c.count);
+  } else assert(!correction,'Correction declared in a snapshot predating v1.10.1');
+  const approved=new Map((crawler?.cityAdditions??[]).map(c=>[c.id,c.added]));
+  const cities=collections.filter(c=>c.scope!=='overseas');
+  const ids=new Set(cities.map(c=>c.id));assert.equal(ids.size,cities.length,'Duplicate domestic city');
+  for(const id of regular.keys())assert(ids.has(id),'Missing reviewed domestic city: '+id);
+  for(const city of cities){
+    assert.equal(city.displayCounts.regular,regular.get(city.id)??0,'Unreviewed or missing domestic regular rows: '+city.id);
+    assert.equal(city.displayCounts.unknown,approved.get(city.id)??0,'Domestic unknown differs from reviewed batch: '+city.id);
+  }
+  if(crawler)assert.equal(cities.reduce((n,c)=>n+c.displayCounts.unknown,0),crawler.importCounts.uniquePanoids);
+  return corrected;
 }
 async function main() {
   assert(Boolean(localRoot) !== Boolean(liveURL), 'Choose --site-root or --url');
@@ -90,15 +121,12 @@ async function main() {
   if (target.scope === 'overseas') {
     assert.deepEqual(catalog.collections.filter(city=>city.scope==='overseas').map(city=>city.id),['191001']);
     assert.equal(target.count,97);assert.equal(target.files.length,28);
-    const notes = await evaluate(`await(await fetch(new URL('../config/release-notes.json',location.href))).json()`);
-    const release = notes.releases.find(r=>r.importCounts && r.version==='1.10.0');
-    const approved = new Map((release?.cityAdditions ?? []).map(c=>[c.id,c.added]));
-    const manualRegular = notes.releases.some(r=>r.version==='1.9.0') ? 11796 : 0;
-    for(const city of catalog.collections.filter(c=>c.scope!=='overseas')) {
-      assert.equal(city.displayCounts.regular,city.id==='659003'?manualRegular:0,'Unreviewed domestic regular rows hosted: '+city.id);
-      assert.equal(city.displayCounts.unknown,approved.get(city.id)??0,'Domestic unknown differs from reviewed batch: '+city.id);
-    }
-    if(release)assert.equal(catalog.collections.reduce((n,c)=>n+(c.scope==='overseas'?0:c.displayCounts.unknown),0),release.importCounts.uniquePanoids);
+  }
+  let correctedSnapshot=false;
+  if(target.scope==='overseas'||(args.includes('--require-pages')&&catalog.publication?.overseas)){
+    const notes=await evaluate(`await(await fetch(new URL('../config/release-notes.json',location.href))).json()`);
+    correctedSnapshot=checkDomesticSnapshot(notes,catalog.collections);
+    report.checks.domesticPolicy={version:notes.current.version,overlapReview:correctedSnapshot?overlapReview.reviewId:null};
   }
   async function loadCity(city) {
     await fill('#search-input', '');
@@ -118,6 +146,11 @@ async function main() {
     await until(() => evaluate('window.__BAIDU_WORKBENCH__.getState().mapRenderedCount>0'));
     const rows = await evaluate(`await(await import(new URL('js/data-store.js',location.href))).loadCollection(${JSON.stringify(city)})`);
     assert.equal(rows.length, city.count); assert(rows.every(row => row[8] === 'baidu'));
+    if(correctedSnapshot&&Object.hasOwn(overlapReview.cities,city.id)){
+      const regular=rows.filter(row=>categoryFor(row)==='regular');
+      assert(regular.every(row=>isOverlapReview(row,city.id)),'Invalid reviewed regular metadata: '+city.id);
+      verifyOverlapCity(city.id,regular.map(row=>row[0]));
+    }
     return rows;
   }
   const rows = await loadCity(target), sample = rows[0];
@@ -202,4 +235,4 @@ async function main() {
   await writeFile(path.join(results, 'report.json'), JSON.stringify(report, null, 2) + '\n');
   console.log(JSON.stringify(report, null, 2));
 }
-main().catch(async error => { report.error = error.stack; if (await exists(results)) await writeFile(path.join(results, 'report.json'), JSON.stringify(report, null, 2)); console.error(error.message); process.exitCode = 1; }).finally(async () => { for (const callback of pending.values()) clearTimeout(callback.timer); if (socket) socket.close(); if (browser) browser.kill(); if (server) await server.close(); });
+if(process.argv[1]&&path.resolve(process.argv[1])===fileURLToPath(import.meta.url))main().catch(async error => { report.error = error.stack; if (await exists(results)) await writeFile(path.join(results, 'report.json'), JSON.stringify(report, null, 2)); console.error(error.message); process.exitCode = 1; }).finally(async () => { for (const callback of pending.values()) clearTimeout(callback.timer); if (socket) socket.close(); if (browser) browser.kill(); if (server) await server.close(); });

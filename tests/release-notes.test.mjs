@@ -22,7 +22,12 @@ test('release notes are versioned, ordered, and shipped with the site', async ()
     assert(Array.isArray(release.changes) && release.changes.length > 0);
     assert(release.changes.every(change => typeof change === 'string' && change.trim()));
   }
-  const crawler = notes.releases[0], correction = notes.releases.find(r => r.version === '1.9.0');
+  const review = notes.releases[0];
+  const receipt = JSON.parse(await readFile(path.join(root,'config/reviews/supp23-hidden-overlap.json'),'utf8'));
+  assert.equal(review.version,'1.10.1'); assert.deepEqual(review.cityAdditions,[]);
+  assert.deepEqual(review.classificationReview,{reviewId:receipt.reviewId,previous:'hidden',current:'regular',count:150762,idSetSha256:receipt.idSetSha256,cityCount:20});
+  assert.equal(review.auditCounts.catalog.byStatus['regular-confirmed'],162559);
+  const crawler = notes.releases.find(r=>r.version==='1.10.0'), correction = notes.releases.find(r => r.version === '1.9.0');
   assert.equal(crawler.version, '1.10.0');
   assert.deepEqual([crawler.importCounts.rawRecords,crawler.importCounts.uniquePanoids,crawler.importCounts.existingIds,crawler.importCounts.invalidRecords],[255422,255036,386,0]);
   assert.equal(crawler.cityAdditions.reduce((s,r)=>s+r.added,0),255036);

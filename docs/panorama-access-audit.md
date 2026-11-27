@@ -51,7 +51,8 @@ node tools/audit_panorama_access.mjs observations.json
 
 分类顺序：
 
-1. 滨州固定原始清单（7,586 条；固定 SHA-256 为 `7dbfdcd80d11f22d2a446f4965e96d0531aba4fa23ae1148bdf3795cd15e79cc`）中的 **7,418 个指定 ID** 优先保留用户确认隐藏。后加的 21 条 `hidden` 标签不属于此人工确认。图木舒克 `659003` 的 **11,796 条**以 `extra.classificationBasis=user-confirmed-regular`、`extra.sourceBatch=baidu-supplement-20261123` 和该包指纹确认；该批在图木舒克的历史引用同样服从人工结论。两组人工结果按确切 ID 匹配，不按地名扩张。
+1. 滨州固定原始清单（7,586 条；固定 SHA-256 为 `7dbfdcd80d11f22d2a446f4965e96d0531aba4fa23ae1148bdf3795cd15e79cc`）中的 **7,418 个指定 ID** 优先保留用户确认隐藏。后加的 21 条 `hidden` 标签不属于此人工确认。图木舒克 `659003` 的 **11,796 条**以 `extra.classificationBasis=user-confirmed-regular`、`extra.sourceBatch=baidu-supplement-20261123` 和该包指纹确认；该批在图木舒克的历史引用同样服从人工结论。三项人工决定均不按地名扩张。
+   - **11 月 27 日补充包交集：150,762 个常规。** 用户本次确认的是 `baidu-supplement-20261123` 与原隐藏清单交集中的确切主记录，不是所有补充包记录，也不是这些城市的所有街景。归档行的 `sourceType` 改为 `regular`，删除 `isHidden`，增加 `经过人工确认` 标签；`extra` 保留原分类 `hidden`，记录日期 `2026-11-27`、理由「用户确认补充包与原隐藏清单交集为常规街景」及 `manualReview.scope=supp23-hidden-overlap-20261127`。审查状态为 `regular-confirmed`，依据单列 `supp23-overlap-user-confirmed`，不计入图木舒克旧决定，也不冒充官网入口观测。上传原件不采信自报的城市、标签或范围；11.25 原件核对无此交集。
 2. 复用上文黄河十路已记录的两个精确 ID；即使某个 ID 是网页版的日期选项，也只有当它本身是输入行时才计数。不能为被引用 ID 增行，也不能把直接 URL 加载成功算作地图/日期/道路入口。
 3. 补充包的历史原件样本写有 `kind=historical_reference`、`returnedBy`、`timelineLabel`、`coordinateSource=parent-reference-only` 和父坐标。归档样本的 `row[9].extra` 除来源月份 `timelineLabel=YYYYMM` 外，`returnedBy`、`parentPanoid`、`inheritedCoordinate.inheritedFrom` 指向同一个非自身父 ID；`coordinateSource` 与 `inheritedCoordinate.coordinateSource` 都是 `parent-reference-only`。这些字段应在**同一条记录**共同出现才记历史关系，不拿父坐标当独立影像位置。缺来源关系、只有时间线成员/标签/邻接/移动计数，均保留 `unknown`。轨迹输入如附 `history`，每项为 `{panoid, extra}`，采用同一核对方法。
 4. 已抽看本次 ZIP 和两份独立爬虫 JSON 的原始记录：`id`、`sid`、`panoId` 一致，`source=baidu`，`verification.mode=metadata-only`，另有 `sourceType`、`isHidden`、`movementCount`、`timeLine`。这不是官网试验。滨州旧导入还曾把时间线复制到 `links`；不能据此认定道路方向或隐藏。
@@ -67,6 +68,8 @@ node --max-old-space-size=128 tools/audit_uploaded_streetview.mjs --public `
   "$inputs/baidu-020-0000-5C-crawler-results.json" "--output=$freshSummary"
 ```
 
-`--public` 核对归档条数与两个人工基线，缺失/不符则失败。只逐行读取目录登记的百度街景分片，不遍历蓝点。原文件和 ZIP 成员流式计数，不保存全量 ID 或点位；只有两个有硬上限的人工名单用于交叉核验。ZIP 逐成员校验大小及 CRC。全局唯一性属于归档验证/导入器，审查器不宣称输入行全局唯一。
+`--public` 核对归档条数、滨州和图木舒克旧基线，并按[本次人工确认回执](../config/reviews/supp23-hidden-overlap.json)逐一核对全部 20 个目标城市：仅收集该城满足完整标记且判为新依据的 ID，按 ASCII 升序，将每个 ID 加换行后核对 SHA-256 和条数，全局须合计 150,762。任一目标城缺失、ID 重复、等量替换或跨城互换均失败；不接受仅数量相等。每次最多暂存一个城市的 32,156 个新确认 ID。只逐行读取目录登记的百度街景分片，不遍历蓝点。原文件和 ZIP 成员流式计数，逐成员校验大小及 CRC。全局唯一性属于归档验证/导入器，审查器不宣称输入行全局唯一。
+
+本次确认改变的是两种不同的统计。在 18,936,803 条归档中，按**证据类别**计数，常规由 11,797 增至 162,559，待确认由 18,836,952 降至 18,686,190；人工确认隐藏仍为 7,418，仅历史引用仍为 80,636。按**来源标签**计数，`hidden` 由 230,090 降至 79,328，`regular` 由 171,612 增至 322,374。11.25 上传的 255,422 条原始记录仍全部是来源标签 `hidden`、审查证据不足，不从归档转移计数。
 
 可公开的 v2 摘要不含路径、车档文件名、ID、逐条轨迹和原始记录。`catalog.rows` 是选定归档快照的主记录数；`uploads.rows` 是指定上传的原始行数，**两套不可相加**。各自的 `bySource` 只统计显式 `sourceType`（缺项记 `missing`，不暗算作常规）；`byCategory`、`byStatus`、`byBasis` 是独立的审查维度，`sourceByStatus[源标签][审查状态]` 给出交叉计数。只有非零类别才出现。`metadataOnly` 为上传中 `verification.mode=metadata-only` 的行数。时间线空、单项、多项、缺失分别记数；移动数负值或非整数字段不当作零。审查不更新 `sourceType`、不改发布筛选，网页显示类别可以与入口审查不同。不加 `--public` 的详细结果含私有路径，不能发布。

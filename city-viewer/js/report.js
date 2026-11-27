@@ -7,6 +7,7 @@ export function auditBreakdown(group) {
   return [
     `显式来源标签：隐藏 ${num(source.hidden)} · 时光机 ${num(source['time-machine'])} · 常规 ${num(source.regular)} · 待确认 ${num(source.unknown)} · 未标注 ${num(source.missing)}。`,
     `入口审查：确认常规 ${num(status['regular-confirmed'])} · 人工确认隐藏 ${num(status['user-confirmed-hidden'])} · 日期往返 ${num(status['time-machine-roundtrip'])} · 单向证据 ${num(status['time-machine-one-way'])} · 仅历史引用 ${num(status['time-machine-history-only'])}。`,
+    ...(group.byBasis?.['supp23-overlap-user-confirmed'] ? [`确认常规中，有 ${num(group.byBasis['supp23-overlap-user-confirmed'])} 条来自 11.23 补充包隐藏交集的人工确认，不是本次官网逐点操作。`] : []),
     `未能定类：证据不足 ${num(status.unknown)} · 隐藏候选 ${num(status['hidden-candidate'])} · 访问错误 ${num(status['access-error'])}。`,
   ];
 }
